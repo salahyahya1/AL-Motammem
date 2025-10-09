@@ -1,1 +1,80 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'tailwindcss' as *;
+
+:root {
+    --color-primary: #2B67F6;
+    --color-secondary: #F5B000;
+    --text-color-primary: #2B67F6;
+    --text-color-secondary: #F5B000;
+    --text-color-error: #ff2f43;
+
+}
+
+
+html {
+    font-family: 'Poppins', sans-serif;
+}
+
+// @font-face {
+//     font-family: 'Poppins';
+//     src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+//     font-weight: normal;
+//     font-style: normal;
+// }
+
+:where(button, a, input, textarea):focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+// * {
+//   cursor: url('/assets/images/custom_cursor_fixed.cur') 16 16, pointer !important;
+// }
+// :root {
+//   --cursor-url-cur: url('/assets/images/custom_cursor_fixed.cur') 16 16;
+// }
+
+// a:any-link,
+// button,
+// [role="button"],
+// input[type="button"],
+// input[type="submit"],
+// .summary-action, /* أمثلة لكلاسات أزرار مخصصة */
+// .btn {
+//   cursor: var(--cursor-url-cur), var(--cursor-url-png), pointer !important;
+// }
+
+// /* ثبّت المؤشر في حالات التفاعل */
+// a:any-link:hover,
+// a:any-link:active,
+// button:hover,
+// button:active,
+// [role='button']:hover,
+// [role='button']:active,
+// input[type='button']:hover,
+// input[type='button']:active,
+// input[type='submit']:hover,
+// input[type='submit']:active,
+// .summary-action:hover,
+// .summary-action:active,
+// .btn:hover,
+// .btn:active {
+//   cursor: var(--cursor-url-cur), var(--cursor-url-png), pointer !important;
+// }
+
+// /* استثناءات مهمة: خليه مؤشر كتابة في حقول النص */
+// input[type='text'],
+// input[type='search'],
+// input[type='email'],
+// input[type='password'],
+// textarea,
+// [contenteditable='true'] {
+//   cursor: text !important;
+// }
+
+// /* اسحب/أفلات إن وُجد */
+// [draggable='true'] {
+//   cursor: grab;
+// }
+// [dragging] {
+//   cursor: grabbing;
+// }
