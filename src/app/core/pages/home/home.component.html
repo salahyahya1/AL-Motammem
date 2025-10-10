@@ -1,25 +1,53 @@
+<!-- <header class="fixed top-0 left-0 w-full z-50 transition-all duration-500" [ngStyle]="{color: currentHeaderTextColor }">
+    <div class="container mx-auto flex items-center justify-between py-4 px-6">
+        <img src="assets/logo.svg" alt="Al-Motammem Logo" class="h-8" />
+        <nav class="flex space-x-4 text-sm font-medium">
+            <a href="#" class="hover:text-primary">الرئيسية</a>
+            <a href="#" class="hover:text-primary">منتجاتنا</a>
+            <a href="#" class="hover:text-primary">التطبيقات</a>
+            <a href="#" class="hover:text-primary">المجالات</a>
+            <a href="#" class="hover:text-primary">الأسعار</a>
+            <a href="#" class="hover:text-primary">اتصل بنا</a>
+        </nav>
+    </div>
+</header>
+
 <div #scrollContainer class="scroll-container h-screen overflow-auto">
-    <section id="section1" class="panel min-h-screen flex items-center justify-center" data-bgcolor="#1e3a8a"
-        data-textcolor="#ffffff">
+    <section id="section1" class="panel min-h-screen" data-bgcolor="#ffffff" data-textcolor="var(--primary)">
         <app-section1 class="panel"></app-section1>
     </section>
 
-    <section id="section2" class="panel min-h-screen flex items-center justify-center" data-bgcolor="#ffffff"
-        data-textcolor="#000000">
+    <section id="section2" class="panel min-h-screen" data-bgcolor="var(--primary)" data-textcolor="#ffffff ">
         <app-section2 class="panel"></app-section2>
     </section>
-</div>
-
-<!-- <div #scrollContainer class="main">
-    <app-section1 class="panel" data-bgcolor="#000" data-textcolor="#fff"></app-section1>
-    <app-section2 class="panel" data-bgcolor="#fff" data-textcolor="#000"></app-section2>
-    <app-section1 class="panel" data-bgcolor="#000" data-textcolor="#fff"></app-section1>
-    <app-section2 class="panel" data-bgcolor="#fff" data-textcolor="#000"></app-section2>
-    <app-section1 class="panel" data-bgcolor="#000" data-textcolor="#fff"></app-section1>
-    <app-section2 class="panel" data-bgcolor="#fff" data-textcolor="#000"></app-section2>
-    <app-section1 class="panel" data-bgcolor="#000" data-textcolor="#fff"></app-section1>
-    <app-section2 class="panel" data-bgcolor="#fff" data-textcolor="#000"></app-section2>
-    <app-section1 class="panel" data-bgcolor="#000" data-textcolor="#fff"></app-section1>
-    <app-section2 class="panel" data-bgcolor="#fff" data-textcolor="#000"></app-section2>
-
+    <section id="section1" class="panel min-h-screen" data-bgcolor="#ffffff" data-textcolor="var(--primary)">
+        <app-section1 class="panel"></app-section1>
+    </section>
 </div> -->
+<header class="fixed top-0 left-0 w-full z-50 transition-all duration-500" [ngStyle]="{color: currentHeaderTextColor }">
+    <div class="container mx-auto flex items-center justify-between py-4 px-6">
+        <img src="assets/logo.svg" alt="Al-Motammem Logo" class="h-8" />
+        <nav class="flex space-x-4 text-sm font-medium">
+            <a href="#" class="hover:text-primary">الرئيسية</a>
+            <a href="#" class="hover:text-primary">منتجاتنا</a>
+            <a href="#" class="hover:text-primary">التطبيقات</a>
+            <a href="#" class="hover:text-primary">المجالات</a>
+            <a href="#" class="hover:text-primary">الأسعار</a>
+            <a href="#" class="hover:text-primary">اتصل بنا</a>
+        </nav>
+    </div>
+</header>
+
+<div #scrollContainer class="scroll-container h-screen overflow-auto">
+    <section id="section1" class="panel min-h-screen" data-bgcolor="#ffffff" data-textcolor="var(--primary)">
+        <app-section1 class="panel"></app-section1>
+    </section>
+
+    <section id="section2" class="panel min-h-screen" data-bgcolor="var(--primary)" data-textcolor="#ffffff">
+        <app-section2 class="panel"></app-section2>
+    </section>
+
+    <section id="section1-repeat" class="panel min-h-screen" data-bgcolor="#ffffff" data-textcolor="var(--primary)">
+        <app-section1 class="panel"></app-section1>
+    </section>
+</div>

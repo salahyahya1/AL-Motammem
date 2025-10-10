@@ -1,14 +1,18 @@
 @use 'tailwindcss' as *;
 
 :root {
-    --color-primary: #2B67F6;
-    --color-secondary: #F5B000;
-    --text-color-primary: #2B67F6;
-    --text-color-secondary: #F5B000;
-    --text-color-error: #ff2f43;
+    --primary: #2B67F6;
+    --secondary: #F5B000;
+    --white: #FFFFFF;
+    --error: #ff2f43;
 
 }
 
+.scroll-container {
+    // transition: background-color 0.5s ease, color 0.5s ease;
+    // @apply transition-colors duration-100 ease-in-out;
+
+}
 
 html {
     font-family: 'Poppins', sans-serif;
