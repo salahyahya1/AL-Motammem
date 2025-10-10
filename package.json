@@ -10,9 +10,10 @@
     "serve:ssr:alMotammem": "node dist/al-motammem/server/server.mjs",
     "start:ssr": "ng serve --ssr",
     "dev:ssr": "ng run alMotammem:serve-ssr",
-    "build:ssr": "ng build",
+    "build:ssr": "ng build && ng run alMotammem:server",
     "serve:ssr": "node dist/al-motammem/server/server.mjs",
-    "prerender": "ng run alMotammem:prerender"
+    "prerender": "ng run alMotammem:prerender",
+    "share:ssr": "npm run serve:ssr & ngrok http 4000"
   },
   "private": true,
   "dependencies": {

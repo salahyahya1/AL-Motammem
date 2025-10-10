@@ -8,20 +8,19 @@
 
 }
 
-.scroll-container {
-    // transition: background-color 0.5s ease, color 0.5s ease;
-    // @apply transition-colors duration-100 ease-in-out;
-
-}
-
-html {
-    font-family: 'Poppins', sans-serif;
+@font-face {
+    font-family: 'Almarai';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/almarai-v19-arabic-regular.woff2') format('woff2');
 }
 
 html,
 body {
+    font-family: Almarai, sans-serif;
     height: 100%;
-    overflow: hidden; // أهم حاجة نمنع Scroll الأساسي
+    overflow: hidden;
 }
 
 // @font-face {

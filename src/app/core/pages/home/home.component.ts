@@ -323,7 +323,11 @@ export class HomeComponent implements AfterViewInit {
   ) { }
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
+    this.TranzitionBetweenSections();
+    ScrollTrigger.refresh();
+  }
 
+  TranzitionBetweenSections() {
     const container = this.containerWrapper.nativeElement;
 
     // ✅ Init Smooth Scrollbar
@@ -345,8 +349,6 @@ export class HomeComponent implements AfterViewInit {
         scroller: container,
       }
     });
-
-    // ✅ Proxy to connect ScrollTrigger to SmoothScrollbar
     ScrollTrigger.scrollerProxy(container, {
       scrollTop(value) {
         if (value !== undefined) scrollbar.scrollTop = value;
@@ -363,7 +365,6 @@ export class HomeComponent implements AfterViewInit {
       pinType: container.style.transform ? "transform" : "fixed",
     });
 
-    // ✅ Ensure markers and ScrollTrigger update with scrollbar
     scrollbar.addListener(ScrollTrigger.update);
     ScrollTrigger.defaults({ scroller: container });
 
@@ -409,6 +410,5 @@ export class HomeComponent implements AfterViewInit {
 
     });
 
-    ScrollTrigger.refresh();
   }
 }
