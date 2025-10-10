@@ -1,36 +1,37 @@
-<!-- <section class="min-h-screen flex items-center justify-center">
-    <h1 class="text-4xl font-bold animate__animated animate__fadeInUp">
-        Welcome to Section 1
-    </h1>
-</section> -->
 <section id="hero"
-    class="relative w-full min-h-screen flex flex-col md:flex-row items-center justify-between gap-10 md:gap-0 px-6 md:px-20 pt-10 md:pt-20 overflow-hidden">
+    class="relative w-full min-h-screen flex flex-col md:flex-row items-center justify-between gap-10 md:gap-0 px-6 md:px-20 pt-10 md:pt-24 overflow-hidden">
+    <div class="w-full md:w-[70%] text-center md:text-right z-10">
+        <h1 id="hero-title"
+            class="text-4xl md:text-[2rem] lg:text-[2.6rem] font-bold leading-snug text-[var(--primary)]">
+            جميع أعمال ادارتك في نظام واحد متكامل
+        </h1>
+
+        <p id="hero-subtitle" class="mt-4 text-[var(--dark-gray)] text-[15px] md:text-base leading-relaxed font-medium">
+            المتمم لإدارة موارد المؤسسة – ERP بخبرة 40 سنة في الأسواق المحلية والخليجية.
+        </p>
+
+        <p id="hero-details" class="mt-4 text-[var(--light-gray)] text-[14px] md:text-base leading-relaxed font-normal">
+            إدارة مالية - مخزون - إدارة موارد بشرية ومرتبات - تقارير - إدارة أصول ثابتة - إدارة نقدية وبنوك - خطابات
+            ضمان -
+            خطابات إعتمادية - تكاملات ضريبية مع الكثير من الإضافات لتناسب طبيعة أعمالك.
+        </p>
+
+        <!-- CTA -->
+        <div class="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+            <a href="#"
+                class="bg-[#1D6CF2] hover:bg-[#1657c2] text-white px-6 py-3 rounded-full text-sm font-semibold shadow-md transition">
+                حدد جلسة استشارة مجانية
+            </a>
+            <a href="#"
+                class="bg-[#EDF3FF] hover:bg-[#dce9ff] text-[#1D6CF2] px-6 py-3 rounded-full text-sm font-semibold shadow-md transition">
+                جرّب ميني متمم للأفراد مجانًا
+            </a>
+        </div>
+    </div>
     <div class="w-full md:w-1/2 relative z-0">
-        <video id="hero-video" autoplay muted loop playsinline class="w-full max-w-xl mx-auto rounded-xl shadow-lg">
+        <video id="hero-video" autoplay muted loop playsinline class="w-full max-w-xl mx-auto rounded-2xl shadow-xl">
             <source src="assets/video/hero.mp4" type="video/mp4" />
             Your browser does not support the video tag.
         </video>
-    </div>
-    <div class="w-full md:w-1/2 text-center md:text-right z-10">
-        <h1 id="hero-title" class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-snug">
-            <span class="text-[#1D6CF2]">جميع أعمالك</span> ادارتك في نظام واحد متكامل
-        </h1>
-        <p id="hero-subtitle" class="mt-4 text-[#4B4B4B] text-sm md:text-base leading-relaxed">
-            بخبرة 40 سنة في الأسواق المحلية والخليجية – المتنم لإدارة موارد المؤسسة - ERP
-        </p>
-        <p id="hero-details" class="mt-3 text-[#4B4B4B] text-sm md:text-base leading-relaxed">
-            إدارة مالية - مخزون - إدارة موارد بشرية ومرتبات - تقارير - إدارة أصول ثابتة - إدارة نقدية وبنوك - خطابات
-            ضمان - خطابات إعتمادية - تكاملات ضريبية مع الكثير من الإضافات لتناسب طبيعة أعمالك
-        </p>
-
-        <!-- CTA Buttons -->
-        <div class="mt-6 flex flex-col sm:flex-row justify-center md:justify-end gap-4">
-            <a href="#"
-                class="bg-[#1D6CF2] hover:bg-[#1557c9] text-white px-6 py-3 rounded-full text-sm font-medium transition">حدد
-                جلسة استشارة مجانية</a>
-            <a href="#"
-                class="bg-[#EDF3FF] hover:bg-[#dbe9ff] text-[#1D6CF2] px-6 py-3 rounded-full text-sm font-medium transition">جرّب
-                ميني متمم للأفراد مجانًا</a>
-        </div>
     </div>
 </section>

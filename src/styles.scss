@@ -1,11 +1,13 @@
 @use 'tailwindcss' as *;
 
 :root {
-    --primary: #2B67F6;
+    --primary: #2475EA;
     --secondary: #F5B000;
     --white: #FFFFFF;
     --error: #ff2f43;
-
+    --dark-gray: #58595B;
+    --light-gray: #989898;
+    --light-light-gray: #E9E9E9;
 }
 
 @font-face {
@@ -21,6 +23,8 @@ body {
     font-family: Almarai, sans-serif;
     height: 100%;
     overflow: hidden;
+    // font-size: 62.5%;
+    /* 1rem = 10px */
 }
 
 // @font-face {
