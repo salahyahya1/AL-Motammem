@@ -18,6 +18,12 @@ html {
     font-family: 'Poppins', sans-serif;
 }
 
+html,
+body {
+    height: 100%;
+    overflow: hidden; // أهم حاجة نمنع Scroll الأساسي
+}
+
 // @font-face {
 //     font-family: 'Poppins';
 //     src: url('/fonts/Poppins-Regular.ttf') format('truetype');
@@ -25,10 +31,10 @@ html {
 //     font-style: normal;
 // }
 
-:where(button, a, input, textarea):focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-}
+// :where(button, a, input, textarea):focus-visible {
+//     outline: 2px solid var(--color-primary);
+//     outline-offset: 2px;
+// }
 
 // * {
 //   cursor: url('/assets/images/custom_cursor_fixed.cur') 16 16, pointer !important;
