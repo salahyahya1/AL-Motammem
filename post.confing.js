@@ -1,6 +1,6 @@
 module.exports = {
     plugins: {
-        tailwindcss: {},
-        autoprefixer: {},
+        '@tailwindcss/postcss': {},   // ✅ دي المهمة
+        autoprefixer: {},             // تسيبها لو كنت بتستخدمها
     },
 };

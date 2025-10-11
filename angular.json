@@ -77,6 +77,41 @@
           },
           "defaultConfiguration": "development"
         },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/al-motammem/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "sourceMap": false,
+              "optimization": true
+            },
+            "development": {
+              "sourceMap": true,
+              "optimization": false
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
+          "options": {
+            "browserTarget": "alMotammem:build",
+            "serverTarget": "alMotammem:server"
+          },
+          "configurations": {
+            "development": {
+              "browserTarget": "alMotammem:build:development",
+              "serverTarget": "alMotammem:server:development"
+            },
+            "production": {
+              "browserTarget": "alMotammem:build:production",
+              "serverTarget": "alMotammem:server:production"
+            }
+          }
+        },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
         },

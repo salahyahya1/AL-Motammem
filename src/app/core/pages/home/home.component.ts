@@ -32,7 +32,7 @@ export class HomeComponent implements AfterViewInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
-      private ngZone: NgZone
+    private ngZone: NgZone
   ) { }
   ngAfterViewInit(): void {
     if (typeof window === 'undefined') return;
@@ -193,30 +193,39 @@ export class HomeComponent implements AfterViewInit {
   }
   private initAnimationsSafely() {
     try {
-      // تأكيد أن العناصر اتعرّفت
-      if (!this.navbar || !this.containerWrapper || !this.blueSection) {
-        console.warn('Navbar or sections not found yet.');
-        return;
-      }
+      // نحاول ننتظر العناصر فعلاً تبقى موجودة في الـ DOM
+      const waitForElements = () => {
+        if (!this.navbar?.nativeElement || !this.containerWrapper?.nativeElement || !this.blueSection?.nativeElement) {
+          // لو لسه مش موجودين، نجرب تاني بعد 50ms
+          setTimeout(waitForElements, 50);
+          return;
+        }
 
-      disablePassiveListeners();
-      this.TranzitionBetweenSections();
+        // ✅ العناصر موجودة خلاص
+        disablePassiveListeners();
+        this.TranzitionBetweenSections();
 
-      const navbarEl3 = this.navbar?.nativeElement;
-      if (navbarEl3) {
-        gsap.set(navbarEl3, { y: '-100%', opacity: 0 });
-        gsap.to(navbarEl3, {
+        const navbarEl = this.navbar.nativeElement;
+        gsap.set(navbarEl, { y: '-100%', opacity: 0 });
+        gsap.to(navbarEl, {
           y: 0,
           opacity: 1,
-          duration: 0.2,
+          duration: 0.5,
+          ease: 'power3.out',
+          delay: 0.2
         });
-      }
 
-      ScrollTrigger.refresh();
+        ScrollTrigger.refresh();
+      };
+
+      // ابدأ أول محاولة
+      waitForElements();
+
     } catch (error) {
       console.error('❌ Error in HomeComponent animation:', error);
     }
-  };
+  }
+
 }
 let passiveListenersDisabled = false;
 export function disablePassiveListeners() {
