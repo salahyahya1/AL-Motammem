@@ -1,42 +1,26 @@
-// // .panel {
-// //     height: 100vh;
-// // }
-
-// // .scroll-container {
-// //     background-color: #ffffff; // نفس لون أول سكشن
-// //     transition: background-color 0.4s ease-in-out;
-// // }
-// .panel {
-//     height: 100vh;
-// }
-
-// .scroll-container {
-//     // background-color: #ffffff;
-//     /* Default to first section color */
-//     // transition: background-color 0.6s ease-in-out;
-// }
-
-// a {
-//     text-decoration: none;
-//     color: inherit;
-// }
-// .scroll-container {
-//     transition: background-color 0.4s ease, color 0.4s ease;
-//     will-change: background-color, color;
-//     background-color: #ffffff; // default
-//     // color: var(--primary);
-// }
-
-
 .scroll-container {
     height: 100vh;
-    overflow: hidden;
-    background-color: #ffffff;
+    // overflow: hidden;
+    // background-color: #ffffff;
     transition: background-color 0.4s ease, color 0.4s ease;
-    will-change: background-color, color;
+}
+
+// في styles.scss أو home.component.scss
+#smooth-content {
+    transition: background-color 0.4s ease;
+    background-color: var(--white); // أو default
 }
 
 .blue-section .content-wrapper {
     transform: translateY(100px); // ابدأه نازل شوية
     opacity: 0;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    transform: translateY(-100%);
 }

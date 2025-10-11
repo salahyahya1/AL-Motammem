@@ -13,7 +13,8 @@
     "build:ssr": "ng build && ng run alMotammem:server",
     "serve:ssr": "node dist/al-motammem/server/server.mjs",
     "prerender": "ng run alMotammem:prerender",
-    "share:ssr": "npm run serve:ssr & ngrok http 4000"
+    "dev:ssr:live": "ng build --watch & nodemon dist/al-motammem/server/server.mjs",
+    "share:ssr": "npm run serve:ssr & ngrok http 4100"
   },
   "private": true,
   "dependencies": {
@@ -49,6 +50,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "nodemon": "^3.1.10",
     "typescript": "~5.7.2"
   }
 }
