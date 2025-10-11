@@ -5,3 +5,15 @@
         align-items: center;
         justify-content: center;
     }
+
+    .erp-text {
+        font-size: 2rem;
+        font-weight: 700;
+        // color: var(--primary)
+        color: white;
+        opacity: 1;
+        overflow: hidden;
+        text-align: center;
+        direction: rtl;
+        white-space: nowrap;
+    }
