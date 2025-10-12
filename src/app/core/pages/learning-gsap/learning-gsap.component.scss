@@ -1,0 +1,68 @@
+// .cards {
+//   display: flex;
+//   flex-wrap: wrap;
+//   gap: 20px;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 40px;
+//   width: 70%;
+//   margin: auto;
+// }
+
+// .card {
+//   width: 200px;
+//   height: 200px;
+//   background: linear-gradient(135deg, #2d398d, #4c5ce6);
+//   color: white;
+//   font-size: 2rem;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   border-radius: 20px;
+//   opacity: 0;
+//   transform: translateX(50px);
+// }
+#Text1{
+    font-size: xx-large;
+    transform: translateY(100px);
+    opacity: 0;
+    font-size: 1.5rem;
+}
+
+#capsule {
+  display: block;
+  margin: 50px auto;
+}
+
+.capsule-path {
+  stroke: #000;
+  stroke-width: 3;
+  fill: none;
+}
+.img-item {
+  position: relative;
+  opacity: 1;
+  transform: translateY(0);
+}
+#image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+.separator {
+  width: 4px;              /* عرض الخط */
+  height: 70px;            /* نفس ارتفاع الصور */
+  background-color: #FFD700; /* أصفر ذهبي */
+  border-radius: 2px;      /* خفيف من الأطراف */
+}
