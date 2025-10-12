@@ -14,6 +14,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { Section2Component } from './section2/section2.component';
 import { Section1Component } from './section1/section1.component';
+import { Section4Component } from "./section4/section4.component";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,7 +22,7 @@ gsap.registerPlugin(ScrollTrigger);
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [Section2Component, Section1Component, CommonModule],
+  imports: [Section2Component, Section1Component, CommonModule, Section4Component],
 })
 export class HomeComponent implements AfterViewInit {
   // Use static: false so ViewChilds are resolved on the client in ngAfterViewInit.
