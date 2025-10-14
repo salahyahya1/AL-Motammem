@@ -19,8 +19,48 @@
 .navbar {
     position: fixed;
     top: 0;
+    height: auto;
     left: 0;
+    right: 0;
     width: 100%;
     z-index: 999;
     transform: translateY(-100%);
+}
+
+nav {
+    // transform: translateY(-94px);
+    // background-color: white;
+}
+
+#hamprgerButton {
+    visibility: hidden;
+}
+
+@media (max-width: 700px) {
+    nav {
+        transform: translateY(-120px);
+        position: absolute;
+        background-color: white;
+    }
+
+    #hamprgerButton {
+        visibility: visible;
+    }
+
+    .navSmallScreen {
+        position: absolute;
+        z-index: 50;
+    }
+}
+
+.container {
+    @media (width >=40rem) {
+        max-width: 47rem;
+    }
+}
+
+.container {
+    @media (width >=96rem) {
+        max-width: 96rem;
+    }
 }

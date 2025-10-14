@@ -15,6 +15,8 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import { Section2Component } from './section2/section2.component';
 import { Section1Component } from './section1/section1.component';
 import { Section4Component } from "./section4/section4.component";
+import { Section5Component } from "./section5/section5.component";
+import { Section3Component } from "./section3/section3.component";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,19 +24,76 @@ gsap.registerPlugin(ScrollTrigger);
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [Section2Component, Section1Component, CommonModule, Section4Component],
+  imports: [Section2Component, Section1Component, CommonModule, Section4Component, Section5Component, Section3Component],
 })
 export class HomeComponent implements AfterViewInit {
   // Use static: false so ViewChilds are resolved on the client in ngAfterViewInit.
   @ViewChild('containerWrapper', { static: false }) containerWrapper!: ElementRef<HTMLDivElement>;
   @ViewChild('navbar', { static: false }) navbar!: ElementRef<HTMLElement>;
   @ViewChild('blueSection', { static: false }) blueSection!: ElementRef<HTMLElement>;
+  @ViewChild('navbarMenu', { static: false }) navbarMenu!: ElementRef<HTMLElement>;
+  @ViewChild('navSmallScreen', { static: false }) navSmallScreen!: ElementRef<HTMLElement>;
+  menuOpen = false;
+  isSmallScreen = false;
+  isBrowser: boolean;
+  private resizeHandler = this.checkScreenSize.bind(this);
   private animationsInitialized = false;
+  private scrollTimelineInitialized = false;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
     private ngZone: NgZone
-  ) { }
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+    if (this.isBrowser) {
+      window.addEventListener('resize', this.resizeHandler);
+      this.checkScreenSize();
+    }
+  }
+  checkScreenSize() {
+    if (!this.isBrowser) return;
+    this.isSmallScreen = window.innerWidth < 700;
+
+  }
+  toggleMenu() {
+    if (!this.isBrowser) return;
+    this.menuOpen = !this.menuOpen;
+    const tl = gsap.timeline({ defaults: { duration: 0.9, ease: 'power2.inOut' } });
+    if (this.menuOpen) {
+      tl.to('.h-7.w-7 path', { rotate: 30, transformOrigin: 'center center' });
+    } else {
+      tl.to('.h-7.w-7 path', { rotate: 0, transformOrigin: 'center center' });
+    }
+    const el = this.navbarMenu.nativeElement;
+    if (this.menuOpen) {
+
+      console.log("opened")
+      gsap.killTweensOf(el);
+      gsap.fromTo(
+        el,
+        { opacity: 1, y: -120 },
+        {
+          opacity: 1,
+          y: 165,
+          duration: 0.9,
+          ease: 'power2.out',
+        }
+      );
+    } else {
+      console.log("closed")
+      gsap.killTweensOf(el);
+      gsap.to(el, {
+        opacity: 1,
+        y: -120,
+        duration: 0.9,
+        ease: 'power2.in',
+      });
+    }
+    setTimeout(() => ScrollTrigger.refresh(), 500);
+
+  }
+
+
   ngAfterViewInit(): void {
     if (typeof window === 'undefined') return;
 
@@ -42,23 +101,8 @@ export class HomeComponent implements AfterViewInit {
       console.log('SSR mode detected — skipping animations.');
       return;
     }
-    // setTimeout(() => {
-    //   disablePassiveListeners();
-    //   this.TranzitionBetweenSections();
-    //   gsap.set(this.navbar.nativeElement, { y: '-100%', opacity: 0 });
-
-    //   // ثم نعمل أنيميشن دخوله بعد تحميل الصفحة
-    //   gsap.to(this.navbar.nativeElement, {
-    //     y: 0,
-    //     opacity: 1,
-    //     duration: 0.2,
-    //   });
-    // }, 100);
-    // ScrollTrigger.refresh();
     this.ngZone.onStable.subscribe(() => {
-      // ⏱ تأخير بسيط بعد hydration
       setTimeout(() => {
-        // make init idempotent in case onStable fires multiple times
         if (this.animationsInitialized) return;
         this.animationsInitialized = true;
         this.initAnimationsSafely();
@@ -67,6 +111,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   TranzitionBetweenSections() {
+    if (ScrollTrigger.getAll().length > 0) return;
     const container = this.containerWrapper?.nativeElement;
     if (!container) {
       console.warn('TranzitionBetweenSections: container element not found. Skipping.');
@@ -127,6 +172,8 @@ export class HomeComponent implements AfterViewInit {
       const textColor = next.dataset['textcolor']!;
       const prevBgColor = panel.dataset['bgcolor']!;
       const prevTextColor = panel.dataset['textcolor']!;
+      const navbarEl = this.navbar?.nativeElement;
+      const navSmallScreenEl = this.navSmallScreen?.nativeElement;
       console.log({ textColor, prevTextColor });
       ScrollTrigger.create({
         trigger: next,
@@ -144,17 +191,37 @@ export class HomeComponent implements AfterViewInit {
             duration: 0.8,
             ease: 'power2.inOut',
           });
-
-          const navbarEl = this.navbar?.nativeElement;
           if (navbarEl) {
             gsap.to(navbarEl, {
               color: textColor,
               duration: 0.5,
+              // backgroundColor: bgColor,
               ease: 'power2.inOut',
+
+              // onComplete: () => {
+              //   ScrollTrigger.matchMedia({
+              //     "(max-width: 700px)": function () {
+              //       gsap.to(navSmallScreenEl, {
+              //         backgroundColor: bgColor,
+              //         duration: 0.5,
+              //         ease: 'power2.inOut',
+              //       })
+              //     },
+              //   })
+
+              // }
+
+              // onComplete: () => {
+              //   gsap.to(navSmallScreenEl, {
+              //     backgroundColor: bgColor,
+              //     duration: 0.5,
+              //     ease: 'power2.inOut',
+              //   })
+              // }
             });
           }
           gsap.to('#brand-text', {
-            color: textColor === 'var(--primary)' ? 'var(--dark-gray)' : 'var(--light)',
+            color: textColor === 'var(--primary)' ? 'var(--dark-gray)' : 'var(--white)',
             duration: 0.5,
             ease: 'power2.inOut',
           });
@@ -171,16 +238,23 @@ export class HomeComponent implements AfterViewInit {
             ease: 'power2.inOut',
           });
 
-          const navbarEl2 = this.navbar?.nativeElement;
-          if (navbarEl2) {
-            gsap.to(navbarEl2, {
+          if (navbarEl) {
+            gsap.to(navbarEl, {
               color: prevTextColor,
+              // backgroundColor: prevBgColor,
               duration: 0.5,
               ease: 'power2.inOut',
+              // onComplete: () => {
+              //   gsap.to(navSmallScreenEl, {
+              //     backgroundColor: prevBgColor,
+              //     duration: 0.5,
+              //     ease: 'power2.inOut',
+              //   })
+              // }
             });
           }
           gsap.to('#brand-text', {
-            color: prevTextColor === 'var(--primary)' ? 'var(--dark-gray)' : 'var(--light)',
+            color: prevTextColor === 'var(--primary)' ? 'var(--dark-gray)' : 'var(--white)',
             duration: 0.5,
             ease: 'power2.inOut',
           });
@@ -204,7 +278,10 @@ export class HomeComponent implements AfterViewInit {
 
         // ✅ العناصر موجودة خلاص
         disablePassiveListeners();
-        this.TranzitionBetweenSections();
+        if (!this.scrollTimelineInitialized) {
+          this.TranzitionBetweenSections();
+          this.scrollTimelineInitialized = true;
+        }
 
         const navbarEl = this.navbar.nativeElement;
         gsap.set(navbarEl, { y: '-100%', opacity: 0 });

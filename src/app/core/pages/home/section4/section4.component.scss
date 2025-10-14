@@ -1,12 +1,3 @@
-.cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    align-items: center;
-    width: 90%;
-}
-
 #Text1,
 #Text2 {
     transform: translateY(100px);
@@ -16,5 +7,8 @@
 .card {
     opacity: 0;
     transform: translateX(50px);
-    width: 19%;
+    // width: 19%;
+    // width: 100px;
+    // background-color: red;
+    // height: 00px;
 }
