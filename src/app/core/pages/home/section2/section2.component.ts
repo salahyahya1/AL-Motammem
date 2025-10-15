@@ -364,7 +364,9 @@ export class Section2Component {
               end: '+=400',
               // scrub: true,
               pin: true,
-              // pinType: 'transform',
+              anticipatePin: 1,
+
+              pinType: 'fixed',
               scroller: "#smooth-wrapper",
               markers: true,
             },
