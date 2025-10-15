@@ -1,20 +1,8 @@
-.scroll-container {
-    height: 100vh;
-    // overflow: hidden;
-    // background-color: #ffffff;
-    transition: background-color 0.4s ease, color 0.4s ease;
-}
-
 // في styles.scss أو home.component.scss
-#smooth-content {
-    transition: background-color 0.4s ease;
-    background-color: var(--white); // أو default
-}
-
-.blue-section .content-wrapper {
-    transform: translateY(100px); // ابدأه نازل شوية
-    opacity: 0;
-}
+// #smooth-content {
+//     transition: background-color 0.4s ease;
+//     background-color: var(--white); // أو default
+// }
 
 .navbar {
     position: fixed;
@@ -53,14 +41,40 @@ nav {
     }
 }
 
-.container {
-    @media (width >=40rem) {
-        max-width: 47rem;
-    }
+// .container {
+//     @media (width >=40rem) {
+//         max-width: 47rem;
+//     }
+// }
+
+// .container {
+//     @media (width >=96rem) {
+//         max-width: 96rem;
+//     }
+// }
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
-.container {
-    @media (width >=96rem) {
-        max-width: 96rem;
-    }
+#smooth-wrapper {
+    height: auto;
+    overflow: hidden;
 }
+
+#smooth-content {
+    will-change: transform;
+}
+
+// .panel {
+//     min-height: 100vh;
+//     width: 100%;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     transition: background-color 0.8s ease;
+// }
