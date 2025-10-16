@@ -25,9 +25,17 @@ export class Section5Component {
     if (!isPlatformBrowser(this.platformId)) return;
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        const tl = gsap.timeline({
+          defaults: { ease: "power3.out" }, scrollTrigger: {
+            trigger: "#section5",
+            start: 'top top',
+            end: "150% bottom",
+            pin: true,
+            // markers: true
+          }
+        });
         let triggered = false;
-        tl.to("#Text1", { opacity: 1, y: 0, duration: 0.8 });
+        tl.to("#Text5", { opacity: 1, y: 0, duration: 0.8, ease: 'power2.inOut' });
         triggered = false;
 
         const path = document.querySelector(".capsule-path") as SVGPathElement;

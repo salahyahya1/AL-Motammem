@@ -610,13 +610,17 @@ import { Section1Component } from './section1/section1.component';
 import { Section2Component } from './section2/section2.component';
 import { Section4Component } from './section4/section4.component';
 import { Section5Component } from './section5/section5.component';
+import { Section6Component } from "./section6/section6.component";
+import { Section7Component } from "./section7/section7.component";
+import { Section8Component } from "./section8/section8.component";
+import { Section9Component } from './section9/section9.component';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component],
+  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section9Component],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -657,8 +661,8 @@ export class HomeComponent implements AfterViewInit {
 
   private animateNavbar() {
     const navbarEl = this.navbar.nativeElement;
-    gsap.set(navbarEl, { y: -80, opacity: 0 });
-    gsap.to(navbarEl, { y: 0, opacity: 1, duration: 1, ease: 'power3.out' });
+    gsap.set(navbarEl, { y: -100, opacity: 0 });
+    gsap.to(navbarEl, { y: 0, opacity: 1, duration: 1, ease: 'power2.inOut' });
   }
 
   private initSmoothScroll() {

@@ -1,38 +1,14 @@
-<section id="hero"
-    class="relative w-full min-h-screen flex flex-col md:flex-row items-center justify-center md:justify-between gap-10 md:gap-0 px-6 md:px-20 pt-20 md:pt-10">
-    <div class="w-full md:w-[70%] text-center md:text-right z-10">
-        <h1 id="hero-title"
-            class="text-[1.5rem] md:text-[2rem] lg:text-[2.6rem] xl:text-[3rem] font-bold leading-snug text-[var(--primary)]">
-            جميع أعمال ادارتك في نظام واحد متكامل
-        </h1>
-
-        <p id="hero-subtitle"
-            class="mt-4 text-[var(--dark-gray)] md:text-[1rem] lg:text-[1.2rem] xl:text-[1.9rem] md:text-base leading-relaxed font-normal">
-            المتمم لإدارة موارد المؤسسة – ERP بخبرة 40 سنة في الأسواق المحلية والخليجية.
-        </p>
-
-        <p id="hero-details"
-            class="mt-4 pe-5 text-[var(--light-gray)] md:text-[1rem] lg:text-[1.2rem] xl:text-[1.9rem] md:text-base leading-relaxed font-normal">
-            إدارة مالية - مخزون - إدارة موارد بشرية ومرتبات - تقارير - إدارة أصول ثابتة - إدارة نقدية وبنوك - خطابات
-            ضمان -
-            خطابات إعتمادية - تكاملات ضريبية مع الكثير من الإضافات لتناسب طبيعة أعمالك.
-        </p>
-
-        <div class="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-4">
-            <a href="#" id="button1"
-                class="bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-6 py-3 rounded-full text-sm font-semibold shadow-md transition">
-                حدد جلسة استشارة مجانية
-            </a>
-            <a href="#" id="button2"
-                class="bg-[var(--primary-light)] hover:bg-[var(--primary-dark)] text-white px-6 py-3 rounded-full text-sm font-semibold shadow-md transition">
-                جرّب ميني متمم للأفراد مجانًا
-            </a>
-        </div>
+<section id="section9" class="w-full min-h-screen bg-white py-16">
+    <div class="controls">
+        <button #prevBtn class="prev" aria-label="Previous">‹</button>
+        <button #nextBtn class="next" aria-label="Next">›</button>
     </div>
-    <div class="w-full md:w-1/2 relative z-0">
-        <video id="hero-video" autoplay muted loop playsinline class="w-full max-w-xl mx-auto rounded-2xl shadow-xl">
-            <source src="assets/video/hero.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-        </video>
+
+    <div #wrapper class="wrapper">
+        <div class="box" *ngFor="let n of [].constructor(8); let i = index">
+            <div class="box__inner">
+                <p>{{ i + 1 }}</p>
+            </div>
+        </div>
     </div>
 </section>

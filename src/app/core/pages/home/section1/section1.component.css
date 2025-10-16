@@ -1,11 +1,14 @@
-section {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@charset "UTF-8";
+#hero-title,
+#hero-subtitle,
+#hero-details,
+#button1,
+#button2 {
+  opacity: 0;
+  visibility: hidden;
+  /* عشان ميعملش flicker لحظة التقسيم */
 }
 
-.words {
-  border: 1px solid red;
+#hero {
+  background-color: transparent;
 }/*# sourceMappingURL=section1.component.css.map */

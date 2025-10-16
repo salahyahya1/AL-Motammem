@@ -142,63 +142,64 @@ export class LearningGSAPComponent {
 
   //     randomLoop();
   /////   }
-  /////////////////////////////////////////////////////////////// ngAfterViewInit() {
-  ///////////////////////////////////////////////////////////////        if (typeof window === 'undefined') return;
-  ///////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////      if (!isPlatformBrowser(this.platformId)) return;
-  ///////////////////////////////////////////////////////////////      requestAnimationFrame(() => {
-  ///////////////////////////////////////////////////////////////  ///firt animation cards appear one by one
-  ///////////////////////////////////////////////////////////////  const tl = gsap.timeline({ defaults: { ease: "power3.out" } ,
-  ///////////////////////////////////////////////////////////////     scrollTrigger:{
-  ///////////////////////////////////////////////////////////////     trigger: '#section2',
-  ///////////////////////////////////////////////////////////////     start:"top 10%",
-  ///////////////////////////////////////////////////////////////     end:"bottom 101%",
-  ///////////////////////////////////////////////////////////////     markers:true
-  ///////////////////////////////////////////////////////////////          },
-  ///////////////////////////////////////////////////////////////   });
-  ///////////////////////////////////////////////////////////////       document.fonts.ready.then(() => {
-  ///////////////////////////////////////////////////////////////      const sectionHead = document.querySelector('#Text1') as HTMLElement;
-  ///////////////////////////////////////////////////////////////      const card1 = document.querySelector('.card1') as HTMLElement;
-  ///////////////////////////////////////////////////////////////      const card2 = document.querySelector('.card2') as HTMLElement;
-  ///////////////////////////////////////////////////////////////      const card3 = document.querySelector('.card3') as HTMLElement;
-  ///////////////////////////////////////////////////////////////      if (!sectionHead) {
-  ///////////////////////////////////////////////////////////////        console.warn('⚠️ عناصر الـ hero مش لاقيها 3333SplitText');
-  ///////////////////////////////////////////////////////////////        return;
-  ///////////////////////////////////////////////////////////////      }
-  ///////////////////////////////////////////////////////////////      const splitedtext = SplitText.create(sectionHead, { type: "words" });
-  ///////////////////////////////////////////////////////////////      // const tl = gsap.timeline();
-  ///////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////      tl.fromTo(splitedtext.words,
-  ///////////////////////////////////////////////////////////////        { opacity: 0, visibility: "visible" },
-  ///////////////////////////////////////////////////////////////        {
-  ///////////////////////////////////////////////////////////////          opacity: 1,
-  ///////////////////////////////////////////////////////////////          duration: 0.8,
-  ///////////////////////////////////////////////////////////////          ease: "sine.out",
-  ///////////////////////////////////////////////////////////////          stagger: 0.2,
-  ///////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////          onStart: () => { gsap.set(sectionHead, { opacity: 1, visibility: "visible" }) },
-  ///////////////////////////////////////////////////////////////        }
-  ///////////////////////////////////////////////////////////////      );
-  ///////////////////////////////////////////////////////////////      tl.to(".card2",{
-  ///////////////////////////////////////////////////////////////        opacity:1,
-  ///////////////////////////////////////////////////////////////        duration: 1.5,
-  ///////////////////////////////////////////////////////////////        ease: "sine.out",
-  ///////////////////////////////////////////////////////////////      },'>-1')
-  ///////////////////////////////////////////////////////////////      tl.to(".card1",{
-  ///////////////////////////////////////////////////////////////        opacity:1,
-  ///////////////////////////////////////////////////////////////        right:0,
-  ///////////////////////////////////////////////////////////////        duration: 1.5,
-  ///////////////////////////////////////////////////////////////        ease: "sine.out",
-  ///////////////////////////////////////////////////////////////      },'<')
-  ///////////////////////////////////////////////////////////////      tl.to(".card3",{
-  ///////////////////////////////////////////////////////////////        opacity:1,
-  ///////////////////////////////////////////////////////////////        left:0,
-  ///////////////////////////////////////////////////////////////        duration: 1.5,
-  ///////////////////////////////////////////////////////////////        ease: "sine.out",
-  ///////////////////////////////////////////////////////////////      },'<')
-  ///////////////////////////////////////////////////////////////  });
-  /////////////////////////////////////////////////////////////// });
-  ///////////////////////////////////////////////////////////////}
+  ngAfterViewInit() {
+    if (typeof window === 'undefined') return;
+
+    if (!isPlatformBrowser(this.platformId)) return;
+    requestAnimationFrame(() => {
+      ///firt animation cards appear one by one
+      const tl = gsap.timeline({
+        defaults: { ease: "power3.out" },
+        scrollTrigger: {
+          trigger: '#section2',
+          start: "top 10%",
+          end: "bottom 101%",
+          markers: true
+        },
+      });
+      document.fonts.ready.then(() => {
+        const sectionHead = document.querySelector('#Text1') as HTMLElement;
+        const card1 = document.querySelector('.card1') as HTMLElement;
+        const card2 = document.querySelector('.card2') as HTMLElement;
+        const card3 = document.querySelector('.card3') as HTMLElement;
+        if (!sectionHead) {
+          console.warn('⚠️ عناصر الـ hero مش لاقيها 3333SplitText');
+          return;
+        }
+        const splitedtext = SplitText.create(sectionHead, { type: "words" });
+        // const tl = gsap.timeline();
+
+        tl.fromTo(splitedtext.words,
+          { opacity: 0, visibility: "visible" },
+          {
+            opacity: 1,
+            duration: 0.8,
+            ease: "sine.out",
+            stagger: 0.2,
+
+            onStart: () => { gsap.set(sectionHead, { opacity: 1, visibility: "visible" }) },
+          }
+        );
+        tl.to(".card2", {
+          opacity: 1,
+          duration: 1.5,
+          ease: "sine.out",
+        }, '>-1')
+        tl.to(".card1", {
+          opacity: 1,
+          right: 0,
+          duration: 1.5,
+          ease: "sine.out",
+        }, '<')
+        tl.to(".card3", {
+          opacity: 1,
+          left: 0,
+          duration: 1.5,
+          ease: "sine.out",
+        }, '<')
+      });
+    });
+  }
   //  ngAfterViewInit() {
   //         if (typeof window === 'undefined') return;
 
@@ -1178,118 +1179,118 @@ export class LearningGSAPComponent {
   //   });
   // }
   //last verion 2
-  ngAfterViewInit() {
-    if (!isPlatformBrowser(this.platformId)) return;
+  // ngAfterViewInit() {
+  //   if (!isPlatformBrowser(this.platformId)) return;
 
-    this.ngZone.runOutsideAngular(() => {
-      requestAnimationFrame(() => {
-        document.fonts.ready.then(() => {
-          const section = document.querySelector('#stats-section') as HTMLElement;
-          const triggerEl = (document.querySelector('#section3') as HTMLElement) || section;
-          if (!section) return;
+  //   this.ngZone.runOutsideAngular(() => {
+  //     requestAnimationFrame(() => {
+  //       document.fonts.ready.then(() => {
+  //         const section = document.querySelector('#stats-section') as HTMLElement;
+  //         const triggerEl = (document.querySelector('#section3') as HTMLElement) || section;
+  //         if (!section) return;
 
-          const rows = Array.from(section.querySelectorAll('.stat-row')) as HTMLElement[];
-          if (!rows.length) return;
+  //         const rows = Array.from(section.querySelectorAll('.stat-row')) as HTMLElement[];
+  //         if (!rows.length) return;
 
-          rows.forEach(row => {
-            const c = row.querySelector('.counter') as HTMLElement | null;
-            if (c) c.textContent = '0';
-          });
-          const animateCounter = (el: HTMLElement, to: number, duration = 1.4, decimals = 0) => {
-            const obj = { val: 0 };
-            gsap.to(obj, {
-              val: to,
-              duration,
-              ease: 'power3.out',
-              onUpdate: () => {
-                el.textContent = obj.val.toFixed(decimals);
-              },
-            });
-          };
-          rows.forEach(row => {
-            const labelEl = row.querySelector('.label') as HTMLElement | null;
-            if (labelEl) {
-              const sLabel = SplitText.create(labelEl, { type: 'words', aria: 'hidden' });
-              gsap.set(sLabel.words, { opacity: 0 });
-              (labelEl as any)._splitWords = sLabel.words;
-            }
-          });
-          rows.forEach(row => {
-            const numEl = row.querySelector('.num') as HTMLElement | null;
-            if (numEl) {
-              gsap.set(numEl, { opacity: 0 });
-            }
-          });
-          const tl = gsap.timeline({
-            defaults: { ease: 'power3.out' },
-            scrollTrigger: {
-              trigger: triggerEl || section,
-              start: 'top 20%',
-              end: 'bottom 100%',
-              toggleActions: 'play none none none',
-              once: true,
-              // markers: true,
-            },
-          });
-          const head = document.querySelector('#Text1') as HTMLElement | null;
-          if (head) {
-            const splitHead = SplitText.create(head, { type: 'words' });
-            gsap.set(splitHead.words, { opacity: 0, y: 10 });
-            tl.fromTo(
-              splitHead.words,
-              { opacity: 0, y: 10 },
-              { opacity: 1, y: 0, duration: 0.7, stagger: 0.15 },
-              0
-            );
-          }
-          rows.forEach((row, i) => {
-            const labelEl = row.querySelector('.label') as HTMLElement | null;
-            const numEl = row.querySelector('.num') as HTMLElement | null;
-            const counterEl = row.querySelector('.counter') as HTMLElement | null;
-            const labelWords = (labelEl && (labelEl as any)._splitWords) || null;
+  //         rows.forEach(row => {
+  //           const c = row.querySelector('.counter') as HTMLElement | null;
+  //           if (c) c.textContent = '0';
+  //         });
+  //         const animateCounter = (el: HTMLElement, to: number, duration = 1.4, decimals = 0) => {
+  //           const obj = { val: 0 };
+  //           gsap.to(obj, {
+  //             val: to,
+  //             duration,
+  //             ease: 'power3.out',
+  //             onUpdate: () => {
+  //               el.textContent = obj.val.toFixed(decimals);
+  //             },
+  //           });
+  //         };
+  //         rows.forEach(row => {
+  //           const labelEl = row.querySelector('.label') as HTMLElement | null;
+  //           if (labelEl) {
+  //             const sLabel = SplitText.create(labelEl, { type: 'words', aria: 'hidden' });
+  //             gsap.set(sLabel.words, { opacity: 0 });
+  //             (labelEl as any)._splitWords = sLabel.words;
+  //           }
+  //         });
+  //         rows.forEach(row => {
+  //           const numEl = row.querySelector('.num') as HTMLElement | null;
+  //           if (numEl) {
+  //             gsap.set(numEl, { opacity: 0 });
+  //           }
+  //         });
+  //         const tl = gsap.timeline({
+  //           defaults: { ease: 'power3.out' },
+  //           scrollTrigger: {
+  //             trigger: triggerEl || section,
+  //             start: 'top 20%',
+  //             end: 'bottom 100%',
+  //             toggleActions: 'play none none none',
+  //             once: true,
+  //             // markers: true,
+  //           },
+  //         });
+  //         const head = document.querySelector('#Text1') as HTMLElement | null;
+  //         if (head) {
+  //           const splitHead = SplitText.create(head, { type: 'words' });
+  //           gsap.set(splitHead.words, { opacity: 0, y: 10 });
+  //           tl.fromTo(
+  //             splitHead.words,
+  //             { opacity: 0, y: 10 },
+  //             { opacity: 1, y: 0, duration: 0.7, stagger: 0.15 },
+  //             0
+  //           );
+  //         }
+  //         rows.forEach((row, i) => {
+  //           const labelEl = row.querySelector('.label') as HTMLElement | null;
+  //           const numEl = row.querySelector('.num') as HTMLElement | null;
+  //           const counterEl = row.querySelector('.counter') as HTMLElement | null;
+  //           const labelWords = (labelEl && (labelEl as any)._splitWords) || null;
 
-            const rowPos = i === 0 ? '>' : `>+0.35`;
-            const rowTL = gsap.timeline();
-            if (labelWords) {
-              rowTL.to(
-                labelWords,
-                {
-                  opacity: 1,
-                  duration: 1.3,
-                  ease: 'sine.out',
-                  stagger: { each: 0.08, from: 'start' },
-                },
-                0
-              );
-            }
-            if (numEl && counterEl) {
-              rowTL.to(
-                numEl,
-                {
-                  opacity: 1,
-                  duration: 1.3,
-                  ease: 'power2.out',
-                  onStart: () => {
-                    const target = Number(counterEl.getAttribute('data-target') ?? 0);
-                    const decimals = target % 1 !== 0 ? 1 : 0;
-                    animateCounter(counterEl, target, 1.4, decimals);
-                  },
-                },
-                0
-              );
-            }
+  //           const rowPos = i === 0 ? '>' : `>+0.35`;
+  //           const rowTL = gsap.timeline();
+  //           if (labelWords) {
+  //             rowTL.to(
+  //               labelWords,
+  //               {
+  //                 opacity: 1,
+  //                 duration: 1.3,
+  //                 ease: 'sine.out',
+  //                 stagger: { each: 0.08, from: 'start' },
+  //               },
+  //               0
+  //             );
+  //           }
+  //           if (numEl && counterEl) {
+  //             rowTL.to(
+  //               numEl,
+  //               {
+  //                 opacity: 1,
+  //                 duration: 1.3,
+  //                 ease: 'power2.out',
+  //                 onStart: () => {
+  //                   const target = Number(counterEl.getAttribute('data-target') ?? 0);
+  //                   const decimals = target % 1 !== 0 ? 1 : 0;
+  //                   animateCounter(counterEl, target, 1.4, decimals);
+  //                 },
+  //               },
+  //               0
+  //             );
+  //           }
 
-            tl.add(rowTL, rowPos);
-          });
-          const cta = section.querySelector('.cta-btn') as HTMLElement | null;
-          if (cta) {
-            gsap.set(cta, { opacity: 0 });
-            tl.to(cta, { opacity: 1, duration: 0.8, ease: 'power2.out' }, '>-0.2');
-          }
-        });
-      });
-    });
-  }
+  //           tl.add(rowTL, rowPos);
+  //         });
+  //         const cta = section.querySelector('.cta-btn') as HTMLElement | null;
+  //         if (cta) {
+  //           gsap.set(cta, { opacity: 0 });
+  //           tl.to(cta, { opacity: 1, duration: 0.8, ease: 'power2.out' }, '>-0.2');
+  //         }
+  //       });
+  //     });
+  //   });
+  // }
 
 
 
