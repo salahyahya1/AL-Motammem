@@ -142,64 +142,64 @@ export class LearningGSAPComponent {
 
   //     randomLoop();
   /////   }
-  ngAfterViewInit() {
-    if (typeof window === 'undefined') return;
+  // ngAfterViewInit() {
+  //   if (typeof window === 'undefined') return;
 
-    if (!isPlatformBrowser(this.platformId)) return;
-    requestAnimationFrame(() => {
-      ///firt animation cards appear one by one
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        scrollTrigger: {
-          trigger: '#section2',
-          start: "top 10%",
-          end: "bottom 101%",
-          markers: true
-        },
-      });
-      document.fonts.ready.then(() => {
-        const sectionHead = document.querySelector('#Text1') as HTMLElement;
-        const card1 = document.querySelector('.card1') as HTMLElement;
-        const card2 = document.querySelector('.card2') as HTMLElement;
-        const card3 = document.querySelector('.card3') as HTMLElement;
-        if (!sectionHead) {
-          console.warn('⚠️ عناصر الـ hero مش لاقيها 3333SplitText');
-          return;
-        }
-        const splitedtext = SplitText.create(sectionHead, { type: "words" });
-        // const tl = gsap.timeline();
+  //   if (!isPlatformBrowser(this.platformId)) return;
+  //   requestAnimationFrame(() => {
+  //     ///firt animation cards appear one by one
+  //     const tl = gsap.timeline({
+  //       defaults: { ease: "power3.out" },
+  //       scrollTrigger: {
+  //         trigger: '#section2',
+  //         start: "top 10%",
+  //         end: "bottom 101%",
+  //         markers: true
+  //       },
+  //     });
+  //     document.fonts.ready.then(() => {
+  //       const sectionHead = document.querySelector('#Text1') as HTMLElement;
+  //       const card1 = document.querySelector('.card1') as HTMLElement;
+  //       const card2 = document.querySelector('.card2') as HTMLElement;
+  //       const card3 = document.querySelector('.card3') as HTMLElement;
+  //       if (!sectionHead) {
+  //         console.warn('⚠️ عناصر الـ hero مش لاقيها 3333SplitText');
+  //         return;
+  //       }
+  //       const splitedtext = SplitText.create(sectionHead, { type: "words" });
+  //       // const tl = gsap.timeline();
 
-        tl.fromTo(splitedtext.words,
-          { opacity: 0, visibility: "visible" },
-          {
-            opacity: 1,
-            duration: 0.8,
-            ease: "sine.out",
-            stagger: 0.2,
+  //       tl.fromTo(splitedtext.words,
+  //         { opacity: 0, visibility: "visible" },
+  //         {
+  //           opacity: 1,
+  //           duration: 0.8,
+  //           ease: "sine.out",
+  //           stagger: 0.2,
 
-            onStart: () => { gsap.set(sectionHead, { opacity: 1, visibility: "visible" }) },
-          }
-        );
-        tl.to(".card2", {
-          opacity: 1,
-          duration: 1.5,
-          ease: "sine.out",
-        }, '>-1')
-        tl.to(".card1", {
-          opacity: 1,
-          right: 0,
-          duration: 1.5,
-          ease: "sine.out",
-        }, '<')
-        tl.to(".card3", {
-          opacity: 1,
-          left: 0,
-          duration: 1.5,
-          ease: "sine.out",
-        }, '<')
-      });
-    });
-  }
+  //           onStart: () => { gsap.set(sectionHead, { opacity: 1, visibility: "visible" }) },
+  //         }
+  //       );
+  //       tl.to(".card2", {
+  //         opacity: 1,
+  //         duration: 1.5,
+  //         ease: "sine.out",
+  //       }, '>-1')
+  //       tl.to(".card1", {
+  //         opacity: 1,
+  //         right: 0,
+  //         duration: 1.5,
+  //         ease: "sine.out",
+  //       }, '<')
+  //       tl.to(".card3", {
+  //         opacity: 1,
+  //         left: 0,
+  //         duration: 1.5,
+  //         ease: "sine.out",
+  //       }, '<')
+  //     });
+  //   });
+  // }
   //  ngAfterViewInit() {
   //         if (typeof window === 'undefined') return;
 
@@ -1292,7 +1292,9 @@ export class LearningGSAPComponent {
   //   });
   // }
 
+  ngAfterViewInit() {
 
+  }
 
 
 

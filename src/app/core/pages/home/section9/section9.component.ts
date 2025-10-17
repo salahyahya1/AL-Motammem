@@ -293,7 +293,7 @@ gsap.registerPlugin(Draggable);
   templateUrl: './section9.component.html',
   styleUrls: ['./section9.component.scss'],
 })
-export class Section9Component implements AfterViewInit {
+export class Section9Component {
   @ViewChild('wrapper', { static: false }) wrapperRef!: ElementRef<HTMLElement>;
   @ViewChild('nextBtn', { static: false }) nextBtn!: ElementRef<HTMLButtonElement>;
   @ViewChild('prevBtn', { static: false }) prevBtn!: ElementRef<HTMLButtonElement>;
@@ -303,175 +303,175 @@ export class Section9Component implements AfterViewInit {
     private ngZone: NgZone
   ) { }
 
-  ngAfterViewInit(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
+  // ngAfterViewInit(): void {
+  //   if (!isPlatformBrowser(this.platformId)) return;
 
-    this.ngZone.runOutsideAngular(() => {
-      const wrapper = this.wrapperRef.nativeElement;
-      const boxes = gsap.utils.toArray<HTMLElement>('.box');
-      if (!boxes.length) return;
+  //   this.ngZone.runOutsideAngular(() => {
+  //     const wrapper = this.wrapperRef.nativeElement;
+  //     const boxes = gsap.utils.toArray<HTMLElement>('.box');
+  //     if (!boxes.length) return;
 
-      let activeElement: HTMLElement | null = null;
+  //     let activeElement: HTMLElement | null = null;
 
-      const loop = this.horizontalLoop(boxes, {
-        draggable: true,
-        center: true,
-        speed: 1,
-        onChange: (element: HTMLElement) => {
-          if (activeElement) activeElement.classList.remove('active');
-          element.classList.add('active');
-          activeElement = element;
-        },
-      });
+  //     const loop = this.horizontalLoop(boxes, {
+  //       draggable: true,
+  //       center: true,
+  //       speed: 1,
+  //       onChange: (element: HTMLElement) => {
+  //         if (activeElement) activeElement.classList.remove('active');
+  //         element.classList.add('active');
+  //         activeElement = element;
+  //       },
+  //     });
 
-      // ✅ أزرار التحكم
-      this.nextBtn.nativeElement.addEventListener('click', () => {
-        (loop as any).next({ duration: 0.6, ease: 'power1.inOut' });
-      });
+  //     // ✅ أزرار التحكم
+  //     this.nextBtn.nativeElement.addEventListener('click', () => {
+  //       (loop as any).next({ duration: 0.6, ease: 'power1.inOut' });
+  //     });
 
-      this.prevBtn.nativeElement.addEventListener('click', () => {
-        (loop as any).previous({ duration: 0.6, ease: 'power1.inOut' });
-      });
-    });
-  }
+  //     this.prevBtn.nativeElement.addEventListener('click', () => {
+  //       (loop as any).previous({ duration: 0.6, ease: 'power1.inOut' });
+  //     });
+  //   });
+  // }
 
-  horizontalLoop(items: HTMLElement[], config: any = {}): gsap.core.Timeline {
-    if (!items.length) return gsap.timeline();
+  // horizontalLoop(items: HTMLElement[], config: any = {}): gsap.core.Timeline {
+  //   if (!items.length) return gsap.timeline();
 
-    const tl = gsap.timeline({
-      repeat: -1,
-      paused: !!config.paused,
-      defaults: { ease: 'none' },
-    });
+  //   const tl = gsap.timeline({
+  //     repeat: -1,
+  //     paused: !!config.paused,
+  //     defaults: { ease: 'none' },
+  //   });
 
-    const length = items.length;
-    const widths: number[] = [];
-    const xPercents: number[] = [];
-    const times: number[] = [];
+  //   const length = items.length;
+  //   const widths: number[] = [];
+  //   const xPercents: number[] = [];
+  //   const times: number[] = [];
 
-    const pixelsPerSecond = (config.speed || 1) * 100;
-    const snap = config.snap === false ? (v: number) => v : gsap.utils.snap(1);
+  //   const pixelsPerSecond = (config.speed || 1) * 100;
+  //   const snap = config.snap === false ? (v: number) => v : gsap.utils.snap(1);
 
-    const startX = items[0].offsetLeft;
+  //   const startX = items[0].offsetLeft;
 
-    const getTotalWidth = (): number =>
-      items[length - 1].offsetLeft +
-      items[length - 1].offsetWidth -
-      startX +
-      (parseFloat(config.paddingRight) || 0);
+  //   const getTotalWidth = (): number =>
+  //     items[length - 1].offsetLeft +
+  //     items[length - 1].offsetWidth -
+  //     startX +
+  //     (parseFloat(config.paddingRight) || 0);
 
-    const populateWidths = (): void => {
-      items.forEach((el, i) => {
-        widths[i] = Number(gsap.getProperty(el, 'width', 'px')) || el.offsetWidth;
-        const xPx = Number(gsap.getProperty(el, 'x', 'px')) || 0;
-        const xPercent = Number(gsap.getProperty(el, 'xPercent')) || 0;
-        xPercents[i] = snap((xPx / widths[i]) * 100 + xPercent);
-      });
-      gsap.set(items, { xPercent: (i: number) => xPercents[i] });
-    };
+  //   const populateWidths = (): void => {
+  //     items.forEach((el, i) => {
+  //       widths[i] = Number(gsap.getProperty(el, 'width', 'px')) || el.offsetWidth;
+  //       const xPx = Number(gsap.getProperty(el, 'x', 'px')) || 0;
+  //       const xPercent = Number(gsap.getProperty(el, 'xPercent')) || 0;
+  //       xPercents[i] = snap((xPx / widths[i]) * 100 + xPercent);
+  //     });
+  //     gsap.set(items, { xPercent: (i: number) => xPercents[i] });
+  //   };
 
-    let totalWidth = 0;
-    let timeWrap: (n: number) => number;
+  //   let totalWidth = 0;
+  //   let timeWrap: (n: number) => number;
 
-    const populateTimeline = (): void => {
-      tl.clear();
-      totalWidth = getTotalWidth();
+  //   const populateTimeline = (): void => {
+  //     tl.clear();
+  //     totalWidth = getTotalWidth();
 
-      items.forEach((item, i) => {
-        const curX = (xPercents[i] / 100) * widths[i];
-        const distanceToStart = item.offsetLeft + curX - startX;
-        const distanceToLoop = distanceToStart + widths[i];
+  //     items.forEach((item, i) => {
+  //       const curX = (xPercents[i] / 100) * widths[i];
+  //       const distanceToStart = item.offsetLeft + curX - startX;
+  //       const distanceToLoop = distanceToStart + widths[i];
 
-        tl.to(
-          item,
-          {
-            xPercent: snap(((curX - distanceToLoop) / widths[i]) * 100),
-            duration: distanceToLoop / pixelsPerSecond,
-          },
-          0
-        )
-          .fromTo(
-            item,
-            {
-              xPercent: snap(((curX - distanceToLoop + totalWidth) / widths[i]) * 100),
-            },
-            {
-              xPercent: xPercents[i],
-              duration:
-                (curX - distanceToLoop + totalWidth - curX) / pixelsPerSecond,
-              immediateRender: false,
-            },
-            distanceToLoop / pixelsPerSecond
-          )
-          .add('label' + i, distanceToStart / pixelsPerSecond);
+  //       tl.to(
+  //         item,
+  //         {
+  //           xPercent: snap(((curX - distanceToLoop) / widths[i]) * 100),
+  //           duration: distanceToLoop / pixelsPerSecond,
+  //         },
+  //         0
+  //       )
+  //         .fromTo(
+  //           item,
+  //           {
+  //             xPercent: snap(((curX - distanceToLoop + totalWidth) / widths[i]) * 100),
+  //           },
+  //           {
+  //             xPercent: xPercents[i],
+  //             duration:
+  //               (curX - distanceToLoop + totalWidth - curX) / pixelsPerSecond,
+  //             immediateRender: false,
+  //           },
+  //           distanceToLoop / pixelsPerSecond
+  //         )
+  //         .add('label' + i, distanceToStart / pixelsPerSecond);
 
-        times[i] = distanceToStart / pixelsPerSecond;
-      });
+  //       times[i] = distanceToStart / pixelsPerSecond;
+  //     });
 
-      timeWrap = gsap.utils.wrap(0, tl.duration());
-    };
+  //     timeWrap = gsap.utils.wrap(0, tl.duration());
+  //   };
 
-    populateWidths();
-    populateTimeline();
+  //   populateWidths();
+  //   populateTimeline();
 
-    const toIndex = (index: number, vars: any = {}): gsap.core.Tween => {
-      const curIndex = Math.round(tl.time() / (tl.duration() / length));
-      if (Math.abs(index - curIndex) > length / 2)
-        index += index > curIndex ? -length : length;
+  //   const toIndex = (index: number, vars: any = {}): gsap.core.Tween => {
+  //     const curIndex = Math.round(tl.time() / (tl.duration() / length));
+  //     if (Math.abs(index - curIndex) > length / 2)
+  //       index += index > curIndex ? -length : length;
 
-      const newIndex = gsap.utils.wrap(0, length, index);
-      let time = times[newIndex];
-      if (time < 0 || time > tl.duration()) vars.modifiers = { time: timeWrap };
-      vars.overwrite = true;
-      return tl.tweenTo(timeWrap(time), vars);
-    };
+  //     const newIndex = gsap.utils.wrap(0, length, index);
+  //     let time = times[newIndex];
+  //     if (time < 0 || time > tl.duration()) vars.modifiers = { time: timeWrap };
+  //     vars.overwrite = true;
+  //     return tl.tweenTo(timeWrap(time), vars);
+  //   };
 
-    (tl as any).toIndex = (index: number, vars?: any) => toIndex(index, vars);
-    (tl as any).next = (vars?: any) =>
-      toIndex(1 + Math.round(tl.time() / (tl.duration() / length)), vars);
-    (tl as any).previous = (vars?: any) =>
-      toIndex(-1 + Math.round(tl.time() / (tl.duration() / length)), vars);
+  //   (tl as any).toIndex = (index: number, vars?: any) => toIndex(index, vars);
+  //   (tl as any).next = (vars?: any) =>
+  //     toIndex(1 + Math.round(tl.time() / (tl.duration() / length)), vars);
+  //   (tl as any).previous = (vars?: any) =>
+  //     toIndex(-1 + Math.round(tl.time() / (tl.duration() / length)), vars);
 
-    // ✅ Draggable integration
-    if (config.draggable && typeof Draggable === 'function') {
-      const proxy = document.createElement('div');
-      const wrap = gsap.utils.wrap(0, 1);
-      let ratio = 0;
-      let startProgress = 0;
-      let draggable: any;
-      let wasPlaying = false;
+  //   // ✅ Draggable integration
+  //   if (config.draggable && typeof Draggable === 'function') {
+  //     const proxy = document.createElement('div');
+  //     const wrap = gsap.utils.wrap(0, 1);
+  //     let ratio = 0;
+  //     let startProgress = 0;
+  //     let draggable: any;
+  //     let wasPlaying = false;
 
-      const align = (): void => {
-        tl.progress(wrap(startProgress + (draggable.startX - draggable.x) * ratio));
-      };
+  //     const align = (): void => {
+  //       tl.progress(wrap(startProgress + (draggable.startX - draggable.x) * ratio));
+  //     };
 
-      draggable = Draggable.create(proxy, {
-        trigger: items[0].parentNode as HTMLElement,
-        type: 'x',
-        inertia: true,
-        allowEventDefault: true, // ✅ يمنع تحذير preventDefault
-        onPressInit(): void {
-          gsap.killTweensOf(tl);
-          wasPlaying = !tl.paused();
-          tl.pause();
-          startProgress = tl.progress();
-          ratio = 1 / totalWidth;
-          gsap.set(proxy, { x: startProgress / -ratio });
-        },
-        onDrag(): void {
-          align();
-        },
-        onThrowUpdate(): void {
-          align();
-        },
-        onRelease(): void {
-          if (wasPlaying) tl.play();
-        },
-      })[0];
+  //     draggable = Draggable.create(proxy, {
+  //       trigger: items[0].parentNode as HTMLElement,
+  //       type: 'x',
+  //       inertia: true,
+  //       allowEventDefault: true, // ✅ يمنع تحذير preventDefault
+  //       onPressInit(): void {
+  //         gsap.killTweensOf(tl);
+  //         wasPlaying = !tl.paused();
+  //         tl.pause();
+  //         startProgress = tl.progress();
+  //         ratio = 1 / totalWidth;
+  //         gsap.set(proxy, { x: startProgress / -ratio });
+  //       },
+  //       onDrag(): void {
+  //         align();
+  //       },
+  //       onThrowUpdate(): void {
+  //         align();
+  //       },
+  //       onRelease(): void {
+  //         if (wasPlaying) tl.play();
+  //       },
+  //     })[0];
 
-      (tl as any).draggable = draggable;
-    }
+  //     (tl as any).draggable = draggable;
+  //   }
 
-    return tl;
-  }
+  //   return tl;
+  // }
 }
