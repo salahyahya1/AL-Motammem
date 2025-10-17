@@ -33,7 +33,7 @@ export class Section10Component {
               trigger: '#section100',
               start: 'top top',
               end: "100% bottom",
-              markers: true,
+              // markers: true,
               // pin: true,
               anticipatePin: 1,
             },
