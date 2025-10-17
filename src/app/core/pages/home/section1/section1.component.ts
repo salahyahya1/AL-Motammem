@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { ApplicationRef, Component, Inject, NgZone, OnDestroy, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { SplitText } from "gsap/SplitText";
@@ -10,13 +10,18 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
   styleUrl: './section1.component.scss',
   imports: [],
 })
-export class Section1Component {
+export class Section1Component implements OnDestroy {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
     private ngZone: NgZone
 
   ) { }
+  timeline!: gsap.core.Timeline
+  heroTitleSplit: any;
+  heroSubtitleSplit: any;
+  heroDetailsSplit: any;
+
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;
 
@@ -117,14 +122,14 @@ export class Section1Component {
         return;
       }
 
-      const heroTitleSplit = SplitText.create(heroTitle, { type: "words" });
-      const heroSubtitleSplit = SplitText.create(heroSubtitle, { type: "words" });
-      const heroDetailsSplit = SplitText.create(heroDetails, { type: "words" });
+      this.heroTitleSplit = new SplitText(heroTitle, { type: "words" });
+      this.heroSubtitleSplit = new SplitText(heroSubtitle, { type: "words" });
+      this.heroDetailsSplit = new SplitText(heroDetails, { type: "words" });
 
 
       const tl = gsap.timeline();
 
-      tl.fromTo(heroTitleSplit.words,
+      tl.fromTo(this.heroTitleSplit.words,
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
@@ -135,7 +140,7 @@ export class Section1Component {
         }
       );
 
-      tl.fromTo(heroSubtitleSplit.words,
+      tl.fromTo(this.heroSubtitleSplit.words,
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
@@ -146,7 +151,7 @@ export class Section1Component {
         }
       );
 
-      tl.fromTo(heroDetailsSplit.words,
+      tl.fromTo(this.heroDetailsSplit.words,
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
@@ -177,6 +182,20 @@ export class Section1Component {
           onStart: () => { gsap.set(button2, { opacity: 1, visibility: "visible" }) },
         }
       );
+
+      this.timeline = tl
     });
+  }
+  ngOnDestroy(): void {
+    // if (!isPlatformBrowser(this.platformId)) return;
+    // if (this.timeline) {
+    //   this.timeline.clear();
+    // }
+    // requestAnimationFrame(() => {
+    //   this.heroTitleSplit?.revert();
+    //   this.heroSubtitleSplit?.revert();
+    //   this.heroDetailsSplit?.revert();
+    // });
+
   }
 }

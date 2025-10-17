@@ -614,13 +614,14 @@ import { Section6Component } from "./section6/section6.component";
 import { Section7Component } from "./section7/section7.component";
 import { Section8Component } from "./section8/section8.component";
 import { Section9Component } from './section9/section9.component';
+import { Section10Component } from "./section10/section10.component";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section9Component],
+  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section9Component, Section10Component],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })

@@ -1,24 +1,31 @@
-import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ApplicationRef, ChangeDetectorRef, Component, Inject, NgZone, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
 import { SplitText } from "gsap/SplitText";
+import { VedioPlayerSsrComponent } from "../../shared/vedio-player-ssr/vedio-player-ssr.component";
 gsap.registerPlugin(ScrollTrigger, SplitText);
+declare var YT: any;
 
 @Component({
   selector: 'app-learning-gsap',
-  imports: [],
+  imports: [CommonModule, VedioPlayerSsrComponent],
   templateUrl: './learning-gsap.component.html',
   styleUrl: './learning-gsap.component.scss'
 })
 export class LearningGSAPComponent {
+  isBrowser = false;
+
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef,
 
-  ) { }
+  ) {
+  }
   //   ngAfterViewInit() {
   //     if (typeof window === 'undefined') return;
 
@@ -1292,10 +1299,14 @@ export class LearningGSAPComponent {
   //   });
   // }
 
-  ngAfterViewInit() {
-
-  }
-
+  // ngAfterViewInit() {
+  //   if (isPlatformBrowser(this.platformId)) {
+  //     this.isBrowser = true;
+  //     console.log(isPlatformBrowser(this.platformId));
+  //     this.cdr.detectChanges();
+  //   }
+  //   console.log(isPlatformBrowser(this.platformId));
+  // }
 
 
 
