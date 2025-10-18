@@ -40,60 +40,60 @@ body {
 //     outline-offset: 2px;
 // }
 
-// * {
-//     // cursor: url('/images/custom_cursor_fixed.cur') 16 16, pointer !important;
-//     cursor: url('/images/custom_cursor.cur') 16 16, pointer !important;
-// }
+* {
+    cursor: url('/images/custom_cursor_fixed.cur') 16 16, pointer !important;
+    // cursor: url('/images/custom_cursor.cur') 16 16, pointer !important;
+}
 
-// :root {
-//     // --cursor-url-cur: url('/images/custom_cursor_fixed.cur') 16 16;
-//     --cursor-url-cur: url('/images/custom_cursor.cur') 16 16, pointer !important;
-// }
+:root {
+    --cursor-url-cur: url('/images/custom_cursor_fixed.cur') 16 16 !important;
+    // --cursor-url-cur: url('/images/custom_cursor.cur') 16 16, pointer !important;
+}
 
-// a:any-link,
-// button,
-// [role="button"],
-// input[type="button"],
-// input[type="submit"],
-// .summary-action,
-// /* أمثلة لكلاسات أزرار مخصصة */
-// .btn {
-//     cursor: var(--cursor-url-cur), var(--cursor-url-png), pointer !important;
-// }
+a:any-link,
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+.summary-action,
+/* أمثلة لكلاسات أزرار مخصصة */
+.btn {
+    cursor: var(--cursor-url-cur), var(--cursor-url-png), pointer !important;
+}
 
-// /* ثبّت المؤشر في حالات التفاعل */
-// a:any-link:hover,
-// a:any-link:active,
-// button:hover,
-// button:active,
-// [role='button']:hover,
-// [role='button']:active,
-// input[type='button']:hover,
-// input[type='button']:active,
-// input[type='submit']:hover,
-// input[type='submit']:active,
-// .summary-action:hover,
-// .summary-action:active,
-// .btn:hover,
-// .btn:active {
-//     cursor: var(--cursor-url-cur), var(--cursor-url-png), pointer !important;
-// }
+/* ثبّت المؤشر في حالات التفاعل */
+a:any-link:hover,
+a:any-link:active,
+button:hover,
+button:active,
+[role='button']:hover,
+[role='button']:active,
+input[type='button']:hover,
+input[type='button']:active,
+input[type='submit']:hover,
+input[type='submit']:active,
+.summary-action:hover,
+.summary-action:active,
+.btn:hover,
+.btn:active {
+    cursor: var(--cursor-url-cur), var(--cursor-url-png), pointer !important;
+}
 
-// /* استثناءات مهمة: خليه مؤشر كتابة في حقول النص */
-// input[type='text'],
-// input[type='search'],
-// input[type='email'],
-// input[type='password'],
-// textarea,
-// [contenteditable='true'] {
-//     cursor: text !important;
-// }
+/* استثناءات مهمة: خليه مؤشر كتابة في حقول النص */
+input[type='text'],
+input[type='search'],
+input[type='email'],
+input[type='password'],
+textarea,
+[contenteditable='true'] {
+    cursor: text !important;
+}
 
-// /* اسحب/أفلات إن وُجد */
-// [draggable='true'] {
-//     cursor: grab;
-// }
+/* اسحب/أفلات إن وُجد */
+[draggable='true'] {
+    cursor: grab;
+}
 
-// [dragging] {
-//     cursor: grabbing;
-// }
+[dragging] {
+    cursor: grabbing;
+}

@@ -601,6 +601,7 @@ import {
   ViewChild,
   ElementRef,
   NgZone,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import gsap from 'gsap';
@@ -615,6 +616,7 @@ import { Section7Component } from "./section7/section7.component";
 import { Section8Component } from "./section8/section8.component";
 import { Section9Component } from './section9/section9.component';
 import { Section10Component } from "./section10/section10.component";
+import { BehaviorSubject } from 'rxjs';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -628,13 +630,28 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 export class HomeComponent implements AfterViewInit {
   @ViewChild('navbar', { static: false }) navbar!: ElementRef<HTMLElement>;
   @ViewChild('navbarMenu', { static: false }) navbarMenu!: ElementRef<HTMLElement>;
+  private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
+  visibility$ = this.visibilitySubject.asObservable();
+  visibilityState: 'visible' | 'invisible' = 'visible';
+  private smoother!: any;
 
+  sections = [
+    { id: 'section1', label: 'section1', wholeSectionId: "section1" },
+    { id: 'section2', label: 'section2', wholeSectionId: "section2" },
+    { id: 'section4', label: 'section4', wholeSectionId: "section4" },
+    { id: 'section5', label: 'section5', wholeSectionId: "section5" },
+    { id: 'section10', label: 'section10', wholeSectionId: "section10" },
+    { id: 'section6', label: 'section6', wholeSectionId: "section6" },
+    { id: 'section7', label: 'section7', wholeSectionId: "section7" },
+    { id: 'section8', label: 'section8', wholeSectionId: "section8" },
+  ];
   menuOpen = false;
   isBrowser: boolean;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -646,6 +663,15 @@ export class HomeComponent implements AfterViewInit {
       this.initSmoothScroll(); // ✅ تفعيل السموذ سكرول فقط
       this.animateNavbar(); // ✅ أنيميشن النافبار الأصلي
       this.observeSections(); // ✅ تغيير الألوان للنافبار والبراند
+      this.initSectionIndicators()
+      this.sideMenu();
+      this.handleResponsiveSideMenu();
+      window.addEventListener('resize', () => {
+        this.ngZone.run(() => {
+          this.handleResponsiveSideMenu();
+          this.cdr.detectChanges(); // <-- إعادة فحص بعد كل resize
+        });
+      });
     });
   }
 
@@ -677,7 +703,11 @@ export class HomeComponent implements AfterViewInit {
 
   private initSmoothScroll() {
     // ✅ ScrollSmoother شغال بدون أي تأثيرات إضافية
-    ScrollSmoother.create({
+    if ((window as any).ScrollSmoother?.get?.()) {
+      this.smoother = (window as any).ScrollSmoother.get();
+      return; // ✅ لو السموذر شغال فعلاً، ما تعيديش إنشاءه
+    }
+    this.smoother = ScrollSmoother.create({
       wrapper: '#smooth-wrapper',
       content: '#smooth-content',
       smooth: 1.2,
@@ -718,4 +748,212 @@ export class HomeComponent implements AfterViewInit {
       });
     }
   }
+  sideMenu() {
+
+
+    this.visibility$.subscribe(value => {
+      this.visibilityState = value;
+    });
+
+
+  }
+  scrollToSection(sectionId: string) {
+    const target = document.getElementById(sectionId);
+    if (!target) return;
+
+    // ✅ استخدمي نفس instance محفوظة بدل ما تعملي ScrollSmoother.get() كل مرة
+    if (this.smoother) {
+      this.smoother.scrollTo(target, true, "top");
+    } else {
+      gsap.to(window, {
+        duration: 1,
+        scrollTo: { y: target, offsetY: 0 },
+        ease: 'power2.out'
+      });
+    }
+    this.sections.forEach((section) => {
+      const sectionEl = document.getElementById(section.wholeSectionId);
+      const dotWrapper = document.getElementById('dot-' + section.wholeSectionId);
+      console.log(sectionEl);
+      console.log(dotWrapper);
+      if (sectionEl && dotWrapper) {
+        const dot = dotWrapper.querySelector('.dot') as HTMLElement;
+        const label = dotWrapper.querySelector('.dot-label') as HTMLElement;
+
+
+        // if (section.wholeSectionId == "section4") {
+        //   ScrollTrigger.create({
+        //     trigger: this.sections[0].wholeSectionId,
+        //     start: 'top center',
+        //     end: '+=7050',
+        //     // end: 'bottom center',
+        //     // markers: true,
+        //     onEnter: () => {
+        //       dot?.classList.add('scale-[2.5]');
+        //       label?.classList.add('opacity-100');
+        //     },
+        //     onEnterBack: () => {
+        //       dot?.classList.add('scale-[2.5]');
+        //       label?.classList.add('opacity-100');
+        //     },
+        //     onLeave: () => {
+        //       dot?.classList.remove('scale-[2.5]');
+        //       label?.classList.remove('opacity-100');
+        //     },
+        //     onLeaveBack: () => {
+        //       dot?.classList.remove('scale-[2.5]');
+        //       label?.classList.remove('opacity-100');
+        //     }
+        //   });
+        // } else if (section.wholeSectionId == "section5") {
+        //   ScrollTrigger.create({
+        //     trigger: sectionEl,
+        //     start: 'top top',
+        //     end: '+=5000 400%',
+        //     onEnter: () => {
+        //       dot?.classList.add('scale-[2.5]');
+        //       label?.classList.add('opacity-100');
+        //     },
+        //     onEnterBack: () => {
+        //       dot?.classList.add('scale-[2.5]');
+        //       label?.classList.add('opacity-100');
+        //     },
+        //     onLeave: () => {
+        //       dot?.classList.remove('scale-[2.5]');
+        //       label?.classList.remove('opacity-100');
+        //     },
+        //     onLeaveBack: () => {
+        //       dot?.classList.remove('scale-[2.5]');
+        //       label?.classList.remove('opacity-100');
+        //     }
+        //   });
+        // } else if (section.wholeSectionId == "section6") {
+        //   ScrollTrigger.create({
+        //     trigger: sectionEl,
+        //     start: 'top top',
+        //     end: '+=8400 bottom',
+        //     onEnter: () => {
+        //       dot?.classList.add('scale-[2.5]');
+        //       label?.classList.add('opacity-100');
+        //     },
+        //     onEnterBack: () => {
+        //       dot?.classList.add('scale-[2.5]');
+        //       label?.classList.add('opacity-100');
+        //     },
+        //     onLeave: () => {
+        //       dot?.classList.remove('scale-[2.5]');
+        //       label?.classList.remove('opacity-100');
+        //     },
+        //     onLeaveBack: () => {
+        //       dot?.classList.remove('scale-[2.5]');
+        //       label?.classList.remove('opacity-100');
+        //     }
+        //   });
+
+        // } else if (section.wholeSectionId == "Product1Container") {
+        //   ScrollTrigger.create({
+        //     trigger: sectionEl,
+        //     start: 'top top',
+        //     end: '+=6200 bottom',
+        //     // markers: true,
+        //     onEnter: () => {
+        //       dot?.classList.add('scale-[2.5]');
+        //       label?.classList.add('opacity-100');
+        //       label?.classList.replace('text-white', 'text-black');
+        //     },
+        //     onEnterBack: () => {
+        //       dot?.classList.add('scale-[2.5]');
+        //       label?.classList.add('opacity-100');
+        //       label?.classList.replace('text-white', 'text-black');
+        //     },
+        //     onLeave: () => {
+        //       dot?.classList.remove('scale-[2.5]');
+        //       label?.classList.remove('opacity-100');
+        //       label?.classList.replace('text-black', 'text-white');
+        //     },
+        //     onLeaveBack: () => {
+        //       dot?.classList.remove('scale-[2.5]');
+        //       label?.classList.remove('opacity-100');
+        //       label?.classList.replace('text-black', 'text-white');
+        //     }
+        //   });
+        // } else if (section.wholeSectionId == "section8") {
+        //   ScrollTrigger.create({
+        //     trigger: sectionEl,
+        //     start: 'top top',
+        //     end: '+=2500',
+        //     onEnter: () => {
+        //       dot?.classList.add('scale-[2.5]');
+        //       label?.classList.add('opacity-100');
+        //     },
+        //     onEnterBack: () => {
+        //       dot?.classList.add('scale-[2.5]');
+        //       label?.classList.add('opacity-100');
+        //     },
+        //     onLeave: () => {
+        //       dot?.classList.remove('scale-[2.5]');
+        //       label?.classList.remove('opacity-100');
+        //     },
+        //     onLeaveBack: () => {
+        //       dot?.classList.remove('scale-[2.5]');
+        //       label?.classList.remove('opacity-100');
+        //     }
+        //   });
+
+        // }
+      }
+    });
+  }
+  setVisibility(state: 'visible' | 'invisible') {
+    this.visibilitySubject.next(state);
+  }
+
+  getCurrentVisibility(): 'visible' | 'invisible' {
+    return this.visibilitySubject.getValue();
+  }
+  private initSectionIndicators() {
+    const sections = document.querySelectorAll<HTMLElement>('.panel');
+
+    sections.forEach((section) => {
+      const sectionId = section.id;
+      const dotWrapper = document.getElementById('dot-' + sectionId);
+      if (!dotWrapper) return;
+
+      const dot = dotWrapper.querySelector('.dot') as HTMLElement;
+      const label = dotWrapper.querySelector('.dot-label') as HTMLElement;
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top center',
+        end: 'bottom center',
+        onEnter: () => this.activateDot(dot, label),
+        onEnterBack: () => this.activateDot(dot, label),
+        onLeave: () => this.deactivateDot(dot, label),
+        onLeaveBack: () => this.deactivateDot(dot, label),
+      });
+    });
+  }
+
+  private activateDot(dot: HTMLElement, label: HTMLElement) {
+    // احذفي أي active تانية
+    document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+    document.querySelectorAll('.dot-label').forEach(l => l.classList.remove('active'));
+
+    // فعّلي الحالية
+    dot.classList.add('active');
+    label.classList.add('active');
+  }
+
+  private deactivateDot(dot: HTMLElement, label: HTMLElement) {
+    dot.classList.remove('active');
+    label.classList.remove('active');
+  }
+  private handleResponsiveSideMenu() {
+    if (window.innerWidth < 700) {
+      this.setVisibility('invisible');
+    } else {
+      this.setVisibility('visible');
+    }
+  }
+
 }

@@ -26,8 +26,13 @@ export class Section2Component {
         document.fonts.ready.then(() => {
           const section = document.querySelector('#stats-section') as HTMLElement;
           const triggerEl = (document.querySelector('#section2') as HTMLElement) || section;
+          const video = document.getElementById('section4Video') as HTMLVideoElement;
+          const content = document.getElementById('section4Content');
+          const cta = section.querySelector('button') as HTMLElement | null;
+          const subtitle = section.querySelector('p') as HTMLElement | null;
           if (!section) return;
-
+          gsap.set(cta, { opacity: 0 });
+          gsap.set(subtitle, { opacity: 0 });
           // ✅ هنا التعديل المهم
           const rows = Array.from(section.querySelectorAll('.stat-card')) as HTMLElement[];
           if (!rows.length) {
@@ -144,69 +149,73 @@ export class Section2Component {
             scrub: true, pinType: 'transform',
             // markers: true,
             id: 'pinsection',
-          });
-          const tl = gsap.timeline({
-            defaults: { ease: 'power3.out' },
-            scrollTrigger: {
-              trigger: triggerEl || section,
-              start: 'top top',
-              end: '+=400',
-              // scrub: true,
-              // markers: true,
+            onEnter: () => {
+              video.play();
             },
           });
+          video.addEventListener('ended', () => {
+            const tl = gsap.timeline({
+              defaults: { ease: 'power3.out' },
+              scrollTrigger: {
+                trigger: triggerEl || section,
+                start: '-5% top',
+                end: '+=400',
+                // scrub: true,
+                // markers: true,
+              },
+            });
 
-          // ✅ الترتيب المطلوب (بالتسلسل)
-          const order = [0, 1, 2, 3]; // [عميل نشط, سنة خبرة, توافر النظام, أسابيع]
+            // ✅ الترتيب المطلوب (بالتسلسل)
+            const order = [0, 1, 2, 3]; // [عميل نشط, سنة خبرة, توافر النظام, أسابيع]
 
-          order.forEach((index, i) => {
-            const row = rows[index];
-            const labelEl = row.querySelector('.label') as HTMLElement | null;
-            const numEl = row.querySelector('.num') as HTMLElement | null;
-            const counterEl = row.querySelector('.counter') as HTMLElement | null;
-            const labelWords = (labelEl && (labelEl as any)._splitWords) || null;
+            order.forEach((index, i) => {
+              const row = rows[index];
+              const labelEl = row.querySelector('.label') as HTMLElement | null;
+              const numEl = row.querySelector('.num') as HTMLElement | null;
+              const counterEl = row.querySelector('.counter') as HTMLElement | null;
+              const labelWords = (labelEl && (labelEl as any)._splitWords) || null;
 
-            const rowTL = gsap.timeline();
-            if (labelWords) {
-              rowTL.to(labelWords, {
-                opacity: 1,
-                duration: 1.3,
-                ease: 'sine.out',
-                stagger: { each: 0.08, from: 'start' },
-              });
-            }
-            if (numEl && counterEl) {
-              rowTL.to(
-                numEl,
-                {
+              const rowTL = gsap.timeline();
+              if (labelWords) {
+                rowTL.to(labelWords, {
                   opacity: 1,
                   duration: 1.3,
-                  ease: 'power2.out',
-                  onStart: () => {
-                    const target = Number(counterEl.getAttribute('data-target') ?? 0);
-                    const decimals = target % 1 !== 0 ? 1 : 0;
-                    animateCounter(counterEl, target, 1.4, decimals);
+                  ease: 'sine.out',
+                  stagger: { each: 0.08, from: 'start' },
+                });
+              }
+              if (numEl && counterEl) {
+                rowTL.to(
+                  numEl,
+                  {
+                    opacity: 1,
+                    duration: 1.3,
+                    ease: 'power2.out',
+                    onStart: () => {
+                      const target = Number(counterEl.getAttribute('data-target') ?? 0);
+                      const decimals = target % 1 !== 0 ? 1 : 0;
+                      animateCounter(counterEl, target, 1.4, decimals);
+                    },
                   },
-                },
-                0
-              );
+                  0
+                );
+              }
+
+              // كل عنصر يبدأ بعد ما اللي قبله يخلص
+              tl.add(rowTL, i === 0 ? '>' : '-=0.8');
+            });
+
+            // ✅ الزرار والجملة
+
+            if (cta) {
+              gsap.set(cta, { opacity: 0, y: 20 });
+              tl.to(cta, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '+=0.1');
             }
-
-            // كل عنصر يبدأ بعد ما اللي قبله يخلص
-            tl.add(rowTL, i === 0 ? '>' : '-=0.8');
+            if (subtitle) {
+              gsap.set(subtitle, { opacity: 0, y: 10 });
+              tl.to(subtitle, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '+=0.1');
+            }
           });
-
-          // ✅ الزرار والجملة
-          const cta = section.querySelector('button') as HTMLElement | null;
-          const subtitle = section.querySelector('p') as HTMLElement | null;
-          if (cta) {
-            gsap.set(cta, { opacity: 0, y: 20 });
-            tl.to(cta, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '+=0.1');
-          }
-          if (subtitle) {
-            gsap.set(subtitle, { opacity: 0, y: 10 });
-            tl.to(subtitle, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '+=0.1');
-          }
         });
       });
     });

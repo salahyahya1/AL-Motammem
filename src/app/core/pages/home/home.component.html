@@ -129,3 +129,27 @@
         </div>
     </div>
 </div>
+<div [ngClass]="{
+    'opacity-100 pointer-events-auto': visibilityState === 'visible',
+    'opacity-0 pointer-events-none': visibilityState === 'invisible'
+}" class="transition-opacity duration-500 ease-in-out  fixed top-1/2 right-10 transform -translate-y-1/2 z-5 flex flex-col items-ce
+nter">
+
+    <div class="relative h-[420px] w-[2px] bg-[#F5A605]">
+        <ng-container *ngFor="let section of sections; let i = index">
+            <div class="group absolute left-1/2 -translate-x-1/2 cursor-pointer dot-wrapper"
+                [attr.id]="'dot-' + section.wholeSectionId" [ngStyle]="{ top: (i * 100 / (sections.length - 1)) + '%' }"
+                (click)="scrollToSection(section.id)">
+                <div class="absolute inset-[-16px] w-10 h-10 cursor-pointer"></div>
+                <div
+                    class="dot w-2 h-2 bg-[#fca61f] rounded-full transition-transform duration-300 group-hover:scale-[1.5]">
+                </div>
+                <div
+                    class="dot-label  absolute right-6 top-1/2 -translate-y-1/2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                    {{ section.label }}
+                </div>
+            </div>
+        </ng-container>
+
+    </div>
+</div>
