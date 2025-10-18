@@ -649,25 +649,25 @@ export class HomeComponent implements AfterViewInit {
     });
   }
 
-  // toggleMenu() {
-  //   this.menuOpen = !this.menuOpen;
-  //   const el = this.navbarMenu.nativeElement;
-  //   gsap.to(el, {
-  //     y: this.menuOpen ? 165 : -120,
-  //     opacity: this.menuOpen ? 1 : 0,
-  //     duration: 0.8,
-  //     ease: 'power2.inOut',
-  //   });
-  // }
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
-    const nav = document.querySelector('nav');
-    if (this.menuOpen) {
-      nav?.classList.remove('closed');
-    } else {
-      nav?.classList.add('closed');
-    }
+    const el = this.navbarMenu.nativeElement;
+    gsap.to(el, {
+      y: this.menuOpen ? 165 : -120,
+      opacity: this.menuOpen ? 1 : 0,
+      duration: 0.8,
+      ease: 'power2.inOut',
+    });
   }
+  // toggleMenu() {
+  //   this.menuOpen = !this.menuOpen;
+  //   const nav = document.querySelector('nav');
+  //   if (this.menuOpen) {
+  //     nav?.classList.remove('closed');
+  //   } else {
+  //     nav?.classList.add('closed');
+  //   }
+  // }
 
   private animateNavbar() {
     const navbarEl = this.navbar.nativeElement;

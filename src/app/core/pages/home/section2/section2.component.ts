@@ -157,7 +157,7 @@ export class Section2Component {
           });
 
           // ✅ الترتيب المطلوب (بالتسلسل)
-          const order = [0, 1, 3, 2]; // [عميل نشط, سنة خبرة, توافر النظام, أسابيع]
+          const order = [0, 1, 2, 3]; // [عميل نشط, سنة خبرة, توافر النظام, أسابيع]
 
           order.forEach((index, i) => {
             const row = rows[index];
@@ -193,7 +193,7 @@ export class Section2Component {
             }
 
             // كل عنصر يبدأ بعد ما اللي قبله يخلص
-            tl.add(rowTL, i === 0 ? '>' : '>');
+            tl.add(rowTL, i === 0 ? '>' : '-=0.8');
           });
 
           // ✅ الزرار والجملة
@@ -201,11 +201,11 @@ export class Section2Component {
           const subtitle = section.querySelector('p') as HTMLElement | null;
           if (cta) {
             gsap.set(cta, { opacity: 0, y: 20 });
-            tl.to(cta, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '+=0.5');
+            tl.to(cta, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '+=0.1');
           }
           if (subtitle) {
             gsap.set(subtitle, { opacity: 0, y: 10 });
-            tl.to(subtitle, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '+=0.2');
+            tl.to(subtitle, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '+=0.1');
           }
         });
       });

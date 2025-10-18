@@ -68,7 +68,7 @@ export class Section6Component {
           y: 0,
           duration: 0.8,
           ease: 'sine.out',
-          stagger: 0.15,
+          stagger: 0.1,
           onStart: () => { gsap.set(title, { opacity: 1, visibility: 'visible' }) },
         }
       );
@@ -82,7 +82,7 @@ export class Section6Component {
           y: 0,
           duration: 0.8,
           ease: 'sine.out',
-          stagger: 0.15,
+          stagger: 0.1,
           onStart: () => { gsap.set(subtitle, { opacity: 1, visibility: 'visible' }) },
         }
       );

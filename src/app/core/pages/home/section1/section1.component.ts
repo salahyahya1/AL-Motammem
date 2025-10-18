@@ -133,9 +133,9 @@ export class Section1Component implements OnDestroy {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 0.8,
+          duration: 0.4,
           ease: "sine.out",
-          stagger: 0.2,
+          stagger: 0.15,
           onStart: () => { gsap.set(heroTitle, { opacity: 1, visibility: "visible" }) },
         }
       );
@@ -144,9 +144,9 @@ export class Section1Component implements OnDestroy {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 0.8,
+          duration: 0.4,
           ease: "sine.out",
-          stagger: 0.2,
+          stagger: 0.15,
           onStart: () => { gsap.set(heroSubtitle, { opacity: 1, visibility: "visible" }) },
         }
       );
@@ -155,9 +155,9 @@ export class Section1Component implements OnDestroy {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 0.8,
+          duration: 0.4,
           ease: "sine.out",
-          stagger: 0.1,
+          stagger: 0.15,
           onStart: () => { gsap.set(heroDetails, { opacity: 1, visibility: "visible" }) },
         }
       );
@@ -167,7 +167,7 @@ export class Section1Component implements OnDestroy {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 1.2,
+          duration: 0.6,
           ease: "sine.inOut",
           onStart: () => { gsap.set(button1, { opacity: 1, visibility: "visible" }) },
         }
@@ -177,7 +177,7 @@ export class Section1Component implements OnDestroy {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 1.2,
+          duration: 0.6,
           ease: "sine.inOut",
           onStart: () => { gsap.set(button2, { opacity: 1, visibility: "visible" }) },
         }

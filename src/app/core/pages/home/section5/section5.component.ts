@@ -13,6 +13,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
   styleUrl: './section5.component.scss'
 })
 export class Section5Component {
+  isMobile = false;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
@@ -23,6 +24,8 @@ export class Section5Component {
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;
     if (!isPlatformBrowser(this.platformId)) return;
+    this.isMobile = window.innerWidth < 700;
+
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         const tl = gsap.timeline({

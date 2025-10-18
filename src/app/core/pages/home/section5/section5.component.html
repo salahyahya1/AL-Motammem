@@ -33,15 +33,13 @@
     </svg>
 </section> -->
 
-<section id="section5" class="w-full min-h-screen flex justify-center items-center flex-col pt-15">
+<!-- <section id="section5" class="w-full min-h-screen flex justify-center items-center flex-col pt-15">
     <p id="Text5" class="mx-auto text-center text-[1.5rem] md:text-[1.5rem] lg:text-[2rem]">
         آلاف الشركات تثق في المتمم منذ أكثر من 40 عامًا
     </p>
 
     <svg id="capsule" viewBox="0 0 759 116" xmlns="http://www.w3.org/2000/svg"
         style="width: 761px; height: 130px; max-width: 100%;">
-
-        <!-- ✅ نفس الحجم اللي كان مظبوط عندك بس بحواف ناعمة ومقفولة صح -->
         <path d="M758,58
              a58,58 0 0 1 -58,58
              H59
@@ -69,4 +67,69 @@
             </div>
         </foreignObject>
     </svg>
+</section> -->
+<section id="section5" class="w-full min-h-screen flex flex-col items-center justify-center bg-white overflow-hidden">
+    <p id="Text5"
+        class="mx-auto text-center text-[#1976D2] font-bold text-[1.8rem] md:text-[2.2rem] leading-snug mb-8 w-[70%] md:w-[100%]">
+        آلاف الشركات تثق في المتمم منذ أكثر من 40 عامًا
+    </p>
+
+
+    @if (!isMobile) {
+    <svg id="capsule" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg"
+        style="width: 757px; height: 131px; max-width: 90%;" class="md:w-[761px] mt-10">
+        <path class="capsule-path" d="M100,5 
+         h560 
+         a100,60 0 0 1 0,120 
+         h-560 
+         a100,60 0 0 1 0,-120 
+         z" stroke="#BFBFBF" stroke-width="3" fill="#ffffff" filter="url(#capsuleShadow)" />
+
+        <foreignObject x="35" y="10" width="689" height="96">
+            <div xmlns="http://www.w3.org/1999/xhtml" id="image-container"
+                style="display:flex; gap:20px; align-items:center; justify-content:center; height:100%; position:relative; overflow:hidden;">
+                <div class="slot"><img src="/images/connect.png" style="width:70px; height:70px;" alt="connect"></div>
+                <div class="separator"></div>
+                <div class="slot"><img src="/images/dashboard.png" style="width:70px; height:70px;" alt="dashboard">
+                </div>
+                <div class="separator"></div>
+                <div class="slot"><img src="/images/filter.png" style="width:70px; height:70px;" alt="filter"></div>
+                <div class="separator"></div>
+                <div class="slot"><img src="/images/subscriber.png" style="width:70px; height:70px;" alt="subscriber">
+                </div>
+                <div class="separator"></div>
+                <div class="slot"><img src="/images/revenue.png" style="width:70px; height:70px;" alt="revenue"></div>
+                <div class="separator"></div>
+                <div class="slot"><img src="/images/revenue.png" style="width:70px; height:70px;" alt="revenue"></div>
+            </div>
+
+        </foreignObject>
+    </svg>
+    }
+    @if (isMobile) {
+    <svg id="capsule" viewBox="0 0 760 808" xmlns="http://www.w3.org/2000/svg"
+        style="width: 760px; height: 130px; max-width: 100%;">
+        <path class="capsule-path" d="M100,5 h560 a100,60 0 0 1 0,120 h-560 a100,60 0 0 1 0,-120 z" stroke="#BFBFBF"
+            stroke-width="1.6" fill="#ffffff" filter="url(#capsuleShadow)" />
+        <foreignObject x="55" y="20" width="650" height="90">
+            <div xmlns="http://www.w3.org/1999/xhtml" id="image-container">
+                <div class="mobile-layout">
+                    <div class="slot"><img src="/images/connect.png" style="width:70px; height:70px;" alt="connect">
+                        <div class="separator"></div>
+                        <img src="/images/dashboard.png" style="width:70px; height:70px;" alt="dashboard">
+                    </div>
+                    <div class="slot"><img src="/images/filter.png" style="width:70px; height:70px;" alt="filter">
+                        <div class="separator"></div>
+                        <img src="/images/subscriber.png" style="width:70px; height:70px;" alt="subscriber">
+                    </div>
+
+                    <div class="slot"><img src="/images/revenue.png" style="width:70px; height:70px;" alt="revenue">
+                        <div class="separator"></div>
+                        <img src="/images/revenue.png" style="width:70px; height:70px;" alt="revenue">
+                    </div>
+                </div>
+            </div>
+        </foreignObject>
+    </svg>
+    }
 </section>

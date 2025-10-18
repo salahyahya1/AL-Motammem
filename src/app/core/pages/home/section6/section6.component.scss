@@ -25,3 +25,11 @@
     background-color: #FFD700;
     border-radius: 2px;
 }
+
+@media (max-width: 700px) {
+
+    .separator2,
+    .separator4 {
+        display: none;
+    }
+}
