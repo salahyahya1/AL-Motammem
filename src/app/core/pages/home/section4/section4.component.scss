@@ -7,6 +7,18 @@
 .card {
     opacity: 0;
     transform: translateX(50px);
+    cursor: pointer;
+
+    // width: 19%;
+    // width: 100px;
+    // background-color: red;
+    // height: 00px;
+}
+
+.card:hover {
+    transform: scale(1.2) !important;
+    transition: all 0.7s;
+
     // width: 19%;
     // width: 100px;
     // background-color: red;

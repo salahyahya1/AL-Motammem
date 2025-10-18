@@ -12,7 +12,8 @@
     right: 0;
     width: 100%;
     z-index: 999;
-    transform: translateY(-100%);
+    // transform: translateY(-100%);
+    will-change: auto;
 }
 
 nav {
@@ -24,11 +25,23 @@ nav {
     visibility: hidden;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 765px) {
+
+    // nav {
+    //     transform: translateY(-120px);
+    //     position: absolute;
+    //     background-color: white;
+    //     z-index: 40;
+    // }
     nav {
-        transform: translateY(-120px);
-        position: absolute;
-        background-color: white;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    nav.closed {
+        opacity: 0;
+        visibility: hidden;
     }
 
     #hamprgerButton {
@@ -58,7 +71,7 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    // overflow: hidden;
 }
 
 #smooth-wrapper {

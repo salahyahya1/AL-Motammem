@@ -649,15 +649,24 @@ export class HomeComponent implements AfterViewInit {
     });
   }
 
+  // toggleMenu() {
+  //   this.menuOpen = !this.menuOpen;
+  //   const el = this.navbarMenu.nativeElement;
+  //   gsap.to(el, {
+  //     y: this.menuOpen ? 165 : -120,
+  //     opacity: this.menuOpen ? 1 : 0,
+  //     duration: 0.8,
+  //     ease: 'power2.inOut',
+  //   });
+  // }
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
-    const el = this.navbarMenu.nativeElement;
-    gsap.to(el, {
-      y: this.menuOpen ? 165 : -120,
-      opacity: this.menuOpen ? 1 : 0,
-      duration: 0.8,
-      ease: 'power2.inOut',
-    });
+    const nav = document.querySelector('nav');
+    if (this.menuOpen) {
+      nav?.classList.remove('closed');
+    } else {
+      nav?.classList.add('closed');
+    }
   }
 
   private animateNavbar() {
@@ -677,8 +686,8 @@ export class HomeComponent implements AfterViewInit {
       ignoreMobileResize: true,
       smoothTouch: 0.1,
     });
-
     requestAnimationFrame(() => ScrollTrigger.refresh());
+    ScrollTrigger.config({ ignoreMobileResize: true });
   }
 
   private observeSections() {
