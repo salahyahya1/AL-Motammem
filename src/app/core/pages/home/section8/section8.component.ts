@@ -51,7 +51,7 @@ export class Section8Component {
           trigger: '#section8',
           start: 'top top',
           end: "bottom bottom",
-          markers: false,
+          // markers: false,
         },
       });
 

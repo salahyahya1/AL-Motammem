@@ -30,8 +30,21 @@ ul {
         margin: auto;
     }
 
+    .card.card1 {
+        right: -3px !important;
+    }
+
+    .card.card3 {
+        left: 0px !important;
+    }
+
     .cards {
-        padding: 0;
+        padding-top: 20px !important;
+        padding-bottom: 10px !important;
+    }
+
+    #bottom-text {
+        padding-top: 20px !important;
     }
 
 }
