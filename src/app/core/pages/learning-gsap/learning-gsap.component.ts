@@ -1,16 +1,17 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, ChangeDetectorRef, Component, Inject, NgZone, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild, ViewEncapsulation } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
 import { SplitText } from "gsap/SplitText";
 import { VedioPlayerSsrComponent } from "../../shared/vedio-player-ssr/vedio-player-ssr.component";
+import { Section10Component } from "../home/section10/section10.component";
 gsap.registerPlugin(ScrollTrigger, SplitText);
 declare var YT: any;
 
 @Component({
   selector: 'app-learning-gsap',
-  imports: [CommonModule, VedioPlayerSsrComponent],
+  imports: [CommonModule, VedioPlayerSsrComponent, Section10Component],
   templateUrl: './learning-gsap.component.html',
   styleUrl: './learning-gsap.component.scss'
 })
@@ -1307,8 +1308,290 @@ export class LearningGSAPComponent {
   //   }
   //   console.log(isPlatformBrowser(this.platformId));
   // }
+  @ViewChild('track', { static: false }) trackRef!: ElementRef<HTMLDivElement>;
+  cards: HTMLElement[] = [];
+  ngAfterViewInit() {
+    if (typeof window === 'undefined') return;
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => {
+              const section50Details = document.querySelector('#section50-details') as HTMLElement;
+              const section50TITLE = document.querySelector('#section50-TITLE') as HTMLElement;
+              const section50DetailsSplit = SplitText.create(section50Details, { type: "words" });
+              const section50TITLESplit = SplitText.create(section50TITLE, { type: "words" });
+        const tl = gsap.timeline({
+          defaults: { ease: "power3.out" }, scrollTrigger: {
+            trigger: "#section50",
+            start: 'top top',
+            end: "150% bottom",
+            pin: true,
+            markers: true
+          }
+        });
+        let triggered = false;
+        tl.to("#Text5", { opacity: 1, y: 0, duration: 0.8, ease: 'power2.inOut' });
+        triggered = false;
+
+        const path = document.querySelector(".capsule-path") as SVGPathElement;
+        if (!path) return;
+        const length = path.getTotalLength();
+        tl.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
+        tl.to(path, {
+          strokeDashoffset: 0,
+          duration: 2,
+          ease: "power2.inOut",   
+        });
+gsap.set("#section50-TITLE", { perspective: 800 });
+
+              tl.fromTo(section50TITLESplit.words,
+        {      opacity: 0,
+  rotateY: gsap.utils.random(-80, 80),
+  filter: "blur(6px)"},
+  {
+  opacity: 1,
+  rotateY: 0,
+  y: 0,
+  filter: "blur(0px)",
+  duration: 1.2,
+  stagger: {
+    each: 0.25,
+    from: "start" 
+  }
+      ,
+          onStart: () => { gsap.set(section50Details, { opacity: 1, visibility: "visible" }) },
+        }
+      );
+              tl.fromTo(section50DetailsSplit.words,
+        { opacity: 0, visibility: "visible" },
+        {
+          opacity: 1,
+          duration: 0.8,
+          ease: "sine.out",
+          stagger: 0.1,
+          onStart: () => { gsap.set(section50Details, { opacity: 1, visibility: "visible" }) },
+        }
+      );
+              tl.fromTo("#capsule",
+        { y:0,scale:1.5},
+        {
+y:-100,
+scale:0.80,
+          ease: "sine.out",
+          stagger: 0.1,
+        }
+      );
+                    tl.fromTo("#section50Bottom",
+        { opacity:0 ,y:100},
+        {
+opacity:1,
+y:0,
+          ease: "sine.out",
+          stagger: 0.1,
+        },'=-0.5'
+      );
 
 
+
+      //  const track = document.querySelector('.carousel-track') as HTMLElement;
+      // const items = gsap.utils.toArray('.item') as HTMLElement[];
+
+      // const totalWidth = items.length * (items[0].offsetWidth + 32); // width + gap
+      // gsap.set(track, { width: totalWidth });
+
+      // const tl2 = gsap.timeline({ repeat: -1, defaults: { ease: 'none' } });
+      // tl2.to(track, {
+      //   x: -((items[0].offsetWidth + 32) * items.length / 2),
+      //   duration: 10,
+      // });
+
+
+      if (!isPlatformBrowser(this.platformId)) return;
+
+  //  const track = this.trackRef.nativeElement;
+  //     const cards = Array.from(track.querySelectorAll('.card')) as HTMLElement[];
+
+  //     let loopWidth = 0;
+  //     let speed = 0.8; // سرعة التحرك
+  //     let pos = 0;
+  //     let dragging = false;
+  //     let startX = 0;
+  //     let lastX = 0;
+
+  //     const setupLoop = () => {
+  //       if (!cards.length) return;
+  //       const cardWidth =
+  //         cards[0].offsetWidth +
+  //         parseFloat(getComputedStyle(track).columnGap || '32') ||
+  //         32;
+
+  //       loopWidth = cardWidth * cards.length;
+
+  //       // 🟢 خلي العناصر جنب بعض
+  //       gsap.set(cards, {
+  //         x: (i) => i * cardWidth,
+  //       });
+  //     };
+
+  //     const update = () => {
+  //       if (!dragging) pos -= speed;
+  //       if (pos <= -loopWidth) pos += loopWidth; // يرجع أول ما يخرج آخر كارت
+  //       gsap.set(track, { x: pos });
+  //       requestAnimationFrame(update);
+  //     };
+
+  //     setupLoop();
+  //     update();
+
+  //     // ✅ Pointer events
+  //     track.addEventListener('pointerdown', (e: PointerEvent) => {
+  //       dragging = true;
+  //       startX = e.clientX;
+  //       lastX = e.clientX;
+  //     });
+
+  //     window.addEventListener('pointermove', (e: PointerEvent) => {
+  //       if (!dragging) return;
+  //       const delta = e.clientX - lastX;
+  //       pos += delta;
+  //       lastX = e.clientX;
+  //     });
+
+  //     window.addEventListener('pointerup', () => {
+  //       dragging = false;
+  //     });
+
+  //     window.addEventListener('resize', setupLoop);
+
+
+      //   const track = this.trackRef.nativeElement;
+      // const cards = Array.from(track.querySelectorAll('.card')) as HTMLElement[];
+
+      // let loopWidth = 0;
+      // let speed = 1; // سرعة الحركة
+      // let pos = 0;
+      // let dragging = false;
+      // let lastX = 0;
+
+      // const setupLoop = () => {
+      //   if (!cards.length) return;
+
+      //   const cardWidth = cards[0].offsetWidth + 32; // width + margin
+      //   loopWidth = cardWidth * cards.length;
+
+      //   // ✅ كل كارت في مكانه
+      //   gsap.set(cards, {
+      //     x: (i) => i * cardWidth,
+      //   });
+      // };
+
+      // const animate = () => {
+      //   if (!dragging) pos -= speed;
+      //   if (pos <= -loopWidth) pos = 0;
+      //   gsap.set(track, { x: pos });
+      //   requestAnimationFrame(animate);
+      // };
+
+      // setupLoop();
+      // animate();
+
+      // // ✅ Drag support
+      // track.addEventListener('pointerdown', (e: PointerEvent) => {
+      //   dragging = true;
+      //   lastX = e.clientX;
+      // });
+
+      // window.addEventListener('pointermove', (e: PointerEvent) => {
+      //   if (!dragging) return;
+      //   const delta = e.clientX - lastX;
+      //   pos += delta;
+      //   lastX = e.clientX;
+      // });
+
+      // window.addEventListener('pointerup', () => {
+      //   dragging = false;
+      // });
+
+      // window.addEventListener('resize', setupLoop);
+  ///    //  const track = this.trackRef.nativeElement;
+  ///    // const cards = Array.from(track.querySelectorAll('.card')) as HTMLElement[];
+///
+  ///    // if (cards.length === 0) return;
+///
+  ///    // // ✅ كرر العناصر مرتين عشان اللوب يبقى سلس
+  ///    // cards.forEach((card) => {
+  ///    //   const clone = card.cloneNode(true) as HTMLElement;
+  ///    //   track.appendChild(clone);
+  ///    // });
+///
+  ///    // const allCards = Array.from(track.querySelectorAll('.card')) as HTMLElement[];
+  ///    // const cardWidth = allCards[0].offsetWidth + 32; // includes gap
+  ///    // const totalWidth = cardWidth * allCards.length;
+///
+  ///    // let x = 0;
+  ///    // const speed = 1.5; // السرعة
+///
+  ///    // function animate() {
+  ///    //   x -= speed;
+  ///    //   if (x <= -totalWidth / 2) x = 0; // ✅ يعيد اللوب بدون فراغ
+  ///    //   gsap.set(track, { x });
+  ///    //   requestAnimationFrame(animate);
+  ///    // }
+///
+  ///    // animate();
+
+    const track = this.trackRef.nativeElement;
+      const cards = Array.from(track.querySelectorAll('.card')) as HTMLElement[];
+
+      if (cards.length === 0) return;
+
+      // 🔁 ضاعف العناصر للّوب
+      cards.forEach((c) => track.appendChild(c.cloneNode(true)));
+
+      const allCards = Array.from(track.querySelectorAll('.card')) as HTMLElement[];
+      const cardWidth = allCards[0].offsetWidth + 32;
+      const halfWidth = (cardWidth * allCards.length) / 2;
+
+      let x = 0;
+      let speed = 1;
+      let dragging = false;
+      let lastX = 0;
+
+      // 🔄 الحركة التلقائية
+      function tick() {
+        if (!dragging) x -= speed;
+        if (x <= -halfWidth) x = 0;
+        gsap.set(track, { x });
+        requestAnimationFrame(tick);
+      }
+      tick();
+
+      // 🖱️ السحب اليدوي
+      track.addEventListener('pointerdown', (e: PointerEvent) => {
+        dragging = true;
+        lastX = e.clientX;
+      });
+
+      window.addEventListener('pointermove', (e: PointerEvent) => {
+        if (!dragging) return;
+        const delta = e.clientX - lastX;
+        x += delta;
+        lastX = e.clientX;
+      });
+
+      window.addEventListener('pointerup', () => {
+        dragging = false;
+      });
+
+      // 🔄 إعادة الحساب عند تغيير الحجم
+      window.addEventListener('resize', () => {
+        const w = allCards[0].offsetWidth + 32;
+        x = 0;
+        gsap.set(track, { x: 0 });
+      });
+      });
+    });
+  }
 
 }
 

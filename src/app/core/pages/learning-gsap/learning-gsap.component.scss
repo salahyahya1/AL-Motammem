@@ -169,3 +169,63 @@
 //////  -webkit-mask-position: 0 0;
 //////  mask-position: 0 0;
 //////}
+/// 
+#erp {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #bde3ff;
+  font-family: "Amiri", "Noto Naskh Arabic", serif;
+  text-align: center;
+  white-space: nowrap;
+  perspective: 800px;
+}
+
+.word {
+  display: inline-block;
+  transform-origin: center center;
+  transform-style: preserve-3d;
+}
+#capsule {
+background-color: transparent;
+}
+.capsule-path{
+    opacity: 0;
+}
+#section50Bottom{
+    opacity: 0;
+}
+.carousel {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  will-change: transform;
+}
+
+.card {
+  width: 260px;
+  height: 180px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+  color: white;
+  font-size: 3rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
