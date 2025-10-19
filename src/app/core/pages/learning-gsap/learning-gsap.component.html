@@ -209,6 +209,8 @@ class="capsule-path"
     </div>
 
      <div class="carousel overflow-hidden">
+      <button class="arrow right" (click)="moveRight()">&#x276F;</button>
+
     <div #track class="carousel-track">
       <div class="card bg-red-500">1</div>
       <div class="card bg-green-500">2</div>
@@ -220,6 +222,7 @@ class="capsule-path"
       <div class="card bg-yellow-500">8</div>
       <div class="card bg-blue-500">9</div>
     </div>
+      <button class="arrow left" (click)="moveLeft()">&#x276E;</button>
   </div>
 </div>
 <!-- <app-section10></app-section10> -->

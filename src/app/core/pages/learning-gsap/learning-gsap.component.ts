@@ -1310,6 +1310,11 @@ export class LearningGSAPComponent {
   // }
   @ViewChild('track', { static: false }) trackRef!: ElementRef<HTMLDivElement>;
   cards: HTMLElement[] = [];
+    private x = 0;
+  private speed = 1.5;
+  private dragging = false;
+  private lastX = 0;
+  private halfWidth = 0;
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;
     if (!isPlatformBrowser(this.platformId)) return;
@@ -1539,60 +1544,119 @@ y:0,
   ///    // }
 ///
   ///    // animate();
+////last worked one
+    // const track = this.trackRef.nativeElement;
+    //   const cards = Array.from(track.querySelectorAll('.card')) as HTMLElement[];
 
-    const track = this.trackRef.nativeElement;
+    //   if (cards.length === 0) return;
+
+    //   // 🔁 ضاعف العناصر للّوب
+    //   cards.forEach((c) => track.appendChild(c.cloneNode(true)));
+
+    //   const allCards = Array.from(track.querySelectorAll('.card')) as HTMLElement[];
+    //   const cardWidth = allCards[0].offsetWidth + 32;
+    //   const halfWidth = (cardWidth * allCards.length) / 2;
+
+    //   let x = 0;
+    //   let speed = 1;
+    //   let dragging = false;
+    //   let lastX = 0;
+
+    //   // 🔄 الحركة التلقائية
+    //   function tick() {
+    //     if (!dragging) x -= speed;
+    //     if (x <= -halfWidth) x = 0;
+    //     gsap.set(track, { x });
+    //     requestAnimationFrame(tick);
+    //   }
+    //   tick();
+
+    //   // 🖱️ السحب اليدوي
+    //   track.addEventListener('pointerdown', (e: PointerEvent) => {
+    //     dragging = true;
+    //     lastX = e.clientX;
+    //   });
+
+    //   window.addEventListener('pointermove', (e: PointerEvent) => {
+    //     if (!dragging) return;
+    //     const delta = e.clientX - lastX;
+    //     x += delta;
+    //     lastX = e.clientX;
+    //   });
+
+    //   window.addEventListener('pointerup', () => {
+    //     dragging = false;
+    //   });
+
+    //   // 🔄 إعادة الحساب عند تغيير الحجم
+    //   window.addEventListener('resize', () => {
+    //     const w = allCards[0].offsetWidth + 32;
+    //     x = 0;
+    //     gsap.set(track, { x: 0 });
+    //   });
+  const track = this.trackRef.nativeElement;
       const cards = Array.from(track.querySelectorAll('.card')) as HTMLElement[];
 
-      if (cards.length === 0) return;
-
-      // 🔁 ضاعف العناصر للّوب
+      // 🔁 نكرر العناصر للّوب
       cards.forEach((c) => track.appendChild(c.cloneNode(true)));
 
       const allCards = Array.from(track.querySelectorAll('.card')) as HTMLElement[];
       const cardWidth = allCards[0].offsetWidth + 32;
-      const halfWidth = (cardWidth * allCards.length) / 2;
+      this.halfWidth = (cardWidth * allCards.length) / 2;
 
-      let x = 0;
-      let speed = 1;
-      let dragging = false;
-      let lastX = 0;
+      const animate = () => {
+        if (!this.dragging) this.x -= this.speed;
+        if (this.x <= -this.halfWidth) this.x = 0;
+        gsap.set(track, { x: this.x });
+        requestAnimationFrame(animate);
+      };
 
-      // 🔄 الحركة التلقائية
-      function tick() {
-        if (!dragging) x -= speed;
-        if (x <= -halfWidth) x = 0;
-        gsap.set(track, { x });
-        requestAnimationFrame(tick);
-      }
-      tick();
+      animate();
 
-      // 🖱️ السحب اليدوي
+      // 🖱️ سحب الماوس
       track.addEventListener('pointerdown', (e: PointerEvent) => {
-        dragging = true;
-        lastX = e.clientX;
+        this.dragging = true;
+        this.lastX = e.clientX;
       });
 
       window.addEventListener('pointermove', (e: PointerEvent) => {
-        if (!dragging) return;
-        const delta = e.clientX - lastX;
-        x += delta;
-        lastX = e.clientX;
+        if (!this.dragging) return;
+        const delta = e.clientX - this.lastX;
+        this.x += delta;
+        this.lastX = e.clientX;
       });
 
       window.addEventListener('pointerup', () => {
-        dragging = false;
+        this.dragging = false;
       });
 
-      // 🔄 إعادة الحساب عند تغيير الحجم
-      window.addEventListener('resize', () => {
-        const w = allCards[0].offsetWidth + 32;
-        x = 0;
-        gsap.set(track, { x: 0 });
+    
       });
+    });
+  }
+moveLeft() {
+    this.ngZone.runOutsideAngular(() => {
+      gsap.to(this, {
+        duration: 0.4,
+        x: this.x + 300, // رجّع كارت واحد
+        onUpdate: () => {
+          gsap.set(this.trackRef.nativeElement, { x: this.x });
+        },
       });
     });
   }
 
+  moveRight() {
+    this.ngZone.runOutsideAngular(() => {
+      gsap.to(this, {
+        duration: 0.4,
+        x: this.x - 300, // قدم كارت واحد
+        onUpdate: () => {
+          gsap.set(this.trackRef.nativeElement, { x: this.x });
+        },
+      });
+    });
+  }
 }
 
 

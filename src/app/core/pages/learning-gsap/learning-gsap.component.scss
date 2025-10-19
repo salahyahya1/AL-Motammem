@@ -229,3 +229,31 @@ background-color: transparent;
     cursor: grabbing;
   }
 }
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  z-index: 5;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  &.left {
+    left: 30px;
+  }
+
+  &.right {
+    right: 30px;
+  }
+}
