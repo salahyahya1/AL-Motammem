@@ -207,10 +207,9 @@ class="capsule-path"
 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, non.</p>
 </div>
     </div>
-
+<!-- 
      <div class="carousel overflow-hidden">
-      <button class="arrow right" (click)="moveRight()">&#x276F;</button>
-
+    <button class="arrow right bg-blue-600" (click)="moveRight()">&#x276E;</button>
     <div #track class="carousel-track">
       <div class="card bg-red-500">1</div>
       <div class="card bg-green-500">2</div>
@@ -222,8 +221,30 @@ class="capsule-path"
       <div class="card bg-yellow-500">8</div>
       <div class="card bg-blue-500">9</div>
     </div>
-      <button class="arrow left" (click)="moveLeft()">&#x276E;</button>
+    <button class="arrow left" (click)="moveLeft()">&#x276F;</button>
+
+  </div> -->
+  <!-- <section class="carousel">
+  <button class="arrow left" (click)="moveLeft()">&#x276E;</button>
+
+  <div #track class="carousel-track">
+    <div class="card" *ngFor="let n of cards">{{ n }}</div>
   </div>
+
+  <button class="arrow right" (click)="moveRight()">&#x276F;</button>
+</section> -->
+<div class="controls">
+  <button (click)="prev()">‹</button>
+  <button (click)="next()">›</button>
+</div>
+
+<div class="wrapper">
+  <div #box class="box" *ngFor="let n of boxesList">
+    <div class="box__inner">{{ n }}</div>
+  </div>
+</div>
+
+
 </div>
 <!-- <app-section10></app-section10> -->
 <div class="h-screen bg-red-200"></div>
