@@ -172,25 +172,48 @@ export class Section3Component {
             onStart: () => { gsap.set(section50Details, { opacity: 1, visibility: "visible" }) },
             onComplete: () => {
               gsap.to(video, {
-                display: 'none'
-              })
+                opacity: 0,
+                duration: 1.5,
+                ease: "power2.out",
+                onComplete: () => {
+                  video.pause();
+                  gsap.set(video, { display: 'none' });
+                }
+              });
             }
           }
         );
-        tl.fromTo("#capsule",
-          { y: 78, scale: 1.5 },
-          {
-            y: -60,
-            scale: 1,
-            ease: "sine.out",
-            stagger: 0.1,
-            onStart: () => {
-              gsap.to('#section50', {
-                backgroundColor: 'white'
-              })
-            }
-          }, ">-0.3"
-        );
+        // tl.fromTo("#capsule",
+        //   { y: 78, scale: 1.5 },
+        //   {
+        //     y: -60,
+        //     scale: 1,
+        //     ease: "sine.out",
+        //     stagger: 0.1,
+        //     onStart: () => {
+        //       gsap.to('#section50', {
+        //         backgroundColor: 'white'
+        //       })
+        //     }
+        //   }, ">-0.3"
+        // );
+        tl.to("#capsule", {
+          scale: 0.85,
+          duration: 1,
+          ease: "power2.inOut",
+          onStart: () => {
+            gsap.to('#section50', {
+              backgroundColor: '#ffffff',
+              duration: 1.2,
+              ease: "power2.inOut"
+            });
+          }
+        }, ">+0.3");
+        tl.to("#capsule", {
+          y: -60,
+          duration: 1,
+          ease: "power2.inOut",
+        }, ">-0.4");
         tl.fromTo("#section50Bottom",
           { opacity: 0, y: 100 },
           {
@@ -198,7 +221,7 @@ export class Section3Component {
             y: 0,
             ease: "sine.out",
             stagger: 0.1,
-          }, "<"
+          }, "<+0.5"
         );
 
         Swiper.use([Navigation]);
