@@ -102,12 +102,12 @@ export class Section3Component {
         const section50DetailsSplit = SplitText.create(section50Details, { type: "words" });
         const section50TITLESplit = SplitText.create(section50TITLE, { type: "words" });
         ScrollTrigger.create({
-          trigger: 'section50',
+          trigger: '#section50',
           start: 'top top',
           end: "150% bottom",
           pin: true,
           pinType: 'transform',
-          // markers: true,
+          markers: true,
           id: 'pinsection',
           onEnter: () => {
             video.play();

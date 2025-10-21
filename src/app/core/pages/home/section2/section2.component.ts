@@ -20,7 +20,7 @@ export class Section2Component {
 
   ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
-
+    let playedOnce = false;
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         document.fonts.ready.then(() => {
@@ -143,14 +143,19 @@ export class Section2Component {
           ///////////////
           ScrollTrigger.create({
             trigger: triggerEl || section,  // عنصر داخل السكشن
-            start: '-10% top',
-            end: '+=50%', // يفضل تستخدم قيمة محددة
-            pin: true,
+            start: 'top top',
+            end: '+=400', // يفضل تستخدم قيمة محددة
             scrub: true, pinType: 'transform',
+            pin: true,
             // markers: true,
             id: 'pinsection',
             onEnter: () => {
-              video.play();
+              if (!playedOnce) {
+                playedOnce = true;
+                video.currentTime = 0;
+                // video.play().catch(() => console.warn('Autoplay prevented'));
+                video.play();
+              }
             },
           });
           video.addEventListener('ended', () => {
@@ -158,7 +163,7 @@ export class Section2Component {
               defaults: { ease: 'power3.out' },
               scrollTrigger: {
                 trigger: triggerEl || section,
-                start: '-5% top',
+                start: '-50% top',
                 end: '+=400',
                 // scrub: true,
                 // markers: true,
