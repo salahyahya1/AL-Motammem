@@ -93,7 +93,7 @@ export class Section3Component {
   async ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
     if (typeof window === 'undefined') return;
-
+    let playedOnce = false;
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         const video = document.getElementById('bg-vedio') as HTMLVideoElement;
@@ -107,10 +107,15 @@ export class Section3Component {
           end: "150% bottom",
           pin: true,
           pinType: 'transform',
-          markers: true,
+          // markers: true,
           id: 'pinsection',
           onEnter: () => {
-            video.play();
+            if (!playedOnce) {
+              playedOnce = true;
+              video.currentTime = 0;
+              // video.play().catch(() => console.warn('Autoplay prevented'));
+              video.play();
+            }
           },
         });
         const tl = gsap.timeline({
