@@ -104,7 +104,7 @@ export class Section3Component {
         ScrollTrigger.create({
           trigger: 'section50',
           start: 'top top',
-          end: '+=50%',
+          end: "150% bottom",
           pin: true,
           pinType: 'transform',
           // markers: true,

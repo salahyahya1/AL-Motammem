@@ -639,6 +639,7 @@ export class HomeComponent implements AfterViewInit {
   sections = [
     { id: 'section1', label: 'section1', wholeSectionId: "section1" },
     { id: 'section2', label: 'section2', wholeSectionId: "section2" },
+    { id: 'section3', label: 'section3', wholeSectionId: "section3" },
     { id: 'section4', label: 'section4', wholeSectionId: "section4" },
     { id: 'section5', label: 'section5', wholeSectionId: "section5" },
     { id: 'section10', label: 'section10', wholeSectionId: "section10" },

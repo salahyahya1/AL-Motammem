@@ -143,7 +143,7 @@ export class Section2Component {
           ///////////////
           ScrollTrigger.create({
             trigger: triggerEl || section,  // عنصر داخل السكشن
-            start: 'top top',
+            start: '-10% top',
             end: '+=50%', // يفضل تستخدم قيمة محددة
             pin: true,
             scrub: true, pinType: 'transform',
