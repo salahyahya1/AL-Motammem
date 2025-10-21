@@ -1,1 +1,61 @@
-<p>section3 works!</p>
+<div id="section50" class="h-screen w-full bg-white relative flex flex-col justify-center items-center">
+    <svg id="capsule" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg"
+        style="width: 757px; height: 131px; max-width: 90%;" class="md:w-[761px] mt-10 scale-150">
+        <path class="capsule-path" d="M100,5 
+         h560 
+         a100,60 0 0 1 0,120 
+         h-560 
+         a100,60 0 0 1 0,-120 
+         z" stroke="var(--dark-gray)" stroke-width="3" fill="#00000000" filter="url(#capsuleShadow)" />
+
+        <foreignObject x="35" y="10" width="689" height="96">
+
+            <div class="text-center">
+                <P id="section50-TITLE"> هذا نص عربي تجريبي يستخدم كبديل مؤقت للنص الحقيقي في التصميم.</P>
+                <p id="section50-details"
+                    class="mt-4 pe-5  text-[var(--dark-gray)] md:text-[1rem] lg:text-[1.2rem] xl:text-[1.9rem] md:text-base leading-relaxed font-normal">
+                    هذا نص عربي تجريبي يستخدم كبديل مؤقت للنص الحقيقي في التصميم. هذا نص عربي تجريبي يستخدم كبديل مؤقت
+                    للنص
+                    الحقيقي في التصميم.
+                </p>
+            </div>
+        </foreignObject>
+    </svg>
+    <div id="section50Bottom" class="erp-carousel">
+        <div class="controls">
+            <button id="arrowRight" class="arrow right" aria-label="التالي">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M9 6L15 12L9 18" stroke="#9e9e9e" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <button id="arrowLeft" class="arrow left" aria-label="السابق">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 18L9 12L15 6" stroke="#9e9e9e" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+
+        <div #swiperEl class="swiper" dir="rtl">
+            <div class="swiper-wrapper px-[30px]">
+                <div class="swiper-slide" *ngFor="let f of features">
+                    <div class="card">
+                        <div class="text-content">
+                            <h3>{{ f.title }}</h3>
+                            <p>{{ f.text }}</p>
+                        </div>
+                    </div>
+                    <P class="separator"></P>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <video id="bg-vedio" preload="auto" muted playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
+        <source src="./vedios/white bg.mp4" type="video/mp4">
+        متصفحك لا يدعم تشغيل الفيديو.
+    </video>
+</div>

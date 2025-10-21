@@ -172,86 +172,70 @@ class="capsule-path"
 </svg> -->
 
 <div class="h-screen bg-blue-200"></div>
-<div id="section50" class="h-screen w-full flex flex-col justify-center items-center bg-green-200"> 
-      <svg id="capsule" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg"
-        style="width: 757px; height: 131px; max-width: 90%;" class="md:w-[761px] mt-10 scale-150">
-        <path class="capsule-path" d="M100,5 
+<div id="section50" class="h-screen w-full bg-white relative flex flex-col justify-center items-center">
+  <svg id="capsule" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg"
+    style="width: 757px; height: 131px; max-width: 90%;" class="md:w-[761px] mt-10 scale-150">
+    <path class="capsule-path" d="M100,5 
          h560 
          a100,60 0 0 1 0,120 
          h-560 
          a100,60 0 0 1 0,-120 
-         z" stroke="#BFBFBF" stroke-width="3" fill="#00000000" filter="url(#capsuleShadow)" />
+         z" stroke="var(--dark-gray)" stroke-width="3" fill="#00000000" filter="url(#capsuleShadow)" />
 
-        <foreignObject x="35" y="10" width="689" height="96">
-   
-<div class="text-center">
-  <P id="section50-TITLE">  هذا نص عربي تجريبي يستخدم كبديل مؤقت للنص الحقيقي في التصميم.</P>
-          <p id="section50-details"
-            class="mt-4 pe-5  text-[var(--dark-gray)] md:text-[1rem] lg:text-[1.2rem] xl:text-[1.9rem] md:text-base leading-relaxed font-normal">
-  هذا نص عربي تجريبي يستخدم كبديل مؤقت للنص الحقيقي في التصميم.  هذا نص عربي تجريبي يستخدم كبديل مؤقت للنص الحقيقي في التصميم.
+    <foreignObject x="35" y="10" width="689" height="96">
+
+      <div class="text-center">
+        <P id="section50-TITLE"> هذا نص عربي تجريبي يستخدم كبديل مؤقت للنص الحقيقي في التصميم.</P>
+        <p id="section50-details"
+          class="mt-4 pe-5  text-[var(--dark-gray)] md:text-[1rem] lg:text-[1.2rem] xl:text-[1.9rem] md:text-base leading-relaxed font-normal">
+          هذا نص عربي تجريبي يستخدم كبديل مؤقت للنص الحقيقي في التصميم. هذا نص عربي تجريبي يستخدم كبديل مؤقت للنص
+          الحقيقي في التصميم.
         </p>
-</div>
-        </foreignObject>
-    </svg>
-    <div id="section50Bottom" class="bg-red-700 w-[80%] flex justify-center items-center ">
-<div class=" w-[100px] h-[100px] bg-blue-600">
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, non.</p>
-</div>
-<div class=" w-[100px] h-[100px] bg-blue-600">
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, non.</p>
-</div>
-<div class=" w-[100px] h-[100px] bg-blue-600">
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, non.</p>
-</div>
-<div class=" w-[100px] h-[100px] bg-blue-600">
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, non.</p>
-</div>
+      </div>
+    </foreignObject>
+  </svg>
+  <div id="section50Bottom" class="erp-carousel">
+    <div class="controls">
+      <button id="arrowRight" class="arrow right" aria-label="التالي">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M9 6L15 12L9 18" stroke="#9e9e9e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+
+      <button id="arrowLeft" class="arrow left" aria-label="السابق">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M15 18L9 12L15 6" stroke="#9e9e9e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
     </div>
-<!-- 
-     <div class="carousel overflow-hidden">
-    <button class="arrow right bg-blue-600" (click)="moveRight()">&#x276E;</button>
-    <div #track class="carousel-track">
-      <div class="card bg-red-500">1</div>
-      <div class="card bg-green-500">2</div>
-      <div class="card bg-blue-500">3</div>
-      <div class="card bg-yellow-500">4</div>
-      <div class="card bg-blue-500">5</div>
-      <div class="card bg-yellow-500">6</div>
-      <div class="card bg-blue-500">7</div>
-      <div class="card bg-yellow-500">8</div>
-      <div class="card bg-blue-500">9</div>
+
+    <div #swiperEl class="swiper" dir="rtl">
+      <div class="swiper-wrapper px-[30px]">
+        <div class="swiper-slide" *ngFor="let f of features">
+          <div class="card">
+            <div class="text-content">
+              <h3>{{ f.title }}</h3>
+              <p>{{ f.text }}</p>
+            </div>
+          </div>
+          <P class="separator"></P>
+        </div>
+      </div>
     </div>
-    <button class="arrow left" (click)="moveLeft()">&#x276F;</button>
 
-  </div> -->
-  <!-- <section class="carousel">
-  <button class="arrow left" (click)="moveLeft()">&#x276E;</button>
 
-  <div #track class="carousel-track">
-    <div class="card" *ngFor="let n of cards">{{ n }}</div>
   </div>
-
-  <button class="arrow right" (click)="moveRight()">&#x276F;</button>
-</section> -->
-<div class="controls">
-  <button (click)="prev()">‹</button>
-  <button (click)="next()">›</button>
-</div>
-
-<div class="wrapper">
-  <div #box class="box" *ngFor="let n of boxesList">
-    <div class="box__inner">{{ n }}</div>
-  </div>
-</div>
-
-
+  <video id="bg-vedio" preload="auto" muted playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
+    <source src="./vedios/white bg.mp4" type="video/mp4">
+    متصفحك لا يدعم تشغيل الفيديو.
+  </video>
 </div>
 <!-- <app-section10></app-section10> -->
 <div class="h-screen bg-red-200"></div>
 <!-- <div id="section10" class="min-h-[140vh] bg-white">
   <div id="section10TOP"
     class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative pb-8 gap-y-15 pb-16 lg:pb-20 md:pt-35 lg:pt-45 min-h-[80vh] bg-white"> -->
-    <!-- <div class="relative bg-red-900 flex justify-center items-center">
+<!-- <div class="relative bg-red-900 flex justify-center items-center">
       <div class="w-[250px] h-[140px] bg-sky-700 absolute top-0 rounded-2xl">
         <div class="flex space-x-1 text-yellow-400 text-xl flex justify-center items-center pt-10">
           <span>★</span>
