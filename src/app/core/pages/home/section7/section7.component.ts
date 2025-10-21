@@ -113,7 +113,7 @@ export class Section7Component {
             // right: 50,
             autoAlpha: 0,
           }, {
-            right: 130,
+            right: 0,
             autoAlpha: 1,
             duration: 1.5,
             ease: "sine.out",
@@ -123,7 +123,7 @@ export class Section7Component {
             // left: -14,
           }, {
             autoAlpha: 1,
-            left: 130,
+            left: 0,
             duration: 1.5,
             ease: "sine.out",
           }, '<')

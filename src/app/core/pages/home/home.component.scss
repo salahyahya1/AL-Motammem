@@ -12,14 +12,18 @@
     right: 0;
     width: 100%;
     z-index: 999;
-    // transform: translateY(-100%);
+    transform: translateY(-100%);
     will-change: auto;
 }
 
-nav {
-    // transform: translateY(-94px);
-    // background-color: white;
-}
+// .navbar {
+//     transform: none !important;
+//     opacity: 1 !important;
+// }
+// nav {
+// transform: translateY(-94px);
+// background-color: white;
+// }
 
 #hamprgerButton {
     visibility: hidden;
@@ -83,6 +87,8 @@ body {
 
 #smooth-content {
     will-change: transform;
+    /* Ensure content area starts with white to avoid blue/primary flashes during initialization */
+    background-color: var(--white);
 }
 
 // .panel {

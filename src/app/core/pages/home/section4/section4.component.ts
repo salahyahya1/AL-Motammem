@@ -45,8 +45,8 @@ export class Section4Component {
         opacity: 1,
         x: 0,
         duration: 0.8,
-        stagger: 0.25,
-      });
+        stagger: 0.20,
+      }, "-1.5");
       tl.to("#Text2", {
         opacity: 1,
         y: 0,

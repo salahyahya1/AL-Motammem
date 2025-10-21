@@ -1,288 +1,288 @@
-// .cards {
-//   display: flex;
-//   flex-wrap: wrap;
-//   gap: 20px;
-//   justify-content: center;
-//   align-items: center;
-//   padding: 40px;
-//   width: 70%;
-//   margin: auto;
+// // .cards {
+// //   display: flex;
+// //   flex-wrap: wrap;
+// //   gap: 20px;
+// //   justify-content: center;
+// //   align-items: center;
+// //   padding: 40px;
+// //   width: 70%;
+// //   margin: auto;
+// // }
+
+// // .card {
+// //   width: 200px;
+// //   height: 200px;
+// //   background: linear-gradient(135deg, #2d398d, #4c5ce6);
+// //   color: white;
+// //   font-size: 2rem;
+// //   display: flex;
+// //   justify-content: center;
+// //   align-items: center;
+// //   border-radius: 20px;
+// //   opacity: 0;
+// //   transform: translateX(50px);
+// // }
+// ///// #Text1{
+// /////     font-size: xx-large;
+// /////     transform: translateY(100px);
+// /////     opacity: 0;
+// /////     font-size: 1.5rem;
+// ///// }
+// ///
+// ///// #capsule {
+// /////   display: block;
+// /////   margin: 50px auto;
+// ///// }
+// ///
+// ///// .capsule-path {
+// /////   stroke: #000;
+// /////   stroke-width: 3;
+// /////   fill: none;
+// /////   opacity: 0;
+// ///// }
+// ///// .img-item {
+// /////   position: relative;
+// /////   opacity: 1;
+// /////   transform: translateY(0);
+// ///// }
+// ///// #image-container {
+// /////   display: flex;
+// /////   align-items: center;
+// /////   justify-content: center;
+// /////   height: 100%;
+// /////   position: relative;
+// /////   overflow: hidden;
+// /////   opacity: 0;
+// ///// }
+// ///
+// ///// .slot {
+// /////   display: flex;
+// /////   align-items: center;
+// /////   justify-content: center;
+// /////   padding: 0 10px;
+// ///// }
+// ///
+// ///// .separator {
+// /////   width: 4px;             
+// /////   height: 70px;            
+// /////   background-color: #FFD700; 
+// /////   border-radius: 2px;      
+// ///// }
+// /// text and the three cards
+// /////////////////////////////////////////////////////////////////////////// #Text1{
+// ///////////////////////////////////////////////////////////////////////////     font-size: xx-large;
+// ///////////////////////////////////////////////////////////////////////////     opacity: 0;
+// ///////////////////////////////////////////////////////////////////////////     font-size: 1.5rem;
+// /////////////////////////////////////////////////////////////////////////// }
+// /////////////////////////////////////////////////////////////////////////// .cards{
+// ///////////////////////////////////////////////////////////////////////////  margin: auto;
+// ///////////////////////////////////////////////////////////////////////////  display: flex;
+// ///////////////////////////////////////////////////////////////////////////justify-content: center; }
+// /////////////////////////////////////////////////////////////////////////// .card{
+// ///////////////////////////////////////////////////////////////////////////  text-align: center;
+// ///////////////////////////////////////////////////////////////////////////  padding: 5px;
+// ///////////////////////////////////////////////////////////////////////////  padding-top: 100px;
+// ///////////////////////////////////////////////////////////////////////////  opacity: 0;
+// ///////////////////////////////////////////////////////////////////////////  width: 200px;
+// ///////////////////////////////////////////////////////////////////////////  height: 50vh;
+// /////////////////////////////////////////////////////////////////////////// }
+// /////////////////////////////////////////////////////////////////////////// .card1{
+// ///////////////////////////////////////////////////////////////////////////    position: absolute;
+// ///////////////////////////////////////////////////////////////////////////    background: rgb(0, 183, 255);
+// ///////////////////////////////////////////////////////////////////////////    z-index: -1;
+// /////////////////////////////////////////////////////////////////////////// }
+// /////////////////////////////////////////////////////////////////////////// .card1.active {
+// ///////////////////////////////////////////////////////////////////////////  transform: translateX(0);
+// ///////////////////////////////////////////////////////////////////////////}
+// /////////////////////////////////////////////////////////////////////////// .card2{
+// ///////////////////////////////////////////////////////////////////////////  position: absolute;
+// ///////////////////////////////////////////////////////////////////////////    background: rgb(208, 255, 0);
+// /////////////////////////////////////////////////////////////////////////// }
+// /////////////////////////////////////////////////////////////////////////// .card3{
+// ///////////////////////////////////////////////////////////////////////////  position: absolute;
+// ///////////////////////////////////////////////////////////////////////////    background: rgb(255, 196, 0);
+// ///////////////////////////////////////////////////////////////////////////        z-index: -1;
+// /////////////////////////////////////////////////////////////////////////// }
+
+// //////#Text1{
+// //////     font-size: xx-large;
+// //////     opacity: 0;
+// //////     font-size: 1.5rem;
+// ////// }
+// //////
+// ////// .stats {
+// //////  min-height: 100vh;
+// //////  display: grid;
+// //////  place-items: center;
+// //////  padding: 6rem 1rem;
+// //////}
+// //////
+// //////.hero-title,
+// //////.stat-card,
+// //////.cta-btn {
+// //////  opacity: 0;
+// //////  transform: translateY(30px);
+// //////  will-change: opacity, transform;
+// //////}
+// //////
+// //////.stats-grid {
+// //////  display: grid;
+// //////  grid-template-columns: repeat(3, minmax(180px, 1fr));
+// //////  gap: 28px;
+// //////  margin-block: 28px;
+// //////}
+// //////
+// //////.stat-card {
+// //////  background: skyblue;
+// //////  border-radius: 16px;
+// //////  padding: 24px;
+// //////  text-align: center;
+// //////  opacity: 0;
+// //////}
+// //////
+// //////.counter {
+// //////  font-size: 42px;
+// //////  font-weight: 800;
+// //////  line-height: 1;
+// //////}
+// //////.label {
+// //////  // opacity: 0;
+// //////  // transform: translateY(10px);
+// //////}
+// //////
+// ///////* 🌈 تأثير mask من اليمين */
+// //////.mask-right {
+// //////  -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
+// //////  mask-image: linear-gradient(to left, black 0%, transparent 100%);
+// //////  -webkit-mask-size: 200% 100%;
+// //////  mask-size: 200% 100%;
+// //////  -webkit-mask-position: 100% 0;
+// //////  mask-position: 100% 0;
+// //////}
+// //////
+// ///////* 🌈 تأثير mask من الشمال */
+// //////.mask-left {
+// //////  -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
+// //////  mask-image: linear-gradient(to right, black 0%, transparent 100%);
+// //////  -webkit-mask-size: 200% 100%;
+// //////  mask-size: 200% 100%;
+// //////  -webkit-mask-position: 0 0;
+// //////  mask-position: 0 0;
+// //////}
+// /// 
+// #erp {
+//   font-size: 3rem;
+//   font-weight: 700;
+//   font-family: "Amiri", "Noto Naskh Arabic", serif;
+//   text-align: center;
+//   white-space: nowrap;
+//   perspective: 800px;
 // }
 
-// .card {
-//   width: 200px;
-//   height: 200px;
-//   background: linear-gradient(135deg, #2d398d, #4c5ce6);
-//   color: white;
-//   font-size: 2rem;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   border-radius: 20px;
+// .word {
+//   display: inline-block;
+//   transform-origin: center center;
+//   transform-style: preserve-3d;
+// }
+
+// #capsule {
+//   background-color: transparent;
+// }
+
+// .capsule-path {
 //   opacity: 0;
-//   transform: translateX(50px);
 // }
-///// #Text1{
-/////     font-size: xx-large;
-/////     transform: translateY(100px);
-/////     opacity: 0;
-/////     font-size: 1.5rem;
-///// }
-///
-///// #capsule {
-/////   display: block;
-/////   margin: 50px auto;
-///// }
-///
-///// .capsule-path {
-/////   stroke: #000;
-/////   stroke-width: 3;
-/////   fill: none;
-/////   opacity: 0;
-///// }
-///// .img-item {
-/////   position: relative;
-/////   opacity: 1;
-/////   transform: translateY(0);
-///// }
-///// #image-container {
-/////   display: flex;
-/////   align-items: center;
-/////   justify-content: center;
-/////   height: 100%;
-/////   position: relative;
-/////   overflow: hidden;
-/////   opacity: 0;
-///// }
-///
-///// .slot {
-/////   display: flex;
-/////   align-items: center;
-/////   justify-content: center;
-/////   padding: 0 10px;
-///// }
-///
-///// .separator {
-/////   width: 4px;             
-/////   height: 70px;            
-/////   background-color: #FFD700; 
-/////   border-radius: 2px;      
-///// }
-/// text and the three cards
-/////////////////////////////////////////////////////////////////////////// #Text1{
-///////////////////////////////////////////////////////////////////////////     font-size: xx-large;
-///////////////////////////////////////////////////////////////////////////     opacity: 0;
-///////////////////////////////////////////////////////////////////////////     font-size: 1.5rem;
-/////////////////////////////////////////////////////////////////////////// }
-/////////////////////////////////////////////////////////////////////////// .cards{
-///////////////////////////////////////////////////////////////////////////  margin: auto;
-///////////////////////////////////////////////////////////////////////////  display: flex;
-///////////////////////////////////////////////////////////////////////////justify-content: center; }
-/////////////////////////////////////////////////////////////////////////// .card{
-///////////////////////////////////////////////////////////////////////////  text-align: center;
-///////////////////////////////////////////////////////////////////////////  padding: 5px;
-///////////////////////////////////////////////////////////////////////////  padding-top: 100px;
-///////////////////////////////////////////////////////////////////////////  opacity: 0;
-///////////////////////////////////////////////////////////////////////////  width: 200px;
-///////////////////////////////////////////////////////////////////////////  height: 50vh;
-/////////////////////////////////////////////////////////////////////////// }
-/////////////////////////////////////////////////////////////////////////// .card1{
-///////////////////////////////////////////////////////////////////////////    position: absolute;
-///////////////////////////////////////////////////////////////////////////    background: rgb(0, 183, 255);
-///////////////////////////////////////////////////////////////////////////    z-index: -1;
-/////////////////////////////////////////////////////////////////////////// }
-/////////////////////////////////////////////////////////////////////////// .card1.active {
-///////////////////////////////////////////////////////////////////////////  transform: translateX(0);
-///////////////////////////////////////////////////////////////////////////}
-/////////////////////////////////////////////////////////////////////////// .card2{
-///////////////////////////////////////////////////////////////////////////  position: absolute;
-///////////////////////////////////////////////////////////////////////////    background: rgb(208, 255, 0);
-/////////////////////////////////////////////////////////////////////////// }
-/////////////////////////////////////////////////////////////////////////// .card3{
-///////////////////////////////////////////////////////////////////////////  position: absolute;
-///////////////////////////////////////////////////////////////////////////    background: rgb(255, 196, 0);
-///////////////////////////////////////////////////////////////////////////        z-index: -1;
-/////////////////////////////////////////////////////////////////////////// }
 
-//////#Text1{
-//////     font-size: xx-large;
-//////     opacity: 0;
-//////     font-size: 1.5rem;
-////// }
-//////
-////// .stats {
-//////  min-height: 100vh;
-//////  display: grid;
-//////  place-items: center;
-//////  padding: 6rem 1rem;
-//////}
-//////
-//////.hero-title,
-//////.stat-card,
-//////.cta-btn {
-//////  opacity: 0;
-//////  transform: translateY(30px);
-//////  will-change: opacity, transform;
-//////}
-//////
-//////.stats-grid {
-//////  display: grid;
-//////  grid-template-columns: repeat(3, minmax(180px, 1fr));
-//////  gap: 28px;
-//////  margin-block: 28px;
-//////}
-//////
-//////.stat-card {
-//////  background: skyblue;
-//////  border-radius: 16px;
-//////  padding: 24px;
-//////  text-align: center;
-//////  opacity: 0;
-//////}
-//////
-//////.counter {
-//////  font-size: 42px;
-//////  font-weight: 800;
-//////  line-height: 1;
-//////}
-//////.label {
-//////  // opacity: 0;
-//////  // transform: translateY(10px);
-//////}
-//////
-///////* 🌈 تأثير mask من اليمين */
-//////.mask-right {
-//////  -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
-//////  mask-image: linear-gradient(to left, black 0%, transparent 100%);
-//////  -webkit-mask-size: 200% 100%;
-//////  mask-size: 200% 100%;
-//////  -webkit-mask-position: 100% 0;
-//////  mask-position: 100% 0;
-//////}
-//////
-///////* 🌈 تأثير mask من الشمال */
-//////.mask-left {
-//////  -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
-//////  mask-image: linear-gradient(to right, black 0%, transparent 100%);
-//////  -webkit-mask-size: 200% 100%;
-//////  mask-size: 200% 100%;
-//////  -webkit-mask-position: 0 0;
-//////  mask-position: 0 0;
-//////}
-/// 
-#erp {
-  font-size: 3rem;
-  font-weight: 700;
-  font-family: "Amiri", "Noto Naskh Arabic", serif;
-  text-align: center;
-  white-space: nowrap;
-  perspective: 800px;
-}
-
-.word {
-  display: inline-block;
-  transform-origin: center center;
-  transform-style: preserve-3d;
-}
-
-#capsule {
-  background-color: transparent;
-}
-
-.capsule-path {
-  opacity: 0;
-}
-
-#section50Bottom {
-  opacity: 0;
-}
+// #section50Bottom {
+//   opacity: 0;
+// }
 
 
-.erp-carousel {
-  width: 100%;
-  // padding: 3rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  direction: rtl; // مهم جدًا
-  position: relative;
+// .erp-carousel {
+//   width: 100%;
+//   // padding: 3rem 0;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   direction: rtl; // مهم جدًا
+//   position: relative;
 
-  .controls {
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-    position: absolute;
-    top: 50%;
-  }
+//   .controls {
+//     width: 90%;
+//     display: flex;
+//     justify-content: space-between;
+//     margin-bottom: 1.5rem;
+//     position: absolute;
+//     top: 50%;
+//   }
 
-  .arrow {
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+//   .arrow {
+//     background: none;
+//     border: none;
+//     cursor: pointer;
+//     transition: transform 0.2s;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
 
-    &:hover svg path {
-      stroke: #0073ff;
-    }
+//     &:hover svg path {
+//       stroke: #0073ff;
+//     }
 
-    &.left:hover {
-      transform: translateX(-4px);
-    }
+//     &.left:hover {
+//       transform: translateX(-4px);
+//     }
 
-    &.right:hover {
-      transform: translateX(4px);
-    }
-  }
+//     &.right:hover {
+//       transform: translateX(4px);
+//     }
+//   }
 
-  .swiper {
-    width: 85%;
-    overflow: hidden;
-  }
+//   .swiper {
+//     width: 85%;
+//     overflow: hidden;
+//   }
 
-  .swiper-slide {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-  }
+//   .swiper-slide {
+//     display: flex;
+//     justify-content: center;
+//     align-items: stretch;
+//   }
 
-  .card {
-    background: #ffffff;
-    border-radius: 12px;
-    text-align: right;
-    padding: 2rem 1.5rem;
-    width: 102.5%;
-    position: relative;
-    transition: transform 0.4s ease;
+//   .card {
+//     background: #ffffff;
+//     border-radius: 12px;
+//     text-align: right;
+//     padding: 2rem 1.5rem;
+//     width: 102.5%;
+//     position: relative;
+//     transition: transform 0.4s ease;
 
-    .text-content {
-      direction: rtl;
-    }
+//     .text-content {
+//       direction: rtl;
+//     }
 
-    h3 {
-      color: #0073ff;
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.6rem;
-      line-height: 1.5;
-    }
+//     h3 {
+//       color: #0073ff;
+//       font-size: 1.2rem;
+//       font-weight: 700;
+//       margin-bottom: 0.6rem;
+//       line-height: 1.5;
+//     }
 
-    p {
-      font-size: 1rem;
-      color: #333;
-      line-height: 1.8;
-      max-width: 340px;
-    }
-  }
-}
+//     p {
+//       font-size: 1rem;
+//       color: #333;
+//       line-height: 1.8;
+//       max-width: 340px;
+//     }
+//   }
+// }
 
-.separator {
-  width: 4px;
-  height: 80%;
-  margin: auto;
-  background-color: #FFD700;
-  border-radius: 2px;
-}
+// .separator {
+//   width: 4px;
+//   height: 80%;
+//   margin: auto;
+//   background-color: #FFD700;
+//   border-radius: 2px;
+// }

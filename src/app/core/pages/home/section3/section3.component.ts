@@ -127,13 +127,12 @@ export class Section3Component {
           }
         });
         let triggered = false;
-        tl.to("#Text5", { opacity: 1, y: 0, duration: 0.8, ease: 'power2.inOut' });
         triggered = false;
 
-        const path = document.querySelector(".capsule-path") as SVGPathElement;
+        const path = document.querySelector(".capsule-path2") as SVGPathElement;
         if (!path) return;
         const length = path.getTotalLength();
-        gsap.set('#capsule', { y: 78 })
+        gsap.set('#capsule2', { y: 78 })
         tl.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
         tl.to(path, {
           strokeDashoffset: 0,
@@ -197,7 +196,7 @@ export class Section3Component {
         //     }
         //   }, ">-0.3"
         // );
-        tl.to("#capsule", {
+        tl.to("#capsule2", {
           scale: 0.85,
           duration: 1,
           ease: "power2.inOut",
@@ -209,7 +208,7 @@ export class Section3Component {
             });
           }
         }, ">+0.3");
-        tl.to("#capsule", {
+        tl.to("#capsule2", {
           y: -60,
           duration: 1,
           ease: "power2.inOut",

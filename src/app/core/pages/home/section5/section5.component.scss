@@ -44,11 +44,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #F8FAFF;
-      /* خلفية دائرية فاتحة */
-      border-radius: 50%;
-      width: 100px;
-      height: 100px;
   }
 
   .separator {
@@ -156,12 +151,14 @@
   //       filter: none;
   //       transform: scale(1.1);
   //   }
-
   /* 📱 عند الشاشات الصغيرة */
   @media (max-width: 700px) {
       .mobile-layout {
           display: flex;
           width: 100%;
+          flex-direction: column;
+          gap: 94px;
+          margin: auto;
       }
 
       #capsule {
@@ -193,7 +190,7 @@
       .mobile-layout .slot {
           width: 90%;
           padding: 18px 0;
-          gap: 111px;
+          gap: 106px;
           border-radius: 25px;
           height: auto;
       }

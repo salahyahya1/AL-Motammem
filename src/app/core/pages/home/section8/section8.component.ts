@@ -17,6 +17,8 @@ export class Section8Component {
     private ngZone: NgZone
 
   ) { }
+  section8TitleSplit: any;
+  section8DetailsSplit: any;
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;
 
@@ -32,7 +34,7 @@ export class Section8Component {
   }
   private runGsapAnimation() {
     document.fonts.ready.then(() => {
-      const section8Title = document.querySelector('h1#section8-title') as HTMLElement;
+      const section8Title = document.querySelector('#section8-title') as HTMLElement;
       const section8Details = document.querySelector('#section8-details') as HTMLElement;
       const section8button1 = document.querySelector('#section8-button1') as HTMLElement;
       const section8button2 = document.querySelector('#section8-button2') as HTMLElement;
@@ -41,21 +43,24 @@ export class Section8Component {
         return;
       }
 
-      const section8TitleSplit = SplitText.create(section8Title, { type: "words" });
-      const section8DetailsSplit = SplitText.create(section8Details, { type: "words" });
+      // const section8TitleSplit = SplitText.create(section8Title, { type: "words" });
+      // const section8DetailsSplit = SplitText.create(section8Details, { type: "words" });
+      this.section8TitleSplit = new SplitText(section8Title, { type: "words" });
+      this.section8DetailsSplit = new SplitText(section8Details, { type: "words" });
+
 
 
       const tl = gsap.timeline({
         defaults: { ease: 'power3.out' },
         scrollTrigger: {
           trigger: '#section8',
-          start: 'top top',
+          start: '-20% top',
           end: "bottom bottom",
-          // markers: false,
+          // markers: true,
         },
       });
 
-      tl.fromTo(section8TitleSplit.words,
+      tl.fromTo(this.section8TitleSplit.words,
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
@@ -67,7 +72,7 @@ export class Section8Component {
       );
 
 
-      tl.fromTo(section8DetailsSplit.words,
+      tl.fromTo(this.section8DetailsSplit.words,
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,

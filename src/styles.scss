@@ -26,6 +26,16 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+    /* Force a neutral page background to avoid flashes of accent color on first paint */
+    background-color: var(--white);
+}
+
+html,
+body,
+#smooth-wrapper,
+#smooth-content,
+.panel {
+    background-color: var(--white) !important;
 }
 
 // @font-face {

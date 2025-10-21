@@ -624,7 +624,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section9Component, Section10Component, Section3Component],
+  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section10Component, Section3Component],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -662,18 +662,20 @@ export class HomeComponent implements AfterViewInit {
     if (!this.isBrowser) return;
 
     this.ngZone.runOutsideAngular(() => {
-      this.initSmoothScroll(); // ✅ تفعيل السموذ سكرول فقط
-      this.animateNavbar(); // ✅ أنيميشن النافبار الأصلي
-      this.observeSections(); // ✅ تغيير الألوان للنافبار والبراند
-      this.initSectionIndicators()
-      this.sideMenu();
-      this.handleResponsiveSideMenu();
-      window.addEventListener('resize', () => {
-        this.ngZone.run(() => {
-          this.handleResponsiveSideMenu();
-          this.cdr.detectChanges(); // <-- إعادة فحص بعد كل resize
+      setTimeout(() => {
+        this.initSmoothScroll(); // ✅ تفعيل السموذ سكرول فقط
+        this.animateNavbar(); // ✅ أنيميشن النافبار الأصلي
+        this.observeSections(); // ✅ تغيير الألوان للنافبار والبراند
+        this.initSectionIndicators()
+        this.sideMenu();
+        this.handleResponsiveSideMenu();
+        window.addEventListener('resize', () => {
+          this.ngZone.run(() => {
+            this.handleResponsiveSideMenu();
+            this.cdr.detectChanges(); // <-- إعادة فحص بعد كل resize
+          });
         });
-      });
+      }, 150);
     });
   }
 
@@ -699,8 +701,8 @@ export class HomeComponent implements AfterViewInit {
 
   private animateNavbar() {
     const navbarEl = this.navbar.nativeElement;
-    gsap.set(navbarEl, { y: -100, opacity: 0 });
-    gsap.to(navbarEl, { y: 0, opacity: 1, duration: 1, ease: 'power2.inOut' });
+    // gsap.set(navbarEl, { y: -100, opacity: 0 });
+    gsap.fromTo(navbarEl, { y: -100, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power2.inOut' });
   }
 
   private initSmoothScroll() {
@@ -718,6 +720,7 @@ export class HomeComponent implements AfterViewInit {
       ignoreMobileResize: true,
       smoothTouch: 0.1,
     });
+
     requestAnimationFrame(() => ScrollTrigger.refresh());
     ScrollTrigger.config({ ignoreMobileResize: true });
   }
