@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
@@ -8,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
   selector: 'app-section5',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './section5.component.html',
   styleUrl: './section5.component.scss'
 })

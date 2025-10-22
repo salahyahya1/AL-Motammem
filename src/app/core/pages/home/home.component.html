@@ -12,12 +12,12 @@
                     </path>
                 </svg>
             </div>
-            <a href="#" class="hover:text-primary whitespace-nowrap">الرئيسية</a>
-            <a href="#" class="hover:text-primary whitespace-nowrap">منتجاتنا</a>
-            <a href="#" class="hover:text-primary whitespace-nowrap">التطبيقات</a>
-            <a href="#" class="hover:text-primary whitespace-nowrap">المجالات</a>
-            <a href="#" class="hover:text-primary whitespace-nowrap">الأسعار</a>
-            <a href="#" class="hover:text-primary whitespace-nowrap">اتصل بنا</a>
+            <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">الرئيسية</a>
+            <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">منتجاتنا</a>
+            <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">التطبيقات</a>
+            <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">المجالات</a>
+            <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">الأسعار</a>
+            <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">اتصل بنا</a>
         </nav>
         <div #navSmallScreen class="navSmallScreen w-full h-full">
             <div class="w-[90%] flex flex-row-reverse justify-between items-center mx-auto">
@@ -121,9 +121,136 @@
                 data-textcolor="var(--primary)">
                 <app-section8></app-section8>
             </section>
+            <footer dir="rtl" class="bg-[#333333] text-white py-10 px-6 md:px-12 lg:px-20">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-10 text-right">
+    
+    <!-- العمود 1: الشعار + الوصف + السوشيال -->
+    <div>
+      <img src="assets/images/logo.png" alt="شعار ميكروتك" class="w-56 mb-3 ml-auto" />
+      <p class="text-[#F5A605] text-sm font-semibold mb-2">
+        حلول موثوقة، شريك يعتمد عليه
+      </p>
+      <p class="text-sm leading-relaxed text-gray-200">
+        منذ عام 1986، وعلى مدار أكثر من 39 عامًا، ركّزت شركة ميكروتك على تقديم حلول عملية ومبتكرة
+        وخدمات موثوقة لعملائها.
+      </p>
+
+      <!-- أيقونات التواصل الاجتماعي -->
+      <div class="flex items-center justify-start gap-4 mt-5">
+        <!-- Facebook -->
+        <a href="#" aria-label="Facebook"
+          class="w-10 h-10 rounded-full bg-[#F5A605] hover:opacity-90 transition flex items-center justify-center">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" role="img" aria-hidden="true">
+            <path fill="white"
+              d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.22.2 2.22.2v2.44h-1.25c-1.24 0-1.63.77-1.63 1.56v1.87h2.77l-.44 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z" />
+          </svg>
+        </a>
+
+        <!-- X -->
+        <a href="#" aria-label="X"
+          class="w-10 h-10 rounded-full bg-[#F5A605] hover:opacity-90 transition flex items-center justify-center">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" role="img" aria-hidden="true">
+            <path fill="white"
+              d="M3 3h3.8l5.02 6.76L17.91 3H21l-7.45 9.2L21.5 21H17.7l-5.25-7.08L6.09 21H3.01l7.99-9.86L3 3Z" />
+          </svg>
+        </a>
+
+        <!-- LinkedIn -->
+        <a href="#" aria-label="LinkedIn"
+          class="w-10 h-10 rounded-full bg-[#F5A605] hover:opacity-90 transition flex items-center justify-center">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" role="img" aria-hidden="true">
+            <path fill="white"
+              d="M20.45 20.45h-3.56v-5.59c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.68H9.35V9h3.41v1.56h.05c.47-.89 1.62-1.85 3.34-1.85 3.57 0 4.23 2.35 4.23 5.4v6.34ZM5.34 7.44a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM3.56 20.45h3.56V9H3.56v11.45Z" />
+          </svg>
+        </a>
+
+        <!-- YouTube -->
+        <a href="#" aria-label="YouTube"
+          class="w-10 h-10 rounded-full bg-[#F5A605] hover:opacity-90 transition flex items-center justify-center">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" role="img" aria-hidden="true">
+            <path fill="white"
+              d="M23 12s0-3.39-.43-5a3.06 3.06 0 0 0-2.15-2.15C18.8 4.4 12 4.4 12 4.4s-6.8 0-8.42.45A3.06 3.06 0 0 0 1.43 7.01C1 8.61 1 12 1 12s0 3.39.43 4.99a3.06 3.06 0 0 0 2.15 2.15C5.2 19.6 12 19.6 12 19.6s6.8 0 8.42-.45a3.06 3.06 0 0 0 2.15-2.15C23 15.39 23 12 23 12ZM9.8 15.4V8.6L15.6 12l-5.8 3.4Z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- العمود 2: روابط سريعة -->
+    <div>
+      <h3 class="text-lg font-bold mb-4">روابط سريعة</h3>
+      <ul class="space-y-2 text-sm text-gray-300">
+        <li><a href="#" class="hover:text-[#F5A605]">الرئيسية</a></li>
+        <li><a href="#" class="hover:text-[#F5A605]">الحلول</a></li>
+        <li><a href="#" class="hover:text-[#F5A605]">برامج الحماية</a></li>
+        <li><a href="#" class="hover:text-[#F5A605]">دراسات الحالة</a></li>
+        <li><a href="#" class="hover:text-[#F5A605]">الدعم الفني</a></li>
+        <li><a href="#" class="hover:text-[#F5A605]">المتجر الإلكتروني</a></li>
+        <li><a href="#" class="hover:text-[#F5A605]">الشركاء</a></li>
+        <li><a href="#" class="hover:text-[#F5A605]">قاعدة المعرفة</a></li>
+      </ul>
+    </div>
+
+    <!-- العمود 3: أهم الفئات -->
+    <div>
+      <h3 class="text-lg font-bold mb-4">أهم البرامج</h3>
+      <ul class="space-y-3 text-sm text-gray-300">
+        <li class="flex items-center justify-start gap-3">
+          <span>أل متتم ميني</span>
+          <img src="./images/MiniLogo_2.png" class="w-8 h-8" alt="Al-Motammem Mini" />
+        </li>
+        <li class="flex items-center justify-start gap-3">
+          <span>أل متتم سوفتوير</span>
+          <img src="./images/AlmotammemLogo_2.png" class="w-8 h-8" alt="Al-Motammem Software" />
+        </li>
+        <li class="flex items-center justify-start gap-3">
+          <span>إنفينيتي ERP</span>
+          <img src="./images/InfinityLogo_2.png" class="w-8 h-8" alt="Infinity ERP" />
+        </li>
+        <li class="flex items-center justify-start gap-3">
+          <span>ميكروتك للتجزئة</span>
+          <img src="./images/retail_2.png" class="w-8 h-8" alt="Microtech Retail" />
+        </li>
+        <li class="flex items-center justify-start gap-3">
+          <span>ميكروتك للموارد البشرية</span>
+          <img src="./images/hr_1.png" class="w-8 h-8" alt="Microtech HR & Payroll" />
+        </li>
+      </ul>
+    </div>
+
+    <!-- العمود 4: تواصل معنا -->
+    <div>
+      <h3 class="text-lg font-bold mb-4">تواصل معنا</h3>
+      <ul class="text-sm text-gray-300 space-y-3">
+        <li class="flex items-start justify-end gap-2">
+          <span>3 شارع مصدق، الدقي، 12311، الجيزة، مصر</span>
+          <svg viewBox="0 0 24 24" class="w-5 h-5 mt-1 text-[#F5A605]" aria-hidden="true">
+            <path fill="currentColor" d="M12 3 2 12h2v8h6v-5h4v5h6v-8h2L12 3Z" />
+          </svg>
+        </li>
+        <li class="flex items-start justify-end gap-2">
+          <span>(+202)3336-9855 / (+202)3761-0907 : +123 456 7890</span>
+          <svg viewBox="0 0 24 24" class="w-5 h-5 mt-1 text-[#F5A605]" aria-hidden="true">
+            <path fill="currentColor"
+              d="M6.62 10.79a15.54 15.54 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.11.37 2.3.57 3.58.57a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1C11.29 21.82 2.18 12.71 2.18 2.99a1 1 0 0 1 1-1H6.7a1 1 0 0 1 1 1c0 1.28.2 2.47.57 3.58a1 1 0 0 1-.25 1.01l-2.4 2.21Z" />
+          </svg>
+        </li>
+        <li class="flex items-start justify-end gap-2">
+          <span>info5microtech.com.eg</span>
+          <svg viewBox="0 0 24 24" class="w-5 h-5 mt-1 text-[#F5A605]" aria-hidden="true">
+            <path fill="currentColor"
+              d="M20 4H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 3.2v-.2l-8 5-8-5V7l8 5 8-5Z" />
+          </svg>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
         </div>
     </div>
 </div>
+
+
 <div [ngClass]="{
     'opacity-100 pointer-events-auto': visibilityState === 'visible',
     'opacity-0 pointer-events-none': visibilityState === 'invisible'

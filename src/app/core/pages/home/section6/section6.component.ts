@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { SplitText } from "gsap/SplitText";
@@ -10,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
   selector: 'app-section6',
   templateUrl: './section6.component.html',
   styleUrls: ['./section6.component.scss'],
-  imports: [],
+  imports: [ RouterLink],
 })
 export class Section6Component {
   constructor(
@@ -66,9 +67,9 @@ export class Section6Component {
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
+          duration: 0.4,
           ease: 'sine.out',
-          stagger: 0.1,
+          stagger: 0.02,
           onStart: () => { gsap.set(title, { opacity: 1, visibility: 'visible' }) },
         }
       );
@@ -80,9 +81,9 @@ export class Section6Component {
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
+          duration: 0.4,
           ease: 'sine.out',
-          stagger: 0.1,
+          stagger: 0.02,
           onStart: () => { gsap.set(subtitle, { opacity: 1, visibility: 'visible' }) },
         }
       );
@@ -100,9 +101,9 @@ export class Section6Component {
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
+          duration: 0.4,
           ease: 'sine.out',
-          stagger: 0.1,
+          stagger: 0.02,
           onStart: () => { gsap.set(desc, { opacity: 1, visibility: 'visible' }) },
         }
       );

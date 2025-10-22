@@ -618,13 +618,14 @@ import { Section9Component } from './section9/section9.component';
 import { Section10Component } from "./section10/section10.component";
 import { BehaviorSubject } from 'rxjs';
 import { Section3Component } from "./section3/section3.component";
+import { RouterLink } from "@angular/router";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section10Component, Section3Component],
+  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section10Component, Section3Component, RouterLink],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })

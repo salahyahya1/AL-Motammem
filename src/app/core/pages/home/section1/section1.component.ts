@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Component, Inject, NgZone, OnDestroy, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { SplitText } from "gsap/SplitText";
@@ -8,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
   selector: 'app-section1',
   templateUrl: './section1.component.html',
   styleUrl: './section1.component.scss',
-  imports: [],
+  imports: [RouterLink],
 })
 export class Section1Component implements OnDestroy {
   constructor(
@@ -135,7 +136,7 @@ export class Section1Component implements OnDestroy {
           opacity: 1,
           duration: 0.4,
           ease: "sine.out",
-          stagger: 0.15,
+          stagger: 0.02,
           onStart: () => { gsap.set(heroTitle, { opacity: 1, visibility: "visible" }) },
         }
       );
@@ -146,7 +147,7 @@ export class Section1Component implements OnDestroy {
           opacity: 1,
           duration: 0.4,
           ease: "sine.out",
-          stagger: 0.15,
+          stagger: 0.02,
           onStart: () => { gsap.set(heroSubtitle, { opacity: 1, visibility: "visible" }) },
         }
       );
@@ -157,7 +158,7 @@ export class Section1Component implements OnDestroy {
           opacity: 1,
           duration: 0.4,
           ease: "sine.out",
-          stagger: 0.15,
+          stagger: 0.02,
           onStart: () => { gsap.set(heroDetails, { opacity: 1, visibility: "visible" }) },
         }
       );
@@ -167,7 +168,7 @@ export class Section1Component implements OnDestroy {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 0.6,
+          duration: 0.5,
           ease: "sine.inOut",
           onStart: () => { gsap.set(button1, { opacity: 1, visibility: "visible" }) },
         }
@@ -177,7 +178,7 @@ export class Section1Component implements OnDestroy {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 0.6,
+          duration: 0.5,
           ease: "sine.inOut",
           onStart: () => { gsap.set(button2, { opacity: 1, visibility: "visible" }) },
         }

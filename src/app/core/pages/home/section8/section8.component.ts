@@ -1,12 +1,13 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { SplitText } from "gsap/SplitText";
 gsap.registerPlugin(ScrollTrigger, SplitText);
 @Component({
   selector: 'app-section8',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './section8.component.html',
   styleUrl: './section8.component.scss'
 })
@@ -64,9 +65,9 @@ export class Section8Component {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 0.8,
+          duration: 0.4,
           ease: "sine.out",
-          stagger: 0.2,
+          stagger: 0.02,
           onStart: () => { gsap.set(section8Title, { opacity: 1, visibility: "visible" }) },
         }
       );
@@ -76,9 +77,9 @@ export class Section8Component {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 0.8,
+          duration: 0.4,
           ease: "sine.out",
-          stagger: 0.1,
+          stagger: 0.02,
           onStart: () => { gsap.set(section8Details, { opacity: 1, visibility: "visible" }) },
         }
       );
@@ -88,7 +89,7 @@ export class Section8Component {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 1.2,
+          duration: 0.6,
           ease: "sine.inOut",
           onStart: () => { gsap.set(section8button1, { opacity: 1, visibility: "visible" }) },
         }
@@ -98,7 +99,7 @@ export class Section8Component {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 1.2,
+          duration: 0.6,
           ease: "sine.inOut",
           onStart: () => { gsap.set(section8button2, { opacity: 1, visibility: "visible" }) },
         }

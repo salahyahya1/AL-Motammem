@@ -12,13 +12,14 @@ import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { RouterLink } from '@angular/router';
 
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
 @Component({
   selector: 'app-section3',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './section3.component.html',
   styleUrl: './section3.component.scss'
 })

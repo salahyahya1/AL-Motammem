@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
@@ -10,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
   selector: 'app-section7',
   templateUrl: './section7.component.html',
   styleUrls: ['./section7.component.scss'],
-  imports: [],
+  imports: [ RouterLink],
 })
 export class Section7Component {
   constructor(
@@ -62,9 +63,9 @@ export class Section7Component {
             { opacity: 0, visibility: 'visible' },
             {
               opacity: 1,
-              duration: 0.8,
+              duration: 0.4,
               ease: 'sine.out',
-              stagger: 0.1,
+              stagger: 0.02,
               onStart: () => {
                 gsap.set(sectionHead, { opacity: 1, visibility: 'visible' })
               }
@@ -77,9 +78,9 @@ export class Section7Component {
             { opacity: 0, visibility: 'visible' },
             {
               opacity: 1,
-              duration: 0.8,
+              duration: 0.4,
               ease: 'sine.out',
-              stagger: 0.1,
+              stagger: 0.02,
               onStart: () => { gsap.set(sectionSub, { opacity: 1, visibility: 'visible' }) },
             },
             '>-0.3'
@@ -113,7 +114,7 @@ export class Section7Component {
             // right: 50,
             autoAlpha: 0,
           }, {
-            right: 0,
+            right: '9%',
             autoAlpha: 1,
             duration: 1.5,
             ease: "sine.out",
@@ -123,7 +124,7 @@ export class Section7Component {
             // left: -14,
           }, {
             autoAlpha: 1,
-            left: 0,
+            left: '9%',
             duration: 1.5,
             ease: "sine.out",
           }, '<')

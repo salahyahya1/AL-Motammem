@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
@@ -7,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
   selector: 'app-section2',
-  imports: [],
+  imports: [ RouterLink],
   templateUrl: './section2.component.html',
   styleUrls: ['./section2.component.scss'],
 })
@@ -184,9 +185,9 @@ export class Section2Component {
               if (labelWords) {
                 rowTL.to(labelWords, {
                   opacity: 1,
-                  duration: 1.3,
+                  duration: 0.6,
                   ease: 'sine.out',
-                  stagger: { each: 0.08, from: 'start' },
+                  stagger: { each: 0.4, from: 'start' },
                 });
               }
               if (numEl && counterEl) {
@@ -194,12 +195,12 @@ export class Section2Component {
                   numEl,
                   {
                     opacity: 1,
-                    duration: 1.3,
+                    duration: 0.8,
                     ease: 'power2.out',
                     onStart: () => {
                       const target = Number(counterEl.getAttribute('data-target') ?? 0);
                       const decimals = target % 1 !== 0 ? 1 : 0;
-                      animateCounter(counterEl, target, 1.4, decimals);
+                      animateCounter(counterEl, target, 1.5, decimals);
                     },
                   },
                   0

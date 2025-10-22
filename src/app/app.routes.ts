@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { ComingSoonComponent } from './core/shared/coming-soon/coming-soon.component';
 
 export const routes: Routes = [
     {
@@ -23,6 +24,9 @@ export const routes: Routes = [
                 canonical: 'https://example.com/plans'
             }
         }
+    },    {
+        path: 'ComingSoon',
+        component:ComingSoonComponent,
     },
     { path: '**', redirectTo: '' }
 ];
