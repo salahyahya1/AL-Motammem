@@ -40,7 +40,7 @@ export class Section5Component {
         let triggered = false;
         tl.to("#Text5", { opacity: 1, y: 0, duration: 0.8, ease: 'power2.inOut' });
         triggered = false;
-
+      gsap.set("#image-container", { opacity: 0, visibility: "hidden" });
         const path = document.querySelector(".capsule-path") as SVGPathElement;
         if (!path) return; // تأكيد إن العنصر موجود
         const length = path.getTotalLength();
