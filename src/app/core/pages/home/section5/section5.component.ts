@@ -46,10 +46,11 @@ export class Section5Component {
         const length = path.getTotalLength();
         // tl.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
         tl.fromTo(path,{
- strokeDasharray: length, strokeDashoffset: length, opacity: 0 
+ strokeDasharray: length, strokeDashoffset: length, opacity: 0 ,  visibility: "hidden" 
         }, { opacity: 1, 
           strokeDashoffset: 0,
           duration: 2,
+           visibility: "visible" ,
           ease: "power2.inOut",
           onUpdate: () => {
             const progress = tl.progress();

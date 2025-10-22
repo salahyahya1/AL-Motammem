@@ -132,13 +132,14 @@ export class Section3Component {
         if (!path) return;
         const length = path.getTotalLength();
         gsap.set('#capsule2', { y: 78 })
-        tl.fromTo(path,{
- strokeDasharray: length, strokeDashoffset: length, opacity: 0 
-        }, { opacity: 1, 
-          strokeDashoffset: 0,
-          duration: 2,
-          ease: "power2.inOut",
-        });
+        tl.fromTo(path,  { strokeDasharray: length, strokeDashoffset: length, opacity: 0, visibility: "hidden" },
+  { 
+    strokeDashoffset: 0, 
+    opacity: 1, 
+    visibility: "visible",
+    duration: 2, 
+    ease: "power2.inOut" 
+  });
         gsap.set("#section50-TITLE", { perspective: 800 });
 
         tl.fromTo(section50TITLESplit.words,
