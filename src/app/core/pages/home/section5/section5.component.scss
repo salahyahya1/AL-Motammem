@@ -184,6 +184,8 @@
           justify-content: space-around;
           align-items: center;
           height: 100%;
+      overflow: hidden;
+      opacity: 0;
       }
 
       /* ✅ تكبير العناصر الداخلية */

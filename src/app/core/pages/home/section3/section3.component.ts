@@ -132,8 +132,9 @@ export class Section3Component {
         if (!path) return;
         const length = path.getTotalLength();
         gsap.set('#capsule2', { y: 78 })
-        tl.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
-        tl.to(path, {
+        tl.fromTo(path,{
+ strokeDasharray: length, strokeDashoffset: length, opacity: 0 
+        }, { opacity: 1, 
           strokeDashoffset: 0,
           duration: 2,
           ease: "power2.inOut",

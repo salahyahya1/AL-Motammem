@@ -44,8 +44,10 @@ export class Section5Component {
         const path = document.querySelector(".capsule-path") as SVGPathElement;
         if (!path) return; // تأكيد إن العنصر موجود
         const length = path.getTotalLength();
-        tl.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
-        tl.to(path, {
+        // tl.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
+        tl.fromTo(path,{
+ strokeDasharray: length, strokeDashoffset: length, opacity: 0 
+        }, { opacity: 1, 
           strokeDashoffset: 0,
           duration: 2,
           ease: "power2.inOut",
@@ -55,7 +57,7 @@ export class Section5Component {
             if (progress >= 0.5 && !triggered) {
               triggered = true;
               if (!container) return;
-              gsap.to(container, { opacity: 1, duration: 0.5 });
+              gsap.fromTo(container, { opacity: 0}, { opacity: 1, duration: 0.5 });
             }
             if (progress >= 1) {
               triggered = true;
