@@ -58,7 +58,7 @@ export class Section5Component {
             if (progress >= 0.5 && !triggered) {
               triggered = true;
               if (!container) return;
-              gsap.fromTo(container, { opacity: 0}, { opacity: 1, duration: 0.5 });
+              gsap.fromTo(container, { opacity: 0,visibility: 'hidden'}, { opacity: 1, visibility: "visible", duration: 0.5 });
             }
             if (progress >= 1) {
               triggered = true;
