@@ -37,36 +37,77 @@ export class Section5Component {
             // markers: true
           }
         });
-        let triggered = false;
+        // let triggered = false;
         tl.to("#Text5", { opacity: 1, y: 0, duration: 0.8, ease: 'power2.inOut' });
-        triggered = false;
-      gsap.set("#image-container", { opacity: 0, visibility: "hidden" });
+        // triggered = false;
+        /////////////////////////////////////////////////////////
         const path = document.querySelector(".capsule-path") as SVGPathElement;
-        if (!path) return; // تأكيد إن العنصر موجود
-        const length = path.getTotalLength();
-        // tl.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
-        tl.fromTo(path,{
- strokeDasharray: length, strokeDashoffset: length, opacity: 0 ,  visibility: "hidden" 
-        }, { opacity: 1, 
-          strokeDashoffset: 0,
-          duration: 2,
-           visibility: "visible" ,
-          ease: "power2.inOut",
-          onUpdate: () => {
-            const progress = tl.progress();
-            const container = document.querySelector("#image-container") as HTMLElement;
-            if (progress >= 0.5 && !triggered) {
-              triggered = true;
-              if (!container) return;
-              gsap.fromTo(container, { opacity: 0,visibility: 'hidden'}, { opacity: 1, visibility: "visible", duration: 0.5 });
-            }
-            if (progress >= 1) {
-              triggered = true;
-              if (!container) return;
-              this.startImageFlip(container);
-            }
+           gsap.set("#image-container", { opacity: 0, visibility: "hidden" });
+gsap.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 0, visibility: "hidden" });
+const container = document.querySelector("#image-container") as HTMLElement;
+      gsap.set(container, { opacity: 0, visibility: "hidden" });
+
+      let imagesShown = false;
+      let flipStarted = false;
+
+      // التحريك الفعلي
+      tl.to(path, {
+        opacity: 1,
+        visibility: "visible",
+        strokeDashoffset: 0,
+        duration: 2,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          const currentOffset = gsap.getProperty(path, "strokeDashoffset") as number;
+          const progress = 1 - currentOffset / length; // 0 → 1 = نسبة الرسم
+
+          // ✅ عند 50% أظهر الصور
+          if (progress >= 0.5 && !imagesShown) {
+            imagesShown = true;
+            gsap.to(container, {
+              opacity: 1,
+              visibility: "visible",
+              duration: 0.6,
+              ease: "power2.out",
+            });
           }
-        });
+
+          // ✅ عند 100% ابدأ التبديل
+          if (progress >= 1 && !flipStarted) {
+            flipStarted = true;
+            this.startImageFlip(container);
+          }
+        }
+      });
+//       gsap.set("#image-container", { opacity: 0, visibility: "hidden" });
+//         const path = document.querySelector(".capsule-path") as SVGPathElement;
+//         if (!path) return; // تأكيد إن العنصر موجود
+//         const length = path.getTotalLength();
+//         // tl.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
+//         tl.fromTo(path,{
+//  strokeDasharray: length, strokeDashoffset: length, opacity: 0 ,  visibility: "hidden" 
+//         }, { opacity: 1, 
+//           strokeDashoffset: 0,
+//           duration: 2,
+//            visibility: "visible" ,
+//           ease: "power2.inOut",
+//           onUpdate: () => {
+//             const progress = tl.progress();
+//             const container = document.querySelector("#image-container") as HTMLElement;
+//             if (progress >= 0.5 && !triggered) {
+//               triggered = true;
+//               if (!container) return;
+//               gsap.fromTo(container, { opacity: 0,visibility: 'hidden'}, { opacity: 1, visibility: "visible", duration: 0.5 });
+//             }
+//             if (progress >= 1) {
+//               triggered = true;
+//               if (!container) return;
+//               this.startImageFlip(container);
+//             }
+//           }
+//         });
+
+/////////////////////////////////////////////////////////
       });
     });
   }
