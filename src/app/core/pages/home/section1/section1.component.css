@@ -1,0 +1,14 @@
+@charset "UTF-8";
+#hero-title,
+#hero-subtitle,
+#hero-details,
+#button1,
+#button2 {
+  opacity: 0;
+  visibility: hidden;
+  /* عشان ميعملش flicker لحظة التقسيم */
+}
+
+#hero {
+  background-color: transparent;
+}/*# sourceMappingURL=section1.component.css.map */

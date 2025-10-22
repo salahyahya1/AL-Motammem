@@ -1,0 +1,35 @@
+#section6 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+
+    h2,
+    p {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    #integration-logos {
+        opacity: 0;
+        transition: opacity 0.8s ease-out;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+.separator {
+    width: 4px;
+    height: 70px;
+    background-color: #FFD700;
+    border-radius: 2px;
+}
+
+@media (max-width: 700px) {
+
+    .separator2,
+    .separator4 {
+        display: none;
+    }
+}

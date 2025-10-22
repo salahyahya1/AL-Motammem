@@ -1,0 +1,60 @@
+<div id="section50" class="h-screen w-full bg-white relative flex flex-col justify-center items-center">
+    <svg id="capsule2" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg"
+        style="width: 757px; height: 131px; max-width: 90%;" class="md:w-[761px] mt-10 lg:scale-150">
+        <path class="capsule-path2" d="M100,5 
+         h560 
+         a100,60 0 0 1 0,120 
+         h-560 
+         a100,60 0 0 1 0,-120 
+         z" stroke="var(--dark-gray)" stroke-width="3" fill="#00000000" filter="url(#capsule2Shadow)" />
+
+        <foreignObject x="35" y="10" width="689" height="96">
+
+            <div class="text-center">
+                <P id="section50-TITLE" class="text-[var(--primary)] text-[2rem] lg:text-[2rem] xl:text-[2rem]">
+                    هذا ما يجعل المتمم مختلفًا عن أي ERP آخر</P>
+                <p id="section50-details"
+                    class="text-[var(--dark-gray)] text-[1.4rem] lg:text-[0.9rem] xl:text-[1.4rem] leading-relaxed font-normal">
+                    السر وراء خبرة وكفاءة آلاف الشركات لأكثر من 40 سنة تساعدنا في تطويره
+                </p>
+            </div>
+        </foreignObject>
+    </svg>
+    <div id="section50Bottom" class="erp-carousel">
+        <div class="controls">
+            <button id="arrowRight" class="arrow right" aria-label="التالي">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M9 6L15 12L9 18" stroke="#9e9e9e" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <button id="arrowLeft" class="arrow left" aria-label="السابق">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 18L9 12L15 6" stroke="#9e9e9e" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+
+        <div #swiperEl class="swiper" dir="rtl">
+            <div class="swiper-wrapper px-[30px]">
+                <div class="swiper-slide" *ngFor="let f of features">
+                    <div class="card">
+                        <div class="text-content">
+                            <h3>{{ f.title }}</h3>
+                            <p>{{ f.text }}</p>
+                        </div>
+                    </div>
+                    <P class="separator"></P>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <video id="bg-vedio" preload="auto" muted playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
+        <source src="./vedios/white bg.mp4" type="video/mp4">
+        متصفحك لا يدعم تشغيل الفيديو.
+    </video>
+</div>

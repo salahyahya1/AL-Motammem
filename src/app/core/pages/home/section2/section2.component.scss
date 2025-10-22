@@ -1,0 +1,70 @@
+// #Text1 {
+//     font-size: xx-large;
+//     opacity: 0;
+//     font-size: 1.5rem;
+// }
+
+// .stats {
+//     min-height: 100vh;
+//     display: grid;
+//     place-items: center;
+//     padding: 6rem 1rem;
+// }
+
+// .hero-title,
+// .stat-card,
+// .cta-btn {
+//     opacity: 0;
+//     transform: translateY(30px);
+//     will-change: opacity, transform;
+// }
+
+// .stats-grid {
+//     display: grid;
+//     grid-template-columns: repeat(3, minmax(180px, 1fr));
+//     gap: 28px;
+//     margin-block: 28px;
+// }
+
+// .stat-card {
+//     background: skyblue;
+//     border-radius: 16px;
+//     padding: 24px;
+//     text-align: center;
+//     opacity: 0;
+// }
+
+// .counter {
+//     font-size: 42px;
+//     font-weight: 800;
+//     line-height: 1;
+// }
+
+// .label {
+//     // opacity: 0;
+//     // transform: translateY(10px);
+// }
+
+// /* 🌈 تأثير mask من اليمين */
+// .mask-right {
+//     -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
+//     mask-image: linear-gradient(to left, black 0%, transparent 100%);
+//     -webkit-mask-size: 200% 100%;
+//     mask-size: 200% 100%;
+//     -webkit-mask-position: 100% 0;
+//     mask-position: 100% 0;
+// }
+
+// /* 🌈 تأثير mask من الشمال */
+// .mask-left {
+//     -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
+//     mask-image: linear-gradient(to right, black 0%, transparent 100%);
+//     -webkit-mask-size: 200% 100%;
+//     mask-size: 200% 100%;
+//     -webkit-mask-position: 0 0;
+//     mask-position: 0 0;
+// }
+#section2 {
+    min-height: 100vh;
+    position: relative;
+}

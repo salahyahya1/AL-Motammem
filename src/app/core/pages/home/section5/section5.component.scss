@@ -1,0 +1,203 @@
+  #Text5 {
+      //  font-size: xx-large;
+      transform: translateY(200px);
+      opacity: 0;
+      color: var(--primary);
+      //  font-size: 1.5rem;
+  }
+
+  #capsule {
+      display: block;
+      margin: 50px auto;
+  }
+
+  .capsule-path {
+      stroke: var(--dark-gray);
+      stroke-width: 3;
+      fill: none;
+      opacity: 0;
+  }
+
+  .img-item {
+      position: relative;
+      opacity: 1;
+      transform: translateY(0);
+  }
+
+  #image-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+  }
+
+  //  .slot {
+  //      display: flex;
+  //      align-items: center;
+  //      justify-content: center;
+  //      padding: 0 10px;
+  //  }
+  .slot {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .separator {
+      width: 4px;
+      height: 70px;
+      background-color: #FFD700;
+      border-radius: 2px;
+  }
+
+  //// .icon-glow {
+  ////     width: 78px;
+  ////     height: 78px;
+  ////     border-radius: 50%;
+  ////     background: radial-gradient(circle,
+  ////             rgba(25, 118, 210, 0.1) 0%,
+  ////             rgba(25, 118, 210, 0.03) 60%,
+  ////             transparent 100%);
+  ////     display: flex;
+  ////     justify-content: center;
+  ////     align-items: center;
+  ////     transition: all 0.4s ease;
+  //// }///
+  //// .icon-glow img {
+  ////     width: 45px;
+  ////     height: 45px;
+  ////     filter: drop-shadow(0 0 2px rgba(25, 118, 210, 0.2));
+  ////     transition: transform 0.4s ease, filter 0.4s ease;
+  //// }///
+  //// .icon-glow:hover img {
+  ////     transform: scale(1.15);
+  ////     filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
+  //// }//  
+  /// 
+  /// 
+  #capsule {
+      display: block;
+      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.08));
+  }
+
+  .capsule-path {
+      stroke-linecap: round;
+      stroke-linejoin: round;
+  }
+
+
+  .desktop-layout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 45px;
+  }
+
+  .slot img {
+      width: 80px;
+      height: auto;
+      //   filter: grayscale(100%);
+      //   transition: all 0.3s ease;
+  }
+
+  //   .slot img:hover {
+  //       filter: none;
+  //       transform: scale(1.1);
+  //   }
+
+  //   .separator {
+  //       width: 2px;
+  //       height: 45px;
+  //       background-color: #FFB300;
+  //       border-radius: 2px;
+  //   }
+
+  //   /* 📱 الوضع للموبايل */
+  //   .mobile-layout {
+  //       display: none;
+  //       flex-direction: column;
+  //       justify-content: space-evenly;
+  //       align-items: center;
+  //       height: 100%;
+  //       gap: 15px;
+  //   }
+
+  //   /* ✅ الخلايا داخل المستطيل */
+  //   .mobile-layout .slot {
+  //       background: #fff;
+  //       border: 1.5px solid #BFBFBF;
+  //       border-radius: 22px;
+  //       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  //       display: flex;
+  //       justify-content: center;
+  //       align-items: center;
+  //       gap: 20px;
+  //       width: 80%;
+  //       padding: 12px 0;
+  //       transition: 0.3s ease;
+  //   }
+
+  //   .mobile-layout .slot img {
+  //       width: 45px;
+  //       height: auto;
+  //       filter: grayscale(100%);
+  //       transition: all 0.3s ease;
+  //   }
+
+  //   .mobile-layout .slot img:hover {
+  //       filter: none;
+  //       transform: scale(1.1);
+  //   }
+  /* 📱 عند الشاشات الصغيرة */
+  @media (max-width: 700px) {
+      .mobile-layout {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          gap: 94px;
+          margin: auto;
+      }
+
+      #capsule {
+          width: 360px !important;
+          height: 420px !important;
+          viewBox: 0 0 360 580;
+      }
+
+      .capsule-path {
+          d: path("M40,20 a40,40 0 0 1 40,-40 h600 a40,40 0 0 1 40,40 v700 a40,40 0 0 1 -40,40 h-600 a40,40 0 0 1 -40,-40 z");
+      }
+
+      /* ✅ تكبير مساحة المحتوى الداخلي */
+      foreignObject {
+          x: 25px !important;
+          y: 25px !important;
+          width: 681px !important;
+          height: 670px !important;
+      }
+
+      #image-container {
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+          height: 100%;
+      }
+
+      /* ✅ تكبير العناصر الداخلية */
+      .mobile-layout .slot {
+          width: 90%;
+          padding: 18px 0;
+          gap: 106px;
+          border-radius: 25px;
+          height: auto;
+      }
+
+      .mobile-layout .slot img {
+          width: 114px;
+          /* ← كبرنا الصور */
+          height: auto;
+      }
+  }

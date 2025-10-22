@@ -1,0 +1,10 @@
+#Text1,
+#Text2 {
+  transform: translateY(100px);
+  opacity: 0;
+}
+
+.card {
+  opacity: 0;
+  transform: translateX(50px);
+}/*# sourceMappingURL=section4.component.css.map */

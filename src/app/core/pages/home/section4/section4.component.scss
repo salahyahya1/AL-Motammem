@@ -1,0 +1,45 @@
+#Text1,
+#Text2 {
+    transform: translateY(100px);
+    opacity: 0;
+}
+
+.card {
+    opacity: 0;
+    transform: translateX(50px);
+    cursor: pointer;
+
+    // width: 19%;
+    // width: 100px;
+    // background-color: red;
+    // height: 00px;
+}
+
+.card:hover {
+    transform: scale(1.2) !important;
+    transition: all 0.7s;
+}
+
+
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        text-shadow: 0 0 8px rgba(255, 179, 0, 0.8), 0 0 16px rgba(255, 179, 0, 0.5);
+    }
+
+    50% {
+        text-shadow: 0 0 14px rgba(255, 179, 0, 1), 0 0 30px rgba(255, 179, 0, 0.8);
+    }
+}
+
+#Text2:hover {
+    animation: glowPulse 2s infinite ease-in-out;
+    text-shadow: 0 0 8px rgba(255, 179, 0, 0.8);
+}
+
+#Text2 {
+    color: #ffb300;
+    text-shadow: none;
+    transition: text-shadow 0.6s ease;
+}

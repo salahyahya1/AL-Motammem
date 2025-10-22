@@ -1,0 +1,51 @@
+@charset "UTF-8";
+#Text5 {
+  transform: translateY(200px);
+  opacity: 0;
+}
+
+#capsule {
+  display: block;
+  margin: 50px auto;
+}
+
+.capsule-path {
+  stroke: #000;
+  stroke-width: 3;
+  fill: none;
+  opacity: 0;
+}
+
+.img-item {
+  position: relative;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #F8FAFF;
+  /* خلفية دائرية فاتحة */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+}
+
+.separator {
+  width: 4px;
+  height: 70px;
+  background-color: #FFD700;
+  border-radius: 2px;
+}/*# sourceMappingURL=section5.component.css.map */
