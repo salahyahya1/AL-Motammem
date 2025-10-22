@@ -779,8 +779,8 @@ export class HomeComponent implements AfterViewInit {
     this.sections.forEach((section) => {
       const sectionEl = document.getElementById(section.wholeSectionId);
       const dotWrapper = document.getElementById('dot-' + section.wholeSectionId);
-      console.log(sectionEl);
-      console.log(dotWrapper);
+      // console.log(sectionEl);
+      // console.log(dotWrapper);
       if (sectionEl && dotWrapper) {
         const dot = dotWrapper.querySelector('.dot') as HTMLElement;
         const label = dotWrapper.querySelector('.dot-label') as HTMLElement;

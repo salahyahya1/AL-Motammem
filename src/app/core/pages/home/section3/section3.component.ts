@@ -9,11 +9,9 @@ import { SplitText } from "gsap/SplitText";
 
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
-// import Swiper and modules styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-
 
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
@@ -25,6 +23,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
   styleUrl: './section3.component.scss'
 })
 export class Section3Component {
+  swipeConfig: any;
 
   isBrowser = false;
 
@@ -223,50 +222,95 @@ export class Section3Component {
           }, "<+0.5"
         );
 
-        Swiper.use([Navigation]);
-        //
-        const swiper = new Swiper(this.swiperEl.nativeElement, {
-          slidesPerView: 3,
-          spaceBetween: 30,
-          loop: true,
-          grabCursor: true,
-          centeredSlides: false,
-          navigation: {
-            nextEl: '#arrowLeft', // لاحظ: عكس الاتجاهات
-            prevEl: '#arrowRight',
-          },
-          breakpoints: {
-            0: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }
-        });
+////////////////////////////////////////////////////////////////////
+        // Swiper.use([Navigation]);
+        // //
+        // const swiper = new Swiper(this.swiperEl.nativeElement, {
+        //   slidesPerView: 3,
+        //   spaceBetween: 30,
+        //   loop: true,
+        //   grabCursor: true,
+        //   centeredSlides: false,
+        //   navigation: {
+        //     nextEl: '#arrowLeft', // لاحظ: عكس الاتجاهات
+        //     prevEl: '#arrowRight',
+        //   },
+        //   breakpoints: {
+        //     0: { slidesPerView: 1 },
+        //     768: { slidesPerView: 2 },
+        //     1024: { slidesPerView: 3 },
+        //   }
+        // });
 
-        // GSAP دخول الكروت
-        gsap.from('.swiper-slide', {
-          scrollTrigger: {
-            trigger: '.erp-carousel',
-            start: 'top 85%',
-          },
-          opacity: 0,
-          y: 60,
-          duration: 0.7,
-          stagger: 0.2,
-          ease: 'power3.out',
-        });
+        // // GSAP دخول الكروت
+        // gsap.from('.swiper-slide', {
+        //   scrollTrigger: {
+        //     trigger: '.erp-carousel',
+        //     start: 'top 85%',
+        //   },
+        //   opacity: 0,
+        //   y: 60,
+        //   duration: 0.7,
+        //   stagger: 0.2,
+        //   ease: 'power3.out',
+        // });
 
-        // GSAP تأثير التبديل
-        swiper.on('slideChangeTransitionStart', () => {
-          const activeSlide = document.querySelector('.swiper-slide-active .card');
-          if (activeSlide) {
-            gsap.fromTo(
-              activeSlide,
-              { scale: 0.9, opacity: 0.7 },
-              { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }
-            );
-          }
-        });
+        // // GSAP تأثير التبديل
+        // swiper.on('slideChangeTransitionStart', () => {
+        //   const activeSlide = document.querySelector('.swiper-slide-active .card');
+        //   if (activeSlide) {
+        //     gsap.fromTo(
+        //       activeSlide,
+        //       { scale: 0.9, opacity: 0.7 },
+        //       { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }
+        //     );
+        //   }
+        // });
+          Swiper.use([Navigation, Pagination]);
 
+      const swiper = new Swiper(this.swiperEl.nativeElement, {
+        modules: [Navigation, Pagination],
+        direction: 'horizontal',
+        slidesPerView: 3,
+        spaceBetween: 30,
+        loop: true,
+        grabCursor: true,
+        navigation: {
+          nextEl: '#arrowRight',
+          prevEl: '#arrowLeft',
+        },
+        breakpoints: {
+          0: { slidesPerView: 1 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+        },
+      });
+
+      // ✅ GSAP دخول الكروت
+      gsap.from('.swiper-slide', {
+        scrollTrigger: {
+          trigger: '.erp-carousel',
+          start: 'top 85%',
+        },
+        opacity: 0,
+        y: 60,
+        duration: 0.7,
+        stagger: 0.2,
+        ease: 'power3.out',
+      });
+
+      // ✅ تأثير عند التبديل
+      swiper.on('slideChangeTransitionStart', () => {
+        const activeSlide = document.querySelector('.swiper-slide-active .card');
+        if (activeSlide) {
+          gsap.fromTo(
+            activeSlide,
+            { scale: 0.9, opacity: 0.7 },
+            { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }
+          );
+        }
+      });
+////////////////////////////////////////////////////////////////////////////////////
         // async ngAfterViewInit() {
         //   if (!isPlatformBrowser(this.platformId)) return;
 
