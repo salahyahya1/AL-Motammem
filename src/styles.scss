@@ -41,17 +41,17 @@ body,
     background-color: var(--white) !important;
 }
 
-@font-face {
-    font-family: 'Poppins';
-    src: url('/fonts/Poppins-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
+// @font-face {
+//     font-family: 'Poppins';
+//     src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+//     font-weight: normal;
+//     font-style: normal;
+// }
 
-:where(button, a, input, textarea):focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-}
+// :where(button, a, input, textarea):focus-visible {
+//     outline: 2px solid var(--color-primary);
+//     outline-offset: 2px;
+// }
 
 * {
     cursor: url('/images/custom_cursor_fixed.cur') 16 16, pointer !important;
