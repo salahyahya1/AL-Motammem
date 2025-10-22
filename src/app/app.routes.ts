@@ -24,9 +24,10 @@ export const routes: Routes = [
                 canonical: 'https://example.com/plans'
             }
         }
-    },    {
+    },{
         path: 'ComingSoon',
         component:ComingSoonComponent,
+             title: 'قريبا',
     },
     { path: '**', redirectTo: '' }
 ];
