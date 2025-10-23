@@ -12,14 +12,13 @@ import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { RouterLink } from '@angular/router';
 
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
 @Component({
   selector: 'app-section3',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './section3.component.html',
   styleUrl: './section3.component.scss'
 })
@@ -133,14 +132,14 @@ export class Section3Component {
         if (!path) return;
         const length = path.getTotalLength();
         gsap.set('#capsule2', { y: 78 })
-        tl.fromTo(path,  { strokeDasharray: length, strokeDashoffset: length, opacity: 0, visibility: "hidden" },
-  { 
-    strokeDashoffset: 0, 
-    opacity: 1, 
-    visibility: "visible",
-    duration: 2, 
-    ease: "power2.inOut" 
-  });
+        tl.fromTo(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 0, visibility: "hidden" },
+          {
+            strokeDashoffset: 0,
+            opacity: 1,
+            visibility: "visible",
+            duration: 2,
+            ease: "power2.inOut"
+          });
         gsap.set("#section50-TITLE", { perspective: 800 });
 
         tl.fromTo(section50TITLESplit.words,
@@ -225,7 +224,7 @@ export class Section3Component {
           }, "<+0.5"
         );
 
-////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////
         // Swiper.use([Navigation]);
         // //
         // const swiper = new Swiper(this.swiperEl.nativeElement, {
@@ -269,51 +268,51 @@ export class Section3Component {
         //     );
         //   }
         // });
-          Swiper.use([Navigation, Pagination]);
+        Swiper.use([Navigation, Pagination]);
 
-      const swiper = new Swiper(this.swiperEl.nativeElement, {
-        modules: [Navigation, Pagination],
-        direction: 'horizontal',
-        slidesPerView: 3,
-        spaceBetween: 30,
-        loop: true,
-        grabCursor: true,
-        navigation: {
-          nextEl: '#arrowRight',
-          prevEl: '#arrowLeft',
-        },
-        breakpoints: {
-          0: { slidesPerView: 1 },
-          768: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
-        },
-      });
+        const swiper = new Swiper(this.swiperEl.nativeElement, {
+          modules: [Navigation, Pagination],
+          direction: 'horizontal',
+          slidesPerView: 3,
+          spaceBetween: 30,
+          loop: true,
+          grabCursor: true,
+          navigation: {
+            nextEl: '#arrowRight',
+            prevEl: '#arrowLeft',
+          },
+          breakpoints: {
+            0: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          },
+        });
 
-      // ✅ GSAP دخول الكروت
-      gsap.from('.swiper-slide', {
-        scrollTrigger: {
-          trigger: '.erp-carousel',
-          start: 'top 85%',
-        },
-        opacity: 0,
-        y: 60,
-        duration: 0.7,
-        stagger: 0.2,
-        ease: 'power3.out',
-      });
+        // ✅ GSAP دخول الكروت
+        gsap.from('.swiper-slide', {
+          scrollTrigger: {
+            trigger: '.erp-carousel',
+            start: 'top 85%',
+          },
+          opacity: 0,
+          y: 60,
+          duration: 0.7,
+          stagger: 0.2,
+          ease: 'power3.out',
+        });
 
-      // ✅ تأثير عند التبديل
-      swiper.on('slideChangeTransitionStart', () => {
-        const activeSlide = document.querySelector('.swiper-slide-active .card');
-        if (activeSlide) {
-          gsap.fromTo(
-            activeSlide,
-            { scale: 0.9, opacity: 0.7 },
-            { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }
-          );
-        }
-      });
-////////////////////////////////////////////////////////////////////////////////////
+        // ✅ تأثير عند التبديل
+        swiper.on('slideChangeTransitionStart', () => {
+          const activeSlide = document.querySelector('.swiper-slide-active .card');
+          if (activeSlide) {
+            gsap.fromTo(
+              activeSlide,
+              { scale: 0.9, opacity: 0.7 },
+              { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }
+            );
+          }
+        });
+        ////////////////////////////////////////////////////////////////////////////////////
         // async ngAfterViewInit() {
         //   if (!isPlatformBrowser(this.platformId)) return;
 

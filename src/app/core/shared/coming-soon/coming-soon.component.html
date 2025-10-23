@@ -1,1 +1,54 @@
-<p>coming-soon works!</p>
+<section class="min-h-screen flex flex-col items-center justify-center bg-[color:var(--white)] text-center px-6">
+
+    <!-- الشعار -->
+    <img src="./images/SVGs homepage/New folder/logo colored.svg" alt="Logo" class="w-44 mb-6 select-none"
+        loading="lazy" />
+
+    <!-- العنوان -->
+    <h1 class="text-3xl md:text-4xl font-extrabold text-[color:var(--primary)] mb-3">
+        🚀 قريبًا <span class="text-[color:var(--secondary)]">نظام المتمم ERP</span>
+    </h1>
+
+    <!-- الوصف -->
+    <p class="text-[color:var(--dark-gray)] max-w-xl leading-relaxed mb-10">
+        نحن نعمل على إطلاق نظام ERP متكامل لإدارة موارد شركتك بكفاءة وذكاء.
+        تابع العد التنازلي للإطلاق الرسمي أدناه!
+    </p>
+
+    <!-- العدّاد -->
+    <div class="flex flex-wrap justify-center gap-4 md:gap-6 mb-12">
+        <div class="time-box">
+            <span>{{ days }}</span>
+            <small>يوم</small>
+        </div>
+        <div class="time-box">
+            <span>{{ hours }}</span>
+            <small>ساعة</small>
+        </div>
+        <div class="time-box">
+            <span>{{ minutes }}</span>
+            <small>دقيقة</small>
+        </div>
+        <div class="time-box">
+            <span>{{ seconds }}</span>
+            <small>ثانية</small>
+        </div>
+    </div>
+
+    <!-- الاشتراك بالبريد -->
+    <form (submit)="notify($event)" class="w-full max-w-md flex flex-col sm:flex-row gap-3 mb-10">
+        <input type="email" required placeholder="أدخل بريدك الإلكتروني ليصلك إشعار الإطلاق" class="flex-1 px-4 py-3 rounded-xl border border-[color:var(--light-light-gray)]
+             text-[color:var(--dark-gray)] focus:ring-2 focus:ring-[color:var(--primary)]
+             outline-none text-sm placeholder-[color:var(--light-gray)]" />
+
+        <button type="submit" class="px-6 py-3 bg-[color:var(--secondary)] text-black font-semibold rounded-xl
+             hover:opacity-90 transition">
+            نبّهوني
+        </button>
+    </form>
+
+    <!-- الفوتر -->
+    <footer class="text-xs text-[color:var(--light-gray)]">
+        © {{year}} جميع الحقوق محفوظة - المتمم ERP
+    </footer>
+</section>

@@ -747,9 +747,19 @@ export class HomeComponent implements AfterViewInit {
   private updateNavbarColors(navbarEl: HTMLElement, textColor: string) {
     gsap.to(navbarEl, { color: textColor, duration: 0.4 });
     const brand = document.getElementById('brand-text');
-    if (brand) {
+    const brand2 = document.getElementById('brand-text2');
+    const brand3 = document.getElementById('brand-text3');
+    if (brand && brand2 && brand3) {
       gsap.to(brand, {
         color: textColor === 'var(--primary)' ? 'var(--dark-gray)' : 'var(--white)',
+        duration: 0.4,
+      });
+      gsap.to(brand2, {
+        color: textColor === 'var(--primary)' ? 'var(--primary)' : 'var(--white)',
+        duration: 0.4,
+      });
+      gsap.to(brand3, {
+        color: textColor === 'var(--primary)' ? 'var(--primary)' : 'var(--white)',
         duration: 0.4,
       });
     }

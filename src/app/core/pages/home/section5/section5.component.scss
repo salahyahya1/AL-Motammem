@@ -16,8 +16,8 @@
       stroke-width: 3;
       fill: none;
       opacity: 0;
-            visibility: hidden;
-                  stroke-linecap: round;
+      // visibility: hidden;
+      stroke-linecap: round;
       stroke-linejoin: round;
   }
 
@@ -35,7 +35,7 @@
       position: relative;
       overflow: hidden;
       opacity: 0;
-                  visibility: hidden;
+      visibility: hidden;
   }
 
   //  .slot {
@@ -162,7 +162,8 @@
       #capsule {
           width: 360px !important;
           height: 420px !important;
-          viewBox: 0 0 360 580;
+          //   viewBox: 0 0 360 580;
+
       }
 
       .capsule-path {
@@ -182,9 +183,9 @@
           justify-content: space-around;
           align-items: center;
           height: 100%;
-      overflow: hidden;
-      opacity: 0;
-            visibility: hidden;
+          overflow: hidden;
+          opacity: 0;
+          visibility: hidden;
       }
 
       /* ✅ تكبير العناصر الداخلية */

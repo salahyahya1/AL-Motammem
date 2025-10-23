@@ -1,6 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Component, Inject, NgZone, OnDestroy, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { SplitText } from "gsap/SplitText";
@@ -9,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
   selector: 'app-section1',
   templateUrl: './section1.component.html',
   styleUrl: './section1.component.scss',
-  imports: [RouterLink],
+  imports: [],
 })
 export class Section1Component implements OnDestroy {
   constructor(

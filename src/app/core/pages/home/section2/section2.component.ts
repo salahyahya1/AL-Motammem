@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import { ApplicationRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
   selector: 'app-section2',
-  imports: [ RouterLink],
+  imports: [RouterLink],
   templateUrl: './section2.component.html',
   styleUrls: ['./section2.component.scss'],
 })
@@ -18,10 +18,24 @@ export class Section2Component {
     private appRef: ApplicationRef,
     private ngZone: NgZone
   ) { }
-
+  @ViewChild('section4Video') section4Video!: ElementRef<HTMLVideoElement>;
   ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
     let playedOnce = false;
+    // const video = this.section4Video.nativeElement;
+
+    // // ✅ انتظر الحدث قبل تغيير السرعة
+    // const onReady = () => {
+    //   video.playbackRate = 1.5; // اضبط السرعة بعد ما يبقى جاهز
+    //   video.play().catch(() => console.warn('Autoplay prevented'));
+    // };
+
+    // if (video.readyState >= 1) {
+    //   // الفيديو جاهز فعلاً
+    //   onReady();
+    // } else {
+    //   video.addEventListener('loadedmetadata', onReady, { once: true });
+    // }
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         document.fonts.ready.then(() => {

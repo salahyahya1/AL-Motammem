@@ -26,7 +26,31 @@
     border-radius: 2px;
 }
 
+@media (max-width: 1024px) {
+    #section6 {
+        padding-top: 5rem;
+    }
+}
+
 @media (max-width: 700px) {
+    .separator4 {
+        display: none;
+    }
+}
+
+@media (max-width: 654px) {
+    .separator4 {
+        display: none;
+    }
+}
+
+@media (max-width: 530px) {
+    .separator3 {
+        display: none;
+    }
+}
+
+@media (max-width: 415px) {
 
     .separator2,
     .separator4 {

@@ -1,6 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
@@ -9,12 +8,13 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
   selector: 'app-section5',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './section5.component.html',
   styleUrl: './section5.component.scss'
 })
 export class Section5Component {
   isMobile = false;
+  private resizeHandler!: () => void;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
@@ -25,8 +25,13 @@ export class Section5Component {
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;
     if (!isPlatformBrowser(this.platformId)) return;
-    this.isMobile = window.innerWidth < 700;
+    this.updateIsMobile();
 
+    // ✅ أضف listener على resize
+    this.resizeHandler = () => {
+      this.ngZone.run(() => this.updateIsMobile());
+    };
+    window.addEventListener('resize', this.resizeHandler);
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         const tl = gsap.timeline({
@@ -43,72 +48,74 @@ export class Section5Component {
         // triggered = false;
         /////////////////////////////////////////////////////////
         const path = document.querySelector(".capsule-path") as SVGPathElement;
-           gsap.set("#image-container", { opacity: 0, visibility: "hidden" });
-gsap.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 0, visibility: "hidden" });
-const container = document.querySelector("#image-container") as HTMLElement;
-      gsap.set(container, { opacity: 0, visibility: "hidden" });
+        const length = path.getTotalLength();
+        gsap.set("#image-container", { opacity: 0, visibility: "hidden" });
+        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 0, visibility: "hidden" });
+        const container = document.querySelector("#image-container") as HTMLElement;
+        gsap.set(container, { opacity: 0, visibility: "hidden" });
 
-      let imagesShown = false;
-      let flipStarted = false;
+        let imagesShown = false;
+        let flipStarted = false;
+        ///////////////////
 
-      // التحريك الفعلي
-      tl.to(path, {
-        opacity: 1,
-        visibility: "visible",
-        strokeDashoffset: 0,
-        duration: 2,
-        ease: "power2.inOut",
-        onUpdate: () => {
-          const currentOffset = gsap.getProperty(path, "strokeDashoffset") as number;
-          const progress = 1 - currentOffset / length; // 0 → 1 = نسبة الرسم
+        // التحريك الفعلي
+        tl.to(path, {
+          opacity: 1,
+          visibility: "visible",
+          strokeDashoffset: 0,
+          duration: 2,
+          ease: "power2.inOut",
+          onUpdate: () => {
+            const currentOffset = gsap.getProperty(path, "strokeDashoffset") as number;
+            const progress = 1 - currentOffset / length; // 0 → 1 = نسبة الرسم
 
-          // ✅ عند 50% أظهر الصور
-          if (progress >= 0.5 && !imagesShown) {
-            imagesShown = true;
-            gsap.to(container, {
-              opacity: 1,
-              visibility: "visible",
-              duration: 0.6,
-              ease: "power2.out",
-            });
+            // ✅ عند 50% أظهر الصور
+            if (progress >= 0.5 && !imagesShown) {
+              imagesShown = true;
+              gsap.to(container, {
+                opacity: 1,
+                visibility: "visible",
+                duration: 0.6,
+                ease: "power2.out",
+              });
+            }
+
+            // ✅ عند 100% ابدأ التبديل
+            if (progress >= 1 && !flipStarted) {
+              flipStarted = true;
+              this.startImageFlip(container);
+            }
           }
+        });
+        //       gsap.set("#image-container", { opacity: 0, visibility: "hidden" });
+        //         const path = document.querySelector(".capsule-path") as SVGPathElement;
+        //         if (!path) return; // تأكيد إن العنصر موجود
+        //         const length = path.getTotalLength();
+        //         // tl.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
+        //         tl.fromTo(path,{
+        //  strokeDasharray: length, strokeDashoffset: length, opacity: 0 ,  visibility: "hidden" 
+        //         }, { opacity: 1, 
+        //           strokeDashoffset: 0,
+        //           duration: 2,
+        //            visibility: "visible" ,
+        //           ease: "power2.inOut",
+        //           onUpdate: () => {
+        //             const progress = tl.progress();
+        //             const container = document.querySelector("#image-container") as HTMLElement;
+        //             if (progress >= 0.5 && !triggered) {
+        //               triggered = true;
+        //               if (!container) return;
+        //               gsap.fromTo(container, { opacity: 0,visibility: 'hidden'}, { opacity: 1, visibility: "visible", duration: 0.5 });
+        //             }
+        //             if (progress >= 1) {
+        //               triggered = true;
+        //               if (!container) return;
+        //               this.startImageFlip(container);
+        //             }
+        //           }
+        //         });
 
-          // ✅ عند 100% ابدأ التبديل
-          if (progress >= 1 && !flipStarted) {
-            flipStarted = true;
-            this.startImageFlip(container);
-          }
-        }
-      });
-//       gsap.set("#image-container", { opacity: 0, visibility: "hidden" });
-//         const path = document.querySelector(".capsule-path") as SVGPathElement;
-//         if (!path) return; // تأكيد إن العنصر موجود
-//         const length = path.getTotalLength();
-//         // tl.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
-//         tl.fromTo(path,{
-//  strokeDasharray: length, strokeDashoffset: length, opacity: 0 ,  visibility: "hidden" 
-//         }, { opacity: 1, 
-//           strokeDashoffset: 0,
-//           duration: 2,
-//            visibility: "visible" ,
-//           ease: "power2.inOut",
-//           onUpdate: () => {
-//             const progress = tl.progress();
-//             const container = document.querySelector("#image-container") as HTMLElement;
-//             if (progress >= 0.5 && !triggered) {
-//               triggered = true;
-//               if (!container) return;
-//               gsap.fromTo(container, { opacity: 0,visibility: 'hidden'}, { opacity: 1, visibility: "visible", duration: 0.5 });
-//             }
-//             if (progress >= 1) {
-//               triggered = true;
-//               if (!container) return;
-//               this.startImageFlip(container);
-//             }
-//           }
-//         });
-
-/////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
       });
     });
   }
@@ -161,6 +168,7 @@ const container = document.querySelector("#image-container") as HTMLElement;
     }
 
     function randomLoop() {
+
       const available = slots.filter(slot => (slotImages.get(slot)?.length ?? 0) > 0);
       if (!available.length) {
         console.log("✅ كل الخانات خلصت الصور");
@@ -177,5 +185,14 @@ const container = document.querySelector("#image-container") as HTMLElement;
     }
 
     randomLoop();
+  }
+  private updateIsMobile() {
+    this.isMobile = window.innerWidth < 700;
+  }
+  ngOnDestroy() {
+    // ✅ شيل الـ listener لما الكومبوننت يتدمّر
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+    }
   }
 }

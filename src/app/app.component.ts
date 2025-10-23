@@ -10,7 +10,7 @@ import { LearningGSAPComponent } from "./core/pages/learning-gsap/learning-gsap.
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LearningGSAPComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

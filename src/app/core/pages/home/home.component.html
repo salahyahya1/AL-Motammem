@@ -1,253 +1,218 @@
 <header #navbar class="navbar fixed top-0 left-0 right-0 w-full z-50 transition-all duration-500 "
-    [ngStyle]="{ color: 'var(--primary)' }">
-    <div
-        class="container mx-auto flex flex-col-reverse justify-center md:gap-x-4 items-center md:flex-row md:items-center md:justify-between md:py-4 md:px-6">
-        <nav #navbarMenu
-            class=" flex md:space-x-4 flex-col gap-y-2 pt-2 md:pt-0 md:gap-y-0 justify-center items-center md:flex-row md:justify-start md:items-center text-md font-medium w-full">
-            <div class="bg-[var(--light-light-gray)] w-9 h-9 rounded-full flex items-center justify-center md:mr-4">
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 30 30">
-                    <path
-                        d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"
-                        fill="var(--primary)">
-                    </path>
-                </svg>
+  [ngStyle]="{ color: 'var(--primary)' }">
+  <div
+    class="container mx-auto flex flex-col-reverse justify-center md:gap-x-4 items-center md:flex-row md:items-center md:justify-between md:py-4 md:px-6">
+    <nav #navbarMenu
+      class=" flex md:space-x-4 flex-col gap-y-2 pt-2 md:pt-0 md:gap-y-0 justify-center items-center md:flex-row md:justify-start md:items-center text-md font-medium w-full">
+      <div class="bg-[var(--light-light-gray)] w-9 h-9 rounded-full flex items-center justify-center md:mr-4">
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 30 30">
+          <path
+            d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"
+            fill="var(--primary)">
+          </path>
+        </svg>
+      </div>
+      <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">الرئيسية</a>
+      <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">منتجاتنا</a>
+      <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">التطبيقات</a>
+      <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">المجالات</a>
+      <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">الأسعار</a>
+      <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">اتصل بنا</a>
+    </nav>
+    <div #navSmallScreen class="navSmallScreen w-full h-full">
+      <div class="w-[90%] flex flex-row-reverse justify-between items-center mx-auto">
+        <div dir="ltr" class="flex gap-x-2 mt-1">
+          <svg width="30" height="38" viewBox="0 0 30 38" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M29.8651 21.1765C29.8651 21.0745 29.8651 20.9506 29.8579 20.8996C29.8073 19.3615 29.6266 17.1091 29.0482 14.3464C28.9831 13.9965 28.8096 13.3842 28.2963 12.8813C27.6891 12.2835 26.9155 12.1523 26.4094 12.1013C23.4237 11.766 19.5631 12.7646 16.2304 13.6539C15.7821 13.7706 15.399 13.8799 15.0953 13.9601C14.7917 13.8799 14.4013 13.7779 13.9603 13.6539C10.6275 12.7646 6.76698 11.766 3.78121 12.1013C3.28238 12.1596 2.5016 12.2835 1.89432 12.8813C1.38826 13.3842 1.21475 13.9965 1.14246 14.3464C0.556871 17.1018 0.383363 19.3615 0.332757 20.8996C0.332757 20.9506 0.332757 21.0745 0.325528 21.1765C0.325528 21.1765 0.15202 27.9046 1.07739 33.9402C1.07739 33.9548 1.07739 33.9694 1.07739 33.9694C1.35211 35.7188 1.88709 36.2582 1.88709 36.2582C1.98831 36.3603 2.08952 36.4404 2.1835 36.5061C2.1835 36.5061 2.3064 36.5862 2.44376 36.6591C3.05827 36.9653 3.91857 37.0673 3.91857 37.0673C5.10421 37.2058 5.41507 37.2131 5.41507 37.2131C7.38872 37.3881 10.3383 37.5849 15.0664 37.5849C15.0664 37.5849 15.0809 37.5849 15.0881 37.5849C15.0953 37.5849 15.1026 37.5849 15.1098 37.5849C19.8379 37.5849 22.7875 37.3881 24.7611 37.2131C24.7611 37.2131 25.072 37.2131 26.2576 37.0673C26.2576 37.0673 27.1179 36.9653 27.7324 36.6591C27.8698 36.5935 27.9927 36.5061 27.9927 36.5061C28.0867 36.4404 28.1879 36.3676 28.2891 36.2582C28.2891 36.2582 28.8241 35.7188 29.0988 33.9694C29.0988 33.9694 29.0988 33.9548 29.0988 33.9402C30.0242 27.9119 29.8507 21.1765 29.8507 21.1765H29.8651Z" />
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M14.958 12.6845C8.40807 11.7514 4.05593 8.11404 3.07996 0.32172C12.0445 2.12948 13.7506 4.87028 14.958 12.6845Z" />
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M22.2597 4.5787C17.3003 5.47529 15.0736 8.38374 14.6471 12.5678C14.7483 12.6116 14.8568 12.648 14.958 12.6845C19.7366 11.6421 21.4139 10.3373 22.2525 4.5787H22.2597Z" />
+          </svg>
+          <div class="text-[color:var(--dark-gray)] transition-colors duration-300" id="brand-text">
+            <div class="flex flex-col items-end">
+              <span class="text-xl font-medium whitespace-nowrap">Al-Motammem</span>
+              <span class="text-xs font-light">40 years of ERP</span>
             </div>
-            <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">الرئيسية</a>
-            <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">منتجاتنا</a>
-            <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">التطبيقات</a>
-            <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">المجالات</a>
-            <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">الأسعار</a>
-            <a routerLink="ComingSoon" class="hover:text-primary whitespace-nowrap">اتصل بنا</a>
-        </nav>
-        <div #navSmallScreen class="navSmallScreen w-full h-full">
-            <div class="w-[90%] flex flex-row-reverse justify-between items-center mx-auto">
-                <div dir="ltr" class="flex gap-x-2 mt-1">
-                    <svg width="30" height="38" viewBox="0 0 30 38" fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M29.8651 21.1765C29.8651 21.0745 29.8651 20.9506 29.8579 20.8996C29.8073 19.3615 29.6266 17.1091 29.0482 14.3464C28.9831 13.9965 28.8096 13.3842 28.2963 12.8813C27.6891 12.2835 26.9155 12.1523 26.4094 12.1013C23.4237 11.766 19.5631 12.7646 16.2304 13.6539C15.7821 13.7706 15.399 13.8799 15.0953 13.9601C14.7917 13.8799 14.4013 13.7779 13.9603 13.6539C10.6275 12.7646 6.76698 11.766 3.78121 12.1013C3.28238 12.1596 2.5016 12.2835 1.89432 12.8813C1.38826 13.3842 1.21475 13.9965 1.14246 14.3464C0.556871 17.1018 0.383363 19.3615 0.332757 20.8996C0.332757 20.9506 0.332757 21.0745 0.325528 21.1765C0.325528 21.1765 0.15202 27.9046 1.07739 33.9402C1.07739 33.9548 1.07739 33.9694 1.07739 33.9694C1.35211 35.7188 1.88709 36.2582 1.88709 36.2582C1.98831 36.3603 2.08952 36.4404 2.1835 36.5061C2.1835 36.5061 2.3064 36.5862 2.44376 36.6591C3.05827 36.9653 3.91857 37.0673 3.91857 37.0673C5.10421 37.2058 5.41507 37.2131 5.41507 37.2131C7.38872 37.3881 10.3383 37.5849 15.0664 37.5849C15.0664 37.5849 15.0809 37.5849 15.0881 37.5849C15.0953 37.5849 15.1026 37.5849 15.1098 37.5849C19.8379 37.5849 22.7875 37.3881 24.7611 37.2131C24.7611 37.2131 25.072 37.2131 26.2576 37.0673C26.2576 37.0673 27.1179 36.9653 27.7324 36.6591C27.8698 36.5935 27.9927 36.5061 27.9927 36.5061C28.0867 36.4404 28.1879 36.3676 28.2891 36.2582C28.2891 36.2582 28.8241 35.7188 29.0988 33.9694C29.0988 33.9694 29.0988 33.9548 29.0988 33.9402C30.0242 27.9119 29.8507 21.1765 29.8507 21.1765H29.8651Z" />
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M14.958 12.6845C8.40807 11.7514 4.05593 8.11404 3.07996 0.32172C12.0445 2.12948 13.7506 4.87028 14.958 12.6845Z" />
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M22.2597 4.5787C17.3003 5.47529 15.0736 8.38374 14.6471 12.5678C14.7483 12.6116 14.8568 12.648 14.958 12.6845C19.7366 11.6421 21.4139 10.3373 22.2525 4.5787H22.2597Z" />
-                    </svg>
-                    <div class="text-[color:var(--dark-gray)] transition-colors duration-300" id="brand-text">
-                        <div class="flex flex-col items-end">
-                            <span class="text-xl font-medium whitespace-nowrap">Al-Motammem</span>
-                            <span class="text-xs font-light">40 years of ERP</span>
-                        </div>
-                    </div>
+          </div>
 
 
-                </div>
-                <button id="hamprgerButton" class="block focus:outline-none" (click)="toggleMenu()"
-                    aria-label="Toggle menu">
-                    <svg [ngClass]="menuOpen ? 'hidden' : 'block'" xmlns="http://www.w3.org/2000/svg" id="brand-text"
-                        class="h-7 w-7 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-
-                    <svg [ngClass]="menuOpen ? 'block' : 'hidden'" xmlns="http://www.w3.org/2000/svg" id="brand-text"
-                        class="h-7 w-7 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-
-            </div>
         </div>
-    </div>
-</header>
-<!-- 
-<div #containerWrapper class="scroll-container h-screen overflow-auto transition-all duration-500">
-    <section id="section1" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--primary)">
-        <app-section1></app-section1>
-    </section>
-
-    <section id="section2" class="panel min-h-screen" data-bgcolor="var(--primary)" data-textcolor="var(--white)">
-        <div class="content-wrapper" #blueSection>
-            <app-section2></app-section2>
-        </div>
-    </section>
-
-    <section id="section1-repeat" class="panel min-h-screen" data-bgcolor="var(--primary)"
-        data-textcolor="var(--white)">
-        <app-section3></app-section3>
-    </section>
-    <section id="section1-repeat" class="panel min-h-screen" data-bgcolor="var(--primary)"
-        data-textcolor="var(--white)">
-        <app-section4></app-section4>
-    </section>
-    <section id="section1-repeat" class="panel min-h-screen" data-bgcolor="var(--primary)"
-        data-textcolor="var(--white)">
-        <app-section5></app-section5>
-    </section>
-</div> -->
-<div id="smooth-wrapper">
-    <div id="smooth-content">
-        <div #containerWrapper class="">
-            <section id="section1" class="panel min-h-screen" data-bgcolor="var(--white)"
-                data-textcolor="var(--primary)">
-                <app-section1></app-section1>
-            </section>
-
-            <section id="section2" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--white)">
-                <app-section2></app-section2>
-            </section>
-            <section id="section3" class="panel min-h-screen" data-bgcolor="var(--white)"
-                data-textcolor="var(--primary)">
-                <app-section3></app-section3>
-            </section>
-            <section id="section4" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--white)">
-                <app-section4></app-section4>
-            </section>
-            <section id="section5" class="panel min-h-screen" data-bgcolor="var(--white)"
-                data-textcolor="var(--primary)">
-                <app-section5></app-section5>
-            </section>
-            <section id="section10" class="panel min-h-screen" data-bgcolor="var(--white)"
-                data-textcolor="var(--primary)">
-                <app-section10></app-section10>
-            </section>
-            <section id="section6" class="panel min-h-screen" data-bgcolor="var(--white)"
-                data-textcolor="var(--primary)">
-                <app-section6></app-section6>
-            </section>
-            <section id="section7" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--white)">
-                <app-section7></app-section7>
-            </section>
-            <section id="section8" class="panel min-h-screen" data-bgcolor="var(--white)"
-                data-textcolor="var(--primary)">
-                <app-section8></app-section8>
-            </section>
-            <footer dir="rtl" class="bg-[#333333] text-white py-10 px-6 md:px-12 lg:px-20">
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-10 text-right">
-    
-    <!-- العمود 1: الشعار + الوصف + السوشيال -->
-    <div>
-      <img src="assets/images/logo.png" alt="شعار ميكروتك" class="w-56 mb-3 ml-auto" />
-      <p class="text-[#F5A605] text-sm font-semibold mb-2">
-        حلول موثوقة، شريك يعتمد عليه
-      </p>
-      <p class="text-sm leading-relaxed text-gray-200">
-        منذ عام 1986، وعلى مدار أكثر من 39 عامًا، ركّزت شركة ميكروتك على تقديم حلول عملية ومبتكرة
-        وخدمات موثوقة لعملائها.
-      </p>
-
-      <!-- أيقونات التواصل الاجتماعي -->
-      <div class="flex items-center justify-start gap-4 mt-5">
-        <!-- Facebook -->
-        <a href="#" aria-label="Facebook"
-          class="w-10 h-10 rounded-full bg-[#F5A605] hover:opacity-90 transition flex items-center justify-center">
-          <svg viewBox="0 0 24 24" class="w-5 h-5" role="img" aria-hidden="true">
-            <path fill="white"
-              d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.22.2 2.22.2v2.44h-1.25c-1.24 0-1.63.77-1.63 1.56v1.87h2.77l-.44 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z" />
+        <button id="hamprgerButton" class="block focus:outline-none" (click)="toggleMenu()" aria-label="Toggle menu">
+          <svg [ngClass]="menuOpen ? 'hidden' : 'block'" xmlns="http://www.w3.org/2000/svg" id="brand-text2"
+            class="h-7 w-7 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
-        </a>
 
-        <!-- X -->
-        <a href="#" aria-label="X"
-          class="w-10 h-10 rounded-full bg-[#F5A605] hover:opacity-90 transition flex items-center justify-center">
-          <svg viewBox="0 0 24 24" class="w-5 h-5" role="img" aria-hidden="true">
-            <path fill="white"
-              d="M3 3h3.8l5.02 6.76L17.91 3H21l-7.45 9.2L21.5 21H17.7l-5.25-7.08L6.09 21H3.01l7.99-9.86L3 3Z" />
+          <svg [ngClass]="menuOpen ? 'block' : 'hidden'" xmlns="http://www.w3.org/2000/svg" id="brand-text3"
+            class="h-7 w-7 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
-        </a>
+        </button>
 
-        <!-- LinkedIn -->
-        <a href="#" aria-label="LinkedIn"
-          class="w-10 h-10 rounded-full bg-[#F5A605] hover:opacity-90 transition flex items-center justify-center">
-          <svg viewBox="0 0 24 24" class="w-5 h-5" role="img" aria-hidden="true">
-            <path fill="white"
-              d="M20.45 20.45h-3.56v-5.59c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.68H9.35V9h3.41v1.56h.05c.47-.89 1.62-1.85 3.34-1.85 3.57 0 4.23 2.35 4.23 5.4v6.34ZM5.34 7.44a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM3.56 20.45h3.56V9H3.56v11.45Z" />
-          </svg>
-        </a>
-
-        <!-- YouTube -->
-        <a href="#" aria-label="YouTube"
-          class="w-10 h-10 rounded-full bg-[#F5A605] hover:opacity-90 transition flex items-center justify-center">
-          <svg viewBox="0 0 24 24" class="w-5 h-5" role="img" aria-hidden="true">
-            <path fill="white"
-              d="M23 12s0-3.39-.43-5a3.06 3.06 0 0 0-2.15-2.15C18.8 4.4 12 4.4 12 4.4s-6.8 0-8.42.45A3.06 3.06 0 0 0 1.43 7.01C1 8.61 1 12 1 12s0 3.39.43 4.99a3.06 3.06 0 0 0 2.15 2.15C5.2 19.6 12 19.6 12 19.6s6.8 0 8.42-.45a3.06 3.06 0 0 0 2.15-2.15C23 15.39 23 12 23 12ZM9.8 15.4V8.6L15.6 12l-5.8 3.4Z" />
-          </svg>
-        </a>
       </div>
     </div>
+  </div>
+</header>
+<div id="smooth-wrapper">
+  <div id="smooth-content">
+    <div #containerWrapper class="">
+      <section id="section1" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--primary)">
+        <app-section1></app-section1>
+      </section>
 
-    <!-- العمود 2: روابط سريعة -->
-    <div>
-      <h3 class="text-lg font-bold mb-4">روابط سريعة</h3>
-      <ul class="space-y-2 text-sm text-gray-300">
-        <li><a href="#" class="hover:text-[#F5A605]">الرئيسية</a></li>
-        <li><a href="#" class="hover:text-[#F5A605]">الحلول</a></li>
-        <li><a href="#" class="hover:text-[#F5A605]">برامج الحماية</a></li>
-        <li><a href="#" class="hover:text-[#F5A605]">دراسات الحالة</a></li>
-        <li><a href="#" class="hover:text-[#F5A605]">الدعم الفني</a></li>
-        <li><a href="#" class="hover:text-[#F5A605]">المتجر الإلكتروني</a></li>
-        <li><a href="#" class="hover:text-[#F5A605]">الشركاء</a></li>
-        <li><a href="#" class="hover:text-[#F5A605]">قاعدة المعرفة</a></li>
-      </ul>
-    </div>
+      <section id="section2" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--white)">
+        <app-section2></app-section2>
+      </section>
+      <section id="section3" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--primary)">
+        <app-section3></app-section3>
+      </section>
+      <section id="section4" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--white)">
+        <app-section4></app-section4>
+      </section>
+      <section id="section5" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--primary)">
+        <app-section5></app-section5>
+      </section>
+      <section id="section10" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--primary)">
+        <app-section10></app-section10>
+      </section>
+      <section id="section6" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--primary)">
+        <app-section6></app-section6>
+      </section>
+      <section id="section7" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--white)">
+        <app-section7></app-section7>
+      </section>
+      <section id="section8" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--primary)">
+        <app-section8></app-section8>
+      </section>
+      <footer dir="rtl" class="bg-[#333333] text-white py-10 px-6 md:px-12 lg:px-20">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10 text-right">
 
-    <!-- العمود 3: أهم الفئات -->
-    <div>
-      <h3 class="text-lg font-bold mb-4">أهم البرامج</h3>
-      <ul class="space-y-3 text-sm text-gray-300">
-        <li class="flex items-center justify-start gap-3">
-          <span>أل متتم ميني</span>
-          <img src="./images/MiniLogo_2.png" class="w-8 h-8" alt="Al-Motammem Mini" />
-        </li>
-        <li class="flex items-center justify-start gap-3">
-          <span>أل متتم سوفتوير</span>
-          <img src="./images/AlmotammemLogo_2.png" class="w-8 h-8" alt="Al-Motammem Software" />
-        </li>
-        <li class="flex items-center justify-start gap-3">
-          <span>إنفينيتي ERP</span>
-          <img src="./images/InfinityLogo_2.png" class="w-8 h-8" alt="Infinity ERP" />
-        </li>
-        <li class="flex items-center justify-start gap-3">
-          <span>ميكروتك للتجزئة</span>
-          <img src="./images/retail_2.png" class="w-8 h-8" alt="Microtech Retail" />
-        </li>
-        <li class="flex items-center justify-start gap-3">
-          <span>ميكروتك للموارد البشرية</span>
-          <img src="./images/hr_1.png" class="w-8 h-8" alt="Microtech HR & Payroll" />
-        </li>
-      </ul>
-    </div>
+          <!-- العمود 1: الشعار + الوصف + السوشيال -->
+          <div>
+            <img src="assets/images/logo.png" alt="شعار ميكروتك" class="w-56 mb-3 ml-auto" />
+            <p class="text-[#F5A605] text-sm font-semibold mb-2">
+              حلول موثوقة، شريك يعتمد عليه
+            </p>
+            <p class="text-sm leading-relaxed text-gray-200">
+              منذ عام 1986، وعلى مدار أكثر من 39 عامًا، ركّزت شركة ميكروتك على تقديم حلول عملية ومبتكرة
+              وخدمات موثوقة لعملائها.
+            </p>
 
-    <!-- العمود 4: تواصل معنا -->
-    <div>
-      <h3 class="text-lg font-bold mb-4">تواصل معنا</h3>
-      <ul class="text-sm text-gray-300 space-y-3">
-        <li class="flex items-start justify-end gap-2">
-          <span>3 شارع مصدق، الدقي، 12311، الجيزة، مصر</span>
-          <svg viewBox="0 0 24 24" class="w-5 h-5 mt-1 text-[#F5A605]" aria-hidden="true">
-            <path fill="currentColor" d="M12 3 2 12h2v8h6v-5h4v5h6v-8h2L12 3Z" />
-          </svg>
-        </li>
-        <li class="flex items-start justify-end gap-2">
-          <span>(+202)3336-9855 / (+202)3761-0907 : +123 456 7890</span>
-          <svg viewBox="0 0 24 24" class="w-5 h-5 mt-1 text-[#F5A605]" aria-hidden="true">
-            <path fill="currentColor"
-              d="M6.62 10.79a15.54 15.54 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.11.37 2.3.57 3.58.57a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1C11.29 21.82 2.18 12.71 2.18 2.99a1 1 0 0 1 1-1H6.7a1 1 0 0 1 1 1c0 1.28.2 2.47.57 3.58a1 1 0 0 1-.25 1.01l-2.4 2.21Z" />
-          </svg>
-        </li>
-        <li class="flex items-start justify-end gap-2">
-          <span>info5microtech.com.eg</span>
-          <svg viewBox="0 0 24 24" class="w-5 h-5 mt-1 text-[#F5A605]" aria-hidden="true">
-            <path fill="currentColor"
-              d="M20 4H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 3.2v-.2l-8 5-8-5V7l8 5 8-5Z" />
-          </svg>
-        </li>
-      </ul>
+            <!-- أيقونات التواصل الاجتماعي -->
+            <div class="flex items-center justify-start gap-4 mt-5">
+              <!-- Facebook -->
+              <a href="#" aria-label="Facebook"
+                class="w-10 h-10 rounded-full bg-[#F5A605] hover:opacity-90 transition flex items-center justify-center">
+                <svg viewBox="0 0 24 24" class="w-5 h-5" role="img" aria-hidden="true">
+                  <path fill="white"
+                    d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.22.2 2.22.2v2.44h-1.25c-1.24 0-1.63.77-1.63 1.56v1.87h2.77l-.44 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z" />
+                </svg>
+              </a>
+
+              <!-- X -->
+              <a href="#" aria-label="X"
+                class="w-10 h-10 rounded-full bg-[#F5A605] hover:opacity-90 transition flex items-center justify-center">
+                <svg viewBox="0 0 24 24" class="w-5 h-5" role="img" aria-hidden="true">
+                  <path fill="white"
+                    d="M3 3h3.8l5.02 6.76L17.91 3H21l-7.45 9.2L21.5 21H17.7l-5.25-7.08L6.09 21H3.01l7.99-9.86L3 3Z" />
+                </svg>
+              </a>
+
+              <!-- LinkedIn -->
+              <a href="#" aria-label="LinkedIn"
+                class="w-10 h-10 rounded-full bg-[#F5A605] hover:opacity-90 transition flex items-center justify-center">
+                <svg viewBox="0 0 24 24" class="w-5 h-5" role="img" aria-hidden="true">
+                  <path fill="white"
+                    d="M20.45 20.45h-3.56v-5.59c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.68H9.35V9h3.41v1.56h.05c.47-.89 1.62-1.85 3.34-1.85 3.57 0 4.23 2.35 4.23 5.4v6.34ZM5.34 7.44a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM3.56 20.45h3.56V9H3.56v11.45Z" />
+                </svg>
+              </a>
+
+              <!-- YouTube -->
+              <a href="#" aria-label="YouTube"
+                class="w-10 h-10 rounded-full bg-[#F5A605] hover:opacity-90 transition flex items-center justify-center">
+                <svg viewBox="0 0 24 24" class="w-5 h-5" role="img" aria-hidden="true">
+                  <path fill="white"
+                    d="M23 12s0-3.39-.43-5a3.06 3.06 0 0 0-2.15-2.15C18.8 4.4 12 4.4 12 4.4s-6.8 0-8.42.45A3.06 3.06 0 0 0 1.43 7.01C1 8.61 1 12 1 12s0 3.39.43 4.99a3.06 3.06 0 0 0 2.15 2.15C5.2 19.6 12 19.6 12 19.6s6.8 0 8.42-.45a3.06 3.06 0 0 0 2.15-2.15C23 15.39 23 12 23 12ZM9.8 15.4V8.6L15.6 12l-5.8 3.4Z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- العمود 2: روابط سريعة -->
+          <div>
+            <h3 class="text-lg font-bold mb-4">روابط سريعة</h3>
+            <ul class="space-y-2 text-sm text-gray-300">
+              <li><a href="#" class="hover:text-[#F5A605]">الرئيسية</a></li>
+              <li><a href="#" class="hover:text-[#F5A605]">الحلول</a></li>
+              <li><a href="#" class="hover:text-[#F5A605]">برامج الحماية</a></li>
+              <li><a href="#" class="hover:text-[#F5A605]">دراسات الحالة</a></li>
+              <li><a href="#" class="hover:text-[#F5A605]">الدعم الفني</a></li>
+              <li><a href="#" class="hover:text-[#F5A605]">المتجر الإلكتروني</a></li>
+              <li><a href="#" class="hover:text-[#F5A605]">الشركاء</a></li>
+              <li><a href="#" class="hover:text-[#F5A605]">قاعدة المعرفة</a></li>
+            </ul>
+          </div>
+
+          <!-- العمود 3: أهم الفئات -->
+          <div>
+            <h3 class="text-lg font-bold mb-4">أهم البرامج</h3>
+            <ul class="space-y-3 text-sm text-gray-300">
+              <li class="flex items-center justify-start gap-3">
+                <span>أل متتم ميني</span>
+                <img src="./images/MiniLogo_2.png" class="w-8 h-8" alt="Al-Motammem Mini" />
+              </li>
+              <li class="flex items-center justify-start gap-3">
+                <span>أل متتم سوفتوير</span>
+                <img src="./images/AlmotammemLogo_2.png" class="w-8 h-8" alt="Al-Motammem Software" />
+              </li>
+              <li class="flex items-center justify-start gap-3">
+                <span>إنفينيتي ERP</span>
+                <img src="./images/InfinityLogo_2.png" class="w-8 h-8" alt="Infinity ERP" />
+              </li>
+              <li class="flex items-center justify-start gap-3">
+                <span>ميكروتك للتجزئة</span>
+                <img src="./images/retail_2.png" class="w-8 h-8" alt="Microtech Retail" />
+              </li>
+              <li class="flex items-center justify-start gap-3">
+                <span>ميكروتك للموارد البشرية</span>
+                <img src="./images/hr_1.png" class="w-8 h-8" alt="Microtech HR & Payroll" />
+              </li>
+            </ul>
+          </div>
+
+          <!-- العمود 4: تواصل معنا -->
+          <div>
+            <h3 class="text-lg font-bold mb-4">تواصل معنا</h3>
+            <ul class="text-sm text-gray-300 space-y-3">
+              <li class="flex items-start justify-end gap-2">
+                <span>3 شارع مصدق، الدقي، 12311، الجيزة، مصر</span>
+                <svg viewBox="0 0 24 24" class="w-5 h-5 mt-1 text-[#F5A605]" aria-hidden="true">
+                  <path fill="currentColor" d="M12 3 2 12h2v8h6v-5h4v5h6v-8h2L12 3Z" />
+                </svg>
+              </li>
+              <li class="flex items-start justify-end gap-2">
+                <span>(+202)3336-9855 / (+202)3761-0907 : +123 456 7890</span>
+                <svg viewBox="0 0 24 24" class="w-5 h-5 mt-1 text-[#F5A605]" aria-hidden="true">
+                  <path fill="currentColor"
+                    d="M6.62 10.79a15.54 15.54 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.11.37 2.3.57 3.58.57a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1C11.29 21.82 2.18 12.71 2.18 2.99a1 1 0 0 1 1-1H6.7a1 1 0 0 1 1 1c0 1.28.2 2.47.57 3.58a1 1 0 0 1-.25 1.01l-2.4 2.21Z" />
+                </svg>
+              </li>
+              <li class="flex items-start justify-end gap-2">
+                <span>info5microtech.com.eg</span>
+                <svg viewBox="0 0 24 24" class="w-5 h-5 mt-1 text-[#F5A605]" aria-hidden="true">
+                  <path fill="currentColor"
+                    d="M20 4H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 3.2v-.2l-8 5-8-5V7l8 5 8-5Z" />
+                </svg>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
     </div>
   </div>
-</footer>
-
-        </div>
-    </div>
 </div>
 
 
@@ -257,21 +222,21 @@
 }" class="transition-opacity duration-500 ease-in-out  fixed top-1/2 right-10 transform -translate-y-1/2 z-5 flex flex-col items-ce
 nter">
 
-    <div class="relative h-[420px] w-[2px] bg-[#F5A605]">
-        <ng-container *ngFor="let section of sections; let i = index">
-            <div class="group absolute left-1/2 -translate-x-1/2 cursor-pointer dot-wrapper"
-                [attr.id]="'dot-' + section.wholeSectionId" [ngStyle]="{ top: (i * 100 / (sections.length - 1)) + '%' }"
-                (click)="scrollToSection(section.id)">
-                <div class="absolute inset-[-16px] w-10 h-10 cursor-pointer"></div>
-                <div
-                    class="dot w-2 h-2 bg-[#fca61f] rounded-full transition-transform duration-300 group-hover:scale-[2]  group-active:scale-[1.5]">
-                </div>
-                <div
-                    class="dot-label  absolute right-6 top-1/2 -translate-y-1/2 text-[var(--primary)] text-sm opacity-0 invisible  group-hover:opacity-100 group-hover:visible transition-opacity duration-300 whitespace-nowrap">
-                    {{ section.label }}
-                </div>
-            </div>
-        </ng-container>
+  <div class="relative h-[420px] w-[2px] bg-[#F5A605]">
+    <ng-container *ngFor="let section of sections; let i = index">
+      <div class="group absolute left-1/2 -translate-x-1/2 cursor-pointer dot-wrapper"
+        [attr.id]="'dot-' + section.wholeSectionId" [ngStyle]="{ top: (i * 100 / (sections.length - 1)) + '%' }"
+        (click)="scrollToSection(section.id)">
+        <div class="absolute inset-[-16px] w-10 h-10 cursor-pointer"></div>
+        <div
+          class="dot w-2 h-2 bg-[#fca61f] rounded-full transition-transform duration-300 group-hover:scale-[2]  group-active:scale-[1.5]">
+        </div>
+        <div
+          class="dot-label  absolute right-6 top-1/2 -translate-y-1/2 text-[var(--primary)] text-sm opacity-0 invisible  group-hover:opacity-100 group-hover:visible transition-opacity duration-300 whitespace-nowrap">
+          {{ section.label }}
+        </div>
+      </div>
+    </ng-container>
 
-    </div>
+  </div>
 </div>

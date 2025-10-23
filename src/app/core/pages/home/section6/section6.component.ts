@@ -1,6 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { SplitText } from "gsap/SplitText";
@@ -11,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
   selector: 'app-section6',
   templateUrl: './section6.component.html',
   styleUrls: ['./section6.component.scss'],
-  imports: [ RouterLink],
+  imports: [],
 })
 export class Section6Component {
   constructor(
