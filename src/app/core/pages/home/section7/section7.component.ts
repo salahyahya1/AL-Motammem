@@ -139,6 +139,7 @@ export class Section7Component {
                 autoAlpha: 1,
                 duration: 1.5,
                 ease: "sine.out",
+                immediateRender: false,
               }, '>')
               tlCards.fromTo(".card1", {
                 autoAlpha: 0,
@@ -147,6 +148,7 @@ export class Section7Component {
                 autoAlpha: 1,
                 duration: 1.5,
                 ease: "sine.out",
+                immediateRender: false,
               }, '<')
               tlCards.fromTo(".card3", {
                 autoAlpha: 0,
@@ -155,6 +157,7 @@ export class Section7Component {
                 left: '9%',
                 duration: 1.5,
                 ease: "sine.out",
+                immediateRender: false,
               }, '<')
               tl.add(tlCards, ">");
             },
@@ -166,6 +169,7 @@ export class Section7Component {
                 autoAlpha: 1,
                 duration: 1.5,
                 ease: "sine.out",
+                immediateRender: false,
               }, '>')
               tlCards.fromTo(".card1", {
                 autoAlpha: 0,
@@ -174,6 +178,7 @@ export class Section7Component {
                 autoAlpha: 1,
                 duration: 1.5,
                 ease: "sine.out",
+                immediateRender: false,
               }, '<')
               tlCards.fromTo(".card3", {
                 autoAlpha: 0,
@@ -183,6 +188,7 @@ export class Section7Component {
                 left: '0%',
                 duration: 1.5,
                 ease: "sine.out",
+                immediateRender: false,
               }, '<')
               tl.add(tlCards, ">");
             },
@@ -195,6 +201,7 @@ export class Section7Component {
                 autoAlpha: 1,
                 duration: 1.5,
                 ease: "sine.in",
+                immediateRender: false,
               }, '>')
               tlCards.fromTo(".card1", {
                 autoAlpha: 0,
@@ -204,6 +211,7 @@ export class Section7Component {
                 autoAlpha: 1,
                 duration: 1.5,
                 ease: "sine.in",
+                immediateRender: false,
               }, '<')
               tlCards.fromTo(".card3", {
                 autoAlpha: 0,
@@ -213,6 +221,7 @@ export class Section7Component {
                 autoAlpha: 1,
                 duration: 1.5,
                 ease: "sine.in",
+                immediateRender: false,
               }, '<')
               tl.add(tlCards, ">");
             },
