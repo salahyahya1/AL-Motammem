@@ -110,3 +110,11 @@ textarea,
 [dragging] {
     cursor: grabbing;
 }
+
+
+/* 🧱 منع تحميل Roboto من Google Fonts */
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto'), local('sans-serif');
+    font-display: swap;
+}

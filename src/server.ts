@@ -27,13 +27,34 @@ const commonEngine = new CommonEngine();
 /**
  * Serve static files from /browser
  */
-app.get(
-  '**',
+// app.get(
+//   '**',
+//   express.static(browserDistFolder, {
+//     maxAge: '1y',
+//     index: 'index.html'
+//   }),
+// );
+// 🟩 إعداد الكاش بناءً على نوع الملف
+app.use(
   express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: 'index.html'
-  }),
+    setHeaders: (res, filePath) => {
+      // لو الملف HTML (اللي SSR بيقدمه)
+      if (filePath.endsWith('.html')) {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+      } else if (
+        /\.(?:js|css|mjs|map|webp|avif|png|jpg|jpeg|svg|gif|ico|woff2|woff|ttf)$/i.test(
+          filePath
+        )
+      ) {
+        // الملفات الثابتة
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      }
+    },
+  })
 );
+
 
 /**
  * Handle all other requests by rendering the Angular application.
