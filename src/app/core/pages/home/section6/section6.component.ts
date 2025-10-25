@@ -25,7 +25,9 @@ export class Section6Component {
 
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
-        this.runGsapAnimation()
+        setTimeout(() => {
+          this.runGsapAnimation()
+        }, 500);
       });
     });
 

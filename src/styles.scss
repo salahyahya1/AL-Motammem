@@ -19,8 +19,8 @@
     font-family: 'Almarai';
     font-style: normal;
     font-weight: 400;
-    font-display: swap;
     src: url('/fonts/almarai-v19-arabic-regular.woff2') format('woff2');
+    font-display: swap;
 }
 
 html,
@@ -109,12 +109,4 @@ textarea,
 
 [dragging] {
     cursor: grabbing;
-}
-
-
-/* 🧱 منع تحميل Roboto من Google Fonts */
-@font-face {
-    font-family: 'Roboto';
-    src: local('Roboto'), local('sans-serif');
-    font-display: swap;
 }

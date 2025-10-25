@@ -113,16 +113,49 @@
 
 
     </div>
-    <div class="w-full relative min-h-[50vh] pb-10 flex justify-center items-center">
+    <!-- <div class="w-full relative min-h-[50vh] pb-10 flex justify-center items-center">
         <div class="relative w-[80%] lg:max-w-3xl h-[45vh] lg:h-[52vh] rounded-2xl shadow-xl overflow-hidden">
             <img src="assets/images/video-placeholder.jpg" alt="Video Placeholder"
                 class="absolute inset-0 w-full h-full object-cover">
-            <iframe class="absolute inset-0 w-full h-full rounded-2xl"
+            <iframe class="absolute inset-0 w-full h-full rounded-2xl lazy-youtube"
                 src="https://www.youtube.com/embed/inlofWRsKxU?si=kT-Q06MH-K2avMOy&amp;controls=0"
                 title="YouTube video player" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 sandbox="allow-scripts allow-same-origin allow-forms allow-popups  allow-presentation"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
+    </div> -->
+    <!-- 🟢 الفيديو -->
+    <div class="w-full relative min-h-[50vh] pb-10 flex justify-center items-center">
+        <div class="relative w-[80%] lg:max-w-3xl h-[45vh] lg:h-[52vh] rounded-2xl shadow-xl overflow-hidden bg-black">
+
+            <!-- @if الجديدة -->
+            @if (!isVideoLoaded) {
+            <div class="absolute inset-0 cursor-pointer group" (click)="loadVideo()">
+                <img src="./images/video-placeholder.webp" alt="Video Placeholder" alt="Video Placeholder" width="1280"
+                    height="720" loading="eager" decoding="async"
+                    class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:brightness-90">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div
+                        class="w-20 h-20 bg-white/70 rounded-full flex items-center justify-center transition group-hover:scale-110">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-black" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M6.79 5.093a.5.5 0 0 1 .79.407v4.998a.5.5 0 0 1-.79.407L3.5 8.972a.5.5 0 0 1 0-.944l3.29-1.935z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            }
+
+            @if (isVideoLoaded) {
+            <iframe class="absolute inset-0 w-full h-full rounded-2xl" [src]="safeVideoUrl" title="Company Video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+            }
+        </div>
     </div>
+
 </div>

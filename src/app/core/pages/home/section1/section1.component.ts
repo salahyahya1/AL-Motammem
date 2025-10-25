@@ -104,7 +104,7 @@ export class Section1Component implements OnDestroy {
         requestAnimationFrame(() => {
           setTimeout(() => {
             this.runGsapAnimation();
-          }, 0);
+          }, 500);
         });
       });
     });

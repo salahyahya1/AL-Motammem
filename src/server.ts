@@ -40,7 +40,7 @@ app.use(
     setHeaders: (res, filePath) => {
       // لو الملف HTML (اللي SSR بيقدمه)
       if (filePath.endsWith('.html')) {
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Cache-Control', 'public, max-age=60, stale-while-revalidate=30');
         res.setHeader('Pragma', 'no-cache');
         res.setHeader('Expires', '0');
       } else if (

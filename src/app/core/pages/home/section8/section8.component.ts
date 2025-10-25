@@ -28,7 +28,7 @@ export class Section8Component {
       requestAnimationFrame(() => {
         setTimeout(() => {
           this.runGsapAnimation();
-        }, 0);
+        }, 500);
       });
     });
 
