@@ -195,25 +195,19 @@ const indexHtml = join(serverDistFolder, 'index.server.html');
 const app = express();
 const commonEngine = new CommonEngine();
 
-// ✅ ضغط الملفات
 app.use(compression());
 
-// ✅ خدمة الملفات الثابتة من dist/browser
+// ✅ 1. خدم الملفات الثابتة من مجلد الـ browser مباشرة
 app.use(
   express.static(browserDistFolder, {
     index: false,
     setHeaders: (res, filePath) => {
-      if (/\.(js|mjs)$/.test(filePath)) {
-        res.type('application/javascript');
-      } else if (/\.css$/.test(filePath)) {
-        res.type('text/css');
-      } else if (/\.json$/.test(filePath)) {
-        res.type('application/json');
-      } else if (/\.html$/.test(filePath)) {
-        res.type('text/html');
-      }
+      if (/\.(js|mjs)$/i.test(filePath)) res.type('application/javascript');
+      else if (/\.css$/i.test(filePath)) res.type('text/css');
+      else if (/\.json$/i.test(filePath)) res.type('application/json');
+      else if (/\.html$/i.test(filePath)) res.type('text/html');
 
-      // Cache control
+      // تفعيل الكاش القوي للملفات الثابتة
       if (/\.(?:js|css|mjs|map|webp|avif|png|jpg|jpeg|svg|gif|ico|woff2|woff|ttf)$/i.test(filePath)) {
         res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
       } else if (filePath.endsWith('.html')) {
@@ -223,7 +217,15 @@ app.use(
   })
 );
 
-// ✅ SSR fallback — أي مسار غير موجود يرجع index.server.html
+// ✅ 2. تأكد أن أي طلب للـ JS/CSS يتعامل كسيرفر ستاتيك مش SSR
+app.get(/\.(js|mjs|css|ico|png|jpg|jpeg|webp|svg|gif|woff2|woff|ttf)$/i, (req, res, next) => {
+  const filePath = join(browserDistFolder, req.path);
+  res.sendFile(filePath, (err) => {
+    if (err) next();
+  });
+});
+
+// ✅ 3. الـ SSR نفسه لأي طلب آخر
 app.get('*', (req, res, next) => {
   commonEngine
     .render({
@@ -237,10 +239,12 @@ app.get('*', (req, res, next) => {
     .catch((err) => next(err));
 });
 
+// ✅ 4. تشغيل السيرفر
 if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 4000;
   app.listen(port, () => {
-    console.log(`✅ SSR server running at http://localhost:${port}`);
+    console.log(`✅ Angular SSR running on http://localhost:${port}`);
+    console.log(`📁 Serving static from: ${browserDistFolder}`);
   });
 }
 
