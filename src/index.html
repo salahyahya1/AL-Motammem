@@ -1,4 +1,4 @@
-<!doctype html>
+<!-- <!doctype html>
 <html lang="ar" dir="rtl">
 
 <head>
@@ -44,39 +44,82 @@
 }
 </script>
 
-</html>
-<!-- <!doctype html>
+</html> -->
+<!doctype html>
 <html lang="ar" dir="rtl">
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>AlMotammem</title>
   <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="نظام ERP متكامل لتطوير الشركات منذ 40 عامًا - المتمم." />
+  <meta name="theme-color" content="#2475EA" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
+  <!-- ✅ Preconnect to critical origins -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://www.youtube.com" />
+  <link rel="preconnect" href="https://i.ytimg.com" />
+  <link rel="preconnect" href="https://www.google.com" />
+
+  <!-- ✅ Preload critical JS for parallel loading -->
+  <link rel="preload" as="script" href="runtime.js" />
+  <link rel="preload" as="script" href="polyfills.js" />
+  <link rel="preload" as="script" href="main.js" />
+
+  <!-- ✅ Preload critical assets -->
   <link rel="preload" as="image" href="./images/video-placeholder.webp" fetchpriority="high" />
-
-  <link rel="preload" as="font" href="/fonts/almarai-v19-arabic-regular.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="video" href="./videos/laptop.webm" type="video/webm" fetchpriority="high" />
+  <link rel="preload" as="font" href="/fonts/almarai-v19-arabic-regular.woff2" type="font/woff2" crossorigin />
 
-  <link rel="preload" as="style" href="styles.css" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript>ز
-    <link rel="stylesheet" href="styles.css">
+  <!-- ✅ Load CSS non-blocking -->
+  <link rel="preload" as="style" href="styles.css" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript>
+    <link rel="stylesheet" href="styles.css" />
   </noscript>
 
+  <!-- ✅ SEO structured data -->
   <meta itemprop="thumbnailUrl" content="https://yourdomain.com/images/video-placeholder.webp" />
   <meta itemprop="contentUrl" content="https://www.youtube.com/watch?v=inlofWRsKxU" />
   <meta itemprop="embedUrl" content="https://www.youtube.com/embed/inlofWRsKxU" />
 
+  <!-- ✅ Favicon -->
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="theme-color" content="#2475EA" />
+  <!-- ✅ Local font setup (prevents external blocking) -->
+  <style>
+    @font-face {
+      font-family: 'Almarai';
+      src: url('/fonts/almarai-v19-arabic-regular.woff2') format('woff2');
+      font-display: swap;
+    }
+
+    body {
+      font-family: 'Almarai', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: #000;
+    }
+
+    /* Optional: smoother animation hints */
+    .animated-element {
+      will-change: transform, opacity;
+    }
+  </style>
 </head>
 
 <body>
   <app-root></app-root>
+
+  <!-- ✅ Defer all scripts to avoid render-blocking -->
+  <script src="runtime.js" defer></script>
+  <script src="polyfills.js" defer></script>
+  <script src="vendor.js" defer></script>
+  <script src="main.js" defer></script>
+
+  <!-- ✅ Structured data for SEO -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -99,4 +142,4 @@
   </script>
 </body>
 
-</html> -->
+</html>
