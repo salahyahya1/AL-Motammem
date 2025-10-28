@@ -37,6 +37,8 @@ export class Section1Component implements OnDestroy {
   }
   private runGsapAnimation() {
     document.fonts.ready.then(() => {
+      gsap.set("#hero", { willChange: "transform, opacity" });
+
       const heroTitle = document.querySelector('h1#hero-title') as HTMLElement;
       const heroSubtitle = document.querySelector('#hero-subtitle') as HTMLElement;
       const heroDetails = document.querySelector('#hero-details') as HTMLElement;
