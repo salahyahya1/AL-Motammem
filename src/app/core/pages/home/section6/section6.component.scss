@@ -30,6 +30,10 @@
     #section6 {
         padding-top: 5rem;
     }
+
+    .separator4 {
+        display: none;
+    }
 }
 
 @media (max-width: 700px) {
@@ -47,6 +51,10 @@
 @media (max-width: 530px) {
     .separator3 {
         display: none;
+    }
+
+    .separator4 {
+        display: block;
     }
 }
 

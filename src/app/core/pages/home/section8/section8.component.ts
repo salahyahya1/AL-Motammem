@@ -22,10 +22,9 @@ export class Section8Component {
   section8DetailsSplit: any;
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;
-
     if (!isPlatformBrowser(this.platformId)) return;
-    this.ngZone.onStable.subscribe(() => {
-      requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      this.ngZone.runOutsideAngular(() => {
         setTimeout(() => {
           this.runGsapAnimation();
         }, 500);

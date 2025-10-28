@@ -6,7 +6,6 @@ import { filter, map } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID, Inject } from '@angular/core';
-import { LearningGSAPComponent } from "./core/pages/learning-gsap/learning-gsap.component";
 
 @Component({
   selector: 'app-root',
