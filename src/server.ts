@@ -16,7 +16,6 @@ const commonEngine = new CommonEngine();
 
 app.use(compression());
 
-// ✅ 1. خدم الملفات الثابتة من مجلد الـ browser مباشرة
 app.use(
   express.static(browserDistFolder, {
     index: false,

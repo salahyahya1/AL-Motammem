@@ -1,6 +1,6 @@
 <section id="hero"
-    class="relative w-full min-h-screen flex flex-col md:flex-row items-center justify-center md:justify-between gap-10 md:gap-0 px-6 md:px-20 pt-20 md:pt-10">
-    <div class="w-full md:w-[70%] text-center md:text-right z-10">
+    class="relative w-full min-h-screen flex flex-col-reverse md:flex-row items-center justify-center md:justify-between gap-10 md:gap-0 md:ps-20 py-15 md:pt-10">
+    <div class="w-full md:w-[56.5%] relative text-center md:text-right z-10 px-6 md:px-0">
         <h1 id="hero-title"
             class="text-[1.5rem] md:text-[2rem] lg:text-[2.6rem] xl:text-[3rem] font-bold leading-snug text-[var(--primary)]">
             جميع أعمال ادارتك في نظام واحد متكامل
@@ -29,12 +29,27 @@
         </div>
     </div>
 
-    <div class="w-full md:w-1/2 relative z-0">
-        <!-- Make the LCP image discoverable: add a poster and set high fetch priority on the media element. -->
-        <video id="hero-video" autoplay muted playsinline class="w-full max-w-xl mx-auto" preload="auto"
+    <div class="relative md:contents">
+        <div class="w-full md:w-[43.5%] relative z-0  flex items-center justify-center">
+            <!-- <video id="hero-video" autoplay muted playsinline class="w-full max-w-xl mx-auto" preload="auto"
             poster="./images/video-placeholder-hero.webp" fetchpriority="high">
             <source src="./videos/laptop.webm" type="video/webm" width="1280" height="720" />
             Your browser does not support the video tag.
-        </video>
+        </video> -->
+            <div class="relative max-w-full">
+                <img src="./images/Nested Sequence 0969.png" class="relative z-[0] max-w-full" alt="" srcset="">
+                <img src="./images/Nested Sequence 10038.png" class="absolute z-[1] max-w-full top-0 left-[37%]" alt=""
+                    srcset="">
+            </div>
+        </div>
+        <div class="absolute w-full h-full inset-0 md:left-[-2%] md:top-0 -z-10 overflow-hidden">
+            <video src="./images/gradient.mp4" class="md:left-[-2%] absolute" autoplay muted playsinline loop></video>
+        </div>
     </div>
 </section>
+
+<!-- <div class="flex justify-center items-center">
+    <svg width="598" height="111" viewBox="0 0 598 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="596" height="109" rx="54.5" stroke="#808080" stroke-width="2" />
+    </svg>
+</div> -->

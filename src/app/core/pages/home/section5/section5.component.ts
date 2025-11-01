@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, Inject, NgZone, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
@@ -18,19 +18,30 @@ export class Section5Component {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
-    private ngZone: NgZone
-
-  ) { }
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
+  ) {
+  }
+  ngOnInit() {
+    this.updateIsMobile();
+  }
   //second animation text apper and the celnder drawed
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;
     if (!isPlatformBrowser(this.platformId)) return;
-    this.updateIsMobile();
 
-    // ✅ أضف listener على resize
     this.resizeHandler = () => {
-      this.ngZone.run(() => this.updateIsMobile());
+      // نفذ التغيير داخل Angular zone
+      this.ngZone.run(() => {
+        const next = window.innerWidth < 700;
+        if (next !== this.isMobile) {
+          this.isMobile = next;
+          // بلّغ أن فيه تغيير بعد حدث خارج دورة الفحص
+          this.cdr.detectChanges();
+        }
+      });
     };
+
     window.addEventListener('resize', this.resizeHandler);
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
@@ -124,7 +135,6 @@ export class Section5Component {
   startImageFlip(container: HTMLElement) {
     const slots = Array.from(container.querySelectorAll(".slot")) as HTMLElement[];
 
-    // ✅ الصور المتاحة
     const allSources = [
       "/images/connect.png",
       "/images/dashboard.png",
@@ -137,14 +147,11 @@ export class Section5Component {
       "/images/more_horiz.png",
       "/images/reports-analytics.png",
     ];
-
-    // 🧩 تقسيم الصور على الخانات
     const slotImages: Map<HTMLElement, string[]> = new Map();
 
     slots.forEach((slot, i) => {
       const img = slot.querySelector("img")!;
-      img.src = allSources[i]; // الصورة الأساسية
-
+      img.src = allSources[i];
       const remaining = allSources.filter((_, idx) => idx !== i);
       const randomSubset = gsap.utils.shuffle(remaining).slice(0, 4);
       slotImages.set(slot, randomSubset);
@@ -189,7 +196,9 @@ export class Section5Component {
     randomLoop();
   }
   private updateIsMobile() {
-    this.isMobile = window.innerWidth < 700;
+    if (isPlatformBrowser(this.platformId)) {
+      this.isMobile = window.innerWidth < 700;
+    }
   }
   ngOnDestroy() {
     // ✅ شيل الـ listener لما الكومبوننت يتدمّر
