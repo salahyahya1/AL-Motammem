@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, ChangeDetectorRef, Component, Inject, NgZone, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
@@ -15,15 +16,22 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 export class Section5Component {
   isMobile = false;
   private resizeHandler!: () => void;
+
+  isVideoLoaded = false;
+  safeVideoUrl: SafeResourceUrl | null = null;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef
+    , private sanitizer: DomSanitizer
   ) {
   }
   ngOnInit() {
     this.updateIsMobile();
+    if (typeof window === 'undefined') return;
+    if (!isPlatformBrowser(this.platformId)) return;
+    gsap.set("#section100", { opacity: 0, visibility: "hidden" });
   }
   //second animation text apper and the celnder drawed
   ngAfterViewInit() {
@@ -50,8 +58,9 @@ export class Section5Component {
             defaults: { ease: "power3.out" }, scrollTrigger: {
               trigger: "#section5",
               start: 'top top',
-              end: "150% bottom",
+              end: "100% bottom",
               pin: true,
+              anticipatePin: 1,
               // markers: true
             }
           });
@@ -97,6 +106,9 @@ export class Section5Component {
                 flipStarted = true;
                 this.startImageFlip(container);
               }
+            },
+            onComplete: () => {
+              gsap.fromTo("#section100", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.5 });
             }
           });
           //       gsap.set("#image-container", { opacity: 0, visibility: "hidden" });
@@ -199,6 +211,16 @@ export class Section5Component {
     if (isPlatformBrowser(this.platformId)) {
       this.isMobile = window.innerWidth < 700;
     }
+  }
+  loadVideo() {
+    this.isVideoLoaded = true;
+    // حوّل URL إلى SafeResourceUrl
+    this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
+    this.cdr.detectChanges();
+  }
+
+  get videoUrl() {
+    return 'https://www.youtube.com/embed/inlofWRsKxU?autoplay=1&controls=1';
   }
   ngOnDestroy() {
     // ✅ شيل الـ listener لما الكومبوننت يتدمّر

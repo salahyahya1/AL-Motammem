@@ -163,6 +163,7 @@ export class Section2Component {
               end: '+=400', // يفضل تستخدم قيمة محددة
               scrub: true, pinType: 'transform',
               pin: true,
+              anticipatePin: 1,
               // markers: true,
               id: 'pinsection',
               onEnter: () => {
