@@ -105,9 +105,15 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     if (!this.isBrowser) return;
     const nav = this.navbar?.nativeElement;
     if (!nav) return;
-
+    gsap.set(nav, { yPercent: -100, opacity: 0, willChange: 'transform,opacity' });
     // أنيميشن نزول النافبار أول مرة
-    gsap.fromTo(nav, { y: -100, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power2.inOut' });
+    gsap.to(nav, {
+      yPercent: 0,
+      opacity: 1,
+      duration: 0.8,
+      ease: 'power3.out',
+      onComplete: () => { nav.style.willChange = '' }
+    });
 
     // استقبل اللون وطبّقه
     this.theme.color$

@@ -3,13 +3,14 @@ import { ApplicationRef, Component, Inject, NgZone, OnDestroy, PLATFORM_ID, View
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { SplitText } from "gsap/SplitText";
-import { AnimatedSequenceComponent } from "../../../../shared/animated-sequence/animated-sequence.component";
+import { AnimatedSequenceComponent } from "../../../shared/animated-sequence/animated-sequence.component";
+import { RouterLink } from "@angular/router";
 gsap.registerPlugin(ScrollTrigger, SplitText);
 @Component({
   selector: 'app-section1',
   templateUrl: './section1.component.html',
   styleUrl: './section1.component.scss',
-  imports: [AnimatedSequenceComponent],
+  imports: [AnimatedSequenceComponent, RouterLink],
 })
 export class Section1Component implements OnDestroy {
   @ViewChild(AnimatedSequenceComponent) seq!: AnimatedSequenceComponent;

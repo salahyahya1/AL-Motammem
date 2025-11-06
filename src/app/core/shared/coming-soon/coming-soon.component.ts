@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { SectionsRegistryService } from '../../services/sections-registry.service';
 
 @Component({
   selector: 'app-coming-soon',
@@ -16,11 +17,16 @@ export class ComingSoonComponent implements OnInit, OnDestroy {
   minutes = '00';
   seconds = '00';
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private registry: SectionsRegistryService) { }
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.updateCountdown();
+
+
+      this.registry.clear();
+      this.registry.disable();
+
       this.timerId = setInterval(() => this.updateCountdown(), 1000);
     } else {
       // في السيرفر نعمل فقط أول تحديث مرة واحدة

@@ -1,0 +1,246 @@
+import {
+  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnDestroy,
+  PLATFORM_ID, ViewChild, WritableSignal, signal
+} from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import { fromEvent, Subscription } from 'rxjs';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+export type SectionItem = { id: string; label?: string; targetId?: string; wholeSectionId?: string };
+
+@Component({
+  selector: 'app-section-indicator',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+<div #indicator
+  [class.opacity-100]="visible()"
+  [class.pointer-events-auto]="visible()"
+  [class.opacity-0]="!visible()"
+  [class.pointer-events-none]="!visible()"
+  class="indicator transition-opacity duration-500 ease-in-out fixed top-1/2 right-10 -translate-y-1/2 z-[1000] flex flex-col items-center">
+
+  <div class="relative h-[420px] w-[2px] bg-[#F5A605]">
+    <ng-container *ngFor="let s of sections; let i = index; trackBy: trackById">
+      <div class="group absolute left-1/2 -translate-x-1/2 cursor-pointer"
+           [attr.id]="'dot-' + (s.wholeSectionId || s.id)"
+           [ngStyle]="{ top: (i * 100 / Math.max(1, sections.length - 1)) + '%' }"
+           (click)="scrollToSection(s.id)">
+        <div class="absolute inset-[-16px] w-10 h-10 cursor-pointer"></div>
+        <div class="dot w-2 h-2 bg-[#fca61f] rounded-full transition-transform duration-300 group-hover:scale-[2] group-active:scale-[1.5]"></div>
+        <div class="dot-label absolute right-6 top-1/2 -translate-y-1/2 text-[var(--primary)] text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-300 whitespace-nowrap">
+          {{ s.label || s.id }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+  `,
+  styleUrls: ['./section-indicator.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('indicator', { static: false }) indicator!: ElementRef<HTMLElement>;
+
+  @Input({ required: true }) sections: SectionItem[] = [];
+  @Input() hideBelow = 700;
+  @Input() start = 'top center';
+  @Input() end = 'bottom center';
+  @Input() showLabels = true;
+  public Math = Math;
+
+  private isBrowser: boolean;
+  private resizeSub?: Subscription;
+  private triggers: ScrollTrigger[] = [];
+
+  activeId: WritableSignal<string | null> = signal(null);
+  visible: WritableSignal<boolean> = signal(true);
+
+  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  trackById = (_: number, s: SectionItem) => s.wholeSectionId || s.id;
+
+  ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
+    const indicator = this.indicator?.nativeElement;
+    if (!indicator) return;
+
+    this.applyVisibility();
+    this.runIntroAnimation(indicator);
+    this.resizeSub = fromEvent(window, 'resize').subscribe(() => {
+      this.applyVisibility();
+      this.runIntroAnimation(indicator, true);
+    });
+
+    this.waitForPanelsAndDots().then(() => {
+      this.buildScrollTriggers();
+      this.updateActiveFromViewport();
+
+      ScrollTrigger.create({
+        trigger: document.documentElement,
+        start: 0,
+        end: 'max',
+        onUpdate: () => this.updateActiveFromViewport(),
+      });
+
+      ScrollTrigger.addEventListener('refresh', () => this.updateActiveFromViewport());
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    });
+  }
+
+  private applyVisibility() {
+    this.visible.set(window.innerWidth >= this.hideBelow);
+  }
+  private runIntroAnimation(indicator: HTMLElement, isResize = false) {
+    const isDesktop = window.innerWidth >= this.hideBelow;
+
+    if (isDesktop) {
+      const needIntro = !isResize || parseFloat(getComputedStyle(indicator).opacity || '0') < 0.5;
+      if (needIntro) {
+        const offscreenPx = Math.min(200, Math.max(80, window.innerWidth * 0.06));
+        gsap.set(indicator, { x: offscreenPx, opacity: 0, willChange: 'transform,opacity' });
+        gsap.to(indicator, {
+          x: 0,
+          opacity: 1,
+          duration: 0.6,
+          ease: 'power3.out',
+          clearProps: 'transform',
+          onComplete: () => { indicator.style.willChange = ''; }
+        });
+      }
+    } else {
+      indicator.style.removeProperty('transform');
+      indicator.style.removeProperty('opacity');
+    }
+  }
+
+  private waitForPanelsAndDots(): Promise<void> {
+    return new Promise(resolve => {
+      const ready = () => {
+        const panels = document.querySelectorAll<HTMLElement>('.panel');
+        if (!panels.length) return false;
+        return this.sections.every(s => !!document.getElementById('dot-' + (s.wholeSectionId || s.id)));
+      };
+      const loop = () => (ready() ? resolve() : setTimeout(loop, 50));
+      loop();
+    });
+  }
+
+  private buildScrollTriggers() {
+    this.cleanTriggers();
+
+    for (const s of this.sections) {
+      const id = s.targetId || s.id;
+      const el = document.getElementById(id);
+      if (!el) continue;
+
+      const dotWrapper = document.getElementById('dot-' + (s.wholeSectionId || s.id));
+      const dot = dotWrapper?.querySelector('.dot') as HTMLElement | null;
+      const label = dotWrapper?.querySelector('.dot-label') as HTMLElement | null;
+
+      const setActive = (on: boolean) => {
+        if (on) this.clearAllDots();
+        if (on) {
+          this.activeId.set(id);
+          dot?.classList.add('active');
+          label?.classList.add('active', 'opacity-100');
+          label?.classList.remove('invisible');
+        } else {
+          if (this.activeId() === id) this.activeId.set(null);
+          dot?.classList.remove('active');
+          label?.classList.remove('active', 'opacity-100');
+          label?.classList.add('invisible');
+        }
+      };
+
+      const t = ScrollTrigger.create({
+        trigger: el,
+        start: this.start,
+        end: this.end,
+        onEnter: () => setActive(true),
+        onEnterBack: () => setActive(true),
+        onLeave: () => setActive(false),
+        onLeaveBack: () => setActive(false),
+      });
+
+      this.triggers.push(t);
+    }
+  }
+
+  private updateActiveFromViewport() {
+    const items = this.sections
+      .map(s => {
+        const id = s.targetId || s.id;
+        const el = document.getElementById(id);
+        if (!el) return null;
+
+        const rect = el.getBoundingClientRect();
+        const center = rect.top + rect.height / 2;
+        const dist = Math.abs(center - window.innerHeight / 2);
+
+        const dotWrapper = document.getElementById('dot-' + (s.wholeSectionId || s.id));
+        const dot = dotWrapper?.querySelector('.dot') as HTMLElement | null;
+        const label = dotWrapper?.querySelector('.dot-label') as HTMLElement | null;
+
+        return { id, dist, dot, label };
+      })
+      .filter(Boolean) as Array<{ id: string; dist: number; dot: HTMLElement | null; label: HTMLElement | null }>;
+
+    if (!items.length) return;
+
+    items.sort((a, b) => a.dist - b.dist);
+    const current = items[0];
+
+    this.clearAllDots();
+    current.dot?.classList.add('active');
+    current.label?.classList.add('active', 'opacity-100');
+    current.label?.classList.remove('invisible');
+    this.activeId.set(current.id);
+  }
+
+  private clearAllDots() {
+    document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+    document.querySelectorAll('.dot-label').forEach(l => {
+      l.classList.remove('active', 'opacity-100');
+      l.classList.add('invisible');
+    });
+  }
+
+  scrollToSection(sectionId: string) {
+    const s = this.sections.find(x => x.id === sectionId || x.targetId === sectionId);
+    if (!s) return;
+
+    const id = s.targetId || s.id;
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    const offset = target.offsetHeight * 0.01;
+
+    const smoother = (window as any).ScrollSmoother?.get?.();
+    if (smoother) {
+      smoother.scrollTo(target, true, 'top+=' + offset);
+    } else {
+      gsap.to(window, {
+        duration: 1,
+        scrollTo: { y: target, offsetY: -offset },
+        ease: 'power2.out'
+      } as any);
+    }
+  }
+
+  private cleanTriggers() {
+    this.triggers.forEach(t => t.kill());
+    this.triggers = [];
+  }
+
+  ngOnDestroy(): void {
+    this.cleanTriggers();
+    this.resizeSub?.unsubscribe();
+  }
+}

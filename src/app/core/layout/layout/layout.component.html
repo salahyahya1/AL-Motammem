@@ -1,0 +1,10 @@
+<app-navbar></app-navbar>
+<div id="smooth-wrapper">
+    <app-section-indicator [sections]="(sections$ | async) ?? []" position="right" [showLabels]="true" [hideBelow]="700"
+        start="top center" end="bottom center">
+    </app-section-indicator>
+    <div id="smooth-content">
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+    </div>
+</div>
