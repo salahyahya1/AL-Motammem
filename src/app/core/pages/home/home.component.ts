@@ -619,19 +619,19 @@ import { Section10Component } from "./section10/section10.component";
 import { BehaviorSubject } from 'rxjs';
 import { Section3Component } from "./section3/section3.component";
 import { RouterLink } from "@angular/router";
+import { NavbarThemeService } from '../../layout/navbar/navbar-theme.service';
+import { NavbarComponent } from "../../layout/navbar/navbar.component";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section10Component, Section3Component, RouterLink],
+  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section10Component, Section3Component, RouterLink, NavbarComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements AfterViewInit {
-  @ViewChild('navbar', { static: false }) navbar!: ElementRef<HTMLElement>;
-  @ViewChild('navbarMenu', { static: false }) navbarMenu!: ElementRef<HTMLElement>;
   private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
   visibility$ = this.visibilitySubject.asObservable();
   visibilityState: 'visible' | 'invisible' = 'visible';
@@ -654,7 +654,8 @@ export class HomeComponent implements AfterViewInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private navTheme: NavbarThemeService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -665,7 +666,6 @@ export class HomeComponent implements AfterViewInit {
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.initSmoothScroll(); // ✅ تفعيل السموذ سكرول فقط
-        this.animateNavbar(); // ✅ أنيميشن النافبار الأصلي
         this.observeSections(); // ✅ تغيير الألوان للنافبار والبراند
         this.initSectionIndicators()
         this.sideMenu();
@@ -680,31 +680,6 @@ export class HomeComponent implements AfterViewInit {
     });
   }
 
-  toggleMenu() {
-    this.menuOpen = !this.menuOpen;
-    const el = this.navbarMenu.nativeElement;
-    gsap.to(el, {
-      y: this.menuOpen ? 165 : -120,
-      opacity: this.menuOpen ? 1 : 0,
-      duration: 0.8,
-      ease: 'power2.inOut',
-    });
-  }
-  // toggleMenu() {
-  //   this.menuOpen = !this.menuOpen;
-  //   const nav = document.querySelector('nav');
-  //   if (this.menuOpen) {
-  //     nav?.classList.remove('closed');
-  //   } else {
-  //     nav?.classList.add('closed');
-  //   }
-  // }
-
-  private animateNavbar() {
-    const navbarEl = this.navbar.nativeElement;
-    // gsap.set(navbarEl, { y: -100, opacity: 0 });
-    gsap.fromTo(navbarEl, { y: -100, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power2.inOut' });
-  }
 
   private initSmoothScroll() {
     // ✅ ScrollSmoother شغال بدون أي تأثيرات إضافية
@@ -728,7 +703,6 @@ export class HomeComponent implements AfterViewInit {
 
   private observeSections() {
     const sections = gsap.utils.toArray<HTMLElement>('.panel');
-    const navbarEl = this.navbar.nativeElement;
 
     sections.forEach((section) => {
       const bgColor = section.dataset['bgcolor'] || 'var(--white)';
@@ -738,31 +712,14 @@ export class HomeComponent implements AfterViewInit {
         trigger: section,
         start: 'top 50%',
         end: 'bottom 50%',
-        onEnter: () => this.updateNavbarColors(navbarEl, textColor),
-        onEnterBack: () => this.updateNavbarColors(navbarEl, textColor),
+        onEnter: () => this.updateNavbarColors(textColor),
+        onEnterBack: () => this.updateNavbarColors(textColor),
       });
     });
   }
 
-  private updateNavbarColors(navbarEl: HTMLElement, textColor: string) {
-    gsap.to(navbarEl, { color: textColor, duration: 0.4 });
-    const brand = document.getElementById('brand-text');
-    const brand2 = document.getElementById('brand-text2');
-    const brand3 = document.getElementById('brand-text3');
-    if (brand && brand2 && brand3) {
-      gsap.to(brand, {
-        color: textColor === 'var(--primary)' ? 'var(--dark-gray)' : 'var(--white)',
-        duration: 0.4,
-      });
-      gsap.to(brand2, {
-        color: textColor === 'var(--primary)' ? 'var(--primary)' : 'var(--white)',
-        duration: 0.4,
-      });
-      gsap.to(brand3, {
-        color: textColor === 'var(--primary)' ? 'var(--primary)' : 'var(--white)',
-        duration: 0.4,
-      });
-    }
+  private updateNavbarColors(textColor: string) {
+    this.navTheme.setColor(textColor);
   }
   sideMenu() {
 

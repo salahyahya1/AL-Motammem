@@ -3,6 +3,10 @@
 @import 'swiper/css/navigation';
 @import 'swiper/css/pagination';
 
+@theme {
+    --breakpoint-xs: 34rem; // 552px
+}
+
 :root {
     --primary: #2475EA;
     --primary-light: #469CF9;

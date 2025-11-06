@@ -150,56 +150,56 @@
   //       transform: scale(1.1);
   //   }
   /* 📱 عند الشاشات الصغيرة */
-  @media (max-width: 700px) {
-      .mobile-layout {
-          display: flex;
-          width: 100%;
-          flex-direction: column;
-          gap: 94px;
-          margin: auto;
-      }
+  //   @media (max-width: 700px) {
+  //       .mobile-layout {
+  //           display: flex;
+  //           width: 100%;
+  //           flex-direction: column;
+  //           gap: 94px;
+  //           margin: auto;
+  //       }
 
-      #capsule {
-          width: 360px !important;
-          height: 420px !important;
-          //   viewBox: 0 0 360 580;
+  //       #capsule {
+  //           width: 360px !important;
+  //           height: 420px !important;
+  //           //   viewBox: 0 0 360 580;
 
-      }
+  //       }
 
-      .capsule-path {
-          d: path("M40,20 a40,40 0 0 1 40,-40 h600 a40,40 0 0 1 40,40 v700 a40,40 0 0 1 -40,40 h-600 a40,40 0 0 1 -40,-40 z");
-      }
+  //       .capsule-path {
+  //           d: path("M40,20 a40,40 0 0 1 40,-40 h600 a40,40 0 0 1 40,40 v700 a40,40 0 0 1 -40,40 h-600 a40,40 0 0 1 -40,-40 z");
+  //       }
 
-      /* ✅ تكبير مساحة المحتوى الداخلي */
-      foreignObject {
-          x: 25px !important;
-          y: 25px !important;
-          width: 681px !important;
-          height: 670px !important;
-      }
+  //       /* ✅ تكبير مساحة المحتوى الداخلي */
+  //       foreignObject {
+  //           x: 25px !important;
+  //           y: 25px !important;
+  //           width: 681px !important;
+  //           height: 670px !important;
+  //       }
 
-      #image-container {
-          flex-direction: column;
-          justify-content: space-around;
-          align-items: center;
-          height: 100%;
-          overflow: hidden;
-          opacity: 0;
-          visibility: hidden;
-      }
+  //       #image-container {
+  //           flex-direction: column;
+  //           justify-content: space-around;
+  //           align-items: center;
+  //           height: 100%;
+  //           overflow: hidden;
+  //           opacity: 0;
+  //           visibility: hidden;
+  //       }
 
-      /* ✅ تكبير العناصر الداخلية */
-      .mobile-layout .slot {
-          width: 90%;
-          padding: 18px 0;
-          gap: 106px;
-          border-radius: 25px;
-          height: auto;
-      }
+  //       /* ✅ تكبير العناصر الداخلية */
+  //       .mobile-layout .slot {
+  //           width: 90%;
+  //           padding: 18px 0;
+  //           gap: 106px;
+  //           border-radius: 25px;
+  //           height: auto;
+  //       }
 
-      .mobile-layout .slot img {
-          width: 114px;
-          /* ← كبرنا الصور */
-          height: auto;
-      }
-  }
+  //       .mobile-layout .slot img {
+  //           width: 114px;
+  //           /* ← كبرنا الصور */
+  //           height: auto;
+  //       }
+  //   }

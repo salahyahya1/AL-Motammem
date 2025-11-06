@@ -109,6 +109,7 @@ export class Section3Component {
             pinType: 'transform',
             // markers: true,
             id: 'pinsection',
+            anticipatePin: 1,
             onEnter: () => {
               if (!playedOnce) {
                 playedOnce = true;
@@ -282,8 +283,8 @@ export class Section3Component {
               prevEl: '#arrowLeft',
             },
             breakpoints: {
-              0: { slidesPerView: 2 },
-              768: { slidesPerView: 2 },
+              0: { slidesPerView: 2, spaceBetween: 19 },
+              768: { slidesPerView: 2, spaceBetween: 19, },
               1024: { slidesPerView: 3 },
             },
           });

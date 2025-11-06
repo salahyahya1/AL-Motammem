@@ -19,7 +19,7 @@
 
 .capsule-path2 {
     opacity: 0;
-      visibility: hidden;
+    visibility: hidden;
 }
 
 #section50Bottom {
@@ -128,7 +128,7 @@
         position: relative;
 
         .controls {
-            width: 90%;
+            width: 102%;
             display: flex;
             justify-content: space-between;
             margin-bottom: 1.5rem;
@@ -159,7 +159,7 @@
         }
 
         .swiper {
-            width: 85%;
+            width: 94%;
             overflow: hidden;
         }
 
@@ -173,7 +173,9 @@
             background: #ffffff;
             border-radius: 12px;
             text-align: right;
-            padding: 2rem 1.5rem;
+            // padding: 2rem 1.5rem;
+            padding: 0 0 0 5px;
+            margin-left: 0.7rem;
             width: 102.5%;
             position: relative;
             transition: transform 0.4s ease;

@@ -1,16 +1,18 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Component, Inject, NgZone, OnDestroy, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { ApplicationRef, Component, Inject, NgZone, OnDestroy, PLATFORM_ID, ViewChild, ViewEncapsulation } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { SplitText } from "gsap/SplitText";
+import { AnimatedSequenceComponent } from "../../../../shared/animated-sequence/animated-sequence.component";
 gsap.registerPlugin(ScrollTrigger, SplitText);
 @Component({
   selector: 'app-section1',
   templateUrl: './section1.component.html',
   styleUrl: './section1.component.scss',
-  imports: [],
+  imports: [AnimatedSequenceComponent],
 })
 export class Section1Component implements OnDestroy {
+  @ViewChild(AnimatedSequenceComponent) seq!: AnimatedSequenceComponent;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
@@ -36,6 +38,7 @@ export class Section1Component implements OnDestroy {
 
   }
   private runGsapAnimation() {
+    this.seq.playForwardAnimation();
     document.fonts.ready.then(() => {
       gsap.set("#hero", { willChange: "transform, opacity" });
 

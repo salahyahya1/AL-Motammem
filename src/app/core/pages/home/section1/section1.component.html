@@ -31,19 +31,15 @@
 
     <div class="relative md:contents">
         <div class="w-full md:w-[43.5%] relative z-0  flex items-center justify-center">
-            <!-- <video id="hero-video" autoplay muted playsinline class="w-full max-w-xl mx-auto" preload="auto"
-            poster="./images/video-placeholder-hero.webp" fetchpriority="high">
-            <source src="./videos/laptop.webm" type="video/webm" width="1280" height="720" />
-            Your browser does not support the video tag.
-        </video> -->
-            <div class="relative max-w-full">
-                <img src="./images/Nested Sequence 0969.png" class="relative z-[0] max-w-full" alt="" srcset="">
-                <img src="./images/Nested Sequence 10038.png" class="absolute z-[1] max-w-full top-0 left-[37%]" alt=""
-                    srcset="">
-            </div>
+
+            <app-animated-sequence componentId="comp1" [imageUrl]="'./images/SS.png'" [totalFrames]="69"
+                [frameWidth]="625" [frameHeight]="391" [framesPerRow]="3" [spriteWidth]="1875" [spriteHeight]="8985">
+            </app-animated-sequence>
+
         </div>
         <div class="absolute w-full h-full inset-0 md:left-[-2%] md:top-0 -z-10 overflow-hidden">
-            <video src="./images/gradient.mp4" class="md:left-[-2%] absolute" autoplay muted playsinline loop></video>
+            <video src="./images/gradient.mp4" class="md:left-[-2%] absolute" style="opacity: 80%;" autoplay muted
+                playsinline loop></video>
         </div>
     </div>
 </section>
