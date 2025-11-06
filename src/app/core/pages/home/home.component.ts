@@ -85,6 +85,7 @@ export class HomeComponent implements AfterViewInit {
           { id: 'section8', label: 'تواصل معنا', wholeSectionId: 'section8' },
         ];
         this.sectionsRegistry.set(sections);
+        this.sectionsRegistry.enable();
         this.observeSections();
         window.addEventListener('resize', () => {
           this.ngZone.run(() => {
@@ -117,5 +118,6 @@ export class HomeComponent implements AfterViewInit {
   }
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
+    this.sectionsRegistry.disable();
   }
 }
