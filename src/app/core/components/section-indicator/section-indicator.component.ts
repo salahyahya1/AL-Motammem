@@ -415,7 +415,6 @@ export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  /** إعادة البناء حسب الحالة الحالية (إظهار/إخفاء + تريجرز) */
   private rebuild() {
     const indicator = this.indicator?.nativeElement;
     if (!indicator) return;
@@ -529,7 +528,7 @@ export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
 
     this.clearAllDots();
     current.dot?.classList.add('active');
-    current.label?.classList.add('active', 'opacity-100');
+    current.label?.classList.add('active');
     current.label?.classList.remove('invisible');
     this.activeId.set(current.id);
   }

@@ -24,10 +24,20 @@
     background-position: center;
 }
 
-
-
 .dot-label.active {
-    opacity: 1;
     color: #FFD166;
+    /* اللون الذهبي */
     transition: all 0.3s ease;
 }
+ 
+/* إظهار اللابل عند الهوفر لأي dot */
+.group:hover .dot-label {
+    opacity: 1;
+    visibility: visible;
+}
+ 
+/* عند الهوفر على دوت Active: ثبّت الذهبي */
+.group:hover .dot.active~.dot-label {
+    color: #FFD166;
+}
+ 
