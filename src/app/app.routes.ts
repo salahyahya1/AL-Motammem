@@ -20,6 +20,18 @@ export const routes: Routes = [
                 }
             },
             {
+                path: 'about',
+                loadComponent: () => import('./core/pages/about/about.component').then(m => m.AboutComponent),
+                title: 'من نحن',
+                data: {
+                    seo: {
+                        description: 'ERP عربي بخبرة 40 سنة…',
+                        image: '/assets/og/about.webp',
+                        canonical: 'https://example.com/'
+                    }
+                }
+            },
+            {
                 path: 'plans',
                 loadComponent: () => import('./core/pages/plans/plans.component').then(m => m.PlansComponent),
                 title: 'الخطط والأسعار',

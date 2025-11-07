@@ -8,8 +8,8 @@ import {
   OnDestroy,
   Input
 } from '@angular/core';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 import { CommonModule } from '@angular/common';
 
 @Component({

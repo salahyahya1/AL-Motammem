@@ -10,7 +10,11 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       routes,
-      withPreloading(PreloadAllModules),                  // تحميل مسبق للوحدات
+      withPreloading(PreloadAllModules),
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled', // يطلع أول الصفحة في التنقل العادي ويسترجع المكان في back/forward
+        anchorScrolling: 'enabled',           // يدعم الروابط بـ #id
+      })
     ),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()), // HTTP مهيأ للـ SSR/Fetch API

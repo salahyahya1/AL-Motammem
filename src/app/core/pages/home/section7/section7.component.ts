@@ -3,7 +3,7 @@ import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { SplitText } from 'gsap/SplitText';
+import SplitText from 'gsap/SplitText';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 

@@ -292,16 +292,8 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
   @ViewChild('indicator', { static: false }) indicator!: ElementRef<HTMLElement>;
 
-  /**
-   * ✅ اختيارية: لو مرّرتها من الصفحة، هتتخطّى اللي موجود في الخدمة
-   * سيبها فاضية علشان تعتمد على الـ SectionsRegistryService الجلوبال.
-   */
   @Input() sections: SectionItem[] | null = null;
 
-  /**
-   * ✅ اختيارية: إجبار تمكين/تعطيل المؤشر للصفحة الحالية
-   * لو undefined → نستخدم قيمة الخدمة.
-   */
   @Input() forceEnable: boolean | undefined;
 
   @Input() hideBelow = 700;
@@ -330,18 +322,15 @@ export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  /** اللستة الفعّالة (Input إن وُجد، وإلا من الخدمة) */
   get sectionsList(): SectionItem[] {
     return (this.sections && this.sections.length) ? this.sections : this.registrySections;
   }
 
-  /** هل المؤشر مفترض يظهر؟ */
   shouldShow(): boolean {
     if (!this.isBrowser) return true;
     const widthOK = window.innerWidth >= this.hideBelow;
     const hasSections = this.sectionsList.length > 0;
 
-    // enable النهائي = forceEnable (لو متديها) وإلا خدمة
     const enabled = (typeof this.forceEnable === 'boolean') ? this.forceEnable : this.registryEnabled;
 
     return widthOK && hasSections && enabled;
@@ -354,7 +343,6 @@ export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
     const indicator = this.indicator?.nativeElement;
     if (!indicator) return;
 
-    // اشتراك في الخدمة (السكاشن + التمكين)
     this.registry.sections$
       .pipe(takeUntil(this.destroy$))
       .subscribe((list: any) => {
@@ -369,13 +357,12 @@ export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
         this.rebuild();
       });
 
-    // في البداية + عند تغيير المقاس
     this.applyVisibility();
     this.runIntroAnimation(indicator);
     this.resizeSub = fromEvent(window, 'resize').subscribe(() => {
       this.applyVisibility();
       this.runIntroAnimation(indicator, true);
-      this.rebuild(); // علشان لو العرض اتغيّر نعيد الضبط
+      this.rebuild();
     });
 
     // أول بناء
@@ -388,7 +375,6 @@ export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
     this.visible.set(window.innerWidth >= this.hideBelow);
   }
 
-  /** أنيميشن الدخول (يشتغل فقط على الديسكتوب وعند التمكين) */
   private runIntroAnimation(indicator: HTMLElement, isResize = false) {
     if (!this.isBrowser) return;
 
@@ -529,7 +515,7 @@ export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
 
     this.clearAllDots();
     current.dot?.classList.add('active');
-    current.label?.classList.add('active', 'opacity-100');
+    current.label?.classList.add('active');
     current.label?.classList.remove('invisible');
     this.activeId.set(current.id);
   }

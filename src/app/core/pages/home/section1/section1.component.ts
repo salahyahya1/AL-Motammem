@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Component, Inject, NgZone, OnDestroy, PLATFORM_ID, ViewChild, ViewEncapsulation } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { SplitText } from "gsap/SplitText";
+import SplitText from "gsap/SplitText";
 import { AnimatedSequenceComponent } from "../../../shared/animated-sequence/animated-sequence.component";
 import { RouterLink } from "@angular/router";
 gsap.registerPlugin(ScrollTrigger, SplitText);

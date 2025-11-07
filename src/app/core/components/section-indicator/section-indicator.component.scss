@@ -27,7 +27,15 @@
 
 
 .dot-label.active {
-    opacity: 1;
     color: #FFD166;
     transition: all 0.3s ease;
+}
+
+.group:hover .dot-label {
+    opacity: 1;
+    visibility: visible;
+}
+
+.group:hover .dot.active~.dot-label {
+    color: #FFD166;
 }

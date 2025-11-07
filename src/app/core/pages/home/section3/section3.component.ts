@@ -5,7 +5,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import Draggable from "gsap/Draggable";
 import InertiaPlugin from "gsap/InertiaPlugin";
 
-import { SplitText } from "gsap/SplitText";
+import SplitText from "gsap/SplitText";
 
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';

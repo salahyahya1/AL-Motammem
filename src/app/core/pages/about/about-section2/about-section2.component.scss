@@ -1,0 +1,15 @@
+h1#About-Section2-title,
+#About-Section2-title2,
+#About-Section2-title3 {
+    opacity: 0;
+    visibility: hidden;
+    /* عشان ميعملش flicker لحظة التقسيم */
+}
+
+#About-Section2 {
+    background-color: white;
+}
+
+#About-Section2-video {
+    opacity: 0;
+}
