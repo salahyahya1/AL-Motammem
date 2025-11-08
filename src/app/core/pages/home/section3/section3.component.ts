@@ -154,7 +154,7 @@ export class Section3Component {
               rotateY: 0,
               y: 0,
               filter: "blur(0px)",
-              duration: 1.2,
+              duration: 0.6,
               stagger: {
                 each: 0.25,
                 from: "start"
@@ -167,7 +167,7 @@ export class Section3Component {
             { opacity: 0, visibility: "visible" },
             {
               opacity: 1,
-              duration: 0.8,
+              duration: 0.5,
               ease: "sine.out",
               stagger: 0.1,
               onStart: () => { gsap.set(section50Details, { opacity: 1, visibility: "visible" }) },
@@ -184,20 +184,6 @@ export class Section3Component {
               }
             }
           );
-          // tl.fromTo("#capsule",
-          //   { y: 78, scale: 1.5 },
-          //   {
-          //     y: -60,
-          //     scale: 1,
-          //     ease: "sine.out",
-          //     stagger: 0.1,
-          //     onStart: () => {
-          //       gsap.to('#section50', {
-          //         backgroundColor: 'white'
-          //       })
-          //     }
-          //   }, ">-0.3"
-          // );
           tl.to("#capsule2", {
             scale: 0.85,
             duration: 1,

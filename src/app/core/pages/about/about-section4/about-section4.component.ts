@@ -169,8 +169,8 @@ export class AboutSection4Component {
             loop: true,
             grabCursor: true,
             navigation: {
-              nextEl: '#arrowRight',
-              prevEl: '#arrowLeft',
+              nextEl: '#arrowRight2',
+              prevEl: '#arrowLeft2',
             },
             breakpoints: {
               0: { slidesPerView: 2, spaceBetween: 19 },
