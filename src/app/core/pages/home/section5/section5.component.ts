@@ -148,16 +148,21 @@ export class Section5Component {
     const slots = Array.from(container.querySelectorAll(".slot")) as HTMLElement[];
 
     const allSources = [
-      "/images/connect.png",
-      "/images/dashboard.png",
-      "/images/filter.png",
-      "/images/subscriber.png",
-      "/images/revenue.png",
-      "/images/subscribers.png",
-      "/images/active-services.png",
-      "/images/merchant-onboarding.png",
-      "/images/more_horiz.png",
-      "/images/reports-analytics.png",
+      "/images/logos/1.png",
+      "/images/logos/2.png",
+      "/images/logos/3.png",
+      "/images/logos/4.png",
+      "/images/logos/5.png",
+      "/images/logos/6.png",
+      "/images/logos/7.png",
+      "/images/logos/8.png",
+      "/images/logos/9.png",
+      "/images/logos/10.png",
+      "/images/logos/11.png",
+      "/images/logos/12.png",
+      "/images/logos/13.png",
+      "/images/logos/14.png",
+      "/images/logos/15.png"
     ];
     const slotImages: Map<HTMLElement, string[]> = new Map();
 
