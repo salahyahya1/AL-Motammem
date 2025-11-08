@@ -49,44 +49,24 @@ export class Section3Component {
       text: 'ابدأ العمل بالمتمم خلال أسابيع، وليس شهور أو سنوات، لتجني النتائج فورًا.',
     },
     {
-      title: 'دعم عربي محلي مع SLAs:',
-      text: 'دعم فني محلي سريع في مصر والسعودية بمعايير خدمة مضمونة.',
-    },
-    {
-      title: 'حل ERP عربي وانجليزي شامل:',
-      text: 'واجهة استخدام عربية وتجربة مخصصة للشركات المحلية، مع توافق كامل مع لوائح الضرائب والعمل والفوترة الإلكترونية.',
-    },
-    {
-      title: 'تشغيل سريع:',
-      text: 'ابدأ العمل بالمتمم خلال أسابيع، وليس شهور أو سنوات، لتجني النتائج فورًا.',
+      title: 'أسعار شفافة:',
+      text: 'خطط واضحة بلا أي رسوم خفية – تعرف بالضبط ما تدفعه.',
     },
     {
       title: 'دعم عربي محلي مع SLAs:',
       text: 'دعم فني محلي سريع في مصر والسعودية بمعايير خدمة مضمونة.',
     },
     {
-      title: 'حل ERP عربي وانجليزي شامل:',
-      text: 'واجهة استخدام عربية وتجربة مخصصة للشركات المحلية، مع توافق كامل مع لوائح الضرائب والعمل والفوترة الإلكترونية.',
+      title: 'تكاملات جاهزة:',
+      text: ' ربط فوري مع أنظمة الدفع، الضرائب، وواجهات الـ APIs لتسهيل العمل.',
     },
     {
-      title: 'تشغيل سريع:',
-      text: 'ابدأ العمل بالمتمم خلال أسابيع، وليس شهور أو سنوات، لتجني النتائج فورًا.',
+      title: 'حماية وأمان بيانات متقدم: ',
+      text: ' المتمم يعتمد معايير أمان عالية ويقدم حوكمة بيانات لحماية معلومات شركتك وضمان التوافق مع اللوائح المحلية والدولية.',
     },
     {
-      title: 'دعم عربي محلي مع SLAs:',
-      text: 'دعم فني محلي سريع في مصر والسعودية بمعايير خدمة مضمونة.',
-    },
-    {
-      title: 'حل ERP عربي وانجليزي شامل:',
-      text: 'واجهة استخدام عربية وتجربة مخصصة للشركات المحلية، مع توافق كامل مع لوائح الضرائب والعمل والفوترة الإلكترونية.',
-    },
-    {
-      title: 'تشغيل سريع:',
-      text: 'ابدأ العمل بالمتمم خلال أسابيع، وليس شهور أو سنوات، لتجني النتائج فورًا.',
-    },
-    {
-      title: 'دعم عربي محلي مع SLAs:',
-      text: 'دعم فني محلي سريع في مصر والسعودية بمعايير خدمة مضمونة.',
+      title: 'خطط مرنة تناسب نموك: ',
+      text: 'Mini للأفراد والفريلانسرز، Standard للشركات الصغيرة والمتوسطة، وPlus للشركات الكبرى التي تحتاج تخصيصات متقدمة.',
     },
   ];
   async ngAfterViewInit() {
@@ -138,7 +118,7 @@ export class Section3Component {
               strokeDashoffset: 0,
               opacity: 1,
               visibility: "visible",
-              duration: 2,
+              duration: 1,
               ease: "power2.inOut"
             });
           gsap.set("#section50-TITLE", { perspective: 800 });
@@ -154,9 +134,9 @@ export class Section3Component {
               rotateY: 0,
               y: 0,
               filter: "blur(0px)",
-              duration: 0.6,
+              duration: 0.4,
               stagger: {
-                each: 0.25,
+                each: 0.15,
                 from: "start"
               }
               ,
@@ -167,14 +147,14 @@ export class Section3Component {
             { opacity: 0, visibility: "visible" },
             {
               opacity: 1,
-              duration: 0.5,
+              duration: 0.44,
               ease: "sine.out",
               stagger: 0.1,
               onStart: () => { gsap.set(section50Details, { opacity: 1, visibility: "visible" }) },
               onComplete: () => {
                 gsap.to(video, {
                   opacity: 0,
-                  duration: 1.5,
+                  duration: 0.7,
                   ease: "power2.out",
                   onComplete: () => {
                     video.pause();
@@ -186,19 +166,19 @@ export class Section3Component {
           );
           tl.to("#capsule2", {
             scale: 0.85,
-            duration: 1,
+            duration: 0.6,
             ease: "power2.inOut",
             onStart: () => {
               gsap.to('#section50', {
                 backgroundColor: '#ffffff',
-                duration: 1.2,
+                duration: 0.8,
                 ease: "power2.inOut"
               });
             }
           }, ">+0.3");
           tl.to("#capsule2", {
             y: -60,
-            duration: 1,
+            duration: 0.7,
             ease: "power2.inOut",
           }, ">-0.4");
           tl.fromTo("#section50Bottom",
