@@ -12,11 +12,11 @@ export const appConfig: ApplicationConfig = {
       routes,
       withPreloading(PreloadAllModules),
       withInMemoryScrolling({
-        scrollPositionRestoration: 'enabled', // يطلع أول الصفحة في التنقل العادي ويسترجع المكان في back/forward
-        anchorScrolling: 'enabled',           // يدعم الروابط بـ #id
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
       })
     ),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch()), // HTTP مهيأ للـ SSR/Fetch API
+    provideHttpClient(withFetch())
   ]
 };
