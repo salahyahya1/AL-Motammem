@@ -65,7 +65,7 @@ export class Section5Component {
             }
           });
           // let triggered = false;
-          tl.to("#Text5", { opacity: 1, y: 0, duration: 0.8, ease: 'power2.inOut' });
+          tl.to("#Text5", { opacity: 1, y: 0, duration: 0.6, ease: 'power2.inOut' });
           // triggered = false;
           /////////////////////////////////////////////////////////
           const path = document.querySelector(".capsule-path") as SVGPathElement;
@@ -84,7 +84,7 @@ export class Section5Component {
             opacity: 1,
             visibility: "visible",
             strokeDashoffset: 0,
-            duration: 2,
+            duration: 1,
             ease: "power2.inOut",
             onUpdate: () => {
               const currentOffset = gsap.getProperty(path, "strokeDashoffset") as number;
