@@ -1,0 +1,12 @@
+#AboutSection3 {
+    contain: paint;
+    /* يعزل إعادة الرسم ويقلل الجليتش */
+    will-change: transform;
+    /* يساعد مع pinType=transform */
+}
+
+html,
+body {
+    overscroll-behavior: none;
+    /* يقلل سحب/ارتداد في الموبايل */
+}
