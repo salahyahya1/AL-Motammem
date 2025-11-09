@@ -77,7 +77,7 @@ ngAfterViewInit(): void {
   if (this.initialized) return;
   this.initialized = true;
 
-  // ✅ تأكد إننا في المتصفح مش في الـ SSR
+  // ✅ تأكد إننا في المتصفح مش في SSR
   if (!isPlatformBrowser(this.platformId)) {
     return;
   }
@@ -86,17 +86,17 @@ ngAfterViewInit(): void {
   if (container) {
     this.renderer.setStyle(container, 'width', `${this.frameWidth}px`);
     this.renderer.setStyle(container, 'height', `${this.frameHeight}px`);
-    this.renderer.setStyle(container, 'opacity', '0'); // خفي الصورة مؤقتًا
+    this.renderer.setStyle(container, 'opacity', '0');
     this.renderer.setStyle(container, 'transition', 'opacity 0.5s ease-in-out');
   }
 
   this.precalculateFramePositions();
 
-  // 🧩 نحمل الصورة فقط لما نكون في المتصفح
-  const preloadImage = new window.Image();
+  // ✅ استخدم Renderer2 بدل window.Image لتفادي أي مشكلة SSR
+  const preloadImage = this.renderer.createElement('img');
   preloadImage.src = this.imageUrl;
 
-  preloadImage.onload = () => {
+  preloadImage.addEventListener('load', () => {
     console.log('✅ Sprite sheet loaded');
     this.setupFrames();
 
@@ -105,8 +105,14 @@ ngAfterViewInit(): void {
 
     // 🌀 شغّل الأنيميشن أول ما تتحمل الصورة
     this.playForwardAnimation();
-  };
+  });
+
+  // 🧠 في حالة الصورة متخزنة بالكاش أصلاً (onload مش هيتنادى)
+  if (preloadImage.complete) {
+    preloadImage.dispatchEvent(new Event('load'));
+  }
 }
+
 
   ngOnDestroy(): void {
     this.scrollTrigger?.kill();
