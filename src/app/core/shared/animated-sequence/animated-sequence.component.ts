@@ -11,6 +11,8 @@ import {
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { CommonModule } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, PLATFORM_ID } from '@angular/core';
 
 @Component({
   selector: 'app-animated-sequence',
@@ -39,9 +41,12 @@ export class AnimatedSequenceComponent implements OnInit, AfterViewInit, OnDestr
   private animationFrameId: number | null = null;
   private framePositions: { x: number; y: number }[] = [];
 
-  constructor(private renderer: Renderer2) {
-    gsap.registerPlugin(ScrollTrigger);
-  }
+  // constructor(private renderer: Renderer2) {
+  //   gsap.registerPlugin(ScrollTrigger);
+  // }
+constructor(private renderer: Renderer2, @Inject(PLATFORM_ID) private platformId: Object) {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
   ngOnChanges() {
     if (this.initialized) {
@@ -53,21 +58,55 @@ export class AnimatedSequenceComponent implements OnInit, AfterViewInit, OnDestr
 
   private initialized = false;
 
-  ngAfterViewInit(): void {
-    if (this.initialized) return;
-    this.initialized = true;
+  // ngAfterViewInit(): void {
+  //   if (this.initialized) return;
+  //   this.initialized = true;
 
-    const container = this.imageContainer?.nativeElement;
-    if (container) {
-      this.renderer.setStyle(container, 'width', `${this.frameWidth}px`);
-      this.renderer.setStyle(container, 'height', `${this.frameHeight}px`);
-    }
+  //   const container = this.imageContainer?.nativeElement;
+  //   if (container) {
+  //     this.renderer.setStyle(container, 'width', `${this.frameWidth}px`);
+  //     this.renderer.setStyle(container, 'height', `${this.frameHeight}px`);
+  //   }
 
-    this.renderer.removeClass(this.imageContainer.nativeElement.parentElement, 'visible');
-    this.precalculateFramePositions();
-    this.setupFrames();
-    this.setupScrollAnimation();
+  //   this.renderer.removeClass(this.imageContainer.nativeElement.parentElement, 'visible');
+  //   this.precalculateFramePositions();
+  //   this.setupFrames();
+  //   this.setupScrollAnimation();
+  // }
+ngAfterViewInit(): void {
+  if (this.initialized) return;
+  this.initialized = true;
+
+  // ✅ تأكد إننا في المتصفح مش في الـ SSR
+  if (!isPlatformBrowser(this.platformId)) {
+    return;
   }
+
+  const container = this.imageContainer?.nativeElement;
+  if (container) {
+    this.renderer.setStyle(container, 'width', `${this.frameWidth}px`);
+    this.renderer.setStyle(container, 'height', `${this.frameHeight}px`);
+    this.renderer.setStyle(container, 'opacity', '0'); // خفي الصورة مؤقتًا
+    this.renderer.setStyle(container, 'transition', 'opacity 0.5s ease-in-out');
+  }
+
+  this.precalculateFramePositions();
+
+  // 🧩 نحمل الصورة فقط لما نكون في المتصفح
+  const preloadImage = new window.Image();
+  preloadImage.src = this.imageUrl;
+
+  preloadImage.onload = () => {
+    console.log('✅ Sprite sheet loaded');
+    this.setupFrames();
+
+    // أظهر الصورة بسلاسة
+    this.renderer.setStyle(container, 'opacity', '1');
+
+    // 🌀 شغّل الأنيميشن أول ما تتحمل الصورة
+    this.playForwardAnimation();
+  };
+}
 
   ngOnDestroy(): void {
     this.scrollTrigger?.kill();
