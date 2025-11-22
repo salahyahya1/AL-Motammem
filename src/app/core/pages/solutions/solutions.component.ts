@@ -16,9 +16,10 @@ import ScrollToPlugin from 'gsap/ScrollToPlugin';
 
 import { SolutionsSection1Component } from "./solutions-section1/solutions-section1.component";
 import { SolutionsSection2Component } from "./solutions-section2/solutions-section2.component";
-import { SolutionsSection3Component } from "./solutions-section3/solutions-section3.component";
-import { SolutionsSection4Component } from "./solutions-section4/solutions-section4.component";
-import { SolutionsSection5Component } from "./solutions-section5/solutions-section5.component";
+import { SolutionsSection3Component } from './solutions-section3/solutions-section3.component';
+import { SolutionsSection4Component } from './solutions-section4/solutions-section4.component';
+import { SolutionsSection5Component } from './solutions-section5/solutions-section5.component';
+
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
