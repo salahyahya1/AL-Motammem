@@ -1,4 +1,3 @@
-
 import {
   Component,
   Inject,
@@ -14,20 +13,22 @@ import { NavbarThemeService } from '../../components/navbar/navbar-theme.service
 import { SectionsRegistryService } from "../../services/sections-registry.service";
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
 
-import { AboutSection1Component } from "./about-section1/about-section1.component";
-import { AboutSection2Component } from "./about-section2/about-section2.component";
-import { AboutSection3Component } from "./about-section3/about-section3.component";
-import { AboutSection4Component } from "./about-section4/about-section4.component";
-import { AboutSection5Component } from "./about-section5/about-section5.component";
+
+import { SolutionsSection1Component } from "./solutions-section1/solutions-section1.component";
+import { SolutionsSection2Component } from "./solutions-section2/solutions-section2.component";
+import { SolutionsSection3Component } from "./solutions-section3/solutions-section3.component";
+import { SolutionsSection4Component } from "./solutions-section4/solutions-section4.component";
+import { SolutionsSection5Component } from "./solutions-section5/solutions-section5.component";
+
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 @Component({
-  selector: 'app-about',
-  imports: [AboutSection1Component, AboutSection2Component, AboutSection3Component, CommonModule, AboutSection4Component, AboutSection5Component],
-  templateUrl: './about.component.html',
-  styleUrl: './about.component.scss'
+  selector: 'app-solutions',
+  imports: [SolutionsSection1Component, SolutionsSection2Component, SolutionsSection3Component, SolutionsSection4Component, SolutionsSection5Component],
+  templateUrl: './solutions.component.html',
+  styleUrl: './solutions.component.scss'
 })
-export class AboutComponent {
+export class SolutionsComponent {
 
   private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
   visibility$ = this.visibilitySubject.asObservable();

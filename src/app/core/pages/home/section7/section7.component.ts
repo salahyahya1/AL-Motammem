@@ -87,50 +87,6 @@ export class Section7Component {
               '>-0.3'
             );
 
-
-            // ✳️ الكروت بالترتيب (وسط، يمين، يسار)
-            // tl.to(
-            //   '.card2',
-            //   { opacity: 1, duration: 1.5, ease: 'sine.out' },
-            //   '>-1'
-            // );
-            // tl.to(
-            //   '.card1',
-            //   { opacity: 1, right: 0, duration: 1.5, ease: 'sine.out' },
-            //   '<'
-            // );
-            // tl.to(
-            //   '.card3',
-            //   { opacity: 1, left: 0, duration: 1.5, ease: 'sine.out' },
-            //   '<'
-            // );
-            /////////////////////////////////////////////////////////////////////////////
-            // tl.fromTo(".card2", {
-            //   autoAlpha: 0,
-            // }, {
-            //   autoAlpha: 1,
-            //   duration: 1.5,
-            //   ease: "sine.out",
-            // }, '>')
-            // tl.fromTo(".card1", {
-            //   // right: 50,
-            //   autoAlpha: 0,
-            // }, {
-            //   right: '9%',
-            //   autoAlpha: 1,
-            //   duration: 1.5,
-            //   ease: "sine.out",
-            // }, '<')
-            // tl.fromTo(".card3", {
-            //   autoAlpha: 0,
-            //   // left: -14,
-            // }, {
-            //   autoAlpha: 1,
-            //   left: '9%',
-            //   duration: 1.5,
-            //   ease: "sine.out",
-            // }, '<')
-            /////////////////////////////////////////////////////////////////////////////
             ScrollTrigger.matchMedia({
               "(min-width: 1024px)": () => {
                 const tlCards = gsap.timeline();
