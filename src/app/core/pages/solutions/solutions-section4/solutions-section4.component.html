@@ -25,7 +25,7 @@
                 </button>
             </div>
 
-            <div #swiperEl class="swiper" dir="rtl">
+            <!-- <div #swiperEl class="swiper" dir="rtl">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" *ngFor="let s of sectors">
                         <div class="card py-[15px]">
@@ -42,7 +42,33 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
+<div #swiperEl class="swiper" dir="rtl">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" *ngFor="let group of groupedSectors">
+      <div
+        class="card py-[15px]"
+        *ngFor="let s of group"
+      >
+        <div class="text-content solution4-pill flex-col w-full justify-start">
+          <h3
+            style="
+              display: inline-block;
+              position: absolute;
+              top: -18px;
+              z-index: 10;
+              background: white;
+              padding: 0px 6px;
+            "
+          >
+            {{ s.title }}
+          </h3>
+          <p>{{ s.text }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
         </div>

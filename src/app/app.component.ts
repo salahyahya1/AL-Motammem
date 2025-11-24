@@ -6,10 +6,11 @@ import { filter, map } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID, Inject } from '@angular/core';
+import { SolutionsSection4Component } from "./core/pages/solutions/solutions-section4/solutions-section4.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, SolutionsSection4Component],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
