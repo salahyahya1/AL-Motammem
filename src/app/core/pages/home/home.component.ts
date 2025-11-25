@@ -45,17 +45,6 @@ export class HomeComponent implements AfterViewInit {
   visibilityState: 'visible' | 'invisible' = 'visible';
   private smoother!: any;
 
-  sections = [
-    { id: 'section1', label: 'section1', wholeSectionId: "section1" },
-    { id: 'section2', label: 'section2', wholeSectionId: "section2" },
-    { id: 'section3', label: 'section3', wholeSectionId: "section3" },
-    { id: 'section4', label: 'section4', wholeSectionId: "section4" },
-    { id: 'section5', label: 'section5', wholeSectionId: "section5" },
-    { id: 'section10', label: 'section10', wholeSectionId: "section10" },
-    { id: 'section6', label: 'section6', wholeSectionId: "section6" },
-    { id: 'section7', label: 'section7', wholeSectionId: "section7" },
-    { id: 'section8', label: 'section8', wholeSectionId: "section8" },
-  ];
   menuOpen = false;
   isBrowser: boolean;
 
@@ -75,14 +64,14 @@ export class HomeComponent implements AfterViewInit {
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         const sections: SectionItem[] = [
-          { id: 'section1', label: 'عن المتمم', wholeSectionId: 'section1' },
-          { id: 'section2', label: 'حقائق سريعة', wholeSectionId: 'section2' },
-          { id: 'section3', label: 'لماذا المتمم؟', wholeSectionId: 'section3' },
-          { id: 'section4', label: 'التطبيقات', wholeSectionId: 'section4' },
-          { id: 'section5', label: 'شهادات العملاء', wholeSectionId: 'section5' },
-          { id: 'section6', label: 'التكاملات', wholeSectionId: 'section6' },
-          { id: 'section7', label: 'الخطط', wholeSectionId: 'section7' },
-          { id: 'section8', label: 'تواصل معنا', wholeSectionId: 'section8' },
+          { id: 'section1', labelKey: 'HOME.INDECATORS.ABOUT', wholeSectionId: 'section1' },
+          { id: 'section2', labelKey: 'HOME.INDECATORS.FACTS', wholeSectionId: 'section2' },
+          { id: 'section3', labelKey: 'HOME.INDECATORS.WHY', wholeSectionId: 'section3' },
+          { id: 'section4', labelKey: 'HOME.INDECATORS.APPS', wholeSectionId: 'section4' },
+          { id: 'section5', labelKey: 'HOME.INDECATORS.TESTIMONIALS', wholeSectionId: 'section5' },
+          { id: 'section6', labelKey: 'HOME.INDECATORS.INTEGRATIONS', wholeSectionId: 'section6' },
+          { id: 'section7', labelKey: 'HOME.INDECATORS.PLANS', wholeSectionId: 'section7' },
+          { id: 'section8', labelKey: 'HOME.INDECATORS.CONTACT', wholeSectionId: 'section8' },
         ];
         this.sectionsRegistry.set(sections);
         this.sectionsRegistry.enable();

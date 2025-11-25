@@ -1,36 +1,43 @@
 <section id="hero"
     class="relative w-full min-h-screen flex flex-col-reverse md:flex-row items-center justify-center md:justify-between gap-10 md:gap-0 md:ps-20 py-15 md:pt-10">
-    <!-- <div class="w-full md:w-[56.5%] relative text-center md:text-right z-10 px-6 md:px-0">
+    <div class="w-full md:w-[56.5%] relative text-center md:text-start z-10 px-6 md:px-0">
         <h1 id="hero-title"
             class="text-[1.5rem] md:text-[2rem] lg:text-[2.6rem] xl:text-[3rem] font-bold leading-snug text-[var(--primary)]">
-            جميع أعمال ادارتك في نظام واحد متكامل
+            <!-- جميع أعمال ادارتك في نظام واحد متكامل -->
+            <!-- {{ 'HOME.HERO.TITLE' | translate }} -->
         </h1>
 
         <p id="hero-subtitle"
             class="mt-4 text-[var(--dark-gray)] md:text-[1rem] lg:text-[1.2rem] xl:text-[1.9rem] md:text-base leading-relaxed font-normal">
-            المتمم لإدارة موارد المؤسسة – ERP بخبرة 40 سنة في الأسواق المحلية والخليجية.
+            <!-- المتمم لإدارة موارد المؤسسة – ERP بخبرة 40 سنة في الأسواق المحلية والخليجية. -->
+            <!-- {{ 'HOME.HERO.SUB-TITLE' | translate }} -->
+
         </p>
 
         <p id="hero-details"
             class="mt-4 pe-5 text-[var(--light-gray)] md:text-[1rem] lg:text-[1.2rem] xl:text-[1.9rem] md:text-base leading-relaxed font-normal">
-            إدارة مالية - مخزون - إدارة موارد بشرية ومرتبات - تقارير - إدارة أصول ثابتة - إدارة نقدية وبنوك - خطابات
+            <!-- إدارة مالية - مخزون - إدارة موارد بشرية ومرتبات - تقارير - إدارة أصول ثابتة - إدارة نقدية وبنوك - خطابات
             ضمان -
-            خطابات إعتمادية - تكاملات ضريبية مع الكثير من الإضافات لتناسب طبيعة أعمالك.
+            خطابات إعتمادية - تكاملات ضريبية مع الكثير من الإضافات لتناسب طبيعة أعمالك. -->
+            <!-- {{ 'HOME.HERO.DETAILS' | translate }} -->
         </p>
         <div class="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-4">
             <a [routerLink]="['/coming-soon']" id="button1"
                 class="bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-6 py-3 rounded-full text-sm font-semibold shadow-md transition">
-                حدد جلسة استشارة مجانية
+                <!-- حدد جلسة استشارة مجانية -->
+                <!-- {{ 'HOME.HERO.BTN1' | translate }} -->
             </a>
             <a routerLink="/coming-soon" id="button2"
                 class="bg-[var(--primary-light)] hover:bg-[var(--primary-dark)] text-white px-6 py-3 rounded-full text-sm font-semibold shadow-md transition">
-                جرّب ميني متمم للأفراد مجانًا
+                <!-- جرّب ميني متمم للأفراد مجانًا -->
+                <!-- {{ 'HOME.HERO.BTN2' | translate }} -->
             </a>
         </div>
     </div>
 
+
     <div class="relative md:contents">
-        <div class="w-full md:w-[43.5%] relative z-0  flex items-center justify-center md:scale-[1.2]">
+        <div class="w-full md:w-[43.5%] relative z-0  flex items-center justify-center  ltr:scale-x-[-1]">
 
             <app-animated-sequence componentId="comp1" [imageUrl]="'./images/SS2.png'" [totalFrames]="69"
                 [frameWidth]="625" [frameHeight]="391" [framesPerRow]="3" [spriteWidth]="1875" [spriteHeight]="8985">
@@ -41,15 +48,7 @@
             <video src="./images/gradient.mp4" class="md:left-0 right-0 w-full absolute" style="opacity: 80%;" autoplay
                 muted playsinline loop></video>
         </div>
-    </div> -->
-<!-- <p>{{  'HOME.HERO.TITLE' | translate }}</p>
-<p>{{  'HOME.HERO.SUB-TITLE' | translate }}</p> -->
-<!-- <p>{{  'HOME.HERO.DETAILS' | translate }}</p> -->
-<!-- <p>{{  'HOME.HERO.BTN1' | translate }}</p> -->
-<!-- <p>{{  'HOME.HERO.BTN2' | translate }}</p> -->
+    </div>
 
 
-
-
-<button type="button" class="w-[100px] h-[100px] bg-red-700" (click)="setLang('en')">lang</button>
 </section>

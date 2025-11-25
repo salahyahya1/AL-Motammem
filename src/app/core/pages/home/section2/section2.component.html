@@ -1,73 +1,4 @@
-<!-- <section id="section3" class="h-screen">
-    <div id="stats-section" class="stats">
-        <div class="stats-grid">
-            <div class="stat-row stat-row1 text-center">
-                <div class="num"><span class="counter" data-target="1250">0</span></div>
-                <div class="label"> هذا نص تجريبي لانميشن </div>
-            </div>
-            <div class="stat-card stat-card3">
-                <div class="num"><span class="counter" data-target="1250">0</span></div>
-                <div class="label"> هذا نص تجريبي لانميشن</div>
-            </div>
-            <div class="stat-card  stat-card4">
-                <div class="counter" data-target="37">0</div>
-                <div class="label"> هذا نص تجريبي لانميشن</div>
-            </div>
-        </div>
-    </div>
-</section> -->
-<!-- <section id="section2" class="w-full h-screen bg-red-200">
-    <div id="stats-section" class="h-screen flex items-center justify-center bg-[#1976D2] text-white w-full">
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-
-            <div class="stat-card">
-                <div class="num text-5xl font-bold text-[#FFB300]">
-                    +<span class="counter" data-target="40">0</span>
-                </div>
-                <div class="label mt-2 text-xl">سنة خبرة</div>
-            </div>
-
-
-            <div class="stat-card">
-                <div class="num text-5xl font-bold text-[#FFB300]">
-                    +<span class="counter" data-target="3600">0</span>
-                </div>
-                <div class="label mt-2 text-xl">عميل نشط</div>
-            </div>
-
-
-            <div class="stat-card">
-                <div class="num text-5xl font-bold text-[#FFB300]">
-                    <span class="counter" data-target="99.9">0</span>%
-                </div>
-                <div class="label mt-2 text-xl">نسبة توافر النظام</div>
-            </div>
-
-
-            <div class="stat-card">
-                <div class="num text-5xl font-bold text-[#FFB300]">
-                    <span class="counter" data-target="4">0</span> أسابيع
-                </div>
-                <div class="label mt-2 text-xl">متوسط وقت التشغيل</div>
-            </div>
-        </div>
-
-        <div class="mt-12">
-            <button class="bg-[#FFB300] text-[#1976D2] font-bold px-6 py-3 rounded-full hover:bg-[#ffca28] transition">
-                انضم إلى عائلة عملائنا الآن
-            </button>
-            <p class="mt-3 text-sm text-white/90">
-                اطلب استعراض مفصل خصيصًا لطبيعة عملك الآن وشاهد الفرق بنفسك
-            </p>
-        </div>
-    </div>
-</section> -->
 <section id="section2" class="w-full min-h-screen text-white flex flex-col items-center justify-center relative ">
-    <!-- <video src="./videos/scales2.mp4" muted playsinline preload="auto"
-        class="absolute top-0 left-0 w-full h-full object-cover z-0"></video> -->
-    <!-- <video #videoElement preload="auto" muted playsinline>
-        <source src="./videos/scales2.mp4" type="video/mp4" />
-    </video> -->
     <div id="stats-section" class=" relative w-full px-10 lg:px-20 text-center">
         <div
             class="grid grid-cols-2 lg:grid-cols-2 gap-y-8 gap-x-8 md:gap-y-17 xl:gap-y-30 md:gap-x-12 place-items-center pt-8 lg:pt-8">
@@ -77,14 +8,16 @@
                 <div class="num text-[2rem] md:text-[3rem] lg:text-[4rem] font-bold text-[#FFB300]">+<span
                         class="counter" data-target="3600">0</span>
                 </div>
-                <div class="label mt-1 lg:mt-2 text-[1rem] md:text-[1.5rem] lg:text-[2rem]">عميل نشط</div>
+                <div class="label mt-1 lg:mt-2 text-[1rem] md:text-[1.5rem] lg:text-[2rem]"> {{ 'HOME.STATUS.CARD1' |
+                    translate }}</div>
             </div>
 
             <div class="stat-card">
                 <div class="num text-[2rem] md:text-[3rem] lg:text-[4rem] font-bold text-[#FFB300]">+<span
                         class="counter" data-target="40">0</span>
                 </div>
-                <div class="label mt-1 lg:mt-2 text-[1rem] md:text-[1.5rem] lg:text-[2rem]">سنة خبرة</div>
+                <div class="label mt-1 lg:mt-2 text-[1rem] md:text-[1.5rem] lg:text-[2rem]"> {{ 'HOME.STATUS.CARD2' |
+                    translate }}</div>
             </div>
 
 
@@ -93,16 +26,18 @@
                 <div class="num text-[2rem] md:text-[3rem] lg:text-[4rem] font-bold text-[#FFB300]"><span
                         class="counter" data-target="99.9">0</span>%
                 </div>
-                <div class="label mt-1 lg:mt-2 text-[1rem] md:text-[1.5rem] lg:text-[2rem]">نسبة توافر النظام</div>
+                <div class="label mt-1 lg:mt-2 text-[1rem] md:text-[1.5rem] lg:text-[2rem]"> {{ 'HOME.STATUS.CARD3' |
+                    translate }}</div>
             </div>
 
 
             <div class="stat-card">
                 <div class="num text-[2rem] md:text-[3rem] lg:text-[4rem] font-bold text-[#FFB300]"><span
                         class="counter" data-target="4">0</span>
-                    أسابيع
+                    {{ 'HOME.STATUS.WEEKS' | translate }}
                 </div>
-                <div class="label mt-1 lg:mt-2 text-[1rem] md:text-[1.5rem] lg:text-[2rem]">متوسط وقت التشغيل</div>
+                <div class="label mt-1 lg:mt-2 text-[1rem] md:text-[1.5rem] lg:text-[2rem]"> {{ 'HOME.STATUS.CARD4' |
+                    translate }} </div>
             </div>
         </div>
 
@@ -110,10 +45,10 @@
         <div class="mt-12 flex flex-col items-center justify-center">
             <button routerLink="/coming-soon"
                 class="cta-btn bg-[#FFB300] text-[1rem] text-[#1976D2] font-bold px-8 py-3 rounded-full hover:bg-[#ffca28] transition duration-300">
-                انضم إلى عائلة عملائنا الآن
+                {{ 'HOME.STATUS.beMEMBER' | translate }}
             </button>
             <p class="cta-sub mt-4 text-sm text-white/90 text-[1rem] ">
-                اطلب استعراض مفصل خصيصًا لطبيعة عملك الآن وشاهد الفرق بنفسك
+                {{ 'HOME.STATUS.SEE-DETAILS' | translate }}
             </p>
         </div>
     </div>
@@ -125,10 +60,59 @@
 
 </section>
 
+<!-- <section id="section2" class="w-full min-h-screen text-white flex flex-col items-center justify-center relative ">
+    <div id="stats-section" class="relative w-full px-10 lg:px-20 text-center">
 
-<!-- <p>{{  'HOME.STATUS.CARD1' | translate }}</p>
-<p>{{  'HOME.STATUS.CARD2' | translate }}</p>
-<p>{{  'HOME.STATUS.CARD3' | translate }}</p>
-<p>{{  'HOME.STATUS.CARD4' | translate }}</p>
-<p>{{  'HOME.STATUS.beMEMBER' | translate }}</p>
-<p>{{  'HOME.STATUS.SEE-DETAILS' | translate }}</p> -->
+        <div
+            class="grid grid-cols-2 lg:grid-cols-2 gap-y-8 gap-x-8 md:gap-y-17 xl:gap-y-30 md:gap-x-12 place-items-center pt-8 lg:pt-8">
+
+            <div class="stat-card">
+                <div class="num text-[2rem] md:text-[3rem] lg:text-[4rem] font-bold text-[#FFB300]">
+                    +<span class="counter" data-target="3600">0</span>
+                </div>
+                <div class="label mt-1 lg:mt-2 text-[1rem] md:text-[1.5rem] lg:text-[2rem]"
+                    data-i18n="HOME.STATUS.CARD1"></div>
+            </div>
+
+            <div class="stat-card">
+                <div class="num text-[2rem] md:text-[3rem] lg:text-[4rem] font-bold text-[#FFB300]">
+                    +<span class="counter" data-target="40">0</span>
+                </div>
+                <div class="label mt-1 lg:mt-2 text-[1rem] md:text-[1.5rem] lg:text-[2rem]"
+                    data-i18n="HOME.STATUS.CARD2"></div>
+            </div>
+
+            <div class="stat-card">
+                <div class="num text-[2rem] md:text-[3rem] lg:text-[4rem] font-bold text-[#FFB300]">
+                    <span class="counter" data-target="99.9">0</span>%
+                </div>
+                <div class="label mt-1 lg:mt-2 text-[1rem] md:text-[1.5rem] lg:text-[2rem]"
+                    data-i18n="HOME.STATUS.CARD3"></div>
+            </div>
+
+            <div class="stat-card">
+                <div class="num text-[2rem] md:text-[3rem] lg:text-[4rem] font-bold text-[#FFB300]">
+                    <span class="counter" data-target="4">0</span>
+                    <span data-i18n="HOME.STATUS.WEEKS"></span>
+                </div>
+                <div class="label mt-1 lg:mt-2 text-[1rem] md:text-[1.5rem] lg:text-[2rem]"
+                    data-i18n="HOME.STATUS.CARD4"></div>
+            </div>
+        </div>
+
+        <div class="mt-12 flex flex-col items-center justify-center">
+            <button routerLink="/coming-soon"
+                class="cta-btn bg-[#FFB300] text-[1rem] text-[#1976D2] font-bold px-8 py-3 rounded-full hover:bg-[#ffca28] transition duration-300"
+                data-i18n="HOME.STATUS.beMEMBER">
+            </button>
+            <p class="cta-sub mt-4 text-sm text-white/90 text-[1rem]" data-i18n="HOME.STATUS.SEE-DETAILS">
+            </p>
+        </div>
+    </div>
+
+    <video id="section4Video" preload="auto" muted playsinline
+        class="absolute inset-0 w-full h-full object-cover z-[-1]">
+        <source src="./videos/scales2.mp4" type="video/mp4">
+        متصفحك لا يدعم تشغيل الفيديو.
+    </video>
+</section> -->

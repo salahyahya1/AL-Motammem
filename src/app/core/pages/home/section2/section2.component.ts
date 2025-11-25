@@ -10,12 +10,12 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
   selector: 'app-section2',
-  imports: [RouterLink,TranslatePipe,TranslateDirective],
+  imports: [RouterLink, TranslatePipe, TranslateDirective],
   templateUrl: './section2.component.html',
   styleUrls: ['./section2.component.scss'],
 })
 export class Section2Component {
-      private language = inject(LanguageService);
+  private language = inject(LanguageService);
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
@@ -23,23 +23,9 @@ export class Section2Component {
   ) { }
   @ViewChild('section4Video') section4Video!: ElementRef<HTMLVideoElement>;
   ngAfterViewInit() {
-    
+
     if (!isPlatformBrowser(this.platformId)) return;
     let playedOnce = false;
-    // const video = this.section4Video.nativeElement;
-
-    // // ✅ انتظر الحدث قبل تغيير السرعة
-    // const onReady = () => {
-    //   video.playbackRate = 1.5; // اضبط السرعة بعد ما يبقى جاهز
-    //   video.play().catch(() => console.warn('Autoplay prevented'));
-    // };
-
-    // if (video.readyState >= 1) {
-    //   // الفيديو جاهز فعلاً
-    //   onReady();
-    // } else {
-    //   video.addEventListener('loadedmetadata', onReady, { once: true });
-    // }
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         setTimeout(() => {
@@ -95,72 +81,6 @@ export class Section2Component {
                 gsap.set(numEl, { opacity: 0 });
               }
             });
-            ///////////////
-            // function videoScrub(video: HTMLVideoElement | string, vars: gsap.TweenVars): gsap.core.Tween {
-            //   const videoEl = typeof video === "string"
-            //     ? (gsap.utils.toArray(video)[0] as HTMLVideoElement)
-            //     : video;
-
-            //   // دالة لإضافة event لمرة واحدة فقط
-            //   const once = (
-            //     el: Element | Document,
-            //     event: string,
-            //     fn: (this: Element, ev: Event) => any
-            //   ) => {
-            //     const onceFn = function (this: Element, ev: Event) {
-            //       el.removeEventListener(event, onceFn as EventListener);
-            //       fn.call(this, ev);
-            //     };
-            //     el.addEventListener(event, onceFn as EventListener);
-            //     return onceFn;
-            //   };
-
-            //   const prepFunc = () => {
-            //     videoEl.play();
-            //     videoEl.pause();
-            //   };
-
-            //   const prep = () => once(document.documentElement, "touchstart", prepFunc);
-            //   const tween = gsap.fromTo(
-            //     videoEl,
-            //     { currentTime: 0 },
-            //     {
-            //       paused: true,
-            //       immediateRender: false,
-            //       currentTime: videoEl.duration || 1,
-            //       ease: "none",
-            //       ...vars,
-            //     }
-            //   );
-
-            //   const resetTime = () => {
-            //     tween.vars['currentTime'] = videoEl.duration || 1;
-            //     tween.invalidate();
-            //   };
-
-            //   prep();
-
-            //   if (videoEl.readyState) {
-            //     resetTime();
-            //   } else {
-            //     once(videoEl, "loadedmetadata", resetTime);
-            //   }
-
-            //   return tween;
-            // }
-
-            // // مثال على الاستخدام
-            // const videoElement = document.querySelector("video") as HTMLVideoElement;
-
-            // videoScrub(videoElement, {
-            //   scrollTrigger: {
-            //     trigger: videoElement,
-            //     start: "center center",
-            //     scrub: true,
-            //     pin: true,
-            //   },
-            // });
-            ///////////////
             ScrollTrigger.create({
               trigger: triggerEl || section,  // عنصر داخل السكشن
               start: 'top top',
@@ -174,7 +94,6 @@ export class Section2Component {
                 if (!playedOnce) {
                   playedOnce = true;
                   video.currentTime = 0;
-                  // video.play().catch(() => console.warn('Autoplay prevented'));
                   video.play();
                 }
               },
@@ -227,7 +146,7 @@ export class Section2Component {
                   );
                 }
 
-                // كل عنصر يبدأ بعد ما اللي قبله يخلص
+
                 tl.add(rowTL, i === 0 ? '>' : '-=0.8');
               });
 
@@ -246,78 +165,5 @@ export class Section2Component {
         }, 500);
       });
     });
-  }
-}
-
-
-//
-function videoScrub(
-  video: HTMLVideoElement | string,
-  vars: gsap.TweenVars & { scrollTrigger?: ScrollTrigger.Vars }
-): gsap.core.Tween {
-  const videoEl = (typeof video === 'string'
-    ? (gsap.utils.toArray(video)[0] as HTMLVideoElement)
-    : video) as HTMLVideoElement;
-
-  // 1) تأمين الـ "unlock" على اللمس و الكليك (موبايل + ديسكتوب)
-  const unlock = () => {
-    // play → pause لتفعيل التحكم في currentTime (سياسات المتصفح)
-    const p = videoEl.play();
-    if (p && typeof p.then === 'function') {
-      p.then(() => videoEl.pause()).catch(() => {/* تجاهل */ });
-    } else {
-      videoEl.pause();
-    }
-    document.documentElement.removeEventListener('touchstart', unlock);
-    document.documentElement.removeEventListener('click', unlock);
-  };
-  document.documentElement.addEventListener('touchstart', unlock, { once: true });
-  document.documentElement.addEventListener('click', unlock, { once: true });
-
-  // 2) تحضير التوين بعد ما نضمن الـ duration
-  const makeTween = () => {
-    // لو لسه مفيش مدة، حط 1 ك fallback (هيتحدث بعد invalidate)
-    const dur = isFinite(videoEl.duration) && videoEl.duration > 0 ? videoEl.duration : 1;
-
-    const tween = gsap.fromTo(
-      videoEl,
-      { currentTime: 0 },
-      {
-        currentTime: dur,
-        ease: 'none',
-        paused: true,
-        immediateRender: false,
-        ...vars,
-        // مهم جدًا مع ScrollTrigger علشان يحسب من جديد بعد resize/refresh
-        onUpdate: (self) => {
-          vars?.onUpdate?.(self as any);
-        },
-      }
-    );
-
-    // لما تتغير المدة (مثلاً بعد refresh)، حدّث التوين
-    const resetTime = () => {
-      const d = isFinite(videoEl.duration) && videoEl.duration > 0 ? videoEl.duration : 1;
-      tween.vars['currentTime'] = d;
-      tween.invalidate(); // يعيد حساب كل حاجة
-    };
-
-    // ربط reset بالـ refresh بتاع ScrollTrigger
-    ScrollTrigger.addEventListener('refreshInit', resetTime);
-
-    return tween;
-  };
-
-  if (videoEl.readyState >= 1) {
-    return makeTween();
-  } else {
-    // استنى metadata مرة واحدة
-    return new Promise<gsap.core.Tween>((resolve) => {
-      const onMeta = () => {
-        videoEl.removeEventListener('loadedmetadata', onMeta);
-        resolve(makeTween());
-      };
-      videoEl.addEventListener('loadedmetadata', onMeta, { once: true });
-    }) as unknown as gsap.core.Tween;
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-export type SectionItem = { id: string; label?: string; targetId?: string; wholeSectionId?: string };
+export type SectionItem = { id: string; labelKey?: string; targetId?: string; wholeSectionId?: string };
 
 @Injectable({ providedIn: 'root' })
 export class SectionsRegistryService {

@@ -22,7 +22,9 @@ export class LanguageService {
       if (saved === 'en' || saved === 'ar') {
         lang = saved;
       }
-
+      else {
+        localStorage.setItem('lang', lang);
+      }
       document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     }
 
@@ -36,6 +38,7 @@ export class LanguageService {
     if (isPlatformBrowser(this.pid)) {
       localStorage.setItem('lang', lang);
       document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      window.location.reload();
     }
   }
 

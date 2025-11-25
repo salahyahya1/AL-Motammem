@@ -6,11 +6,11 @@ import { filter, map } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID, Inject } from '@angular/core';
-import { SolutionsSection4Component } from "./core/pages/solutions/solutions-section4/solutions-section4.component";
+import { LanguageService } from './core/shared/services/language.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SolutionsSection4Component],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -19,7 +19,7 @@ export class AppComponent {
   private route = inject(ActivatedRoute);
   private seo = inject(SeoService);
   private title = inject(Title);
-  constructor(@Inject(PLATFORM_ID) private pid: Object) { }
+  constructor(@Inject(PLATFORM_ID) private pid: Object, private language: LanguageService) { }
 
   ngOnInit() {
     this.router.events.pipe(
@@ -38,5 +38,6 @@ export class AppComponent {
         jsonld: seo.jsonld
       });
     });
+    this.language.init();
   }
 }

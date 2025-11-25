@@ -24,12 +24,12 @@ export const appConfig: ApplicationConfig = {
     ),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),
-   provideTranslateService({
+    provideTranslateService({
       loader: provideTranslateHttpLoader({
         prefix: './i18n/',   // لأنك حاططها جوّه public/i18n
         suffix: '.json',
       }),
-      fallbackLang: 'ar',    // بدل defaultLanguage/useDefaultLang
+      // fallbackLang: 'ar',    // بدل defaultLanguage/useDefaultLang
     }),
   ]
 };

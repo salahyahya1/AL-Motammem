@@ -72,16 +72,18 @@
 //   }
 // }
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, ElementRef, Inject, Input, PLATFORM_ID, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, Inject, Input, PLATFORM_ID, ViewChild, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
 import gsap from 'gsap';
 import { NavbarThemeService } from './navbar-theme.service';
+import { LanguageService } from '../../shared/services/language.service';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,                  // ✅ مهم لو بتستوردها في Home imports
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslatePipe, TranslateDirective],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'] // ✅ مش styleUrl
 })
@@ -92,12 +94,17 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
 
   private isBrowser: boolean;
   private destroy$ = new Subject<void>();
-
+  currentLang: 'ar' | 'en' = 'ar';
   constructor(
     private theme: NavbarThemeService,
     @Inject(PLATFORM_ID) platformId: Object,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+    if (!this.isBrowser) return;
+    const saved = localStorage?.getItem('lang') as 'ar' | 'en' | null;
+    if (saved === 'ar' || saved === 'en') {
+      this.currentLang = saved;
+    }
   }
 
   // ✅ الهـوك الصح
@@ -160,6 +167,15 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
       ease: 'power2.inOut',
     });
   }
+  private language = inject(LanguageService);
+
+  setLang(lang: 'en' | 'ar') {
+    this.currentLang = lang;
+    this.language.switchLang(lang);
+    console.log(lang);
+
+  }
+
 }
 
 

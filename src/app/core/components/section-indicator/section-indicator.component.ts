@@ -20,7 +20,7 @@
 // <div #indicator
 //   [class.opacity-100]="visible()"
 //   [class.pointer-events-auto]="visible()"
-//   [class.opacity-0]="!visible()"
+//   [class.opacity-100]="!visible()"
 //   [class.pointer-events-none]="!visible()"
 //   class="indicator transition-opacity duration-500 ease-in-out fixed top-1/2 right-10 -translate-y-1/2 z-[1000] flex flex-col items-center">
 
@@ -32,7 +32,7 @@
 //            (click)="scrollToSection(s.id)">
 //         <div class="absolute inset-[-16px] w-10 h-10 cursor-pointer"></div>
 //         <div class="dot w-2 h-2 bg-[#fca61f] rounded-full transition-transform duration-300 group-hover:scale-[2] group-active:scale-[1.5]"></div>
-//         <div class="dot-label absolute right-6 top-1/2 -translate-y-1/2 text-[var(--primary)] text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-300 whitespace-nowrap">
+//         <div class="dot-label absolute right-6 top-1/2 -translate-y-1/2 text-[var(--primary)] text-sm opacity-100 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-300 whitespace-nowrap">
 //           {{ s.label || s.id }}
 //         </div>
 //       </div>
@@ -254,6 +254,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import { fromEvent, Subscription, Subject, takeUntil } from 'rxjs';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
@@ -261,14 +262,14 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 @Component({
   selector: 'app-section-indicator',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe, TranslateDirective],
   template: `
 <div #indicator
   [class.opacity-100]="shouldShow()"
   [class.pointer-events-auto]="shouldShow()"
-  [class.opacity-0]="!shouldShow()"
+  [class.opacity-100]="!shouldShow()"
   [class.pointer-events-none]="!shouldShow()"
-  class="indicator transition-opacity duration-500 ease-in-out fixed top-1/2 right-10 -translate-y-1/2 z-[1000] flex flex-col items-center">
+  class="indicator transition-opacity duration-500 ease-in-out fixed rtl:top-1/2 ltr:top-[49%] rtl:right-10 rtl:-translate-y-1/2 ltr:left-10 ltr:-translate-y-1/2 z-[1000] flex flex-col items-center">
 
   <div class="relative h-[420px] w-[2px] bg-[#F5A605]">
     <ng-container *ngFor="let s of sectionsList; let i = index; trackBy: trackById">
@@ -278,8 +279,9 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
            (click)="scrollToSection(s.id)">
         <div class="absolute inset-[-16px] w-10 h-10 cursor-pointer"></div>
         <div class="dot w-2 h-2 bg-[#fca61f] rounded-full transition-transform duration-300 group-hover:scale-[2] group-active:scale-[1.5]"></div>
-        <div class="dot-label absolute right-6 top-1/2 -translate-y-1/2 text-[var(--primary)] text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-300 whitespace-nowrap">
-          {{ s.label || s.id }}
+        <div class="dot-label absolute rtl:right-6 ltr:left-6 top-1/2 -translate-y-1/2 text-[var(--primary)] text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-300 whitespace-nowrap">
+          <!-- {{ s.label || s.id }} -->
+              {{ s.labelKey | translate }} 
         </div>
       </div>
     </ng-container>

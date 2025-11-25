@@ -11,12 +11,36 @@
                     </path>
                 </svg>
             </div>
-            <a routerLink="" class="hover:text-primary whitespace-nowrap">الرئيسية</a>
+            <!-- <a routerLink="" class="hover:text-primary whitespace-nowrap">الرئيسية</a>
             <a routerLink="/about" class="hover:text-primary whitespace-nowrap">من نحن</a>
             <a routerLink="/solutions" class="hover:text-primary whitespace-nowrap">الحلول والقطاعات</a>
             <a routerLink="/coming-soon" class="hover:text-primary whitespace-nowrap">المنتجات والاسعار</a>
             <a routerLink="/coming-soon" class="hover:text-primary whitespace-nowrap">قاعدة المعرفة</a>
-            <a routerLink="/coming-soon" class="hover:text-primary whitespace-nowrap">تواصل معنا</a>
+            <a routerLink="/coming-soon" class="hover:text-primary whitespace-nowrap">تواصل معنا</a> -->
+            <a routerLink="" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.MAIN' | translate }} </a>
+            <a routerLink="/about" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.ABOUT-US' | translate }} </a>
+            <a routerLink="/solutions" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.SOLUTIONS' | translate }}
+            </a>
+            <a routerLink="/coming-soon" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.PRODUCTS' | translate
+                }}</a>
+            <a routerLink="/coming-soon" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.kNOWLEDGE' | translate
+                }}</a>
+            <a routerLink="/coming-soon" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.CONTACT' | translate
+                }}</a>
+            <div class="inline-flex items-center rounded-full bg-[var(--light-light-gray)] p-1 text-xs font-medium">
+                <button type="button" class="px-3 py-1 rounded-full transition-colors whitespace-nowrap" [ngClass]="currentLang === 'ar'
+      ? 'bg-[var(--primary)] text-white'
+      : 'text-[color:var(--dark-gray)]'" (click)="setLang('ar')" [disabled]="currentLang === 'ar'">
+                    AR
+                </button>
+
+                <button type="button" class="px-3 py-1 rounded-full transition-colors whitespace-nowrap" [ngClass]="currentLang === 'en'
+      ? 'bg-[var(--primary)] text-white'
+      : 'text-[color:var(--dark-gray)]'" (click)="setLang('en')" [disabled]="currentLang === 'en'">
+                    EN
+                </button>
+            </div>
+
 
         </nav>
         <div #navSmallScreen class="navSmallScreen w-full h-full">
