@@ -4,6 +4,8 @@ import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from 'gsap/SplitText';
+import { LanguageService } from '../../../shared/services/language.service';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -11,13 +13,15 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
   selector: 'app-section7',
   templateUrl: './section7.component.html',
   styleUrls: ['./section7.component.scss'],
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe, TranslateDirective],
 })
 export class Section7Component {
+  items!: number[];
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private language: LanguageService
   ) { }
 
   ngAfterViewInit() {
@@ -27,6 +31,12 @@ export class Section7Component {
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         setTimeout(() => {
+          if (this.isRtl) {
+            this.items = [1, 2, 3, 4];
+          }
+          else {
+            this.items = [1, 2, 3];
+          }
           const tl = gsap.timeline({
             defaults: { ease: 'power3.out' },
             scrollTrigger: {
@@ -201,5 +211,9 @@ export class Section7Component {
         }, 500);
       });
     });
+
+  }
+  get isRtl() {
+    return this.language.currentLang === 'ar';
   }
 }

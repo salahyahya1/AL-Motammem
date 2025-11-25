@@ -4,19 +4,22 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from "gsap/SplitText";
 
+import { LanguageService } from '../../../shared/services/language.service';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
   selector: 'app-section6',
   templateUrl: './section6.component.html',
   styleUrls: ['./section6.component.scss'],
-  imports: [],
+  imports: [TranslatePipe, TranslateDirective],
 })
 export class Section6Component {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private language: LanguageService
   ) { }
 
   ngAfterViewInit() {

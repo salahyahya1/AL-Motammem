@@ -29,6 +29,24 @@
     color: #7B3DD3;
 }
 
+.card2 {
+    div {
+        &[dir="rtl"] {
+            ul: {
+                margin-left: 67px;
+            }
+        }
+
+        &[dir="ltr"] {
+            ul: {
+                margin-left: 0px;
+            }
+        }
+    }
+
+}
+
+
 ul {
     list-style: disc;
 }

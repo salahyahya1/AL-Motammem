@@ -107,6 +107,56 @@
         "QUOTE": "A truly integrated system. The modules are smartly interconnected, and the support team is always available for any inquiry. A trusted experience worthy of our confidence.",
         "AUTHOR": "CEO – Texmar"
       }
+    },
+    "INTEGRATIONS": {
+      "TITLE": "Integrations, detail, and performance that no other system offers with this level of ease of use",
+      "SUB-TITLE": "Al-Motammem is not just an ERP, and it doesn’t force you to start from scratch. It connects with your existing tools such as Google, Excel, payment gateways, complies with tax systems (ETA & ZATCA), and integrates with your bank accounts. Everything works together seamlessly, with no complexity and no extra development costs.",
+      "DETAILS": "These ready-made integrations for importing and exporting data mean your team doesn’t waste time manually moving data or dealing with costly external interfaces."
+    },
+    "PLANS": {
+      "TITLE": "Well-designed plans that support the growth of thousands of companies for over 40 years.",
+      "SUB-TITLE": "Add dozens of features to any of our programs as your business grows or diversifies over time. Our long experience means every plan is designed to match the stage your company is going through — from day one until you become a large enterprise.",
+      "DETAILS": "All plans include free updates and continuous technical support.",
+      "CARD1": {
+        "TITLEp1": "Al-Motammem Mini ",
+        "TITLEp2": "for Individuals",
+        "LIST": [
+          "Smart invoice and task management.",
+          "Simple dashboard.",
+          "Invoicing module.",
+          "Basic reports."
+        ],
+        "CTA": "Try for free"
+      },
+      "CARD2": {
+        "TITLEp1": "Al-Motammem for Small",
+        "TITLEp2": " and Medium Businesses",
+        "LIST": [
+          "Manage all your daily operations.",
+          "Finance.",
+          "Inventory.",
+          "Human resources.",
+          "Real-time reports."
+        ],
+        "CTA": "Request a quote"
+      },
+      "CARD3": {
+        "TITLEp1": "Al-Motammem Plus ",
+        "TITLEp2": "for Large Enterprises",
+        "LIST": [
+          "Full customization and advanced capabilities",
+          "Workflow customization.",
+          "Premium local support (SLA).",
+          "Extensive integrations."
+        ],
+        "CTA": "Book a free consultation"
+      }
+    },
+    "CONTACT-US": {
+      "TITLE": "Start your business transformation journey with Al-Motammem today",
+      "DETAILS": "Join thousands of companies that have relied on Al-Motammem over the past 40 years to simplify their operations and achieve faster growth. Our team is ready to walk you through all the details and support you now.",
+      "BTN1": "Book a free consultation",
+      "BTN2": "Try Mini Motammem for individuals for free"
     }
   }
 }

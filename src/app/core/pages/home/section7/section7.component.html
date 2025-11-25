@@ -2,14 +2,12 @@
     class="w-full min-h-screen  text-white flex flex-col items-center justify-center py-19 px-6 md:px-12">
     <div class="contents">
         <h2 id="Text7" class="text-center text-[1.5rem] lg:text-[1.9rem] font-bold leading-relaxed max-w-3xl">
-            خطط تطوير مدروسة تدعم نمو آلاف الشركات منذ 40 عامًا.
+            {{ 'HOME.PLANS.TITLE' | translate }}
         </h2>
 
         <p id="SubText7"
             class="text-center text-sm md:text-base text-[0.8rem] lg:text-[1.3rem] max-w-3xl text-[#E3F2FD] mb-10 leading-relaxed">
-            أضف لأي من برامجنا عشرات الخصائص كلما كبرت أعمالك أو تنوعت مع الوقت.
-            خبرتنا الطويلة تعني أن كل باقة مصممة لتناسب المرحلة التي تمر بها شركتك، من
-            أول يوم حتى تصبح مؤسسة كبرى.
+            {{ 'HOME.PLANS.SUB-TITLE' | translate }}
         </p>
 
         <!-- 🟦 الكروت -->
@@ -18,7 +16,7 @@
             <!-- ✅ الكارت 1 -->
             <div
                 class="card card1 text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[32%] lg:w-[25%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:p-8 shadow-md">
-                <div class="relative" style="width: 80%;">
+                <div class="relative text-start" style="width: 80%;" [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div dir="ltr" class="flex gap-x-2">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
                             xmlns="http://www.w3.org/2000/svg">
@@ -40,20 +38,25 @@
                             <p class="card-text card-text1 uppercase font-bold">mini</p>
                         </div>
                     </div>
-                    <p class="card-text1 font-extrabold text-[1.1rem] md:pr-[16px] lg:pr-[0px]">المتمم ميني
-                        <br>
-                        للأفراد
+                    <p class="card-text1 font-extrabold text-[1.1rem] md:pr-[16px] lg:pr-[0px]">
+
+                        {{ 'HOME.PLANS.CARD1.TITLEp1' | translate }} <br>
+                        {{ 'HOME.PLANS.CARD1.TITLEp2' | translate }}
+
                     </p>
-                    <ul class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 pb-7 md:pr-[16px] lg:pr-[0px]">
-                        <li> إدارة الفواتير والمهام بذكاء.</li>
-                        <li>لوحة تحكم بسيطة.</li>
-                        <li>فواتير</li>
-                        <li>تقارير أساسية.</li>
+                    <ul
+                        class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 rtl:pb-7 ltr:pb-0 md:pr-[16px] lg:pr-[0px]">
+                        @for (item of [1,2,3,4]; track item) {
+                        <li>
+                            {{ ('HOME.PLANS.CARD1.LIST.' + (item-1)) | translate }}
+                        </li>
+                        }
+
                     </ul>
                     <div class="text-center">
                         <button routerLink="/coming-soon"
                             class="bg-[#FFB300] text-white text-sm font-semibold py-2 px-5 rounded-full hover:scale-105 transition">
-                            جرّب مجانًا
+                            {{ 'HOME.PLANS.CARD1.CTA' | translate }}
                         </button>
                     </div>
                 </div>
@@ -62,7 +65,8 @@
             <!-- ✅ الكارت 2 -->
             <div
                 class="card card2 text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[32%] lg:w-[25%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:pe-[17px] md:ps-[18px]  lg:p-8 shadow-md">
-                <div class="relative flex flex-col items-center w-[80%]  lg:w-[91%]">
+                <div class="relative flex flex-col items-center w-[80%]  lg:w-[91%]  text-start"
+                    [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div dir="ltr" class="flex gap-x-2 justify-center items-center  w-full">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
                             xmlns="http://www.w3.org/2000/svg">
@@ -80,21 +84,22 @@
                             </div>
                         </div>
                     </div>
-                    <p class="card-text1 font-extrabold text-[1.1rem] text-right">المتمم
-                        <br>
-                        للشركات الصغيرة والمتوسطة
+                    <p class="card-text1 font-extrabold text-[1.1rem] text-right">
+                        {{ 'HOME.PLANS.CARD2.TITLEp1' | translate }} <br>
+                        {{ 'HOME.PLANS.CARD2.TITLEp2' | translate }}
                     </p>
-                    <ul class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 md:pr-[16px] lg:pr-[0px]">
-                        <li>إدارة كل أعمالك اليومية.</li>
-                        <li>مالية.</li>
-                        <li>مخزون.</li>
-                        <li> موارد بشرية.</li>
-                        <li> تقارير لحظية.</li>
+                    <ul class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 md:pr-[16px] lg:pr-[0px] ">
+                        @for (item of [1,2,3,4,5]; track item) {
+                        <li>
+                            {{ ('HOME.PLANS.CARD2.LIST.' + (item-1)) | translate }}
+                        </li>
+                        }
+
                     </ul>
                     <div class="flex justify-center items-center w-full">
                         <button routerLink="/coming-soon"
                             class="bg-[#FFB300] text-white text-sm font-semibold py-2 px-5 rounded-full hover:scale-105 transition">
-                            اطلب عرض سعر
+                            {{ 'HOME.PLANS.CARD2.CTA' | translate }}
                         </button>
                     </div>
                 </div>
@@ -103,7 +108,7 @@
             <!-- ✅ الكارت 3 -->
             <div
                 class=" card card3  text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[32%] lg:w-[25%] text-[#0D47A1] flex flex-col items-center  p-6 md:p-8 shadow-md">
-                <div class="relative" style="width: 80%;">
+                <div class="relative   text-start" style="width: 80%;" [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div dir="ltr" class="flex gap-x-2">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
                             xmlns="http://www.w3.org/2000/svg">
@@ -125,30 +130,35 @@
                             <p class="card-text card-text2 uppercase font-bold">PLUS</p>
                         </div>
                     </div>
-                    <p class="card-text2 font-extrabold text-[1.1rem] md:pr-[16px] lg:pr-[0px]">المتمم بلس
-                        <br>
-                        للشركات الكبيرة
+                    <p class="card-text2 font-extrabold text-[1.1rem] md:pr-[16px] lg:pr-[0px]">
+                        {{ 'HOME.PLANS.CARD3.TITLEp1' | translate }} <br>
+                        {{ 'HOME.PLANS.CARD3.TITLEp2' | translate }}
                     </p>
                     <ul class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 md:pr-[16px] lg:pr-[0px]">
-                        <li>تخصيص كامل وإمكانيات
-                            <br>متقدمة.
+                        @for (item of items; track item) {
+                        <li>
+                            @if(item<2){ {{ ('HOME.PLANS.CARD3.LIST.' + (item-1))| translate }} <br>
+                                {{ ('HOME.PLANS.CARD3.LIST.' + (item)) | translate }}
+                                }
+                                @else{
+                                {{ ('HOME.PLANS.CARD3.LIST.' + (item)) | translate }}
+                                }
                         </li>
-                        <li>تخصيص سير العمل.</li>
-                        <li>دعم محلي مميز (SLA).</li>
-                        <li>تكاملات واسعة.</li>
+                        }
+
                     </ul>
                     <div class="text-center">
                         <button routerLink="/coming-soon"
                             class="bg-[#FFB300] text-white text-sm font-semibold py-2 px-5 rounded-full hover:scale-105 transition">
-                            احجز استشارة مجانية
+                            {{ 'HOME.PLANS.CARD3.CTA' | translate }}
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <p id="bottom-text" class="text-sm text-[1.3rem] text-white mt-13 lg:mt-13">
-            جميع الخطط تشمل تحديثات مجانية ودعم فني مستمر.
+        <p id="bottom-text" class="text-sm text-[1.3rem] text-white rtl:mt-13 lg:mt-13 ltr:mt-5">
+            {{ 'HOME.PLANS.DETAILS' | translate }}
         </p>
     </div>
     <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">

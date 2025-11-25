@@ -5,9 +5,11 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from "gsap/SplitText";
 gsap.registerPlugin(ScrollTrigger, SplitText);
+import { LanguageService } from '../../../shared/services/language.service';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-section8',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe, TranslateDirective],
   templateUrl: './section8.component.html',
   styleUrl: './section8.component.scss'
 })
@@ -15,7 +17,8 @@ export class Section8Component {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private language: LanguageService
 
   ) { }
   section8TitleSplit: any;
