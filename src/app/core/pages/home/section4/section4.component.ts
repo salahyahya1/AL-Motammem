@@ -3,12 +3,14 @@ import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID, ViewEncapsulati
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import { LanguageService } from '../../../shared/services/language.service';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-section4',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe, TranslateDirective],
   templateUrl: './section4.component.html',
   styleUrl: './section4.component.scss'
 })
@@ -16,7 +18,8 @@ export class Section4Component {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private language: LanguageService
 
   ) { }
   ngAfterViewInit() {
@@ -57,5 +60,8 @@ export class Section4Component {
     });
 
 
+  }
+  get isRtl() {
+    return this.language.currentLang === 'ar';
   }
 }

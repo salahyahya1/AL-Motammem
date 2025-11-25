@@ -33,7 +33,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    direction: rtl; // مهم جدًا
+    // direction: rtl; // مهم جدًا
     position: relative;
 
     .controls {
@@ -57,15 +57,32 @@
 
         &:hover svg path {
             stroke: #0073ff;
+            fill: #0073ff;
         }
 
-        &.left:hover {
-            transform: translateX(-4px);
-        }
+        // &.left:hover {
+        //     transform: translateX(-4px);
+        // }
 
-        &.right:hover {
-            transform: translateX(4px);
-        }
+        // &.right:hover {
+        //     transform: translateX(4px);
+        // }
+    }
+
+    &[dir="rtl"] .arrow.left:hover {
+        transform: translateX(-4px);
+    }
+
+    &[dir="rtl"] .arrow.right:hover {
+        transform: translateX(4px);
+    }
+
+    &[dir="ltr"] .arrow.left:hover {
+        transform: translateX(4px);
+    }
+
+    &[dir="ltr"] .arrow.right:hover {
+        transform: translateX(-4px);
     }
 
     .swiper {
@@ -89,7 +106,7 @@
         transition: transform 0.4s ease;
 
         .text-content {
-            direction: rtl;
+            // direction: rtl;
         }
 
         h3 {
@@ -104,7 +121,6 @@
             font-size: 1rem;
             color: #333;
             line-height: 1.8;
-            max-width: 340px;
         }
     }
 }
@@ -124,7 +140,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        direction: rtl; // مهم جدًا
+        // direction: rtl; // مهم جدًا
         position: relative;
 
         .controls {
@@ -181,7 +197,7 @@
             transition: transform 0.4s ease;
 
             .text-content {
-                direction: rtl;
+                // direction: rtl;
             }
 
             h3 {

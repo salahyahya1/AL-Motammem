@@ -12,13 +12,15 @@ import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from '../../../shared/services/language.service';
 
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
 @Component({
   selector: 'app-section3',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe, TranslateDirective],
   templateUrl: './section3.component.html',
   styleUrl: './section3.component.scss'
 })
@@ -33,40 +35,70 @@ export class Section3Component {
     private appRef: ApplicationRef,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
-
+    private language: LanguageService
   ) {
   }
   @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
 
 
+  // features = [
+  //   {
+  //     title: 'حل ERP عربي وانجليزي شامل:',
+  //     text: 'واجهة استخدام عربية وتجربة مخصصة للشركات المحلية، مع توافق كامل مع لوائح الضرائب والعمل والفوترة الإلكترونية.',
+  //   },
+  //   {
+  //     title: 'تشغيل سريع:',
+  //     text: 'ابدأ العمل بالمتمم خلال أسابيع، وليس شهور أو سنوات، لتجني النتائج فورًا.',
+  //   },
+  //   {
+  //     title: 'أسعار شفافة:',
+  //     text: 'خطط واضحة بلا أي رسوم خفية – تعرف بالضبط ما تدفعه.',
+  //   },
+  //   {
+  //     title: 'دعم عربي محلي مع SLAs:',
+  //     text: 'دعم فني محلي سريع في مصر والسعودية بمعايير خدمة مضمونة.',
+  //   },
+  //   {
+  //     title: 'تكاملات جاهزة:',
+  //     text: ' ربط فوري مع أنظمة الدفع، الضرائب، وواجهات الـ APIs لتسهيل العمل.',
+  //   },
+  //   {
+  //     title: 'حماية وأمان بيانات متقدم: ',
+  //     text: ' المتمم يعتمد معايير أمان عالية ويقدم حوكمة بيانات لحماية معلومات شركتك وضمان التوافق مع اللوائح المحلية والدولية.',
+  //   },
+  //   {
+  //     title: 'خطط مرنة تناسب نموك: ',
+  //     text: 'Mini للأفراد والفريلانسرز، Standard للشركات الصغيرة والمتوسطة، وPlus للشركات الكبرى التي تحتاج تخصيصات متقدمة.',
+  //   },
+  // ];
   features = [
     {
-      title: 'حل ERP عربي وانجليزي شامل:',
-      text: 'واجهة استخدام عربية وتجربة مخصصة للشركات المحلية، مع توافق كامل مع لوائح الضرائب والعمل والفوترة الإلكترونية.',
+      titleKey: 'HOME.SECTION3.FEATURES.FEATURE1.TITLE',
+      textKey: 'HOME.SECTION3.FEATURES.FEATURE1.TEXT',
     },
     {
-      title: 'تشغيل سريع:',
-      text: 'ابدأ العمل بالمتمم خلال أسابيع، وليس شهور أو سنوات، لتجني النتائج فورًا.',
+      titleKey: 'HOME.SECTION3.FEATURES.FEATURE2.TITLE',
+      textKey: 'HOME.SECTION3.FEATURES.FEATURE2.TEXT',
     },
     {
-      title: 'أسعار شفافة:',
-      text: 'خطط واضحة بلا أي رسوم خفية – تعرف بالضبط ما تدفعه.',
+      titleKey: 'HOME.SECTION3.FEATURES.FEATURE3.TITLE',
+      textKey: 'HOME.SECTION3.FEATURES.FEATURE3.TEXT',
     },
     {
-      title: 'دعم عربي محلي مع SLAs:',
-      text: 'دعم فني محلي سريع في مصر والسعودية بمعايير خدمة مضمونة.',
+      titleKey: 'HOME.SECTION3.FEATURES.FEATURE4.TITLE',
+      textKey: 'HOME.SECTION3.FEATURES.FEATURE4.TEXT',
     },
     {
-      title: 'تكاملات جاهزة:',
-      text: ' ربط فوري مع أنظمة الدفع، الضرائب، وواجهات الـ APIs لتسهيل العمل.',
+      titleKey: 'HOME.SECTION3.FEATURES.FEATURE5.TITLE',
+      textKey: 'HOME.SECTION3.FEATURES.FEATURE5.TEXT',
     },
     {
-      title: 'حماية وأمان بيانات متقدم: ',
-      text: ' المتمم يعتمد معايير أمان عالية ويقدم حوكمة بيانات لحماية معلومات شركتك وضمان التوافق مع اللوائح المحلية والدولية.',
+      titleKey: 'HOME.SECTION3.FEATURES.FEATURE6.TITLE',
+      textKey: 'HOME.SECTION3.FEATURES.FEATURE6.TEXT',
     },
     {
-      title: 'خطط مرنة تناسب نموك: ',
-      text: 'Mini للأفراد والفريلانسرز، Standard للشركات الصغيرة والمتوسطة، وPlus للشركات الكبرى التي تحتاج تخصيصات متقدمة.',
+      titleKey: 'HOME.SECTION3.FEATURES.FEATURE7.TITLE',
+      textKey: 'HOME.SECTION3.FEATURES.FEATURE7.TEXT',
     },
   ];
   async ngAfterViewInit() {
@@ -279,66 +311,12 @@ export class Section3Component {
               );
             }
           });
-          ////////////////////////////////////////////////////////////////////////////////////
-          // async ngAfterViewInit() {
-          //   if (!isPlatformBrowser(this.platformId)) return;
-
-          //   gsap.registerPlugin(ScrollTrigger);
-          //   Swiper.use([Navigation]);
-
-          //   // Initialize Swiper
-          //   const swiper = new Swiper(this.swiperEl.nativeElement, {
-          //     slidesPerView: 3,
-          //     spaceBetween: 30,
-          //     loop: true,
-          //     grabCursor: true,
-          //     centeredSlides: false,
-          //     navigation: {
-          //       nextEl: '#arrowRight',
-          //       prevEl: '#arrowLeft',
-          //     },
-          //     breakpoints: {
-          //       0: { slidesPerView: 1 },
-          //       768: { slidesPerView: 2 },
-          //       1024: { slidesPerView: 3 },
-          //     },
-          //   });
-
-          //   // ✅ GSAP: دخول الكروت أثناء ظهور السكشن
-          //   gsap.from('.swiper-slide', {
-          //     scrollTrigger: {
-          //       trigger: '.erp-carousel',
-          //       start: 'top 85%',
-          //     },
-          //     opacity: 0,
-          //     y: 60,
-          //     duration: 0.7,
-          //     stagger: 0.2,
-          //     ease: 'power3.out',
-          //   });
-
-          //   // ✅ GSAP: تأثير بصري أثناء التبديل بين الكروت
-          //   swiper.on('slideChangeTransitionStart', () => {
-          //     const activeSlide = document.querySelector('.swiper-slide-active .card');
-          //     if (activeSlide) {
-          //       gsap.fromTo(
-          //         activeSlide,
-          //         { scale: 0.9, opacity: 0.7 },
-          //         { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }
-          //       );
-          //     }
-          //   });
-
-
-
-
-          // }
-
-
-
         }, 500);
       })
     })
-  }
 
+  }
+  get isRtl() {
+    return this.language.currentLang === 'ar';
+  }
 }

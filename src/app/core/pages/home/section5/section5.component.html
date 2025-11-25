@@ -3,40 +3,9 @@
     <div class="flex justify-center items-center flex-col lg:mt-[5rem]">
         <p id="Text5"
             class="mx-auto text-center text-[#1976D2] font-bold text-[1.5rem] md:text-[2.2rem] leading-snug mb-8 w-[80%] md:w-[100%] ">
-            آلاف الشركات تثق في المتمم منذ أكثر من 40 عامًا
+            {{ 'HOME.TESTIMONIALS.TITLE' | translate }}
         </p>
 
-
-        <!-- @if (!isMobile) { -->
-        <!-- <svg id="capsule" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg"
-        style="width: 757px; height: 131px; max-width: 90%;" class="md:w-[761px] mt-10">
-        <path class="capsule-path" d="M100,5 
-         h560 
-         a100,60 0 0 1 0,120 
-         h-560 
-         a100,60 0 0 1 0,-120 
-         z" stroke="#BFBFBF" stroke-width="3" fill="#ffffff" filter="url(#capsuleShadow)" />
-
-        <foreignObject x="35" y="10" width="689" height="96">
-            <div xmlns="http://www.w3.org/1999/xhtml" id="image-container"
-                style="display:flex; gap:20px; align-items:center; justify-content:center; height:100%; position:relative; opacity: 0; overflow:hidden;">
-                <div class="slot"><img src="/images/connect.png" style="width:70px; height:70px;" alt="connect"></div>
-                <div class="separator"></div>
-                <div class="slot"><img src="/images/dashboard.png" style="width:70px; height:70px;" alt="dashboard">
-                </div>
-                <div class="separator"></div>
-                <div class="slot"><img src="/images/filter.png" style="width:70px; height:70px;" alt="filter"></div>
-                <div class="separator"></div>
-                <div class="slot"><img src="/images/subscriber.png" style="width:70px; height:70px;" alt="subscriber">
-                </div>
-                <div class="separator"></div>
-                <div class="slot"><img src="/images/revenue.png" style="width:70px; height:70px;" alt="revenue"></div>
-                <div class="separator"></div>
-                <div class="slot"><img src="/images/revenue.png" style="width:70px; height:70px;" alt="revenue"></div>
-            </div>
-
-        </foreignObject>
-    </svg> -->
         <svg id="capsule" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg"
             style="width: 757px; height: 131px; max-width: 90%; overflow: visible;" class="md:w-[761px]">
             <rect class="capsule-path" x="1" y="1" width="1000" height="129" rx="60" stroke="#ffffff" stroke-width="3"
@@ -74,47 +43,11 @@
                 </div>
             </foreignObject>
         </svg>
-        <!--  -->
-        <!-- <div class="flex justify-center items-center">
-        <svg width="598" height="111" viewBox="0 0 598 111" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="1" y="1" width="596" height="109" rx="54.5" stroke="#808080" stroke-width="2" />
-        </svg>
-    </div> -->
-        <!--  -->
 
-
-        <!-- }
-        @if (isMobile) {
-        <svg id="capsule" viewBox="0 0 760 808" xmlns="http://www.w3.org/2000/svg"
-            style="width: 760px; height: 130px; max-width: 100%;">
-            <path class="capsule-path" d="M100,5 h560 a100,60 0 0 1 0,120 h-560 a100,60 0 0 1 0,-120 z" stroke="#BFBFBF"
-                stroke-width="1.6" fill="#ffffff" filter="url(#capsuleShadow)" />
-            <foreignObject x="55" y="20" width="650" height="90">
-                <div xmlns="http://www.w3.org/1999/xhtml" id="image-container">
-                    <div class="mobile-layout">
-                        <div class="slot"><img src="/images/connect.png" style="width:70px; height:70px;" alt="connect">
-                            <div class="separator"></div>
-                            <img src="/images/dashboard.png" style="width:70px; height:70px;" alt="dashboard">
-                        </div>
-                        <div class="slot"><img src="/images/filter.png" style="width:70px; height:70px;" alt="filter">
-                            <div class="separator"></div>
-                            <img src="/images/subscriber.png" style="width:70px; height:70px;" alt="subscriber">
-                        </div>
-
-                        <div class="slot"><img src="/images/revenue.png" style="width:70px; height:70px;" alt="revenue">
-                            <div class="separator"></div>
-                            <img src="/images/revenue.png" style="width:70px; height:70px;" alt="revenue">
-                        </div>
-                    </div>
-                </div>
-            </foreignObject>
-        </svg>
-        } -->
     </div>
 
 
     <div id="section100" class="w-full">
-        <!-- md:pt-35 lg:pt-45 -->
         <div
             class=" grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 relative pb-8 gap-y-15 pb-16 lg:pb-20 w-[90%] lg:w-[95%] mx-auto">
             <div class="flex justify-center items-center">
@@ -128,12 +61,11 @@
                         <img src="./images/logos/14.png" class="w-full h-full" alt="Amercana">
                     </div>
                     <div class="relative flex flex-col justify-between items-center text-center space-x-1 text-xl">
-                        <div class=" text-yellow-400">
+                        <div class=" stars">
                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                         </div>
-                        <p>المتمم غيّر طريقة إدارتنا بالكامل — سهّل علينا متابعة كل العمليات من المالية للمخزون، وأصبح
-                            اتخاذ القرار أسرع من أي وقت مضى.</p>
-                        <span class="text-[var(--primary)]">مدير الشؤون المالية - شركة Americana</span>
+                        <p>{{ 'HOME.TESTIMONIALS.CARD1.QUOTE' | translate }}</p>
+                        <span>{{ 'HOME.TESTIMONIALS.CARD1.AUTHOR' | translate }}</span>
                     </div>
                 </div>
             </div>
@@ -148,12 +80,11 @@
                         <img src="./images/logos/7.png" class="w-full h-full" alt="Amercana">
                     </div>
                     <div class="relative flex flex-col justify-between items-center text-center space-x-1 text-xl">
-                        <div class=" text-yellow-400">
+                        <div class=" stars">
                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                         </div>
-                        <p>بعد استخدام المتمم، قلّ وقت المراجعة المحاسبية بنسبة 60٪. التكامل بين المبيعات والمحاسبة
-                            أنقذنا من الأخطاء المتكررة.</p>
-                        <span class="text-[var(--primary)]">مدير تكنولوجيا المعلومات - شركة EG Bank </span>
+                        <p>{{ 'HOME.TESTIMONIALS.CARD2.QUOTE' | translate }}</p>
+                        <span>{{ 'HOME.TESTIMONIALS.CARD2.AUTHOR' | translate }}</span>
                     </div>
                 </div>
             </div>
@@ -168,12 +99,11 @@
                         <img src="./images/logos/12.png" class="w-full h-full" alt="Amercana">
                     </div>
                     <div class="relative flex flex-col justify-between items-center text-center space-x-1 text-xl">
-                        <div class=" text-yellow-400">
+                        <div class=" stars">
                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                         </div>
-                        <p>من أول أسبوع تشغيل قدرنا نلاحظ فرق كبير في كفاءة الفريق. التقارير اللحظية من المتمم ساعدتنا
-                            نتابع الأداء بدقة ونقلل الأخطاء.</p>
-                        <span class="text-[var(--primary)]">مدير التطوير - شركة El Sewedy</span>
+                        <p>{{ 'HOME.TESTIMONIALS.CARD3.QUOTE' | translate }}</p>
+                        <span>{{ 'HOME.TESTIMONIALS.CARD3.AUTHOR' | translate }}</span>
                     </div>
                 </div>
             </div>
@@ -188,13 +118,11 @@
                         <img src="./images/logos/5.png" class="w-full h-full" alt="Amercana">
                     </div>
                     <div class="relative flex flex-col justify-between items-center text-center space-x-1 text-xl">
-                        <div class=" text-yellow-400">
+                        <div class=" stars">
                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                         </div>
-                        <p>أكثر ما يميز المتمم هو المرونة. قدرنا نخصص النظام بسهولة ليتناسب مع أسلوب عملنا بدون أي
-                            تعقيد.
-                        </p>
-                        <span class="text-[var(--primary)]">المدير التنفيذي - شركة Texmar</span>
+                        <p>{{ 'HOME.TESTIMONIALS.CARD4.QUOTE' | translate }}</p>
+                        <span>{{ 'HOME.TESTIMONIALS.CARD4.AUTHOR' | translate }}</span>
                     </div>
                 </div>
             </div>
@@ -209,11 +137,11 @@
                         <img src="./images/logos/13.png" class="w-full h-full" alt="Amercana">
                     </div>
                     <div class="relative flex flex-col justify-between items-center text-center space-x-1 text-xl">
-                        <div class=" text-yellow-400">
+                        <div class="stars">
                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                         </div>
-                        <p>نظام موثوق بنسبة تشغيل عالية، والدعم الفني دائمًا سريع ومتعاون. تجربة مريحة من البداية.</p>
-                        <span class="text-[var(--primary)]">مدير العمليات - شركة Abercrombie & Kent</span>
+                        <p>{{ 'HOME.TESTIMONIALS.CARD5.QUOTE' | translate }}</p>
+                        <span>{{ 'HOME.TESTIMONIALS.CARD5.AUTHOR' | translate }}</span>
                     </div>
                 </div>
             </div>
@@ -228,18 +156,14 @@
 
                     </div>
                     <div class="relative flex flex-col justify-between items-center text-center space-x-1 text-xl">
-                        <div class=" text-yellow-400">
+                        <div class=" stars">
                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                         </div>
-                        <p>نظام متكامل فعلاً. الموديولات مترابطة بطريقة ذكية، والدعم الفني دائمًا موجود لأي استفسار.
-                            تجربة موثوقة تستحق الثقة.</p>
-                        <span class="text-[var(--primary)]">المدير التنفيذي - شركة Texmar</span>
+                        <p>{{ 'HOME.TESTIMONIALS.CARD6.QUOTE' | translate }}</p>
+                        <span>{{ 'HOME.TESTIMONIALS.CARD6.AUTHOR' | translate }}</span>
                     </div>
                 </div>
             </div>
-
-
-
         </div>
         <div class="w-full relative min-h-[50vh] flex justify-center items-center">
             <div

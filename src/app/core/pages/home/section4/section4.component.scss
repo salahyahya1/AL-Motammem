@@ -6,7 +6,7 @@
 
 .card {
     opacity: 0;
-    transform: translateX(50px);
+    // transform: translateX(50px);
     cursor: pointer;
 
     // width: 19%;
@@ -15,11 +15,31 @@
     // height: 00px;
 }
 
+.cards {
+    &[dir="rtl"] {
+        .card {
+            transform: translateX(50px);
+        }
+    }
+}
+
+.cards {
+    &[dir="ltr"] {
+        .card {
+            transform: translateX(-50px);
+        }
+    }
+}
+
 .card:hover {
     transform: scale(1.2) !important;
     transition: all 0.7s;
 }
 
+span {
+    color: white;
+    text-align: center;
+}
 
 @keyframes glowPulse {
 

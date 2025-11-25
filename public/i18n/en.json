@@ -33,6 +33,80 @@
       "WEEKS": "Weeks",
       "beMEMBER": "Join our family of clients now",
       "SEE-DETAILS": "Request a detailed demo tailored to your business and see the difference yourself"
+    },
+    "SECTION3": {
+      "TITLE": "What makes Al-Motammem different from any other ERP",
+      "DETAILS": "The secret behind the expertise and success of thousands of companies for over 40 years that helps us continuously develop it",
+      "FEATURES": {
+        "FEATURE1": {
+          "TITLE": "Comprehensive bilingual Arabic–English ERP",
+          "TEXT": "An Arabic user interface and experience tailored for local businesses, fully compliant with tax, labor, and e-invoicing regulations."
+        },
+        "FEATURE2": {
+          "TITLE": "Fast implementation",
+          "TEXT": "Start working with Al-Motammem within weeks, not months or years, so you can see results immediately."
+        },
+        "FEATURE3": {
+          "TITLE": "Transparent pricing",
+          "TEXT": "Clear plans with no hidden fees – you always know exactly what you are paying."
+        },
+        "FEATURE4": {
+          "TITLE": "Local Arabic support with SLAs",
+          "TEXT": "Fast local technical support in Egypt and Saudi Arabia with guaranteed service levels."
+        },
+        "FEATURE5": {
+          "TITLE": "Ready-made integrations",
+          "TEXT": "Instant integration with payment systems, tax platforms, and APIs to streamline your operations."
+        },
+        "FEATURE6": {
+          "TITLE": "Advanced data security and protection",
+          "TEXT": "Al-Motammem follows high security standards and provides data governance to protect your information and ensure compliance with local and international regulations."
+        },
+        "FEATURE7": {
+          "TITLE": "Flexible plans that grow with you",
+          "TEXT": "Mini for individuals and freelancers, Standard for small and medium businesses, and Plus for large enterprises that need advanced customization."
+        }
+      }
+    },
+    "APPLICATIONS": {
+      "TITLE": "All applications that cover every aspect of your business",
+      "APP1": "Financial & Accounting Management",
+      "APP2": "Sales & Invoicing",
+      "APP3": "Purchasing & Vendors",
+      "APP4": "Inventory & Procurement Management",
+      "APP5": "Fixed Assets Management",
+      "APP6": "Cash Management",
+      "APP7": "Letters of Guarantee & Letters of Credit",
+      "APP8": "Reports & Dashboards",
+      "APP9": "Electronic Payment Integrations",
+      "FOOTER": "Explore all applications to find the features and add-ons that suit your needs"
+    },
+    "TESTIMONIALS": {
+      "TITLE": "Thousands of companies have trusted Al-Motammem for over 40 years",
+      "CARD1": {
+        "QUOTE": "Al-Motammem completely transformed the way we manage our operations — it made it easier to monitor everything from finance to inventory, and decision-making has become faster than ever.",
+        "AUTHOR": "Finance Manager – Americana"
+      },
+      "CARD2": {
+        "QUOTE": "After implementing Al-Motammem, the time spent on accounting review dropped by 60%. The integration between sales and accounting saved us from recurring errors.",
+        "AUTHOR": "IT Manager – EG Bank"
+      },
+      "CARD3": {
+        "QUOTE": "From the first week of go-live, we noticed a big difference in team efficiency. Real-time reports from Al-Motammem helped us closely track performance and reduce errors.",
+        "AUTHOR": "Development Manager – El Sewedy"
+      },
+      "CARD4": {
+        "QUOTE": "What distinguishes Al-Motammem most is its flexibility. We were able to customize the system easily to match our way of working without any complexity.",
+        "AUTHOR": "CEO – Texmar"
+      },
+      "CARD5": {
+        "QUOTE": "A highly reliable system with excellent uptime, and the support team is always fast and cooperative. A smooth experience from day one.",
+        "AUTHOR": "Operations Manager – Abercrombie & Kent"
+      },
+      "CARD6": {
+        "QUOTE": "A truly integrated system. The modules are smartly interconnected, and the support team is always available for any inquiry. A trusted experience worthy of our confidence.",
+        "AUTHOR": "CEO – Texmar"
+      }
     }
   }
 }
