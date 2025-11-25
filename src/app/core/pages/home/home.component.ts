@@ -28,7 +28,7 @@ import { NavbarThemeService } from '../../components/navbar/navbar-theme.service
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { SectionIndicatorComponent } from "../../components/section-indicator/section-indicator.component";
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
-import { SectionItem, SectionsRegistryService } from '../../services/sections-registry.service';
+import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
 
 

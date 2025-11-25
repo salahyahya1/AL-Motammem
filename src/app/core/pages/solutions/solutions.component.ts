@@ -10,7 +10,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { BehaviorSubject } from 'rxjs';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
-import { SectionsRegistryService } from "../../services/sections-registry.service";
+import { SectionsRegistryService } from "../../shared/services/sections-registry.service";
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
 
 

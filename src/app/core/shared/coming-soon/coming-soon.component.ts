@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { SectionsRegistryService } from '../../services/sections-registry.service';
+import { SectionsRegistryService } from '../services/sections-registry.service';
 
 @Component({
   selector: 'app-coming-soon',

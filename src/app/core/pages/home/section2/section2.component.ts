@@ -1,18 +1,21 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
+import { ApplicationRef, Component, ElementRef, inject, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from 'gsap/SplitText';
+import { LanguageService } from '../../../shared/services/language.service';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
   selector: 'app-section2',
-  imports: [RouterLink],
+  imports: [RouterLink,TranslatePipe,TranslateDirective],
   templateUrl: './section2.component.html',
   styleUrls: ['./section2.component.scss'],
 })
 export class Section2Component {
+      private language = inject(LanguageService);
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
@@ -20,6 +23,7 @@ export class Section2Component {
   ) { }
   @ViewChild('section4Video') section4Video!: ElementRef<HTMLVideoElement>;
   ngAfterViewInit() {
+    
     if (!isPlatformBrowser(this.platformId)) return;
     let playedOnce = false;
     // const video = this.section4Video.nativeElement;

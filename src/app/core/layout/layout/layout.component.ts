@@ -8,7 +8,7 @@ import ScrollSmoother from 'gsap/ScrollSmoother';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { SectionIndicatorComponent } from "../../components/section-indicator/section-indicator.component";
-import { SectionsRegistryService } from '../../services/sections-registry.service';
+import { SectionsRegistryService } from '../../shared/services/sections-registry.service';
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 @Component({
   selector: 'app-layout',

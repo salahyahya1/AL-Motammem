@@ -253,7 +253,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { fromEvent, Subscription, Subject, takeUntil } from 'rxjs';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import { SectionItem, SectionsRegistryService } from '../../services/sections-registry.service';
+import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
 
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
