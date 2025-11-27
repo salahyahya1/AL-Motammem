@@ -260,12 +260,13 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import {  TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from '../../../shared/services/language.service';
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-about-section3',
-  imports: [CommonModule],
+  imports: [CommonModule,TranslatePipe],
   templateUrl: './about-section3.component.html',
   styleUrl: './about-section3.component.scss',
   standalone: true
@@ -300,7 +301,8 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
     private appRef: ApplicationRef,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private language:LanguageService,
   ) { }
 
   ngOnInit(): void {

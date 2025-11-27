@@ -5,10 +5,11 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from "gsap/SplitText";
 import { AnimatedSequenceComponent } from "../../../shared/animated-sequence/animated-sequence.component";
 gsap.registerPlugin(ScrollTrigger, SplitText);
-
+import {  TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from '../../../shared/services/language.service';
 @Component({
   selector: 'app-about-section2',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './about-section2.component.html',
   styleUrl: './about-section2.component.scss'
 })
@@ -17,8 +18,8 @@ export class AboutSection2Component {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
-    private ngZone: NgZone
-
+    private ngZone: NgZone,
+    private language:LanguageService,
   ) { }
   timeline!: gsap.core.Timeline
   AboutSection2TitleSplit: any;

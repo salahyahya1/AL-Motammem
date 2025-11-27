@@ -217,7 +217,7 @@
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
                 <div class="relative">
-                    <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
                             stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
@@ -231,20 +231,53 @@
                         </defs>
                         <foreignObject x="20" y="18" width="636" height="90">
                             <div xmlns="http://www.w3.org/1999/xhtml"
-                                style="direction: rtl; font-size: 14px; line-height: 1.6; color: white;">
-                                <p style="margin:0;">
-                                    توفير شراكة مستدامة مع عملائنا، وأن نكون شركاء حقيقيين لهم في التقدم والنجاح وتحقيق
-                                    التنمية
-                                    المستدامة لأعمالهم التجارية، من خلال توظيف خبراتنا العميقة في البرمجيات وتنفيذ حلول
-                                    التطبيقات المتكاملة.
-                                    نحن نؤمن أن دورنا لا ينتهي عند إتمام عملية البيع، بل يبدأ منها، لأن نجاح عملائنا بعد
-                                    التنفيذ هو جوهر مهمتنا،
-                                    ومقياسنا الحقيقي للإنجاز.
+                                style="font-size: 14px; line-height: 1.6; color: white;">
+                                <p style="margin:0; text-align: start;">
+{{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
                                 </p>
                             </div>
                         </foreignObject>
                     </svg>
-                    <span class="text-[var(--secondary)] absolute -top-5 right-8 text-[1.3rem] font-bold">رؤيتنا</span>
+                    <span class="text-[var(--secondary)] absolute -top-5 text-[1.3rem] font-bold rtl:right-8 ltr:left-8 text-start">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span> -->
+                <!-- <div class="pill">
+                    <p class="text-[var(--white)]">
+                        <span class="text-[var(--secondary)] block">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
+{{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
+                    </p>
+                </div> -->
+                        <!-- <div class="text-content solution3About-pill flex-col w-full justify-start">
+          <h3
+            style="
+              display: inline-block;
+              position: absolute;
+              top: -18px;
+              z-index: 10;
+              padding: 0px 6px;
+            "
+          class="bg-[rgba(0,140,255,0.8)]">
+{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}
+          </h3>
+          <p>
+            {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
+          </p>
+        </div> -->
+<div class="relative mt-10">
+  <fieldset
+    class="border-2 border-yellow-400 rounded-3xl text-white p-6"
+  >
+    <legend class="px-4 text-lg font-semibold">
+      Our Vision
+    </legend>
+
+    <p>
+      To build long-term partnerships with our clients and be true partners
+      in their progress, success, and sustainable business growth by
+      leveraging our deep expertise in software and implementing integrated
+      application solutions...
+    </p>
+  </fieldset>
+</div>
+
                 </div>
             </div>
         </div>
@@ -271,16 +304,14 @@
                         </defs>
                         <foreignObject x="20" y="18" width="636" height="90">
                             <div xmlns="http://www.w3.org/1999/xhtml"
-                                style="direction: rtl; font-size: 14px; line-height: 1.6; color: white;">
-                                <p style="margin:0;">
-                                    تمكين شركائنا وعملائنا من التطور والنجاح من خلال تقديم حلول ERP متكاملة تساعدهم في
-                                    سرعة اتخاذ
-                                    القرارات لتحقيق النمو والتطور المستمر من خلال ضمان سلاسة العمليات.
+                                style=" font-size: 14px; line-height: 1.6; color: white;">
+                                <p style="margin:0; text-align: start;">
+{{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
                                 </p>
                             </div>
                         </foreignObject>
                     </svg>
-                    <span class="text-[var(--secondary)] absolute -top-5 right-7 text-[1.3rem] font-bold">مهمتنا</span>
+                    <span class="text-[var(--secondary)] absolute -top-5 text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
                 </div>
             </div>
         </div>
@@ -307,16 +338,14 @@
                         </defs>
                         <foreignObject x="20" y="18" width="636" height="90">
                             <div xmlns="http://www.w3.org/1999/xhtml"
-                                style="direction: rtl; font-size: 14px; line-height: 1.6; color: white;">
-                                <p style="margin:0;">
-                                    نؤمن بأن النجاح ينبع من إدارة العمليات بذكاء وفعالية. نحن ملتزمون بتقديم حلول ERP
-                                    ذكية وشاملة
-                                    تساعد الشركات على تحقيق أهدافها بكفاءة عالية.
+                                style=" font-size: 14px; line-height: 1.6; color: white;">
+                                <p style="margin:0; text-align: start;">
+{{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
                                 </p>
                             </div>
                         </foreignObject>
                     </svg>
-                    <span class="text-[var(--secondary)] absolute -top-5 right-7 text-[1.3rem] font-bold">رسالتنا</span>
+                    <span class="text-[var(--secondary)] absolute -top-5 text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
                 </div>
             </div>
         </div>
@@ -341,10 +370,9 @@
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text-m flex col-start-2 row-start-13 row-span-3 col-span-10 justify-center items-center flex-col">
                 <div class="relative">
-                    <span class="text-[var(--secondary)] absolute -top-5 right-8 text-[1.3rem] font-bold">رؤيتنا</span>
-                    <p style="margin:21px;">
-                        توفير شراكة مستدامة مع عملائنا، وأن نكون شركاء حقيقيين لهم في التقدم والنجاح وتحقيق التنمية
-                        المستدامة...
+                    <span class="text-[var(--secondary)] absolute -top-5  text-[1.3rem] font-bold rtl:right-8 ltr:left-8 text-start">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
+                    <p style="margin:21px; ">
+{{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
                     </p>
                 </div>
             </div>
@@ -358,9 +386,9 @@
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text1-m flex col-start-2 row-start-13 row-span-3 col-span-10 justify-center items-center flex-col">
                 <div class="relative">
-                    <span class="text-[var(--secondary)] absolute -top-5 right-7 text-[1.3rem] font-bold">مهمتنا</span>
+                    <span class="text-[var(--secondary)] absolute -top-5  text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
                     <p style="margin:21px;">
-                        تمكين شركائنا وعملائنا من التطور والنجاح من خلال تقديم حلول ERP متكاملة...
+{{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
                     </p>
                 </div>
             </div>
@@ -374,9 +402,9 @@
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text2-m flex col-start-2 row-start-13 row-span-3 col-span-10 justify-center items-center flex-col">
                 <div class="relative">
-                    <span class="text-[var(--secondary)] absolute -top-5 right-7 text-[1.3rem] font-bold">رسالتنا</span>
+                    <span class="text-[var(--secondary)] absolute -top-5  text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
                     <p style="margin:21px;">
-                        نؤمن بأن النجاح ينبع من إدارة العمليات بذكاء وفعالية. نحن ملتزمون بتقديم حلول ERP ذكية وشاملة...
+  {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
                     </p>
                 </div>
             </div>

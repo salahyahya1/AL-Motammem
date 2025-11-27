@@ -158,5 +158,52 @@
       "BTN1": "Book a free consultation",
       "BTN2": "Try Mini Motammem for individuals for free"
     }
+  },
+  "ABOUT": {
+   "HERO": {
+     "TITLE": "With more than four decades of experience in delivering ERP systems tailored to different industries, Al-Motammem is one of the pioneers in providing ERP systems and software solutions in Egypt, the Middle East, North Africa, and the GCC region since 1986. Our systems are built on smart, advanced technologies designed specifically based on analyzing each client's needs and business rules to match the nature of their operations. Al-Motammem is available in multiple packages and a wide range of solutions crafted to meet diverse business requirements across various sectors, from inventory management to sales, customer relations, HR, and more. Whatever your organization’s needs are, Al-Motammem is here to simplify your operations and keep you ahead of the competition."
+   },
+   "SECTION2": {
+    "TITLE1": "Al-Motammem is specifically designed to deliver innovation with power, efficiency, and high performance,",
+    "TITLE2": "to ensure exceptional operational performance.",
+    "TITLE3": "Take your business to new horizons and enjoy a smooth, enjoyable business management experience."
+   },
+   "SECTION3": {
+    "VISION": {
+      "LABEL": "Our Vision",
+      "TEXT": "To build long-term partnerships with our clients and be true partners in their progress, success, and sustainable business growth by leveraging our deep expertise in software and implementing integrated application solutions. We believe that our role does not end with closing the sale; it actually starts there, because our clients’ success after implementation is the core of our mission and our true measure of achievement."
+    },
+    "MISSION": {
+      "LABEL": "Our Mission",
+      "TEXT": "To enable our partners and clients to grow and succeed by providing integrated ERP solutions that help them make faster decisions, achieve continuous growth and development, and ensure seamless operations."
+    },
+    "MESSAGE": {
+      "LABEL": "Our Message",
+      "TEXT": "We believe that real success comes from managing operations intelligently and efficiently. We are committed to delivering smart, comprehensive ERP solutions that help companies achieve their goals with high efficiency."
+    }
   }
+  },
+  "FOOTER": {
+  "CONTACT_TITLE": "Contact us",
+  "ADDRESS": "6 Mostafa El-Nahhas Street – Nasr City – Cairo",
+
+  "QUICK_LINKS_TITLE": "Quick links",
+  "LINK_HOME": "Home",
+  "LINK_ABOUT": "About us",
+  "LINK_SOLUTIONS": "Solutions and sectors",
+  "LINK_PRODUCTS": "Products and pricing",
+  "LINK_KNOWLEDGE": "Knowledge base",
+  "LINK_CONTACT": "Contact us",
+
+  "TERMS_TITLE": "Terms of use",
+  "PRIVACY_POLICY": "Privacy policy",
+  "TERMS_POLICY": "Terms & conditions",
+
+  "LANGUAGES_TITLE": "Languages",
+  "LANG_AR": "Arabic",
+  "LANG_EN": "English",
+
+  "COPYRIGHT": "© All rights reserved Al-Motamem® — Powered by Microtech"
+  }
+
 }
