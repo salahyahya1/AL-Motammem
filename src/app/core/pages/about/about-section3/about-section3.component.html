@@ -216,8 +216,8 @@
 
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
-                <div class="relative">
-                    <!-- <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- <div class="relative">
+                    <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
                             stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
@@ -233,19 +233,65 @@
                             <div xmlns="http://www.w3.org/1999/xhtml"
                                 style="font-size: 14px; line-height: 1.6; color: white;">
                                 <p style="margin:0; text-align: start;">
-{{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
+                                    {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
                                 </p>
                             </div>
                         </foreignObject>
                     </svg>
-                    <span class="text-[var(--secondary)] absolute -top-5 text-[1.3rem] font-bold rtl:right-8 ltr:left-8 text-start">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span> -->
-                <!-- <div class="pill">
-                    <p class="text-[var(--white)]">
-                        <span class="text-[var(--secondary)] block">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
-{{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
-                    </p>
+                    <span
+                        class="text-[var(--secondary)] absolute -top-5 text-[1.3rem] font-bold rtl:right-8 ltr:left-8 text-start">{{
+                        'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
                 </div> -->
-                        <!-- <div class="text-content solution3About-pill flex-col w-full justify-start">
+                <div class="relative" [dir]="isRtl ? 'rtl' : 'ltr'">
+                    <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                        <defs>
+                            <linearGradient id="paint0_linear_168_211" x1="446.982" y1="104.368" x2="675.373"
+                                y2="104.368" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FFD41F" />
+                                <stop offset="0.69" stop-color="#65C0B9" />
+                                <stop offset="1" stop-color="#1FFFFF" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- عربي: الباث الأصلي بالقطع الصغير -->
+                        <ng-container *ngIf="isRtl; else enPath">
+                            <g>
+                                <path
+                                    d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
+                                    stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
+                            </g>
+                        </ng-container>
+
+                        <!-- إنجليزي: نفس الباث بس موسّعين القطع -->
+                        <ng-template #enPath>
+                            <g transform="translate(676,0) scale(-1,1)">
+                                <path
+                                    d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H555.26"
+                                    stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
+                            </g>
+                        </ng-template>
+
+                        <foreignObject x="20" y="18" width="636" height="90">
+                            <div xmlns="http://www.w3.org/1999/xhtml"
+                                style="font-size: 14px; line-height: 1.6; color: white;">
+                                <p style="margin:0; text-align: start;">
+                                    {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
+                                </p>
+                            </div>
+                        </foreignObject>
+                    </svg>
+
+                    <span
+                        class="absolute -top-5 font-bold text-[1.3rem] text-[var(--secondary)] rtl:right-8 ltr:left-8 text-start">
+                        {{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}
+                    </span>
+                </div>
+
+
+            </div>
+        </div>
+        <!-- <div class="text-content solution3About-pill flex-col w-full justify-start">
           <h3
             style="
               display: inline-block;
@@ -261,26 +307,18 @@
             {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
           </p>
         </div> -->
-<div class="relative mt-10">
-  <fieldset
-    class="border-2 border-yellow-400 rounded-3xl text-white p-6"
-  >
-    <legend class="px-4 text-lg font-semibold">
-      Our Vision
-    </legend>
+        <!-- <div class="relative pill-container">
+                        <fieldset class="solution3About-pill">
+                            <legend class="px-4 text-lg font-semibold">
+                                {{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}
+                            </legend>
+                            <p>
+                                {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
+                            </p>
+                        </fieldset>
+                    </div> -->
 
-    <p>
-      To build long-term partnerships with our clients and be true partners
-      in their progress, success, and sustainable business growth by
-      leveraging our deep expertise in software and implementing integrated
-      application solutions...
-    </p>
-  </fieldset>
-</div>
 
-                </div>
-            </div>
-        </div>
 
         <div class="contents relative">
             <div class="scroll-bg-section1 h-screen w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
@@ -289,7 +327,7 @@
 
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text1 flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
-                <div class="relative">
+                <!-- <div class="relative">
                     <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
@@ -306,12 +344,59 @@
                             <div xmlns="http://www.w3.org/1999/xhtml"
                                 style=" font-size: 14px; line-height: 1.6; color: white;">
                                 <p style="margin:0; text-align: start;">
-{{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
+                                    {{ 'ABOUT.SECTION3.MISSION.TEXT' | translate }}
                                 </p>
                             </div>
                         </foreignObject>
                     </svg>
-                    <span class="text-[var(--secondary)] absolute -top-5 text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
+                    <span
+                        class="text-[var(--secondary)] absolute -top-5 text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{
+                        'ABOUT.SECTION3.MISSION.LABEL' | translate }}</span>
+                </div> -->
+                <div class="relative" [dir]="isRtl ? 'rtl' : 'ltr'">
+                    <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                        <defs>
+                            <linearGradient id="paint0_linear_168_211" x1="446.982" y1="104.368" x2="675.373"
+                                y2="104.368" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FFD41F" />
+                                <stop offset="0.69" stop-color="#65C0B9" />
+                                <stop offset="1" stop-color="#1FFFFF" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- عربي: الباث الأصلي بالقطع الصغير -->
+                        <ng-container *ngIf="isRtl; else enPath">
+                            <g>
+                                <path
+                                    d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
+                                    stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
+                            </g>
+                        </ng-container>
+
+                        <!-- إنجليزي: نفس الباث بس موسّعين القطع -->
+                        <ng-template #enPath>
+                            <g transform="translate(676,0) scale(-1,1)">
+                                <path
+                                    d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H555.26"
+                                    stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
+                            </g>
+                        </ng-template>
+
+                        <foreignObject x="20" y="18" width="636" height="90">
+                            <div xmlns="http://www.w3.org/1999/xhtml"
+                                style="font-size: 14px; line-height: 1.6; color: white;">
+                                <p style="margin:0; text-align: start;">
+                                    {{ 'ABOUT.SECTION3.MISSION.TEXT' | translate }}
+                                </p>
+                            </div>
+                        </foreignObject>
+                    </svg>
+
+                    <span
+                        class="absolute -top-5 font-bold text-[1.3rem] text-[var(--secondary)] rtl:right-7 ltr:left-8 text-start">
+                        {{ 'ABOUT.SECTION3.MISSION.LABEL' | translate }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -323,7 +408,7 @@
 
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text2 flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
-                <div class="relative">
+                <!-- <div class="relative">
                     <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
@@ -340,12 +425,59 @@
                             <div xmlns="http://www.w3.org/1999/xhtml"
                                 style=" font-size: 14px; line-height: 1.6; color: white;">
                                 <p style="margin:0; text-align: start;">
-{{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
+                                    {{ 'ABOUT.SECTION3.MESSAGE.TEXT' | translate }}
                                 </p>
                             </div>
                         </foreignObject>
                     </svg>
-                    <span class="text-[var(--secondary)] absolute -top-5 text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
+                    <span
+                        class="text-[var(--secondary)] absolute -top-5 text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{
+                        'ABOUT.SECTION3.MESSAGE.LABEL' | translate }}</span>
+                </div> -->
+                <div class="relative" [dir]="isRtl ? 'rtl' : 'ltr'">
+                    <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                        <defs>
+                            <linearGradient id="paint0_linear_168_211" x1="446.982" y1="104.368" x2="675.373"
+                                y2="104.368" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FFD41F" />
+                                <stop offset="0.69" stop-color="#65C0B9" />
+                                <stop offset="1" stop-color="#1FFFFF" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- عربي: الباث الأصلي بالقطع الصغير -->
+                        <ng-container *ngIf="isRtl; else enPath">
+                            <g>
+                                <path
+                                    d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
+                                    stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
+                            </g>
+                        </ng-container>
+
+                        <!-- إنجليزي: نفس الباث بس موسّعين القطع -->
+                        <ng-template #enPath>
+                            <g transform="translate(676,0) scale(-1,1)">
+                                <path
+                                    d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H555.26"
+                                    stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
+                            </g>
+                        </ng-template>
+
+                        <foreignObject x="20" y="18" width="636" height="90">
+                            <div xmlns="http://www.w3.org/1999/xhtml"
+                                style="font-size: 14px; line-height: 1.6; color: white;">
+                                <p style="margin:0; text-align: start;">
+                                    {{ 'ABOUT.SECTION3.MESSAGE.TEXT' | translate }}
+                                </p>
+                            </div>
+                        </foreignObject>
+                    </svg>
+
+                    <span
+                        class="absolute -top-5 font-bold text-[1.3rem] text-[var(--secondary)] rtl:right-8 ltr:left-8 text-start">
+                        {{ 'ABOUT.SECTION3.MESSAGE.LABEL' | translate }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -370,9 +502,11 @@
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text-m flex col-start-2 row-start-13 row-span-3 col-span-10 justify-center items-center flex-col">
                 <div class="relative">
-                    <span class="text-[var(--secondary)] absolute -top-5  text-[1.3rem] font-bold rtl:right-8 ltr:left-8 text-start">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
+                    <span
+                        class="text-[var(--secondary)] absolute -top-5  text-[1.3rem] font-bold rtl:right-8 ltr:left-8 text-start">{{
+                        'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
                     <p style="margin:21px; ">
-{{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
+                        {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
                     </p>
                 </div>
             </div>
@@ -386,9 +520,11 @@
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text1-m flex col-start-2 row-start-13 row-span-3 col-span-10 justify-center items-center flex-col">
                 <div class="relative">
-                    <span class="text-[var(--secondary)] absolute -top-5  text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
+                    <span
+                        class="text-[var(--secondary)] absolute -top-5  text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{
+                        'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
                     <p style="margin:21px;">
-{{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
+                        {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
                     </p>
                 </div>
             </div>
@@ -402,9 +538,11 @@
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text2-m flex col-start-2 row-start-13 row-span-3 col-span-10 justify-center items-center flex-col">
                 <div class="relative">
-                    <span class="text-[var(--secondary)] absolute -top-5  text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
+                    <span
+                        class="text-[var(--secondary)] absolute -top-5  text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{
+                        'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
                     <p style="margin:21px;">
-  {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
+                        {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
                     </p>
                 </div>
             </div>

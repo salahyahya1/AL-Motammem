@@ -1,0 +1,242 @@
+.Soultions4-carousel {
+    width: 100%; // خليك مرن في العرض
+    max-width: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    direction: rtl;
+    position: relative;
+
+
+
+    .controls {
+        position: absolute;
+        left: 50%;
+        top: -15%;
+        bottom: -21%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: space-between;
+        z-index: 10;
+        width: auto;
+    }
+
+    .arrow {
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover svg path {
+            stroke: #0073ff;
+            fill: #0073ff;
+        }
+
+        &.left:hover {
+            transform: translateY(4px);
+        }
+
+        &.right:hover {
+            transform: translateY(-4px);
+        }
+    }
+
+    .swiper {
+        width: 100%;
+        height: 14.8125rem;
+        overflow: hidden;
+    }
+
+    //   .swiper-slide {
+    //       display: flex;
+    //       justify-content: center;
+    //       align-items: stretch;
+    //   }
+    .swiper-slide {
+        display: flex;
+        // flex-direction: column;       // ✅ خلي السلايد نفسه عمودي
+        // gap: 12px;                    // مسافة بين الكروت
+        justify-content: center;
+        flex-direction: column;
+        // align-items: stretch;
+        // padding-bottom: 22px;
+    }
+
+    .card {
+        background: transparent;
+        border-radius: 12px;
+        text-align: right;
+        //   padding: 2rem 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        transition: transform 0.4s ease;
+
+        .text-content {
+            direction: rtl;
+        }
+
+        h3 {
+            color: #0073ff;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            line-height: 1.5;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #333;
+            line-height: 1.8;
+
+        }
+    }
+}
+
+
+
+@media (max-width: 765px) {
+    .Soultions4-carousel {
+        width: 95%;
+        // max-width: 400px;
+
+        .controls {
+            top: -15%;
+            bottom: -14%;
+        }
+
+        .arrow {
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover svg path {
+                stroke: #0073ff;
+                fill: #0073ff;
+            }
+
+            &.left:hover {
+                transform: translateX(-4px);
+            }
+
+            &.right:hover {
+                transform: translateX(4px);
+            }
+        }
+
+        .swiper {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        //   .swiper-slide {
+        //       display: flex;
+        //       justify-content: center;
+        //       align-items: stretch;
+        //   }
+
+        .card {
+            background: transparent;
+            border-radius: 12px;
+            text-align: right;
+            //   padding: 0 0 0 5px;
+            margin-left: 0.7rem;
+            // width: 102.5%;
+            position: relative;
+            transition: transform 0.4s ease;
+
+            .text-content {
+                direction: rtl;
+            }
+
+            h3 {
+                color: #0073ff;
+                font-size: 1.2rem;
+                font-weight: 700;
+                margin-bottom: 0.6rem;
+                line-height: 1.5;
+            }
+
+            p {
+                font-size: 1rem;
+                color: #333;
+                line-height: 1.8;
+
+            }
+        }
+    }
+}
+
+@media (min-width: 1279px) {
+    .Soultions4-carousel {
+        max-width: 700px;
+
+        .swiper {
+            height: 16.8125rem;
+        }
+
+        .controls {
+            top: -15%;
+            bottom: -14%;
+        }
+    }
+
+
+
+    .card {
+        h3 {
+            color: #0073ff;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            line-height: 1.5;
+        }
+
+        p {
+            font-size: 1.4rem;
+            color: #333;
+            line-height: 1.8;
+
+        }
+    }
+}
+
+.solution4-pill {
+    display: inline-flex;
+    padding: 0.6rem 1.5rem;
+    border-radius: 28px;
+    position: relative;
+    font-size: 1rem;
+    color: var(--primary);
+}
+
+/* جراديانت البوردر */
+.solution4-pill::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(90deg, #F2CE2C, #25E9F7);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+.solution4-pill span {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+}

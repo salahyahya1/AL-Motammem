@@ -155,13 +155,13 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     this.menuOpen = !this.menuOpen;
 
     if (!this.isBrowser) {
-      el.style.transform = `translateY(${this.menuOpen ? '165px' : '-120px'})`;
+      el.style.transform = `translateY(${this.menuOpen ? '165px' : '-150px'})`;
       el.style.opacity = this.menuOpen ? '1' : '0';
       return;
     }
 
     gsap.to(el, {
-      y: this.menuOpen ? 165 : -120,
+      y: this.menuOpen ? 165 : -150,
       opacity: this.menuOpen ? 1 : 0,
       duration: 0.8,
       ease: 'power2.inOut',

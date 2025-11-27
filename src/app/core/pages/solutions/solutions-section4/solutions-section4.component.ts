@@ -142,16 +142,17 @@ import {
 
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
-
+import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from '../../../shared/services/language.service';
 interface Sector {
-  title: string;
-  text: string;
+  titleKey: string;
+  textKey: string;
 }
 
 @Component({
   selector: 'app-solutions-section4',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './solutions-section4.component.html',
   styleUrl: './solutions-section4.component.scss'
 })
@@ -159,50 +160,35 @@ export class SolutionsSection4Component {
   @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
   swiperInstance: Swiper | null = null;
 
+
   sectors: Sector[] = [
     {
-      title: ' تكامل',
-      text: `أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها`
+      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.FINANCE.TITLE',
+      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.FINANCE.DESC',
     },
     {
-      title: ' تكامل داخلي',
-      text: `أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها`
+      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.INVENTORY.TITLE',
+      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.INVENTORY.DESC',
     },
     {
-      title: ' تكامل داخلي',
-      text: `أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها`
+      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.PURCHASING.TITLE',
+      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.PURCHASING.DESC',
     },
     {
-      title: ' تكامل داخلي',
-      text: `أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها`
+      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.SALES.TITLE',
+      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.SALES.DESC',
     },
     {
-      title: ' تكامل داخلي',
-      text: `أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها`
+      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.HR.TITLE',
+      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.HR.DESC',
     },
     {
-      title: ' تكامل داخلي',
-      text: `أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها`
+      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.PROJECTS.TITLE',
+      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.PROJECTS.DESC',
     },
     {
-      title: ' تكامل داخلي',
-      text: `أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها`
-    },
-    {
-      title: ' تكامل داخلي',
-      text: `أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها`
-    },
-    {
-      title: ' تكامل داخلي',
-      text: `أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها`
-    },
-    {
-      title: ' تكامل داخلي',
-      text: `أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها`
-    },
-    {
-      title: ' تكامل داخلي',
-      text: `أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها`
+      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.REPORTS.TITLE',
+      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.REPORTS.DESC',
     },
   ];
   groupedSectors: Sector[][] = [];
@@ -246,9 +232,9 @@ export class SolutionsSection4Component {
           }
           this.swiperInstance = new Swiper(this.swiperEl.nativeElement, {
             direction: 'vertical',
-            slidesPerView: 1,  
+            slidesPerView: 1,
             slidesPerGroup: 1,
-            loop: true,        
+            loop: true,
             navigation: {
               prevEl: "#arrowUP",
               nextEl: "#arrowDown"

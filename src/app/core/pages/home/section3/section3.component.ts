@@ -12,7 +12,7 @@ import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
 
 
@@ -20,7 +20,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
 @Component({
   selector: 'app-section3',
-  imports: [CommonModule, TranslatePipe, TranslateDirective],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './section3.component.html',
   styleUrl: './section3.component.scss'
 })

@@ -3,12 +3,12 @@ import { ApplicationRef, Component, inject, Inject, NgZone, OnDestroy, PLATFORM_
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import gsap from "gsap";
 import SplitText from "gsap/SplitText";
-import {  TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
 gsap.registerPlugin(SplitText, ScrollTrigger)
 @Component({
   selector: 'app-about-section1',
-  imports: [ TranslatePipe],
+  imports: [TranslatePipe],
   templateUrl: './about-section1.component.html',
   styleUrl: './about-section1.component.scss'
 })
@@ -16,7 +16,7 @@ export class AboutSection1Component {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
-    private language:LanguageService,
+    private language: LanguageService,
   ) { }
   timeline!: gsap.core.Timeline
   Section1_title_split: any;
@@ -42,11 +42,12 @@ export class AboutSection1Component {
       }
       requestAnimationFrame(() => {
         // Split بعد ما المتصفح رسم السطور فعليًا
-        const split = SplitText.create('#About-Section1-title', { type: "lines", autoSplit: true })
+        // const split = SplitText.create('#About-Section1-title', { type: "lines", autoSplit: true })
         gsap.set(titleEl, { opacity: 1, visibility: "visible" });
         gsap.set(videoEl, { opacity: 1, visibility: "visible" });
         const tl = gsap.timeline();
-        tl.from(split.lines, {
+        // tl.from(split.lines, {
+        tl.from(titleEl, {
           duration: 1,
           yPercent: 100,
           opacity: 0,
@@ -62,7 +63,7 @@ export class AboutSection1Component {
         }, "<");
 
         this.timeline = tl;
-        this.Section1_title_split = split;
+        this.Section1_title_split = titleEl;
       });
     });
   }

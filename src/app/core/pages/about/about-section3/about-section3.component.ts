@@ -260,13 +260,13 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { DomSanitizer } from '@angular/platform-browser';
-import {  TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-about-section3',
-  imports: [CommonModule,TranslatePipe],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './about-section3.component.html',
   styleUrl: './about-section3.component.scss',
   standalone: true
@@ -302,7 +302,7 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private sanitizer: DomSanitizer,
-    private language:LanguageService,
+    private language: LanguageService,
   ) { }
 
   ngOnInit(): void {
@@ -444,7 +444,9 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
       return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-desktop')?.kill(); };
     });
   }
-
+  get isRtl() {
+    return this.language.currentLang === 'ar';
+  }
   ngOnDestroy() {
     if (this.resizeHandler) window.removeEventListener('resize', this.resizeHandler);
     try { this.mm.revert(); } catch { }
