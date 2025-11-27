@@ -1,252 +1,134 @@
-// import { CommonModule, isPlatformBrowser } from '@angular/common';
-// import {
-//   Component,
-//   ElementRef,
-//   Inject,
-//   NgZone,
-//   PLATFORM_ID,
-//   ViewChild,
-// } from '@angular/core';
-
-// import Swiper from 'swiper/bundle';
-// import 'swiper/css/bundle';
-// @Component({
-//   selector: 'app-solutions-section4',
-//   imports: [CommonModule],
-//   templateUrl: './solutions-section4.component.html',
-//   styleUrl: './solutions-section4.component.scss'
-// })
-// export class SolutionsSection4Component {
-//   @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
-//   swiperInstance: Swiper | null = null;
-//   private hasSwitchedToTwo = false
-
-//   sectors = [
-//     {
-//       title: ' تكامل',
-//       text: `
-// أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها
-// `    },
-//     {
-//       title: ' تكامل',
-//       text: `
-// أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها
-// `    },
-//     {
-//       title: ' تكامل داخلي',
-//       text: `
-// أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها
-// `    },
-//     {
-//       title: ' تكامل داخلي',
-//       text: `
-// أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها
-// `    },
-//     {
-//       title: ' تكامل داخلي',
-//       text: `
-// أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها
-// `    },
-//     {
-//       title: ' تكامل داخلي',
-//       text: `
-// أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها
-// `    },
-//     {
-//       title: ' تكامل داخلي',
-//       text: `
-// أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها
-// `    },
-//     {
-//       title: ' تكامل داخلي',
-//       text: `
-// أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها
-// `    },
-//     {
-//       title: ' تكامل داخلي',
-//       text: `
-// أي تحديث في قسم واحد ينعكس فورًا في جميع الأقسام الأخرى، ويمكنك تأكيد صحة البيانات قبل تأثيرها
-// `    },
-//   ];
-//   constructor(
-//     @Inject(PLATFORM_ID) private pid: Object,
-//     private ngZone: NgZone
-//   ) { }
-
-//   async ngAfterViewInit() {
-//     if (!isPlatformBrowser(this.pid)) return;
-//     if (typeof window === 'undefined') return;
-
-//     this.ngZone.runOutsideAngular(() => {
-//       requestAnimationFrame(() => {
-//         setTimeout(() => {
-//           // لو في instance قديم (في dev أو HMR) دمّره
-//           if (this.swiperInstance) {
-//             this.swiperInstance.destroy(true, true);
-//             this.swiperInstance = null;
-//           }
-
-//           // ✅ Swiper بسيط من غير Navigation module
-//           this.swiperInstance = new Swiper(this.swiperEl.nativeElement, {
-//             direction: 'vertical',
-//             slidesPerView: 1,
-//             slidesPerGroup: 1,
-//             centeredSlides: true,
-//             // slidesPerView: 2,
-//             // slidesPerGroup: 2,
-//             loop: true,
-//             // autoplay: {
-//             //   delay: 2500,
-//             //   disableOnInteraction: false,
-//             //   pauseOnMouseEnter: true
-//             // },
-//             navigation: {
-//               prevEl: "#arrowUP",
-//               nextEl: "#arrowDown"
-//             }
-
-
-//               , on: {
-//               slideChange: () => {
-//                 // أول مرة بس نغيّر الإعدادات
-//                 if (!this.hasSwitchedToTwo && this.swiperInstance) {
-//                   this.hasSwitchedToTwo = true;
-
-//                   const s = this.swiperInstance;
-//                   s.params.slidesPerView = 2;
-//                   s.params.slidesPerGroup = 2;
-//                   s.params.centeredSlides = false; // خلاص هنشتغل 2 فوق بعض
-//                   s.update();
-
-//                   // لو حابب تتأكد في اللوج:
-//                   console.log('Switched to 2 per view');
-//                 }
-//               }
-//             }
-//           });
-
-//         }, 200);
-//       });
-//     });
-//   }
-// }
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  Inject,
-  NgZone,
-  PLATFORM_ID,
-  ViewChild,
-} from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import Draggable from "gsap/Draggable";
+import InertiaPlugin from "gsap/InertiaPlugin";
 
-import Swiper from 'swiper/bundle';
-import 'swiper/css/bundle';
+import SplitText from "gsap/SplitText";
+
+import Swiper from 'swiper';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
-interface Sector {
-  titleKey: string;
-  textKey: string;
-}
+
+
+gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
 @Component({
-  selector: 'app-solutions-section4',
-  standalone: true,
-  imports: [CommonModule, TranslatePipe],
-  templateUrl: './solutions-section4.component.html',
-  styleUrl: './solutions-section4.component.scss'
+    selector: 'app-solutions-section4',
+    standalone: true,
+    imports: [CommonModule, TranslatePipe],
+    templateUrl: './solutions-section4.component.html',
+    styleUrl: './solutions-section4.component.scss'
 })
 export class SolutionsSection4Component {
-  @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
-  swiperInstance: Swiper | null = null;
+    solutionsSection4DetailsSplit: any;
+    constructor(
+        @Inject(PLATFORM_ID) private pid: Object,
+        private ngZone: NgZone,
+        private language: LanguageService
+    ) { }
 
+    ngAfterViewInit() {
+        if (!isPlatformBrowser(this.pid)) return;
+        if (typeof window === 'undefined') return;
 
-  sectors: Sector[] = [
-    {
-      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.FINANCE.TITLE',
-      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.FINANCE.DESC',
-    },
-    {
-      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.INVENTORY.TITLE',
-      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.INVENTORY.DESC',
-    },
-    {
-      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.PURCHASING.TITLE',
-      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.PURCHASING.DESC',
-    },
-    {
-      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.SALES.TITLE',
-      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.SALES.DESC',
-    },
-    {
-      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.HR.TITLE',
-      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.HR.DESC',
-    },
-    {
-      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.PROJECTS.TITLE',
-      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.PROJECTS.DESC',
-    },
-    {
-      titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.REPORTS.TITLE',
-      textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.REPORTS.DESC',
-    },
-  ];
-  groupedSectors: Sector[][] = [];
+        this.ngZone.runOutsideAngular(() => {
+            requestAnimationFrame(() => {
+                setTimeout(() => {
 
-  constructor(
-    @Inject(PLATFORM_ID) private pid: Object,
-    private ngZone: NgZone
-  ) { }
+                    const solutionsSection4TITLE = document.querySelector('#solutionsSection4-TITLE') as HTMLElement;
+                    const solutionsSection4Details = document.querySelector('#solutionsSection4-Detailes') as HTMLElement;
+                    this.solutionsSection4DetailsSplit = new SplitText(solutionsSection4Details, { type: "words" });
+                    const solutionsSection4TITLESplit = SplitText.create(solutionsSection4TITLE, { type: "words" });
+                    ScrollTrigger.create({
+                        trigger: '#solutionsSection4',
+                        start: 'top top',
+                        end: "150% bottom",
+                        pin: true,
+                        pinType: 'transform',
+                        // markers: true,
+                        id: 'pinsection',
+                        anticipatePin: 1,
+                    });
+                    const tl = gsap.timeline({
+                        defaults: { ease: "power3.out" }, scrollTrigger: {
+                            trigger: "#solutionsSection4",
+                            start: 'top top',
+                            end: "150% bottom",
+                            // markers: true,
+                        }
+                    });
+                    let triggered = false;
+                    triggered = false;
 
-  ngOnInit() {
-    this.groupSectors();
-  }
+                    const path = document.querySelector(".capsule-path4") as SVGPathElement;
+                    if (!path) return;
+                    const length = path.getTotalLength();
+                    gsap.set('#capsule4', { y: 78 })
+                    tl.fromTo(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 0, visibility: "hidden" },
+                        {
+                            strokeDashoffset: 0,
+                            opacity: 1,
+                            visibility: "visible",
+                            duration: 1,
+                            ease: "power2.inOut"
+                        });
+                    gsap.set("#solutionsSection4-TITLE", { perspective: 800 });
 
-  private groupSectors() {
-    if (!this.sectors.length) return;
+                    tl.fromTo(solutionsSection4TITLESplit.words,
+                        {
+                            opacity: 0,
+                            rotateY: gsap.utils.random(-80, 80),
+                            filter: "blur(6px)"
+                        },
+                        {
+                            opacity: 1,
+                            rotateY: 0,
+                            y: 0,
+                            filter: "blur(0px)",
+                            duration: 0.4,
+                            stagger: {
+                                each: 0.15,
+                                from: "start"
+                            }
 
-    const result: Sector[][] = [];
+                        }
+                    );
+                    tl.to("#capsule4", {
+                        scale: 0.85,
+                        duration: 0.6,
+                        ease: "power2.inOut",
+                        onStart: () => {
+                            gsap.to('#solutionsSection4', {
+                                backgroundColor: '#ffffff',
+                                duration: 0.8,
+                                ease: "power2.inOut"
+                            });
+                        }
+                    }, ">+0.3");
+                    tl.to("#capsule4", {
+                        y: -30,
+                        duration: 0.7,
+                        ease: "power2.inOut",
+                    }, ">-0.4");
 
-    result.push([this.sectors[0]]);
-    for (let i = 1; i < this.sectors.length; i += 2) {
-      const group: Sector[] = [this.sectors[i]];
-      if (i + 1 < this.sectors.length) {
-        group.push(this.sectors[i + 1]);
-      }
-      result.push(group);
+                    tl.fromTo(this.solutionsSection4DetailsSplit.words,
+                        { opacity: 0, visibility: "visible" },
+                        {
+                            opacity: 1,
+                            duration: 0.4,
+                            ease: "sine.out",
+                            stagger: 0.02,
+                            onStart: () => { gsap.set(solutionsSection4Details, { opacity: 1, visibility: "visible" }) },
+                        }
+                    );
+                }, 200);
+            });
+        });
     }
-
-    this.groupedSectors = result;
-  }
-
-  async ngAfterViewInit() {
-    if (!isPlatformBrowser(this.pid)) return;
-    if (typeof window === 'undefined') return;
-
-    this.ngZone.runOutsideAngular(() => {
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          if (this.swiperInstance) {
-            this.swiperInstance.destroy(true, true);
-            this.swiperInstance = null;
-          }
-          this.swiperInstance = new Swiper(this.swiperEl.nativeElement, {
-            direction: 'vertical',
-            slidesPerView: 1,
-            slidesPerGroup: 1,
-            loop: true,
-            navigation: {
-              prevEl: "#arrowUP",
-              nextEl: "#arrowDown"
-            },
-            autoplay: {
-              delay: 2500,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true
-            },
-          });
-        }, 200);
-      });
-    });
-  }
 }

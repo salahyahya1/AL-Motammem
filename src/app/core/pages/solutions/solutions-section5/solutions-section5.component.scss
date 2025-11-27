@@ -1,4 +1,4 @@
-.Soultions4-carousel {
+.Soultions5-carousel {
     width: 100%; // خليك مرن في العرض
     max-width: 480px;
     display: flex;
@@ -102,7 +102,7 @@
 
 
 @media (max-width: 765px) {
-    .Soultions4-carousel {
+    .Soultions5-carousel {
         width: 95%;
         // max-width: 400px;
 
@@ -178,7 +178,7 @@
 }
 
 @media (min-width: 1279px) {
-    .Soultions4-carousel {
+    .Soultions5-carousel {
         max-width: 700px;
 
         .swiper {
@@ -211,7 +211,7 @@
     }
 }
 
-.solution4-pill {
+.Soultions5-pill {
     display: inline-flex;
     padding: 0.6rem 1.5rem;
     border-radius: 28px;
@@ -221,7 +221,7 @@
 }
 
 /* جراديانت البوردر */
-.solution4-pill::before {
+.Soultions5-pill::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -235,7 +235,7 @@
     mask-composite: exclude;
 }
 
-.solution4-pill span {
+.Soultions5-pill span {
     position: relative;
     z-index: 1;
     background: transparent;
