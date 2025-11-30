@@ -17,7 +17,7 @@ import { LanguageService } from '../../../shared/services/language.service';
 
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
-interface Sector {
+interface Integration {
     titleKey: string;
     textKey: string;
 }
@@ -37,59 +37,47 @@ export class SolutionsSection5Component {
         private ngZone: NgZone
     ) { }
 
-    sectors: Sector[] = [
+    Integrations: Integration[] = [
         {
-            titleKey: 'SOLUTIONS.SECTION5.CORE_MODULES.FINANCE.TITLE',
-            textKey: 'SOLUTIONS.SECTION5.CORE_MODULES.FINANCE.DESC',
+            titleKey: 'SOLUTIONS.INTEGRATIONS.ITEM1.TITLE',
+            textKey: 'SOLUTIONS.INTEGRATIONS.ITEM1.TEXT',
         },
         {
-            titleKey: 'SOLUTIONS.SECTION5.CORE_MODULES.INVENTORY.TITLE',
-            textKey: 'SOLUTIONS.SECTION5.CORE_MODULES.INVENTORY.DESC',
+            titleKey: 'SOLUTIONS.INTEGRATIONS.ITEM2.TITLE',
+            textKey: 'SOLUTIONS.INTEGRATIONS.ITEM2.TEXT',
         },
         {
-            titleKey: 'SOLUTIONS.SECTION5.CORE_MODULES.PURCHASING.TITLE',
-            textKey: 'SOLUTIONS.SECTION5.CORE_MODULES.PURCHASING.DESC',
+            titleKey: 'SOLUTIONS.INTEGRATIONS.ITEM3.TITLE',
+            textKey: 'SOLUTIONS.INTEGRATIONS.ITEM3.TEXT',
         },
         {
-            titleKey: 'SOLUTIONS.SECTION5.CORE_MODULES.SALES.TITLE',
-            textKey: 'SOLUTIONS.SECTION5.CORE_MODULES.SALES.DESC',
-        },
-        {
-            titleKey: 'SOLUTIONS.SECTION5.CORE_MODULES.HR.TITLE',
-            textKey: 'SOLUTIONS.SECTION5.CORE_MODULES.HR.DESC',
-        },
-        {
-            titleKey: 'SOLUTIONS.SECTION5.CORE_MODULES.PROJECTS.TITLE',
-            textKey: 'SOLUTIONS.SECTION5.CORE_MODULES.PROJECTS.DESC',
-        },
-        {
-            titleKey: 'SOLUTIONS.SECTION5.CORE_MODULES.REPORTS.TITLE',
-            textKey: 'SOLUTIONS.SECTION5.CORE_MODULES.REPORTS.DESC',
-        },
+            titleKey: 'SOLUTIONS.INTEGRATIONS.ITEM4.TITLE',
+            textKey: 'SOLUTIONS.INTEGRATIONS.ITEM4.TEXT',
+        }
     ];
-    groupedSectors: Sector[][] = [];
+    groupedIntegrations: Integration[][] = [];
 
 
 
     ngOnInit() {
-        this.groupSectors();
+        this.groupIntegrations();
     }
 
-    private groupSectors() {
-        if (!this.sectors.length) return;
+    private groupIntegrations() {
+        if (!this.Integrations.length) return;
 
-        const result: Sector[][] = [];
+        const result: Integration[][] = [];
 
-        result.push([this.sectors[0]]);
-        for (let i = 1; i < this.sectors.length; i += 2) {
-            const group: Sector[] = [this.sectors[i]];
-            if (i + 1 < this.sectors.length) {
-                group.push(this.sectors[i + 1]);
+        result.push([this.Integrations[0]]);
+        for (let i = 1; i < this.Integrations.length; i += 2) {
+            const group: Integration[] = [this.Integrations[i]];
+            if (i + 1 < this.Integrations.length) {
+                group.push(this.Integrations[i + 1]);
             }
             result.push(group);
         }
 
-        this.groupedSectors = result;
+        this.groupedIntegrations = result;
     }
 
     async ngAfterViewInit() {

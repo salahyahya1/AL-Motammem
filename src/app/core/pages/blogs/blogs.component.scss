@@ -181,3 +181,15 @@
         }
     }
 }
+
+#title,
+#Desc,
+#btn1,#blogs-bottom{
+        opacity: 0;
+    visibility: hidden;
+    /* عشان ميعملش flicker لحظة التقسيم */
+}
+
+#hero {
+    background-color: transparent;
+}

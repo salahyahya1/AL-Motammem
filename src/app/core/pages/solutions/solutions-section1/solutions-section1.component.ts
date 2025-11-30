@@ -3,12 +3,13 @@ import { ApplicationRef, Component, Inject, NgZone, OnDestroy, PLATFORM_ID, View
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import gsap from "gsap";
 import SplitText from "gsap/SplitText";
+import { TranslatePipe } from '@ngx-translate/core';
 
 gsap.registerPlugin(SplitText, ScrollTrigger)
 
 @Component({
   selector: 'app-solutions-section1',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './solutions-section1.component.html',
   styleUrl: './solutions-section1.component.scss'
 })

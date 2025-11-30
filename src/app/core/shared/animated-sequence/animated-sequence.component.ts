@@ -97,7 +97,7 @@ ngAfterViewInit(): void {
   preloadImage.src = this.imageUrl;
 
   preloadImage.addEventListener('load', () => {
-    console.log('✅ Sprite sheet loaded');
+    // console.log('✅ Sprite sheet loaded');
     this.setupFrames();
 
     // أظهر الصورة بسلاسة

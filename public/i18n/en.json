@@ -184,6 +184,10 @@
     }
   },
   "SOLUTIONS": {
+    "HERO": {
+     "TITLE": "All your business cycles in one place, even across multiple companies and different operations",
+     "DETAILS": "From finance, inventory, sales, and purchasing to HR — discover how Al-Motammem brings all operations together under a single system, whether for one company or multiple companies, with consolidated reporting across companies and other levels."
+    },
     "COURSES": {
       "FINANCE": {
         "TITLE": "Finance & Accounting",
@@ -255,6 +259,28 @@
         "TITLE": "Finance & Accounting",
         "DESC": "Accurate management of financial data with advanced reports and analytics, real-time financial reporting, and alerts when predefined thresholds or conditions are about to be or have been reached."
       }
+    },
+    "SECTION4": {
+      "TITLE": "The integration that makes all your company’s departments work in harmony and accuracy",
+      "DETAILES": "Al-Motammem does not only connect workflows—it creates a unified environment that brings together all your departments, from finance and sales to HR, projects, and more, all operating on the same system."
+    },
+    "INTEGRATIONS": {
+  "ITEM1": {
+    "TITLE": "Internal Integration",
+    "TEXT": "Any update made in one department is instantly reflected across all others, allowing you to verify data accuracy before it impacts the system."
+  },
+  "ITEM2": {
+    "TITLE": "Cross-Sector Integration",
+    "TEXT": "Even companies with diverse operations (manufacturing, sales, services) can run smoothly on the same unified platform."
+  },
+  "ITEM3": {
+    "TITLE": "External Integrations (APIs)",
+    "TEXT": "Connect your external systems with your current tools — payment gateways, banking systems, team tools (Google Meet, Excel), and tax platforms (ETA & ZATCA)."
+  },
+  "ITEM4": {
+    "TITLE": "Unified Dashboard",
+    "TEXT": "Gives you a complete and real-time overview of performance across all departments, sectors, and companies in one place."
+  }
     },
     "CONSULTATION": {
       "TITLE": "Discover the solutions that fit your company",
