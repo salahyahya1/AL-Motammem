@@ -20,12 +20,13 @@ import { SolutionsSection3Component } from './solutions-section3/solutions-secti
 // import { SolutionsSection4Component } from './solutions-section4/solutions-section4.component';
 import { SolutionsSection5Component } from "./solutions-section5/solutions-section5.component";
 import { SolutionsSection4Component } from "./solutions-section4/solutions-section4.component";
+import { SolutionsSection6Component } from "./solutions-section6/solutions-section6.component";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 @Component({
   selector: 'app-solutions',
-  imports: [SolutionsSection1Component, SolutionsSection2Component, SolutionsSection3Component, SolutionsSection5Component, SolutionsSection4Component],
+  imports: [SolutionsSection1Component, SolutionsSection2Component, SolutionsSection3Component, SolutionsSection5Component, SolutionsSection4Component, SolutionsSection6Component],
   templateUrl: './solutions.component.html',
   styleUrl: './solutions.component.scss'
 })
@@ -87,5 +88,8 @@ export class SolutionsComponent {
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
+    if (this.isBrowser) {
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    }
   }
 }

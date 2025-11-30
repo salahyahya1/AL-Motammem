@@ -85,7 +85,7 @@ export class HomeComponent implements AfterViewInit {
   }
   private observeSections() {
     const sections = gsap.utils.toArray<HTMLElement>('.panel');
-
+    // this.navTheme.setColor()
     sections.forEach((section) => {
       const bgColor = section.dataset['bgcolor'] || 'var(--white)';
       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -106,5 +106,8 @@ export class HomeComponent implements AfterViewInit {
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
+    if (this.isBrowser) {
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    }
   }
 }

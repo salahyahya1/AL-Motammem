@@ -5,7 +5,6 @@
     border-radius: 28px;
     position: relative;
     font-size: 1rem;
-    color: var(--primary);
 }
 
 /* جراديانت البوردر */
@@ -21,6 +20,10 @@
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
+}
+
+.pill:hover {
+    background: linear-gradient(90deg, #F2CE2C, #25E9F7);
 }
 
 .pill span {

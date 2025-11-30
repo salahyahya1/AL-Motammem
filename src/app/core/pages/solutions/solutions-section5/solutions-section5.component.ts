@@ -1,17 +1,22 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import {
-    Component,
-    ElementRef,
-    Inject,
-    NgZone,
-    PLATFORM_ID,
-    ViewChild,
-} from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import Draggable from "gsap/Draggable";
+import InertiaPlugin from "gsap/InertiaPlugin";
 
-import Swiper from 'swiper/bundle';
-import 'swiper/css/bundle';
+import SplitText from "gsap/SplitText";
+
+import Swiper from 'swiper';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
+
+
+gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 interface Sector {
     titleKey: string;
     textKey: string;
@@ -24,7 +29,7 @@ interface Sector {
     styleUrl: './solutions-section5.component.scss'
 })
 export class SolutionsSection5Component {
-
+    section5TopSplit: any;
     @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
     swiperInstance: Swiper | null = null;
     constructor(
@@ -94,26 +99,65 @@ export class SolutionsSection5Component {
         this.ngZone.runOutsideAngular(() => {
             requestAnimationFrame(() => {
                 setTimeout(() => {
-                    if (this.swiperInstance) {
-                        this.swiperInstance.destroy(true, true);
-                        this.swiperInstance = null;
-                    }
-                    this.swiperInstance = new Swiper(this.swiperEl.nativeElement, {
-                        direction: 'vertical',
-                        slidesPerView: 1,
-                        slidesPerGroup: 1,
-                        loop: true,
-                        navigation: {
-                            prevEl: "#arrowUP",
-                            nextEl: "#arrowDown"
-                        },
-                        autoplay: {
-                            delay: 2500,
-                            disableOnInteraction: false,
-                            pauseOnMouseEnter: true
-                        },
+                    document.fonts.ready.then(() => {
+
+                        ScrollTrigger.create({
+                            trigger: '#solutionsSection5',
+                            start: 'top top',
+                            end: "150% bottom",
+                            pin: true,
+                            pinType: 'transform',
+                            // markers: true,
+                            id: 'pinsection',
+                            anticipatePin: 1,
+                        });
+
+
+                        const section5Top = document.querySelector('#section5-top') as HTMLElement;
+                        this.section5TopSplit = new SplitText(section5Top, { type: "words" });
+                        const tl = gsap.timeline({
+                            defaults: { ease: "power3.out" }, scrollTrigger: {
+                                trigger: "#solutionsSection5",
+                                start: 'top top',
+                                end: "150% bottom",
+                                // markers: true,
+                            }
+                        });
+
+
+
+                        tl.fromTo(this.section5TopSplit.words,
+                            { opacity: 0, visibility: "visible" },
+                            {
+                                opacity: 1,
+                                duration: 0.4,
+                                ease: "sine.out",
+                                stagger: 0.02,
+                                onStart: () => { gsap.set(section5Top, { opacity: 1, visibility: "visible" }) },
+                            }
+                        );
+                        tl.fromTo("#section5-bottom", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
+                        if (this.swiperInstance) {
+                            this.swiperInstance.destroy(true, true);
+                            this.swiperInstance = null;
+                        }
+                        this.swiperInstance = new Swiper(this.swiperEl.nativeElement, {
+                            direction: 'vertical',
+                            slidesPerView: 1,
+                            slidesPerGroup: 1,
+                            loop: true,
+                            navigation: {
+                                prevEl: "#arrowUP",
+                                nextEl: "#arrowDown"
+                            },
+                            autoplay: {
+                                delay: 2500,
+                                disableOnInteraction: false,
+                                pauseOnMouseEnter: true
+                            },
+                        });
                     });
-                }, 200);
+                }, 0);
             });
         });
     }

@@ -31,7 +31,7 @@ export class SolutionsSection1Component {
       this.ngZone.runOutsideAngular(() => {
         setTimeout(() => {
           this.runGsapAnimation();
-        }, 500);
+        }, 0);
       });
     });
 

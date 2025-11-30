@@ -155,7 +155,7 @@ export class SolutionsSection3Component {
 
 
           });
-        }, 500);
+        }, 0);
       });
     });
   }

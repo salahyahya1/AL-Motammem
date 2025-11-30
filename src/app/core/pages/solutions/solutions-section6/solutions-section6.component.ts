@@ -1,106 +1,147 @@
-import { Component } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import InertiaPlugin from "gsap/InertiaPlugin";
+import SplitText from "gsap/SplitText";
 
+import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from '../../../shared/services/language.service';
+
+gsap.registerPlugin(ScrollTrigger, SplitText, InertiaPlugin);
 @Component({
   selector: 'app-solutions-section6',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './solutions-section6.component.html',
   styleUrl: './solutions-section6.component.scss'
 })
 export class SolutionsSection6Component {
+  consultationTitleSplit: any;
+  consultationSubtitleSplit: any;
+  consultationDetailsSplit: any;
+  consultationfootersSplit: any;
+  constructor(
+    @Inject(PLATFORM_ID) private pid: Object,
+    private ngZone: NgZone,
+    private language: LanguageService
+  ) { }
+
+  async ngAfterViewInit() {
+    if (!isPlatformBrowser(this.pid)) return;
+    if (typeof window === 'undefined') return;
+
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          document.fonts.ready.then(() => {
+            ScrollTrigger.create({
+              trigger: "#consultation",
+              start: 'top top',
+              end: '+=150%',
+              // pinType: 'transform',
+              pin: true,
+              // markers: true,
+              invalidateOnRefresh: true,
+              id: 'pinsection',
+              anticipatePin: 1,
+              onEnter: () => {
+              },
+            });
+            const consultationTitle = document.querySelector('h1#consultation-title') as HTMLElement;
+            const consultationSubtitle = document.querySelector('#consultation-subtitle') as HTMLElement;
+            const consultationDetails = document.querySelector('#consultation-details') as HTMLElement;
+            const consultationfooter = document.querySelector('#consultation-footer') as HTMLElement;
+            const button1 = document.querySelector('#button1') as HTMLElement;
+
+
+            if (!consultationTitle || !consultationSubtitle || !consultationDetails || !button1) {
+              console.warn('⚠️ عناصر الـ consultation مش لاقيها SplitText');
+              return;
+            }
+
+            // 3️⃣ SplitText على النص الحالي (بعد الترجمة)
+            this.consultationTitleSplit = new SplitText(consultationTitle, { type: 'words' });
+            this.consultationSubtitleSplit = new SplitText(consultationSubtitle, { type: 'words' });
+            this.consultationDetailsSplit = new SplitText(consultationDetails, { type: 'words' });
+            this.consultationfootersSplit = new SplitText(consultationfooter, { type: 'words' });
+
+            const tl = gsap.timeline({
+              defaults: { ease: "power3.out" }, scrollTrigger: {
+                trigger: "#consultation",
+                start: 'top top',
+                end: "150% bottom",
+                // markers: true,
+              }
+            });
+
+            tl.fromTo(
+              this.consultationTitleSplit.words,
+              { opacity: 0, visibility: 'visible' },
+              {
+                opacity: 1,
+                duration: 0.4,
+                ease: 'sine.out',
+                stagger: 0.02,
+                onStart: () => { gsap.set(consultationTitle, { opacity: 1, visibility: 'visible' }) },
+              }
+            );
+
+            tl.fromTo(
+              this.consultationSubtitleSplit.words,
+              { opacity: 0, visibility: 'visible' },
+              {
+                opacity: 1,
+                duration: 0.4,
+                ease: 'sine.out',
+                stagger: 0.02,
+                onStart: () => { gsap.set(consultationSubtitle, { opacity: 1, visibility: 'visible' }) },
+              }
+            );
+
+            tl.fromTo(
+              this.consultationDetailsSplit.words,
+              { opacity: 0, visibility: 'visible' },
+              {
+                opacity: 1,
+                duration: 0.4,
+                ease: 'sine.out',
+                stagger: 0.02,
+                onStart: () => { gsap.set(consultationDetails, { opacity: 1, visibility: 'visible' }) },
+              }
+            );
+            tl.fromTo(
+              button1,
+              { opacity: 0, visibility: 'visible' },
+              {
+                opacity: 1,
+                duration: 0.5,
+                ease: 'sine.inOut',
+                onStart: () => { gsap.set(button1, { opacity: 1, visibility: 'visible' }) },
+              });
+            tl.fromTo(
+              this.consultationfootersSplit.words,
+              { opacity: 0, visibility: 'visible' },
+              {
+                opacity: 1,
+                duration: 0.4,
+                ease: 'sine.out',
+                stagger: 0.02,
+                onStart: () => { gsap.set(consultationfooter, { opacity: 1, visibility: 'visible' }) },
+              }
+            );
+
+
+          });
+        }, 0);
+      });
+    });
+  }
 
 }
-// import { CommonModule, isPlatformBrowser } from '@angular/common';
-// import { Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
-// import gsap from 'gsap';
-// import ScrollTrigger from 'gsap/ScrollTrigger';
-// import Draggable from "gsap/Draggable";
-// import InertiaPlugin from "gsap/InertiaPlugin";
-
-// import SplitText from "gsap/SplitText";
-
-// import Swiper from 'swiper';
-// import 'swiper/css';
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
-// import { TranslatePipe } from '@ngx-translate/core';
-// import { LanguageService } from '../../../shared/services/language.service';
 
 
-// gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
-// interface Sector {
-//   titleKey: string;
-//   textKey: string;
-// }
-// @Component({
-//   selector: 'app-solutions-section5',
-//   imports: [CommonModule, TranslatePipe],
-//   templateUrl: './solutions-section5.component.html',
-//   styleUrl: './solutions-section5.component.scss'
-// })
-// export class SolutionsSection5Component {
-//   @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
-//   swiperInstance: Swiper | null = null;
 
 
-//   sectors: Sector[] = [
-//     {
-//       titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.FINANCE.TITLE',
-//       textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.FINANCE.DESC',
-//     },
-//     {
-//       titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.INVENTORY.TITLE',
-//       textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.INVENTORY.DESC',
-//     },
-//     {
-//       titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.PURCHASING.TITLE',
-//       textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.PURCHASING.DESC',
-//     },
-//     {
-//       titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.SALES.TITLE',
-//       textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.SALES.DESC',
-//     },
-//     {
-//       titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.HR.TITLE',
-//       textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.HR.DESC',
-//     },
-//     {
-//       titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.PROJECTS.TITLE',
-//       textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.PROJECTS.DESC',
-//     },
-//     {
-//       titleKey: 'SOLUTIONS.SECTION4.CORE_MODULES.REPORTS.TITLE',
-//       textKey: 'SOLUTIONS.SECTION4.CORE_MODULES.REPORTS.DESC',
-//     },
-//   ];
-
-//   groupedSectors: Sector[][] = [];
-
-//   constructor(
-//     @Inject(PLATFORM_ID) private pid: Object,
-//     private ngZone: NgZone,
-//     private language: LanguageService
-//   ) { }
-
-//   ngOnInit() {
-//     this.groupSectors();
-//   }
-
-//   private groupSectors() {
-//     if (!this.sectors.length) return;
-
-//     const result: Sector[][] = [];
-
-//     result.push([this.sectors[0]]);
-//     for (let i = 1; i < this.sectors.length; i += 2) {
-//       const group: Sector[] = [this.sectors[i]];
-//       if (i + 1 < this.sectors.length) {
-//         group.push(this.sectors[i + 1]);
-//       }
-//       result.push(group);
-//     }
-
-//     this.groupedSectors = result;
-//   }
 
 //   async ngAfterViewInit() {
 //     if (!isPlatformBrowser(this.pid)) return;

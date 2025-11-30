@@ -1,0 +1,15 @@
+.angular
+node_modules
+dist
+.git
+.vscode
+AL-Motammem
+*.log
+*.tmp
+*.mp4
+*.avi
+*.mkv
+*.png
+*.jpg
+*.jpeg
+.DS_Store

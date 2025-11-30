@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ComingSoonComponent } from './core/shared/coming-soon/coming-soon.component';
+import { BlogVeiwComponent } from './core/pages/blogs/blog-veiw/blog-veiw.component';
 
 export const routes: Routes = [
     {
@@ -53,6 +54,24 @@ export const routes: Routes = [
                         canonical: 'https://example.com/plans'
                     }
                 }
+            },
+            {
+                path: 'blogs',
+                loadComponent: () => import('./core/pages/blogs/blogs.component')
+                    .then(m => m.BlogsComponent),
+                title: 'المدونات'
+            },
+            {
+                path: 'BlogVeiw',
+                loadComponent: () => import('./core/pages/blogs/blog-veiw/blog-veiw.component')
+                    .then(m => m.BlogVeiwComponent),
+                title: `مدونه`
+            },
+            {
+                path: 'ContactUs',
+                loadComponent: () => import('./core/pages/contact-us/contact-us.component')
+                    .then(m => m.ContactUsComponent),
+                title: `تواصل معنا`
             },
             {
                 path: 'coming-soon',

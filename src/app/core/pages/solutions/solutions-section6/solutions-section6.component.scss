@@ -1,0 +1,14 @@
+#consultation-title,
+#consultation-subtitle,
+#consultation-details,
+#button1,
+#consultation-footer {
+    opacity: 0;
+    visibility: hidden;
+    /* عشان ميعملش flicker لحظة التقسيم */
+}
+
+#consultation {
+    background-color: transparent;
+    will-change: transform;
+}

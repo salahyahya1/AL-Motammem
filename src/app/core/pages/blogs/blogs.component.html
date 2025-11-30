@@ -1,0 +1,200 @@
+<section id="knowledge-center" class="relative w-full bg-[#F8F9FB] py-10 md:py-16 pt-20">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 lg:px-10 pt-0 md:pt-[30px]">
+
+        <!-- Header + search (mobile) -->
+        <div class="flex items-start justify-between gap-4 mb-6">
+            <div class="flex-1 text-center">
+                <h2 class="text-[var(--primary,#1D4ED8)]
+                   text-2xl md:text-3xl font-bold mb-3">
+                    مركز المعرفة من المتمم
+                </h2>
+
+                <p class="text-[#6B7280] text-sm md:text-base leading-relaxed w-[80%] md:w-[75%] mx-auto">
+                    هنا تجد مقالات مختصرة تساعدك تفهم الـ ERP، وتطور شغلك، وتتعرف على أفضل الممارسات في الإدارة المالية،
+                    المخزون،
+                    الموارد البشرية وغيرها… خبرة تمتد لأكثر من 40 عامًا.
+                </p>
+            </div>
+
+            <!-- search icon - mobile only -->
+            <!-- <button type="button"
+                class="md:hidden w-10 h-10 mt-1 rounded-full border border-[#E5E7EB] flex items-center justify-center shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#9CA3AF]" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+                </svg>
+            </button> -->
+        </div>
+
+        <!-- Tabs row (desktop) -->
+        <div class="hidden md:flex justify-start gap-10 text-sm mb-3">
+            <button class="text-[var(--light-gray)] hover:text-[var(--primary,#1D4ED8)]">
+                الأحدث
+            </button>
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-[#DDDDDD]"></div>
+
+        <!-- Main slider article -->
+        <div class="pt-6 md:pt-8">
+            <div class="erp-carousel">
+                <div class="controls">
+                    <button id="arrowRight3" class="arrow right" aria-label="التالي">
+                        <svg width="23" height="26" viewBox="0 0 23 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22.5 12.9902L-1.2235e-06 25.9806L-8.78432e-08 -0.000147849L22.5 12.9902Z"
+                                fill="#D9D9D9" />
+                        </svg>
+                    </button>
+
+                    <button id="arrowLeft3" class="arrow left" aria-label="السابق">
+                        <svg width="23" height="26" viewBox="0 0 23 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.55671e-07 12.9902L22.5 25.9806L22.5 -0.000147849L6.55671e-07 12.9902Z"
+                                fill="#D9D9D9" />
+                        </svg>
+
+                    </button>
+                </div>
+                <div #swiperEl2 class="swiper" dir="rtl">
+                    <div class="swiper-wrapper ps-[1.18rem]">
+                        <div class="swiper-slide" *ngFor="let article of articles">
+                            <div class="card">
+                                <div class="text-content flex gap-5 flex-col md:flex-row ">
+                                    <!-- Image / placeholder -->
+                                    <div class="relative">
+                                        <div
+                                            class="w-[95%] mx-auto md:w-full h-44 md:h-52 lg:h-56 rounded-3xl bg-[#E5E7EB] overflow-hidden">
+                                            <img *ngIf="article.imageUrl" [src]="article.imageUrl"
+                                                alt="{{ article.title }}" class="w-full h-full object-cover" />
+                                        </div>
+
+                                    </div>
+                                    <!--text-->
+                                    <div class="text-right">
+                                        <h3 class="text-[var(--primary,#1D4ED8)]
+                     text-base md:text-lg font-bold mb-3 leading-relaxed">
+                                            {{ article.title }}
+                                        </h3>
+
+                                        <p class="text-[#6B7280] text-sm md:text-base leading-relaxed w-full mb-4">
+                                            {{ article.excerpt }}
+                                        </p>
+
+                                        <a *ngIf="article.link; else btnOnly" [routerLink]="article.link" class="inline-flex items-center justify-center px-6 py-2 rounded-full
+                     bg-[#F4B942] text-[#58595B] text-sm font-semibold shadow-sm
+                     hover:bg-[#f2a90c] transition">
+                                            {{ article.ctaLabel }}
+                                        </a>
+
+                                        <ng-template #btnOnly>
+                                            <button class="inline-flex items-center justify-center px-6 py-2 rounded-full
+                       bg-[#F4B942] text-[#58595B] text-sm font-semibold shadow-sm
+                       hover:bg-[#f2a90c] transition">
+                                                {{ article.ctaLabel }}
+                                            </button>
+                                        </ng-template>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- "الأكثر قراءة" label (desktop) -->
+            <div class="hidden md:flex justify-start mt-10 mb-3">
+                <span class="text-sm text-[var(--light-gray)] hover:text-[var(--primary,#1D4ED8)]">
+                    الأكثر قراءة
+                </span>
+            </div>
+
+            <!-- Divider above cards -->
+            <div class="block border-t border-[#DDDDDD] mt-5 md:mt-0"></div>
+
+            <!-- Cards grid -->
+            <div class="pt-6 md:pt-8">
+                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+
+                    <!-- Card 1 -->
+                    <article
+                        class="bg-white rounded-3xl shadow-sm border border-[#E5E7EB] flex flex-col overflow-hidden">
+                        <div class="h-32 md:h-36 bg-[#E5E7EB]"></div>
+                        <div class="p-4 md:p-5 flex flex-col gap-2 text-right">
+                            <h4 class="text-[var(--primary,#1D4ED8)] text-sm md:text-base font-semibold">
+                                العنوان
+                            </h4>
+                            <p class="text-[#6B7280] text-xs md:text-sm">
+                                وصف للعنوان
+                            </p>
+                            <div class="mt-3">
+                                <button class="inline-flex px-4 py-1.5 rounded-full bg-[#F4B942] text-[#58595B]
+                       text-xs md:text-sm font-semibold hover:bg-[#f2a90c] transition">
+                                    اكتشف المزيد
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 2 -->
+                    <article
+                        class="bg-white rounded-3xl shadow-sm border border-[#E5E7EB] flex flex-col overflow-hidden">
+                        <div class="h-32 md:h-36 bg-[#E5E7EB]"></div>
+                        <div class="p-4 md:p-5 flex flex-col gap-2 text-right">
+                            <h4 class="text-[var(--primary,#1D4ED8)] text-sm md:text-base font-semibold">
+                                العنوان
+                            </h4>
+                            <p class="text-[#6B7280] text-xs md:text-sm">
+                                وصف للعنوان
+                            </p>
+                            <div class="mt-3">
+                                <button class="inline-flex px-4 py-1.5 rounded-full bg-[#F4B942] text-[#58595B]
+                       text-xs md:text-sm font-semibold hover:bg-[#f2a90c] transition">
+                                    اكتشف المزيد
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 3 -->
+                    <article
+                        class="bg-white rounded-3xl shadow-sm border border-[#E5E7EB] flex flex-col overflow-hidden">
+                        <div class="h-32 md:h-36 bg-[#E5E7EB]"></div>
+                        <div class="p-4 md:p-5 flex flex-col gap-2 text-right">
+                            <h4 class="text-[var(--primary,#1D4ED8)] text-sm md:text-base font-semibold">
+                                العنوان
+                            </h4>
+                            <p class="text-[#6B7280] text-xs md:text-sm">
+                                وصف للعنوان
+                            </p>
+                            <div class="mt-3">
+                                <button class="inline-flex px-4 py-1.5 rounded-full bg-[#F4B942] text-[#58595B]
+                       text-xs md:text-sm font-semibold hover:bg-[#f2a90c] transition">
+                                    اكتشف المزيد
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="mt-10 md:mt-12 text-center">
+                <button class="inline-flex items-center justify-center px-8 md:px-10 py-3 md:py-3.5 rounded-full
+               bg-[#2563EB] text-white font-semibold text-sm md:text-base shadow-md
+               hover:bg-[#1D4ED8] transition mb-3">
+                    جرّب نظام المتمم الآن
+                </button>
+
+                <p class="text-[var(--dark-gray)] text-xs md:text-sm mb-1">
+                    إدارة مالية أسهل، تقارير أسرع، وأمان أعلى.
+                </p>
+                <p class="text-[#2563EB] text-xs md:text-sm font-semibold">
+                    سجّل الآن للحصول على نسخة تجريبية مجانية!
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

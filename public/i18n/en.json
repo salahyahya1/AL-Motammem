@@ -184,38 +184,84 @@
     }
   },
   "SOLUTIONS": {
-    "SECTION4": {
-      "CORE_MODULES": {
-        "TITLE": "List of Core Modules",
-        "FINANCE": {
-          "TITLE": "Finance & Accounting",
-          "DESC": "General ledger, accounts, fixed assets and depreciation, cost centers, financial reports."
-        },
-        "INVENTORY": {
-          "TITLE": "Inventory",
-          "DESC": "Inventory control, stock valuation, balance tracking, stocktaking, and revaluation of inventory."
-        },
-        "PURCHASING": {
-          "TITLE": "Purchasing and Supplier Accounts with payables tracking",
-          "DESC": "Full purchasing cycle from purchase requisitions, supplier quotations and evaluation, to purchase orders, receipts, invoices and returns, and purchasing analysis."
-        },
-        "SALES": {
-          "TITLE": "Sales and Customer Accounts with receivables tracking",
-          "DESC": "Full sales cycle from quotation requests and price offers, to sales orders, invoicing, delivery and returns, statements of account and aging of receivables, and sales analysis."
-        },
-        "HR": {
-          "TITLE": "HR & Payroll",
-          "DESC": "Employee management, payroll, attendance and time tracking, performance, HR records, recruitment, appraisal, and employee self-services."
-        },
-        "PROJECTS": {
-          "TITLE": "Projects & Control",
-          "DESC": "Resource planning, project costing, and execution tracking."
-        },
-        "REPORTS": {
-          "TITLE": "Reports & Dashboards",
-          "DESC": "Real-time insights, performance indicators, and custom analytics."
-        }
+    "COURSES": {
+      "FINANCE": {
+        "TITLE": "Finance & Accounting",
+        "DESC": "General ledger, accounts, fixed assets and depreciation, cost centers, financial reports."
+      },
+      "INVENTORY": {
+        "TITLE": "Inventory",
+        "DESC": "Inventory control, stock valuation, balance tracking, stocktaking, and revaluation of inventory."
+      },
+      "PURCHASING": {
+        "TITLE": "Purchasing and Supplier Accounts with payables tracking",
+        "DESC": "Full purchasing cycle from purchase requisitions, supplier quotations and evaluation, to purchase orders, receipts, invoices and returns, and purchasing analysis."
+      },
+      "SALES": {
+        "TITLE": "Sales and Customer Accounts with receivables tracking",
+        "DESC": "Full sales cycle from quotation requests and price offers, to sales orders, invoicing, delivery and returns, statements of account and aging of receivables, and sales analysis."
+      },
+      "HR": {
+        "TITLE": "HR & Payroll",
+        "DESC": "Employee management, payroll, attendance and time tracking, performance, HR records, recruitment, appraisal, and employee self-services."
+      },
+      "PROJECTS": {
+        "TITLE": "Projects & Control",
+        "DESC": "Resource planning, project costing, and execution tracking."
+      },
+      "REPORTS": {
+        "TITLE": "Reports & Dashboards",
+        "DESC": "Real-time insights, performance indicators, and custom analytics."
       }
+    },
+    "SECTORS": {
+      "MANUFACTURING": {
+        "TITLE": "Manufacturing",
+        "DESC": "Track items and their movements, including raw materials, semi-finished goods and finished products, with full costing for each item. All movements are linked to sales, purchases and both production and service cost centers, with alerts when predefined thresholds or conditions are reached or about to be reached."
+      },
+      "CONTRACTING": {
+        "TITLE": "Contracting",
+        "DESC": "Monitor supplier and subcontractor accounts, and calculate the costs and revenues of each project and every work item in real time, fully linked to trial balances, income statements and balance sheets."
+      },
+      "NON_PROFIT": {
+        "TITLE": "Non-profit Organizations",
+        "DESC": "Track funding sources and related spending, link them to the planned budget, and receive alerts when predefined limits or conditions are about to be or have been exceeded."
+      },
+      "IMPORT_EXPORT": {
+        "TITLE": "Import & Export",
+        "DESC": "Follow up import operations and calculate the exact cost of each shipment and every item within it, linking this to inventory and accounts until the item reaches the warehouse, enabling accurate real-time cost of sales and profitability calculations."
+      },
+      "DISTRIBUTION": {
+        "TITLE": "Distribution",
+        "DESC": "Monitor the sales plan at company, region and sales-rep levels and beyond, follow up sales representatives and their commissions, and generate detailed analytics on sales and profitability by rep, region, governorate, city, route and item, and many other analysis dimensions."
+      },
+      "MULTINATIONAL": {
+        "TITLE": "Multinational Companies",
+        "DESC": "Accurate management of financial data with advanced reports and analytics, and the ability to generate all financial reports in real time in operating currencies, local currency and the parent company’s currency."
+      },
+      "FOOD_BEVERAGE": {
+        "TITLE": "Food & Beverage",
+        "DESC": "Accurately track items and their expiry dates, and monitor production batches for each item, whether on purchase, sale or remaining stock."
+      },
+      "SERVICES": {
+        "TITLE": "Services",
+        "DESC": "Manage contracts, monitor team performance and issue invoices with ease and accuracy."
+      },
+      "TRADING_PROJECTS": {
+        "TITLE": "Trading, Import/Export & Projects",
+        "DESC": "Plan resources, control costs and schedule tasks for each project, with direct linkage to financial and operational results."
+      },
+      "FINANCE_ACCOUNTING": {
+        "TITLE": "Finance & Accounting",
+        "DESC": "Accurate management of financial data with advanced reports and analytics, real-time financial reporting, and alerts when predefined thresholds or conditions are about to be or have been reached."
+      }
+    },
+    "CONSULTATION": {
+      "TITLE": "Discover the solutions that fit your company",
+      "SUB-TITLE": "Every company has unique needs — Al-Motammem gives you the flexibility to choose how you work, how you prefer to organize operations, and it integrates smoothly with your existing systems.",
+      "DETAILS": "Let us help you identify what works best for your business, step by step. Al-Motammem adapts to the way you work — not the other way around.",
+      "BTN1": "Book a free consultation with one of our experts",
+      "FOOTER": "Over 40 years of experience building systems that support efficiency and sustainability for companies across different sectors."
     }
   },
   "FOOTER": {
