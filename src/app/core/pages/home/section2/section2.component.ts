@@ -4,13 +4,13 @@ import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from 'gsap/SplitText';
-import { LanguageService } from '../../../shared/services/language.service';
-import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import {LanguageService } from '../../../shared/services/language.service';
+import {TranslatePipe } from '@ngx-translate/core';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
   selector: 'app-section2',
-  imports: [RouterLink, TranslatePipe, TranslateDirective],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './section2.component.html',
   styleUrls: ['./section2.component.scss'],
 })
@@ -39,14 +39,12 @@ export class Section2Component {
             if (!section) return;
             gsap.set(cta, { opacity: 0 });
             gsap.set(subtitle, { opacity: 0 });
-            // ✅ هنا التعديل المهم
             const rows = Array.from(section.querySelectorAll('.stat-card')) as HTMLElement[];
             if (!rows.length) {
               console.warn('⚠️ لم يتم العثور على أي stat-card');
               return;
             }
 
-            // تصفير العدادات
             rows.forEach(row => {
               const c = row.querySelector('.counter') as HTMLElement | null;
               if (c) c.textContent = '0';
@@ -64,7 +62,6 @@ export class Section2Component {
               });
             };
 
-            // تجهيز النصوص (SplitText)
             rows.forEach(row => {
               const labelEl = row.querySelector('.label') as HTMLElement | null;
               if (labelEl) {
@@ -74,7 +71,6 @@ export class Section2Component {
               }
             });
 
-            // تجهيز الأرقام
             rows.forEach(row => {
               const numEl = row.querySelector('.num') as HTMLElement | null;
               if (numEl) {
@@ -82,13 +78,12 @@ export class Section2Component {
               }
             });
             ScrollTrigger.create({
-              trigger: triggerEl || section,  // عنصر داخل السكشن
+              trigger: triggerEl || section,  
               start: 'top top',
-              end: '+=400', // يفضل تستخدم قيمة محددة
+              end: '+=400',
               scrub: true, pinType: 'transform',
               pin: true,
               anticipatePin: 1,
-              // markers: true,
               id: 'pinsection',
               onEnter: () => {
                 if (!playedOnce) {
@@ -105,21 +100,15 @@ export class Section2Component {
                   trigger: triggerEl || section,
                   start: '-50% top',
                   end: '+=400',
-                  // scrub: true,
-                  // markers: true,
                 },
               });
-
-              // ✅ الترتيب المطلوب (بالتسلسل)
-              const order = [0, 1, 2, 3]; // [عميل نشط, سنة خبرة, توافر النظام, أسابيع]
-
+              const order = [0, 1, 2, 3];
               order.forEach((index, i) => {
                 const row = rows[index];
                 const labelEl = row.querySelector('.label') as HTMLElement | null;
                 const numEl = row.querySelector('.num') as HTMLElement | null;
                 const counterEl = row.querySelector('.counter') as HTMLElement | null;
                 const labelWords = (labelEl && (labelEl as any)._splitWords) || null;
-
                 const rowTL = gsap.timeline();
                 if (labelWords) {
                   rowTL.to(labelWords, {
@@ -145,13 +134,8 @@ export class Section2Component {
                     0
                   );
                 }
-
-
                 tl.add(rowTL, i === 0 ? '>' : '-=0.8');
               });
-
-              // ✅ الزرار والجملة
-
               if (cta) {
                 gsap.set(cta, { opacity: 0, y: 20 });
                 tl.to(cta, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '+=0.1');

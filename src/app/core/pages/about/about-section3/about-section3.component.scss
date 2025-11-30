@@ -1,71 +1,35 @@
 #AboutSection3 {
     contain: paint;
-    /* يعزل إعادة الرسم ويقلل الجليتش */
     will-change: transform;
-    /* يساعد مع pinType=transform */
 }
 
 html,
 body {
     overscroll-behavior: none;
-    /* يقلل سحب/ارتداد في الموبايل */
 }
 
-
-
-// .solution3About-pill {
-//     display: inline-flex;
-//     padding: 0.6rem 1.5rem;
-//     border-radius: 28px;
-//     position: relative;
-//     font-size: 1rem;
-//     color: white;
-// }
-
-// .solution3About-pill::before {
-//     content: "";
-//     position: absolute;
-//     inset: 0;
-//     border-radius: inherit;
-//     padding: 2px;
-//     background: linear-gradient(90deg, #F2CE2C, #25E9F7);
-//     -webkit-mask:
-//         linear-gradient(#fff 0 0) content-box,
-//         linear-gradient(#fff 0 0);
-//     -webkit-mask-composite: xor;
-//     mask-composite: exclude;
-// }
 .pill-container {
     border-radius: 28px;
     overflow: hidden;
 }
 
 .solution3About-pill {
-    /* البوردر الأصلي بتاع الـ fieldset (لازم يفضل موجود) */
     border: 2px solid transparent;
     border-radius: 28px;
-
-    /* نخلي الكورنر يبان مظبوط مع border-image */
     overflow: hidden;
 
-    /* تدرّج البوردر */
     border-image: linear-gradient(90deg, #F2CE2C, #25E9F7) 1;
 
-    /* الكارت نفسه شفاف */
     background: transparent;
 
     padding: 0.6rem 1.5rem;
     color: #fff;
 }
 
-/* legend = عنوان "رؤيتنا" */
 .solution3About-pill>legend {
     padding: 0 1rem;
     font-size: 1rem;
     font-weight: 700;
-    /* لو عايزها يمين */
-    // float: right;
-    /* أو استخدم text-align في الـ fieldset */
 }
 
 
@@ -74,56 +38,3 @@ body {
     z-index: 1;
     background: transparent;
 }
-
-
-
-
-// .about-vision {
-//     position: relative;
-//     padding: 1.5rem 2.5rem 2rem;
-//     border-radius: 28px;
-//     background: transparent;
-//     /* الكارت نفسه شفاف */
-//     color: #fff;
-// }
-
-// /* حلقة البوردر الجريدينت حوالين الكارت */
-// .about-vision::before {
-//     content: "";
-//     position: absolute;
-//     inset: 0;
-//     padding: 2px;
-//     /* سُمك البوردر */
-//     border-radius: inherit;
-//     background: linear-gradient(90deg, #F2CE2C, #25E9F7);
-
-//     -webkit-mask:
-//         linear-gradient(#fff 0 0) content-box,
-//         linear-gradient(#fff 0 0);
-//     -webkit-mask-composite: xor;
-//     mask-composite: exclude;
-
-//     pointer-events: none;
-// }
-
-// /* عنوان "رؤيتنا" */
-// .about-vision__title {
-//     position: absolute;
-//     top: -0.9rem;
-//     right: 3rem;
-//     font-weight: 700;
-//     font-size: 1rem;
-//     z-index: 0;
-//     line-height: 1;
-//     background: transparent;
-//     /* مفيش خلفية على النص نفسه */
-// }
-
-// /* الباتش اللي بيقطع البوردر تحت الكلمة */
-// .about-vision__title::before {
-//     content: "";
-//     position: absolute;
-//     inset: 11px -18px -3px -17px;
-//     z-index: -4;
-//     background-color: #2475ea;
-// }

@@ -1,209 +1,4 @@
-<!-- @if(!isMobile){
-<div id="AboutSection3" #AboutSection3
-    class="grid grid-cols-12 grid-rows-12 gap-0.5 w-full h-[100vh] relative bg-[var(--primary)] relative">
 
-    <div #DivisionsTrigger class="contents">
-        <div class="contents relative">
-            <div class="scroll-bg-section h-screen  w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
-                [ngStyle]="{ 'background-image': `url('${sections[0]?.bgUrl}')` }">
-            </div>
-
-            <div id="Image-logo"
-                class="absolute scroll-bg-section-text flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
-                <div class="relative">
-                    <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
-                            stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
-                        <defs>
-                            <linearGradient id="paint0_linear_168_211" x1="446.982" y1="104.368" x2="675.373"
-                                y2="104.368" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#FFD41F" />
-                                <stop offset="0.69" stop-color="#65C0B9" />
-                                <stop offset="1" stop-color="#1FFFFF" />
-                            </linearGradient>
-                        </defs>
-                        <foreignObject x="20" y="18" width="636" height="90">
-                            <div xmlns="http://www.w3.org/1999/xhtml"
-                                style="direction: rtl; font-size: 14px; line-height: 1.6; color: white;">
-                                <p style="margin:0;">
-                                    توفير شراكة مستدامة مع عملائنا، وأن نكون شركاء حقيقيين لهم في التقدم والنجاح وتحقيق
-                                    التنمية
-                                    المستدامة لأعمالهم التجارية،
-                                    من خلال توظيف خبراتنا العميقة في البرمجيات وتنفيذ حلول التطبيقات المتكاملة. نحن نؤمن
-                                    أن
-                                    دورنا لا
-                                    ينتهي عند إتمام عملية البيع،
-                                    بل يبدأ منها، لأن نجاح عملائنا بعد التنفيذ هو جوهر مهمتنا، ومقياسنا الحقيقي للإنجاز.
-                                </p>
-                            </div>
-                        </foreignObject>
-                    </svg>
-
-
-                    <span class="text-[var(--secondary)] absolute -top-5 right-8 text-[1.3rem] font-bold">رؤيتنا</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="contents relative">
-            <div class="scroll-bg-section1 h-screen  w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
-                [ngStyle]="{ 'background-image': `url('${sections[1]?.bgUrl}')` }">
-            </div>
-
-            <div id="Image-logo"
-                class="absolute  scroll-bg-section-text1 flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
-                <div class="relative">
-                    <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
-                            stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
-                        <defs>
-                            <linearGradient id="paint0_linear_168_211" x1="446.982" y1="104.368" x2="675.373"
-                                y2="104.368" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#FFD41F" />
-                                <stop offset="0.69" stop-color="#65C0B9" />
-                                <stop offset="1" stop-color="#1FFFFF" />
-                            </linearGradient>
-                        </defs>
-                        <foreignObject x="20" y="18" width="636" height="90">
-                            <div xmlns="http://www.w3.org/1999/xhtml"
-                                style="direction: rtl; font-size: 14px; line-height: 1.6; color: white;">
-                                <p style="margin:0;">
-                                    تمكين شركائنا وعملائنا من التطور والنجاح من خلال تقديم حلول ERP متكاملة تساعدهم في
-                                    سرعة
-                                    اتخاذ
-                                    القرارات لتحقيق النمو والتطور المستمر من خلال ضمان سلاسة العمليات.
-                                </p>
-                            </div>
-                        </foreignObject>
-                    </svg>
-
-
-                    <span class="text-[var(--secondary)] absolute -top-5 right-7 text-[1.3rem] font-bold">مهمتنا</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="contents relative">
-            <div class="scroll-bg-section2 h-screen  w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
-                [ngStyle]="{ 'background-image': `url('${sections[2]?.bgUrl}')` }">
-            </div>
-
-            <div id="Image-logo"
-                class="absolute  scroll-bg-section-text2 flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
-                <div class="relative">
-                    <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
-                            stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
-                        <defs>
-                            <linearGradient id="paint0_linear_168_211" x1="446.982" y1="104.368" x2="675.373"
-                                y2="104.368" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#FFD41F" />
-                                <stop offset="0.69" stop-color="#65C0B9" />
-                                <stop offset="1" stop-color="#1FFFFF" />
-                            </linearGradient>
-                        </defs>
-
-                        <foreignObject x="20" y="18" width="636" height="90">
-                            <div xmlns="http://www.w3.org/1999/xhtml"
-                                style="direction: rtl; font-size: 14px; line-height: 1.6; color: white;">
-                                <p style="margin:0;">
-                                    نؤمن بأن النجاح ينبع من إدارة العمليات بذكاء وفعالية. نحن ملتزمون بتقديم حلول ERP
-                                    ذكية و
-                                    شاملة
-                                    تساعد الشركات على تحقيق أهدافها بكفاءة عالية.
-                                </p>
-                            </div>
-                        </foreignObject>
-                    </svg>
-
-
-                    <span class="text-[var(--secondary)] absolute -top-5 right-7 text-[1.3rem] font-bold">رسالتنا</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="absolute top-51 -right-9">
-        <img src="./About us/Rectangle.svg" alt="blue ball">
-    </div>
-</div>
-}
-@if(isMobile){
-<div id="AboutSection3" #AboutSection3
-    class="grid grid-cols-12 grid-rows-12 gap-0.5 w-full h-[100vh] relative bg-[var(--primary)] relative">
-
-    <div #DivisionsTrigger class="contents">
-        <div class="contents relative">
-            <div class="scroll-bg-section-m h-screen  w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
-                [ngStyle]="{ 'background-image': `url('${mobileBg[0]}')` }">
-            </div>
-
-            <div id="Image-logo"
-                class="absolute scroll-bg-section-text-m flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
-                <div class="relative">
-                    <span class="text-[var(--secondary)] absolute -top-5 right-8 text-[1.3rem] font-bold">رؤيتنا</span>
-                    <p style="margin:0;">
-                        توفير شراكة مستدامة مع عملائنا، وأن نكون شركاء حقيقيين لهم في التقدم والنجاح وتحقيق
-                        التنمية
-                        المستدامة لأعمالهم التجارية،
-                        من خلال توظيف خبراتنا العميقة في البرمجيات وتنفيذ حلول التطبيقات المتكاملة. نحن نؤمن
-                        أن
-                        دورنا لا
-                        ينتهي عند إتمام عملية البيع،
-                        بل يبدأ منها، لأن نجاح عملائنا بعد التنفيذ هو جوهر مهمتنا، ومقياسنا الحقيقي للإنجاز.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="contents relative">
-            <div class="scroll-bg-section1-m h-screen  w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
-                [ngStyle]="{ 'background-image': `url('${mobileBg[1]}')` }">
-            </div>
-
-            <div id="Image-logo"
-                class="absolute  scroll-bg-section-text1-m flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
-                <div class="relative">
-                    <span class="text-[var(--secondary)] absolute -top-5 right-7 text-[1.3rem] font-bold">مهمتنا</span>
-                    <p style="margin:0;">
-                        تمكين شركائنا وعملائنا من التطور والنجاح من خلال تقديم حلول ERP متكاملة تساعدهم
-                        في
-                        سرعة
-                        اتخاذ
-                        القرارات لتحقيق النمو والتطور المستمر من خلال ضمان سلاسة العمليات.
-                    </p>
-
-
-                </div>
-            </div>
-        </div>
-
-        <div class="contents relative">
-            <div class="scroll-bg-section2-m h-screen  w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
-                [ngStyle]="{ 'background-image': `url('${mobileBg[2]}')` }">
-            </div>
-
-            <div id="Image-logo"
-                class="absolute  scroll-bg-section-text2-m flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
-                <div class="relative">
-                    <span class="text-[var(--secondary)] absolute -top-5 right-7 text-[1.3rem] font-bold">رسالتنا</span>
-                    <p style="margin:0;">
-                        نؤمن بأن النجاح ينبع من إدارة العمليات بذكاء وفعالية. نحن ملتزمون بتقديم حلول ERP
-                        ذكية و
-                        شاملة
-                        تساعد الشركات على تحقيق أهدافها بكفاءة عالية.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="absolute top-51 -right-9">
-        <img src="./About us/Rectangle.svg" alt="blue ball">
-    </div>
-</div>
-} -->
 @if(!isMobile){
 <div id="AboutSection3" #AboutSection3
     class="grid grid-cols-12 grid-rows-12 gap-0.5 w-full h-[100vh] relative bg-[var(--primary)]">
@@ -216,32 +11,6 @@
 
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
-                <!-- <div class="relative">
-                    <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
-                            stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
-                        <defs>
-                            <linearGradient id="paint0_linear_168_211" x1="446.982" y1="104.368" x2="675.373"
-                                y2="104.368" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#FFD41F" />
-                                <stop offset="0.69" stop-color="#65C0B9" />
-                                <stop offset="1" stop-color="#1FFFFF" />
-                            </linearGradient>
-                        </defs>
-                        <foreignObject x="20" y="18" width="636" height="90">
-                            <div xmlns="http://www.w3.org/1999/xhtml"
-                                style="font-size: 14px; line-height: 1.6; color: white;">
-                                <p style="margin:0; text-align: start;">
-                                    {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
-                                </p>
-                            </div>
-                        </foreignObject>
-                    </svg>
-                    <span
-                        class="text-[var(--secondary)] absolute -top-5 text-[1.3rem] font-bold rtl:right-8 ltr:left-8 text-start">{{
-                        'ABOUT.SECTION3.VISION.LABEL' | translate }}</span>
-                </div> -->
                 <div class="relative" [dir]="isRtl ? 'rtl' : 'ltr'">
                     <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
 
@@ -254,7 +23,6 @@
                             </linearGradient>
                         </defs>
 
-                        <!-- عربي: الباث الأصلي بالقطع الصغير -->
                         <ng-container *ngIf="isRtl; else enPath">
                             <g>
                                 <path
@@ -263,7 +31,6 @@
                             </g>
                         </ng-container>
 
-                        <!-- إنجليزي: نفس الباث بس موسّعين القطع -->
                         <ng-template #enPath>
                             <g transform="translate(676,0) scale(-1,1)">
                                 <path
@@ -291,34 +58,6 @@
 
             </div>
         </div>
-        <!-- <div class="text-content solution3About-pill flex-col w-full justify-start">
-          <h3
-            style="
-              display: inline-block;
-              position: absolute;
-              top: -18px;
-              z-index: 10;
-              padding: 0px 6px;
-            "
-          class="bg-[rgba(0,140,255,0.8)]">
-{{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}
-          </h3>
-          <p>
-            {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
-          </p>
-        </div> -->
-        <!-- <div class="relative pill-container">
-                        <fieldset class="solution3About-pill">
-                            <legend class="px-4 text-lg font-semibold">
-                                {{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}
-                            </legend>
-                            <p>
-                                {{ 'ABOUT.SECTION3.VISION.TEXT' | translate }}
-                            </p>
-                        </fieldset>
-                    </div> -->
-
-
 
         <div class="contents relative">
             <div class="scroll-bg-section1 h-screen w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
@@ -327,32 +66,6 @@
 
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text1 flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
-                <!-- <div class="relative">
-                    <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
-                            stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
-                        <defs>
-                            <linearGradient id="paint0_linear_168_211" x1="446.982" y1="104.368" x2="675.373"
-                                y2="104.368" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#FFD41F" />
-                                <stop offset="0.69" stop-color="#65C0B9" />
-                                <stop offset="1" stop-color="#1FFFFF" />
-                            </linearGradient>
-                        </defs>
-                        <foreignObject x="20" y="18" width="636" height="90">
-                            <div xmlns="http://www.w3.org/1999/xhtml"
-                                style=" font-size: 14px; line-height: 1.6; color: white;">
-                                <p style="margin:0; text-align: start;">
-                                    {{ 'ABOUT.SECTION3.MISSION.TEXT' | translate }}
-                                </p>
-                            </div>
-                        </foreignObject>
-                    </svg>
-                    <span
-                        class="text-[var(--secondary)] absolute -top-5 text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{
-                        'ABOUT.SECTION3.MISSION.LABEL' | translate }}</span>
-                </div> -->
                 <div class="relative" [dir]="isRtl ? 'rtl' : 'ltr'">
                     <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
 
@@ -365,7 +78,6 @@
                             </linearGradient>
                         </defs>
 
-                        <!-- عربي: الباث الأصلي بالقطع الصغير -->
                         <ng-container *ngIf="isRtl; else enPath">
                             <g>
                                 <path
@@ -374,7 +86,6 @@
                             </g>
                         </ng-container>
 
-                        <!-- إنجليزي: نفس الباث بس موسّعين القطع -->
                         <ng-template #enPath>
                             <g transform="translate(676,0) scale(-1,1)">
                                 <path
@@ -408,32 +119,6 @@
 
             <div id="Image-logo"
                 class="absolute scroll-bg-section-text2 flex col-start-2 row-start-13 row-span-3 col-span-4 justify-center items-center flex-col">
-                <!-- <div class="relative">
-                    <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
-                            stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
-                        <defs>
-                            <linearGradient id="paint0_linear_168_211" x1="446.982" y1="104.368" x2="675.373"
-                                y2="104.368" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#FFD41F" />
-                                <stop offset="0.69" stop-color="#65C0B9" />
-                                <stop offset="1" stop-color="#1FFFFF" />
-                            </linearGradient>
-                        </defs>
-                        <foreignObject x="20" y="18" width="636" height="90">
-                            <div xmlns="http://www.w3.org/1999/xhtml"
-                                style=" font-size: 14px; line-height: 1.6; color: white;">
-                                <p style="margin:0; text-align: start;">
-                                    {{ 'ABOUT.SECTION3.MESSAGE.TEXT' | translate }}
-                                </p>
-                            </div>
-                        </foreignObject>
-                    </svg>
-                    <span
-                        class="text-[var(--secondary)] absolute -top-5 text-[1.3rem] font-bold rtl:right-7 ltr:left-7 text-start">{{
-                        'ABOUT.SECTION3.MESSAGE.LABEL' | translate }}</span>
-                </div> -->
                 <div class="relative" [dir]="isRtl ? 'rtl' : 'ltr'">
                     <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
 
@@ -446,7 +131,6 @@
                             </linearGradient>
                         </defs>
 
-                        <!-- عربي: الباث الأصلي بالقطع الصغير -->
                         <ng-container *ngIf="isRtl; else enPath">
                             <g>
                                 <path
@@ -455,7 +139,6 @@
                             </g>
                         </ng-container>
 
-                        <!-- إنجليزي: نفس الباث بس موسّعين القطع -->
                         <ng-template #enPath>
                             <g transform="translate(676,0) scale(-1,1)">
                                 <path
@@ -554,94 +237,3 @@
     </div>
 </div>
 }
-
-<!-- <div class="flex justify-center items-center flex-col gap-10 w-full h-screen relative bg-red-500"> -->
-<!-- <div class="relative">
-            <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
-                    stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
-                <defs>
-                    <linearGradient id="paint0_linear_168_211" x1="446.982" y1="104.368" x2="675.373" y2="104.368"
-                        gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#FFD41F" />
-                        <stop offset="0.69" stop-color="#65C0B9" />
-                        <stop offset="1" stop-color="#1FFFFF" />
-                    </linearGradient>
-                </defs>
-                <foreignObject x="20" y="18" width="636" height="90">
-                    <div xmlns="http://www.w3.org/1999/xhtml"
-                        style="direction: rtl; font-size: 14px; line-height: 1.6; color: white;">
-                        <p style="margin:0;">
-                            توفير شراكة مستدامة مع عملائنا، وأن نكون شركاء حقيقيين لهم في التقدم والنجاح وتحقيق التنمية
-                            المستدامة لأعمالهم التجارية،
-                            من خلال توظيف خبراتنا العميقة في البرمجيات وتنفيذ حلول التطبيقات المتكاملة. نحن نؤمن أن
-                            دورنا لا
-                            ينتهي عند إتمام عملية البيع،
-                            بل يبدأ منها، لأن نجاح عملائنا بعد التنفيذ هو جوهر مهمتنا، ومقياسنا الحقيقي للإنجاز.
-                        </p>
-                    </div>
-                </foreignObject>
-            </svg>
-
-
-            <span class="text-[var(--secondary)] absolute -top-5 right-8 text-[1.3rem] font-bold">رؤيتنا</span>
-        </div> -->
-<!-- <div class="relative">
-            <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
-                    stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
-                <defs>
-                    <linearGradient id="paint0_linear_168_211" x1="446.982" y1="104.368" x2="675.373" y2="104.368"
-                        gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#FFD41F" />
-                        <stop offset="0.69" stop-color="#65C0B9" />
-                        <stop offset="1" stop-color="#1FFFFF" />
-                    </linearGradient>
-                </defs>
-                <foreignObject x="20" y="18" width="636" height="90">
-                    <div xmlns="http://www.w3.org/1999/xhtml"
-                        style="direction: rtl; font-size: 14px; line-height: 1.6; color: white;">
-                        <p style="margin:0;">
-                            تمكين شركائنا وعملائنا من التطور والنجاح من خلال تقديم حلول ERP متكاملة تساعدهم في سرعة
-                            اتخاذ
-                            القرارات لتحقيق النمو والتطور المستمر من خلال ضمان سلاسة العمليات.
-                        </p>
-                    </div>
-                </foreignObject>
-            </svg>
-
-
-            <span class="text-[var(--secondary)] absolute -top-5 right-7 text-[1.3rem] font-bold">مهمتنا</span>
-        </div> -->
-<!-- <div class="relative">
-            <svg width="676" height="115" viewBox="0 0 676 115" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M652.229 0.5H660.834C668.435 0.5 674.594 6.67258 674.594 14.2902V100.71C674.594 108.327 668.435 114.5 660.834 114.5L14.2605 114.5C6.65928 114.5 0.499997 108.327 0.499997 100.71L0.500037 14.2949C0.500037 6.67722 6.65932 0.504618 14.2605 0.504618H585.26"
-                    stroke="url(#paint0_linear_168_211)" stroke-miterlimit="10" />
-                <defs>
-                    <linearGradient id="paint0_linear_168_211" x1="446.982" y1="104.368" x2="675.373" y2="104.368"
-                        gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#FFD41F" />
-                        <stop offset="0.69" stop-color="#65C0B9" />
-                        <stop offset="1" stop-color="#1FFFFF" />
-                    </linearGradient>
-                </defs>
-
-                <foreignObject x="20" y="18" width="636" height="90">
-                    <div xmlns="http://www.w3.org/1999/xhtml"
-                        style="direction: rtl; font-size: 14px; line-height: 1.6; color: white;">
-                        <p style="margin:0;">
-                            نؤمن بأن النجاح ينبع من إدارة العمليات بذكاء وفعالية. نحن ملتزمون بتقديم حلول ERP ذكية و
-                            شاملة
-                            تساعد الشركات على تحقيق أهدافها بكفاءة عالية.
-                        </p>
-                    </div>
-                </foreignObject>
-            </svg>
-
-
-            <span class="text-[var(--secondary)] absolute -top-5 right-7 text-[1.3rem] font-bold">رسالتنا</span>
-        </div> -->
-<!-- </div> -->

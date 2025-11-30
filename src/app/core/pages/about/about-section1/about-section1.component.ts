@@ -41,12 +41,9 @@ export class AboutSection1Component {
         return;
       }
       requestAnimationFrame(() => {
-        // Split بعد ما المتصفح رسم السطور فعليًا
-        // const split = SplitText.create('#About-Section1-title', { type: "lines", autoSplit: true })
         gsap.set(titleEl, { opacity: 1, visibility: "visible" });
         gsap.set(videoEl, { opacity: 1, visibility: "visible" });
         const tl = gsap.timeline();
-        // tl.from(split.lines, {
         tl.from(titleEl, {
           duration: 1,
           yPercent: 100,

@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-section4',
-  imports: [RouterLink, TranslatePipe, TranslateDirective],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './section4.component.html',
   styleUrl: './section4.component.scss'
 })

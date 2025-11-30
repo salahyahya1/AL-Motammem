@@ -7,7 +7,6 @@
 
 .erp-carousel {
     width: 100%;
-    // padding: 3rem 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -99,11 +98,10 @@
 @media (max-width: 765px) {
     .erp-carousel {
         width: 100%;
-        // padding: 3rem 0;
         display: flex;
         flex-direction: column;
         align-items: center;
-        direction: rtl; // مهم جدًا
+        direction: rtl; 
         position: relative;
 
         .controls {
@@ -153,7 +151,6 @@
             background: transparent;
             border-radius: 12px;
             text-align: right;
-            // padding: 2rem 1.5rem;
             padding: 0 0 0 5px;
             margin-left: 0.7rem;
             width: 102.5%;
@@ -187,7 +184,6 @@
 #btn1,#blogs-bottom{
         opacity: 0;
     visibility: hidden;
-    /* عشان ميعملش flicker لحظة التقسيم */
 }
 
 #hero {

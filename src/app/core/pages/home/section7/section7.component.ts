@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
   selector: 'app-section7',
   templateUrl: './section7.component.html',
   styleUrls: ['./section7.component.scss'],
-  imports: [RouterLink, TranslatePipe, TranslateDirective],
+  imports: [RouterLink, TranslatePipe],
 })
 export class Section7Component {
   items!: number[];
@@ -44,7 +44,6 @@ export class Section7Component {
               start: 'top top',
               end: "150% bottom",
               pin: true,
-              // markers: true,
             },
           });
 
@@ -68,7 +67,6 @@ export class Section7Component {
               opacity: 0,
               visibility: 'hidden',
             });
-            // ✳️ أنيميشن العنوان
             tl.fromTo(
               splitedtext.words,
               { opacity: 0, visibility: 'visible' },
@@ -82,8 +80,6 @@ export class Section7Component {
                 }
               }
             );
-
-            // ✳️ أنيميشن السطر الفرعي
             tl.fromTo(
               splitedSub.words,
               { opacity: 0, visibility: 'visible' },

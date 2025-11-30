@@ -6,17 +6,16 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from "gsap/SplitText";
 gsap.registerPlugin(ScrollTrigger, SplitText);
 import { LanguageService } from '../../../shared/services/language.service';
-import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import {  TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-section8',
-  imports: [RouterLink, TranslatePipe, TranslateDirective],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './section8.component.html',
   styleUrl: './section8.component.scss'
 })
 export class Section8Component {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private appRef: ApplicationRef,
     private ngZone: NgZone,
     private language: LanguageService
 
@@ -33,7 +32,6 @@ export class Section8Component {
         }, 500);
       });
     });
-
   }
   private runGsapAnimation() {
     document.fonts.ready.then(() => {
@@ -46,12 +44,8 @@ export class Section8Component {
         return;
       }
 
-      // const section8TitleSplit = SplitText.create(section8Title, { type: "words" });
-      // const section8DetailsSplit = SplitText.create(section8Details, { type: "words" });
       this.section8TitleSplit = new SplitText(section8Title, { type: "words" });
       this.section8DetailsSplit = new SplitText(section8Details, { type: "words" });
-
-
 
       const tl = gsap.timeline({
         defaults: { ease: 'power3.out' },
@@ -59,7 +53,6 @@ export class Section8Component {
           trigger: '#section8',
           start: '-20% top',
           end: "bottom bottom",
-          // markers: true,
         },
       });
 
@@ -73,7 +66,6 @@ export class Section8Component {
           onStart: () => { gsap.set(section8Title, { opacity: 1, visibility: "visible" }) },
         }
       );
-
 
       tl.fromTo(this.section8DetailsSplit.words,
         { opacity: 0, visibility: "visible" },

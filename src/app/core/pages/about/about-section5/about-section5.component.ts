@@ -81,7 +81,6 @@ export class AboutSection5Component {
         end: "150% bottom",
         pin: true,
         anticipatePin: 1,
-        // markers: true,
         id: 'pinsection',
         animation: tl,
         onEnter: () => {

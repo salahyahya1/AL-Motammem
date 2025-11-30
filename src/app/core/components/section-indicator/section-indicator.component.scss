@@ -4,9 +4,7 @@
 
 .dot.active {
     background: none;
-    /* نشيل لون الخلفية */
     position: relative;
-    /* علشان الأيقونة جوّهها */
 }
 
 .dot.active::after {
@@ -15,7 +13,6 @@
     top: 50%;
     left: 50%;
     width: 40px;
-    /* حجم الأيقونة */
     height: 40px;
     transform: translate(-50%, -50%);
     background-image: url('/images/custom_cursor_fixed.cur');

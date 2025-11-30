@@ -25,8 +25,6 @@ export class ContactUsComponent {
   visibility$ = this.visibilitySubject.asObservable();
   visibilityState: 'visible' | 'invisible' = 'visible';
 
-
-
   menuOpen = false;
   isBrowser: boolean;
 

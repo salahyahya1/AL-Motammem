@@ -3,8 +3,6 @@ import {
   Inject,
   PLATFORM_ID,
   AfterViewInit,
-  ViewChild,
-  ElementRef,
   NgZone,
   ChangeDetectorRef,
 } from '@angular/core';
@@ -85,7 +83,6 @@ export class HomeComponent implements AfterViewInit {
   }
   private observeSections() {
     const sections = gsap.utils.toArray<HTMLElement>('.panel');
-    // this.navTheme.setColor()
     sections.forEach((section) => {
       const bgColor = section.dataset['bgcolor'] || 'var(--white)';
       const textColor = section.dataset['textcolor'] || 'var(--primary)';

@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import {Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild} from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Draggable from "gsap/Draggable";
@@ -77,7 +77,6 @@ export class AboutSection4Component {
             end: "170% bottom",
             pin: true,
             pinType: 'transform',
-            // markers: true,
             id: 'pinsection',
             anticipatePin: 1,
           });
@@ -86,7 +85,6 @@ export class AboutSection4Component {
               trigger: "#AboutSection4",
               start: 'top top',
               end: "150% bottom",
-              // markers: true,
             }
           });
 

@@ -40,37 +40,6 @@ export class Section3Component {
   }
   @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
 
-
-  // features = [
-  //   {
-  //     title: 'حل ERP عربي وانجليزي شامل:',
-  //     text: 'واجهة استخدام عربية وتجربة مخصصة للشركات المحلية، مع توافق كامل مع لوائح الضرائب والعمل والفوترة الإلكترونية.',
-  //   },
-  //   {
-  //     title: 'تشغيل سريع:',
-  //     text: 'ابدأ العمل بالمتمم خلال أسابيع، وليس شهور أو سنوات، لتجني النتائج فورًا.',
-  //   },
-  //   {
-  //     title: 'أسعار شفافة:',
-  //     text: 'خطط واضحة بلا أي رسوم خفية – تعرف بالضبط ما تدفعه.',
-  //   },
-  //   {
-  //     title: 'دعم عربي محلي مع SLAs:',
-  //     text: 'دعم فني محلي سريع في مصر والسعودية بمعايير خدمة مضمونة.',
-  //   },
-  //   {
-  //     title: 'تكاملات جاهزة:',
-  //     text: ' ربط فوري مع أنظمة الدفع، الضرائب، وواجهات الـ APIs لتسهيل العمل.',
-  //   },
-  //   {
-  //     title: 'حماية وأمان بيانات متقدم: ',
-  //     text: ' المتمم يعتمد معايير أمان عالية ويقدم حوكمة بيانات لحماية معلومات شركتك وضمان التوافق مع اللوائح المحلية والدولية.',
-  //   },
-  //   {
-  //     title: 'خطط مرنة تناسب نموك: ',
-  //     text: 'Mini للأفراد والفريلانسرز، Standard للشركات الصغيرة والمتوسطة، وPlus للشركات الكبرى التي تحتاج تخصيصات متقدمة.',
-  //   },
-  // ];
   features = [
     {
       titleKey: 'HOME.SECTION3.FEATURES.FEATURE1.TITLE',
@@ -119,7 +88,6 @@ export class Section3Component {
             end: "150% bottom",
             pin: true,
             pinType: 'transform',
-            // markers: true,
             id: 'pinsection',
             anticipatePin: 1,
             onEnter: () => {
@@ -135,7 +103,6 @@ export class Section3Component {
               trigger: "#section50",
               start: 'top top',
               end: "150% bottom",
-              // markers: true,
             }
           });
           let triggered = false;
@@ -223,50 +190,6 @@ export class Section3Component {
             }, "<+0.5"
           );
 
-          ////////////////////////////////////////////////////////////////////
-          // Swiper.use([Navigation]);
-          // //
-          // const swiper = new Swiper(this.swiperEl.nativeElement, {
-          //   slidesPerView: 3,
-          //   spaceBetween: 30,
-          //   loop: true,
-          //   grabCursor: true,
-          //   centeredSlides: false,
-          //   navigation: {
-          //     nextEl: '#arrowLeft', // لاحظ: عكس الاتجاهات
-          //     prevEl: '#arrowRight',
-          //   },
-          //   breakpoints: {
-          //     0: { slidesPerView: 1 },
-          //     768: { slidesPerView: 2 },
-          //     1024: { slidesPerView: 3 },
-          //   }
-          // });
-
-          // // GSAP دخول الكروت
-          // gsap.from('.swiper-slide', {
-          //   scrollTrigger: {
-          //     trigger: '.erp-carousel',
-          //     start: 'top 85%',
-          //   },
-          //   opacity: 0,
-          //   y: 60,
-          //   duration: 0.7,
-          //   stagger: 0.2,
-          //   ease: 'power3.out',
-          // });
-
-          // // GSAP تأثير التبديل
-          // swiper.on('slideChangeTransitionStart', () => {
-          //   const activeSlide = document.querySelector('.swiper-slide-active .card');
-          //   if (activeSlide) {
-          //     gsap.fromTo(
-          //       activeSlide,
-          //       { scale: 0.9, opacity: 0.7 },
-          //       { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }
-          //     );
-          //   }
-          // });
           Swiper.use([Navigation, Pagination]);
 
           const swiper = new Swiper(this.swiperEl.nativeElement, {
@@ -287,7 +210,6 @@ export class Section3Component {
             },
           });
 
-          // ✅ GSAP دخول الكروت
           gsap.from('.swiper-slide', {
             scrollTrigger: {
               trigger: '.erp-carousel',
@@ -300,7 +222,6 @@ export class Section3Component {
             ease: 'power3.out',
           });
 
-          // ✅ تأثير عند التبديل
           swiper.on('slideChangeTransitionStart', () => {
             const activeSlide = document.querySelector('.swiper-slide-active .card');
             if (activeSlide) {

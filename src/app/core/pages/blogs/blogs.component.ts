@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import {  ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Draggable from "gsap/Draggable";
@@ -50,7 +50,6 @@ export class BlogsComponent {
   }
   @ViewChild('swiperEl2') swiperEl2!: ElementRef<HTMLDivElement>;
 
-  // هنا الكونتنت بتاع الكاروسول
   articles: KnowledgeArticle[] = [
     {
       id: 1,
@@ -101,7 +100,6 @@ export class BlogsComponent {
                             end: "150% bottom",
                             pin: true,
                             pinType: 'transform',
-                            // markers: true,
                             id: 'pinsection',
                             anticipatePin: 1,
                         });
@@ -117,9 +115,6 @@ export class BlogsComponent {
                         const tl = gsap.timeline({
                             defaults: { ease: "power3.out" }, scrollTrigger: {
                                 trigger: "#knowledge-center",
-                                // start: 'top top',
-                                // end: "150% bottom",
-                                // markers: true,
                             }
                         });
 

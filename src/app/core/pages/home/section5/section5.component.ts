@@ -35,18 +35,16 @@ export class Section5Component {
     if (!isPlatformBrowser(this.platformId)) return;
     gsap.set("#section100", { opacity: 0, visibility: "hidden" });
   }
-  //second animation text apper and the celnder drawed
+
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;
     if (!isPlatformBrowser(this.platformId)) return;
 
     this.resizeHandler = () => {
-      // نفذ التغيير داخل Angular zone
       this.ngZone.run(() => {
         const next = window.innerWidth < 700;
         if (next !== this.isMobile) {
           this.isMobile = next;
-          // بلّغ أن فيه تغيير بعد حدث خارج دورة الفحص
           this.cdr.detectChanges();
         }
       });
@@ -63,13 +61,10 @@ export class Section5Component {
               end: "100% bottom",
               pin: true,
               anticipatePin: 1,
-              // markers: true
             }
           });
-          // let triggered = false;
           tl.to("#Text5", { opacity: 1, y: 0, duration: 0.6, ease: 'power2.inOut' });
-          // triggered = false;
-          /////////////////////////////////////////////////////////
+
           const path = document.querySelector(".capsule-path") as SVGPathElement;
           const length = path.getTotalLength();
           gsap.set("#image-container", { opacity: 0, visibility: "hidden" });
@@ -79,9 +74,7 @@ export class Section5Component {
 
           let imagesShown = false;
           let flipStarted = false;
-          ///////////////////
 
-          // التحريك الفعلي
           tl.to(path, {
             opacity: 1,
             visibility: "visible",
@@ -90,9 +83,8 @@ export class Section5Component {
             ease: "power2.inOut",
             onUpdate: () => {
               const currentOffset = gsap.getProperty(path, "strokeDashoffset") as number;
-              const progress = 1 - currentOffset / length; // 0 → 1 = نسبة الرسم
+              const progress = 1 - currentOffset / length; 
 
-              // ✅ عند 50% أظهر الصور
               if (progress >= 0.5 && !imagesShown) {
                 imagesShown = true;
                 gsap.to(container, {
@@ -103,7 +95,6 @@ export class Section5Component {
                 });
               }
 
-              // ✅ عند 100% ابدأ التبديل
               if (progress >= 1 && !flipStarted) {
                 flipStarted = true;
                 this.startImageFlip(container);
@@ -113,35 +104,6 @@ export class Section5Component {
               gsap.fromTo("#section100", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.5 });
             }
           });
-          //       gsap.set("#image-container", { opacity: 0, visibility: "hidden" });
-          //         const path = document.querySelector(".capsule-path") as SVGPathElement;
-          //         if (!path) return; // تأكيد إن العنصر موجود
-          //         const length = path.getTotalLength();
-          //         // tl.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
-          //         tl.fromTo(path,{
-          //  strokeDasharray: length, strokeDashoffset: length, opacity: 0 ,  visibility: "hidden" 
-          //         }, { opacity: 1, 
-          //           strokeDashoffset: 0,
-          //           duration: 2,
-          //            visibility: "visible" ,
-          //           ease: "power2.inOut",
-          //           onUpdate: () => {
-          //             const progress = tl.progress();
-          //             const container = document.querySelector("#image-container") as HTMLElement;
-          //             if (progress >= 0.5 && !triggered) {
-          //               triggered = true;
-          //               if (!container) return;
-          //               gsap.fromTo(container, { opacity: 0,visibility: 'hidden'}, { opacity: 1, visibility: "visible", duration: 0.5 });
-          //             }
-          //             if (progress >= 1) {
-          //               triggered = true;
-          //               if (!container) return;
-          //               this.startImageFlip(container);
-          //             }
-          //           }
-          //         });
-
-          /////////////////////////////////////////////////////////
         }, 500);
       });
     });
@@ -230,7 +192,6 @@ export class Section5Component {
     return 'https://www.youtube.com/embed/inlofWRsKxU?autoplay=1&controls=1';
   }
   ngOnDestroy() {
-    // ✅ شيل الـ listener لما الكومبوننت يتدمّر
     if (this.resizeHandler) {
       window.removeEventListener('resize', this.resizeHandler);
     }

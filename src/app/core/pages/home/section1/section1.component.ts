@@ -41,13 +41,10 @@ export class Section1Component implements OnDestroy {
     private ngZone: NgZone,
     private translate: TranslateService,
   ) {
-    // كل ما اللغة تتغير → حدّث النصوص + أعد الأنيميشن
     this.translate.onLangChange
       .pipe(takeUntil(this.destroy$))
       .subscribe((e: LangChangeEvent) => {
-        // console.log('Lang changed to:', e.lang);
         this.revertSplits();
-        // نسيب Angular/DOM يلتقطوا نفسهم
         setTimeout(() => {
           this.runGsapAnimation();
         }, 0);
@@ -96,11 +93,8 @@ export class Section1Component implements OnDestroy {
 
     document.fonts.ready.then(() => {
       gsap.set('#hero', { willChange: 'transform, opacity' });
-
-      // 1️⃣ رجّع الـ DOM لحالة بدون SplitText
       this.revertSplits();
 
-      // 2️⃣ حدّث النصوص حسب اللغة الحالية
       this.setHeroTexts();
 
       const heroTitle = document.querySelector('h1#hero-title') as HTMLElement;
@@ -113,8 +107,6 @@ export class Section1Component implements OnDestroy {
         console.warn('⚠️ عناصر الـ hero مش لاقيها SplitText');
         return;
       }
-
-      // 3️⃣ SplitText على النص الحالي (بعد الترجمة)
       this.heroTitleSplit = new SplitText(heroTitle, { type: 'words' });
       this.heroSubtitleSplit = new SplitText(heroSubtitle, { type: 'words' });
       this.heroDetailsSplit = new SplitText(heroDetails, { type: 'words' });

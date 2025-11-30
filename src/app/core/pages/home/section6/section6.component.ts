@@ -56,15 +56,9 @@ export class Section6Component {
           start: 'top top',
           end: "150% bottom",
           pin: true,
-          // markers: false,
-          // pinSpacing: false, // يمنع المسافة الإضافية
-          // scroller: "#smooth-content",
         }
       });
 
-
-
-      // 2️⃣ النص الرئيسي
       tl.fromTo(
         titleSplit.words,
         { opacity: 0, visibility: 'visible' },
@@ -78,7 +72,6 @@ export class Section6Component {
         }
       );
 
-      // 3️⃣ السطر الفرعي
       tl.fromTo(
         subtitleSplit.words,
         { opacity: 0, visibility: 'visible' },
@@ -91,14 +84,12 @@ export class Section6Component {
           onStart: () => { gsap.set(subtitle, { opacity: 1, visibility: 'visible' }) },
         }
       );
-      // 1️⃣ ظهور الأيقونات مرة واحدة
       tl.fromTo(
         logos,
         { opacity: 0 },
         { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '>'
       );
 
-      // 4️⃣ الوصف السفلي
       tl.fromTo(
         descSplit.words,
         { opacity: 0, visibility: 'visible' },

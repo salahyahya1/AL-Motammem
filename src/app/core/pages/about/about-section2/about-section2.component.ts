@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Component, Inject, NgZone, OnDestroy, PLATFORM_ID, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from "gsap/SplitText";
@@ -17,7 +17,6 @@ export class AboutSection2Component {
   @ViewChild(AnimatedSequenceComponent) seq!: AnimatedSequenceComponent;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private appRef: ApplicationRef,
     private ngZone: NgZone,
     private language:LanguageService,
   ) { }
@@ -101,7 +100,6 @@ export class AboutSection2Component {
         end: "150% bottom",
         pin: true,
         anticipatePin: 1,
-        // markers: true,
         id: 'pinsection',
         animation: tl,
         onEnter: () => {
@@ -110,15 +108,9 @@ export class AboutSection2Component {
           if (!playedOnce) {
             playedOnce = true;
             video.currentTime = 0;
-            // video.play().catch(() => console.warn('Autoplay prevented'));
             video?.play();
           }
         },
-        // onLeave: () => {
-        //   gsap.to(section, { backgroundColor: "white", duration: 0.5, ease: "sine.out" });
-        //   gsap.to(video, { opacity: "0", duration: 0.5, ease: "sine.out" });
-
-        // }
       })
 
       this.timeline = tl
