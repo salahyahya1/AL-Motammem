@@ -83,7 +83,7 @@ export class Section5Component {
             ease: "power2.inOut",
             onUpdate: () => {
               const currentOffset = gsap.getProperty(path, "strokeDashoffset") as number;
-              const progress = 1 - currentOffset / length; 
+              const progress = 1 - currentOffset / length;
 
               if (progress >= 0.5 && !imagesShown) {
                 imagesShown = true;
@@ -112,21 +112,21 @@ export class Section5Component {
     const slots = Array.from(container.querySelectorAll(".slot")) as HTMLElement[];
 
     const allSources = [
-      "/images/logos/1.png",
-      "/images/logos/2.png",
-      "/images/logos/3.png",
-      "/images/logos/4.png",
-      "/images/logos/5.png",
-      "/images/logos/6.png",
-      "/images/logos/7.png",
-      "/images/logos/8.png",
-      "/images/logos/9.png",
-      "/images/logos/10.png",
-      "/images/logos/11.png",
-      "/images/logos/12.png",
-      "/images/logos/13.png",
-      "/images/logos/14.png",
-      "/images/logos/15.png"
+      "/images/logos/1.webp",
+      "/images/logos/2.webp",
+      "/images/logos/3.webp",
+      "/images/logos/4.webp",
+      "/images/logos/5.webp",
+      "/images/logos/6.webp",
+      "/images/logos/7.webp",
+      "/images/logos/8.webp",
+      "/images/logos/9.webp",
+      "/images/logos/10.webp",
+      "/images/logos/11.webp",
+      "/images/logos/12.webp",
+      "/images/logos/13.webp",
+      "/images/logos/14.webp",
+      "/images/logos/15.webp"
     ];
     const slotImages: Map<HTMLElement, string[]> = new Map();
 

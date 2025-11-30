@@ -18,7 +18,13 @@ export const routes: Routes = [
                         image: '/assets/og/home.webp',
                         canonical: 'https://example.com/'
                     }
-                }
+                },
+                children: [
+                    {
+                        path: 'hero',
+                        loadComponent: () => import('./core/pages/home/section1/section1.component').then(m => m.Section1Component)
+                    }
+                ]
             },
             {
                 path: 'about',
