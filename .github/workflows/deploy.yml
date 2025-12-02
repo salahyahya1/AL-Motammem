@@ -31,5 +31,5 @@ jobs:
           username: ${{ secrets.FTP_USER }}      # MOTDEV
           password: ${{ secrets.FTP_PASS }}      # الباسورد اللي ضفته
           port: ${{ secrets.FTP_PORT }}          # 21
-          local-dir: dist/al-motammem            # فولدر الـ build في الريبو
+          local-dir: dist/al-motammem/           # فولدر الـ build في الريبو
           server-dir: ${{ secrets.FTP_REMOTE_PATH }}  # /dist/al-motammem/
