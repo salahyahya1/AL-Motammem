@@ -8,7 +8,6 @@ import SplitText from 'gsap/SplitText';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 @Component({
   selector: 'app-solutions-section3',
-  imports: [RouterLink],
   templateUrl: './solutions-section3.component.html',
   styleUrl: './solutions-section3.component.scss'
 })

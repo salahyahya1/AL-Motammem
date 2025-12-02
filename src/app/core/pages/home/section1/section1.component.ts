@@ -1,22 +1,21 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
-  ApplicationRef,
   Component,
+  ElementRef,
   Inject,
   NgZone,
   OnDestroy,
   PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
-import SplitText from 'gsap/SplitText';
+
 import { AnimatedSequenceComponent } from '../../../shared/animated-sequence/animated-sequence.component';
 import { RouterLink } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
+import { AnimationLoaderService } from '../../../shared/services/animation-loader.service';
 
-gsap.registerPlugin(ScrollTrigger, SplitText);
+
 
 @Component({
   selector: 'app-section1',
@@ -27,9 +26,10 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 })
 export class Section1Component implements OnDestroy {
   @ViewChild(AnimatedSequenceComponent) seq!: AnimatedSequenceComponent;
+@ViewChild('heroVideo') heroVideo?: ElementRef<HTMLVideoElement>;
 
   private destroy$ = new Subject<void>();
-
+isSequenceReady: boolean = false;
   timeline!: gsap.core.Timeline;
   heroTitleSplit: any;
   heroSubtitleSplit: any;
@@ -37,9 +37,9 @@ export class Section1Component implements OnDestroy {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private appRef: ApplicationRef,
     private ngZone: NgZone,
     private translate: TranslateService,
+        private animationLoader: AnimationLoaderService,
   ) {
     this.translate.onLangChange
       .pipe(takeUntil(this.destroy$))
@@ -54,9 +54,10 @@ export class Section1Component implements OnDestroy {
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;
     if (!isPlatformBrowser(this.platformId)) return;
-
+  requestIdleCallback(() => this.isSequenceReady = true);
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
+     this.waitForLCPThenInit();
         this.runGsapAnimation();
       }, 500);
     });
@@ -89,9 +90,13 @@ export class Section1Component implements OnDestroy {
   private runGsapAnimation() {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    this.seq?.playForwardAnimation?.();
+    // this.seq?.playForwardAnimation?.();
 
-    document.fonts.ready.then(() => {
+    (document as any).fonts.ready.then(async () => {
+            const loaded = await this.animationLoader.loadGsapWithSplitText();
+      if (!loaded) return;
+
+      const { gsap, SplitText } = loaded;
       gsap.set('#hero', { willChange: 'transform, opacity' });
       this.revertSplits();
 
@@ -173,6 +178,19 @@ export class Section1Component implements OnDestroy {
 
       this.timeline = tl;
     });
+
+    if (this.heroVideo && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        const v = this.heroVideo!.nativeElement;
+        v.src = '/videos/gradient.webm';
+        v.play().catch(() => {});
+        io.disconnect();
+      }
+    }, { threshold: 0.2 });
+
+    io.observe(this.heroVideo.nativeElement);
+  }
   }
 
   private revertSplits() {
@@ -183,6 +201,58 @@ export class Section1Component implements OnDestroy {
     this.heroSubtitleSplit = null;
     this.heroDetailsSplit = null;
   }
+
+  
+private waitForLCPThenInit() {
+  if (typeof window === 'undefined') return;
+
+  // إذا PerformanceObserver متاح، استمع للـ LCP
+  const win: any = window;
+  if ('PerformanceObserver' in window) {
+    const po = new PerformanceObserver((entryList) => {
+      const entries = entryList.getEntries();
+      const lcpEntry = entries[entries.length - 1];
+      if (lcpEntry) {
+        // بعد ما الLCP اتسجل، خلي الـ sequence يتشغل في الخلفية
+        this.initAnimatedSequenceAfterIdle();
+        po.disconnect();
+      }
+    });
+    try {
+      po.observe({ type: 'largest-contentful-paint', buffered: true });
+      // safety timeout: لو ما حصلش LCP خلال 5s خلّيه يبدأ
+      setTimeout(() => {
+        try { po.disconnect(); } catch (e) {}
+        // this.initAnimatedSequenceAfterIdle();
+      }, 5000);
+    } catch (e) {
+      // fallback
+      this.initAnimatedSequenceAfterIdle();
+    }
+  } else {
+    // no PerformanceObserver -> fallback
+    // setTimeout(() => this.initAnimatedSequenceAfterIdle(), 2000);
+  }
+}
+
+private initAnimatedSequenceAfterIdle() {
+  // نخرج من Angular zone علشان ما يسببش change detection ثقيلاً
+  this.ngZone.runOutsideAngular(() => {
+    // requestIdleCallback أفضل لو متوفر
+    const run = () => {
+      // show sequence and start it
+      const seqEl = document.getElementById('hero-seq');
+      if (seqEl) seqEl.classList.remove('hidden');
+      try { this.seq?.playForwardAnimation?.(); } catch (e) {}
+    };
+
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(run, { timeout: 2000 });
+    } else {
+      setTimeout(run, 700);
+    }
+  });
+}
 
   ngOnDestroy(): void {
     this.destroy$.next();

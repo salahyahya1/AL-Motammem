@@ -7,10 +7,10 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from "gsap/SplitText";
 gsap.registerPlugin(ScrollTrigger, SplitText);
 import { LanguageService } from '../../../shared/services/language.service';
-import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-section5',
-  imports: [TranslatePipe, TranslateDirective],
+  imports: [TranslatePipe],
   templateUrl: './section5.component.html',
   styleUrl: './section5.component.scss'
 })
