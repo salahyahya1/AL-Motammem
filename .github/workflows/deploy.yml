@@ -1,0 +1,35 @@
+name: 🚀 FTP Deploy - Al Motammem
+
+on:
+  push:
+    branches: [ "main" ]   # أي push على main هيعمل deploy
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Angular app
+        run: npm run build
+
+      # هنا بيرفع الـ build على السيرفر عن طريق FTP
+      - name: Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ secrets.FTP_HOST }}        # 91.229.118.182
+          username: ${{ secrets.FTP_USER }}      # MOTDEV
+          password: ${{ secrets.FTP_PASS }}      # الباسورد اللي ضفته
+          port: ${{ secrets.FTP_PORT }}          # 21
+          local-dir: dist/al-motammem            # فولدر الـ build في الريبو
+          server-dir: ${{ secrets.FTP_REMOTE_PATH }}  # /dist/al-motammem/
