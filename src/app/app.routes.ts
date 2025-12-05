@@ -19,12 +19,12 @@ export const routes: Routes = [
                         canonical: 'https://example.com/'
                     }
                 },
-                children: [
-                    {
-                        path: 'hero',
-                        loadComponent: () => import('./core/pages/home/section1/section1.component').then(m => m.Section1Component)
-                    }
-                ]
+                // children: [
+                //     {
+                //         path: 'hero',
+                //         loadComponent: () => import('./core/pages/home/section1/section1.component').then(m => m.Section1Component)
+                //     }
+                // ]
             },
             {
                 path: 'about',

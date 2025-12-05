@@ -120,16 +120,18 @@ export class Section3Component {
               duration: 1,
               ease: "power2.inOut"
             });
-          gsap.set("#section50-TITLE", { perspective: 800 });
+          gsap.set("#section50-TITLE", { perspective: 800,visibility: "visible",opacity:1 });
 
           tl.fromTo(section50TITLESplit.words,
             {
               opacity: 0,
+visibility: "visible",
               rotateY: gsap.utils.random(-80, 80),
               filter: "blur(6px)"
             },
             {
               opacity: 1,
+visibility: "visible",
               rotateY: 0,
               y: 0,
               filter: "blur(0px)",

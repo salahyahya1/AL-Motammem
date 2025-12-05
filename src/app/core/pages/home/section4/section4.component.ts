@@ -47,6 +47,7 @@ export class Section4Component {
 
         tl.to(".card", {
           opacity: 1,
+          visibility: "visible",
           x: 0,
           duration: 0.8,
           stagger: 0.20,

@@ -9,7 +9,6 @@ import {
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import ScrollSmoother from 'gsap/ScrollSmoother';
 import { Section1Component } from './section1/section1.component';
 import { Section2Component } from './section2/section2.component';
 import { Section4Component } from './section4/section4.component';
@@ -20,9 +19,8 @@ import { Section8Component } from "./section8/section8.component";
 import { BehaviorSubject } from 'rxjs';
 import { Section3Component } from "./section3/section3.component";
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
-import ScrollToPlugin from 'gsap/ScrollToPlugin';
 import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
 
 @Component({

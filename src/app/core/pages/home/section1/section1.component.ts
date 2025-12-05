@@ -54,13 +54,24 @@ isSequenceReady: boolean = false;
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;
     if (!isPlatformBrowser(this.platformId)) return;
-  requestIdleCallback(() => this.isSequenceReady = true);
-    this.ngZone.runOutsideAngular(() => {
-      setTimeout(() => {
-     this.waitForLCPThenInit();
-        this.runGsapAnimation();
-      }, 500);
+  // requestIdleCallback(() => this.isSequenceReady = true);
+  requestIdleCallback(() => {
+  this.ngZone.run(() => {
+    this.isSequenceReady = true;
+  });
+});
+ this.ngZone.runOutsideAngular(() => {
+    requestIdleCallback(() => {
+      this.waitForLCPThenInit();   // يشغّل الـ sprite في الخلفية لما نسمح
+      this.runGsapAnimation();     // SplitText + timeline
     });
+  });
+    // this.ngZone.runOutsideAngular(() => {
+    //   setTimeout(() => {
+    //  this.waitForLCPThenInit();
+    //     this.runGsapAnimation();
+    //   }, 500);
+    // });
   }
 
   private setHeroTexts() {
