@@ -5,14 +5,14 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from "gsap/SplitText";
 
 import { LanguageService } from '../../../shared/services/language.service';
-import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
   selector: 'app-section6',
   templateUrl: './section6.component.html',
   styleUrls: ['./section6.component.scss'],
-  imports: [TranslatePipe, TranslateDirective],
+  imports: [TranslatePipe],
 })
 export class Section6Component {
   constructor(

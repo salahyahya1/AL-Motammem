@@ -15,7 +15,7 @@ import 'swiper/css/pagination';
 import { TranslatePipe } from '@ngx-translate/core';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
-interface Sector {
+interface course {
   titleKey: string;
   textKey: string;
 }
@@ -38,7 +38,7 @@ export class SolutionsSection2Component {
   ) {
   }
   @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
-  sectors: Sector[] = [
+  courses: course[] = [
     {
       titleKey: 'SOLUTIONS.COURSES.FINANCE.TITLE',
       textKey: 'SOLUTIONS.COURSES.FINANCE.DESC',

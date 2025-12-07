@@ -8,7 +8,7 @@ import InertiaPlugin from "gsap/InertiaPlugin";
 import SplitText from "gsap/SplitText";
 
 import Swiper from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -93,7 +93,6 @@ export class SolutionsSection5Component {
                             trigger: '#solutionsSection5',
                             start: 'top top',
                             end: "150% bottom",
-                            pin: true,
                             pinType: 'transform',
                             // markers: true,
                             id: 'pinsection',
@@ -130,6 +129,7 @@ export class SolutionsSection5Component {
                             this.swiperInstance = null;
                         }
                         this.swiperInstance = new Swiper(this.swiperEl.nativeElement, {
+                            modules: [Navigation, Autoplay],
                             direction: 'vertical',
                             slidesPerView: 1,
                             slidesPerGroup: 1,

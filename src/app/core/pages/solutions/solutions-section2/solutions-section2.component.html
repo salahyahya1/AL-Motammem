@@ -46,11 +46,11 @@
 
         <div #swiperEl class="swiper" dir="rtl">
             <div class="swiper-wrapper ps-[1.18rem]">
-                <div class="swiper-slide" *ngFor="let s of sectors">
+                <div class="swiper-slide" *ngFor="let c of courses">
                     <div class="card">
                         <div class="text-content">
-                            <h3>{{ s.titleKey |translate }}</h3>
-                            <p>{{ s.textKey|translate }}</p>
+                            <h3>{{ c.titleKey |translate }}</h3>
+                            <p>{{ c.textKey|translate }}</p>
                         </div>
                     </div>
                     <P class="separator"></P>

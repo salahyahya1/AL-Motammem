@@ -31,7 +31,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section3Component, RouterLink, NavbarComponent, SectionIndicatorComponent],
+  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section3Component],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
