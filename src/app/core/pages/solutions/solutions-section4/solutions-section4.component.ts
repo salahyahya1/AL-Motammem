@@ -14,7 +14,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
-
+import { RemiveRoleAriaService } from '../../../shared/services/removeRoleAria';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
@@ -30,7 +30,8 @@ export class SolutionsSection4Component {
     constructor(
         @Inject(PLATFORM_ID) private pid: Object,
         private ngZone: NgZone,
-        private language: LanguageService
+        private language: LanguageService,
+                private RemiveRoleAriaService: RemiveRoleAriaService,
     ) { }
 
     ngAfterViewInit() {
@@ -45,6 +46,9 @@ export class SolutionsSection4Component {
                     const solutionsSection4Details = document.querySelector('#solutionsSection4-Detailes') as HTMLElement;
                     this.solutionsSection4DetailsSplit = new SplitText(solutionsSection4Details, { type: "words" });
                     const solutionsSection4TITLESplit = SplitText.create(solutionsSection4TITLE, { type: "words" });
+
+                    this.RemiveRoleAriaService.cleanA11y(solutionsSection4TITLE, solutionsSection4TITLESplit);
+                    this.RemiveRoleAriaService.cleanA11y(solutionsSection4Details, this.solutionsSection4DetailsSplit);
                     ScrollTrigger.create({
                         trigger: '#solutionsSection4',
                         start: 'top top',

@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from 'gsap/SplitText';
-
+import { RemiveRoleAriaService } from '../../../shared/services/removeRoleAria';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 @Component({
   selector: 'app-solutions-section3',
@@ -16,7 +16,8 @@ export class SolutionsSection3Component {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+            private RemiveRoleAriaService: RemiveRoleAriaService,
   ) { }
 
   ngAfterViewInit() {
@@ -50,6 +51,8 @@ export class SolutionsSection3Component {
 
             const splitedtext = SplitText.create(sectionHead, { type: 'words' });
             const splitedSub = SplitText.create(sectionSub, { type: 'words' });
+            this.RemiveRoleAriaService.cleanA11y(sectionHead, splitedtext);
+            this.RemiveRoleAriaService.cleanA11y(sectionSub, splitedSub);
             const addTextAnimation = (tl: gsap.core.Timeline) => {
               // ✳️ أنيميشن العنوان
               tl.fromTo(

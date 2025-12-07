@@ -33,7 +33,7 @@ export class AnimatedSequenceComponent implements OnInit, AfterViewInit, OnDestr
   @Input() imageUrl: string = '';
   @Input() spriteWidth: number = 3302;
   @Input() spriteHeight: number = 4834;
-  currentImageUrl: string = '/website materials/products images/use this/ezgif-2d2d592b3c242f.png';
+  currentImageUrl: string = '/images/SS_final_q90.webp';
   showText = 0
   lastfram!: number
 
@@ -104,7 +104,7 @@ ngAfterViewInit(): void {
     this.renderer.setStyle(container, 'opacity', '1');
 
     // 🌀 شغّل الأنيميشن أول ما تتحمل الصورة
-    this.playForwardAnimation();
+    // this.playForwardAnimation();
   });
 
   // 🧠 في حالة الصورة متخزنة بالكاش أصلاً (onload مش هيتنادى)
