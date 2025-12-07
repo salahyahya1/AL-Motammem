@@ -7,11 +7,7 @@ import InertiaPlugin from "gsap/InertiaPlugin";
 
 import SplitText from "gsap/SplitText";
 
-import Swiper from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
 import { RemiveRoleAriaService } from '../../../shared/services/removeRoleAria';
@@ -31,7 +27,7 @@ export class SolutionsSection4Component {
         @Inject(PLATFORM_ID) private pid: Object,
         private ngZone: NgZone,
         private language: LanguageService,
-                private RemiveRoleAriaService: RemiveRoleAriaService,
+        private RemiveRoleAriaService: RemiveRoleAriaService,
     ) { }
 
     ngAfterViewInit() {

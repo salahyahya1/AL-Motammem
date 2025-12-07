@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import {  ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Draggable from "gsap/Draggable";
@@ -9,9 +9,7 @@ import SplitText from "gsap/SplitText";
 
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+
 import { TranslatePipe } from '@ngx-translate/core';
 import { RouterLink } from '@angular/router';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
@@ -94,54 +92,54 @@ export class BlogsComponent {
 
 
 
-                       ScrollTrigger.create({
-                            trigger: '#knowledge-center',
-                            start: 'top top',
-                            end: "150% bottom",
-                            pin: true,
-                            pinType: 'transform',
-                            id: 'pinsection',
-                            anticipatePin: 1,
-                        });
+          ScrollTrigger.create({
+            trigger: '#knowledge-center',
+            start: 'top top',
+            end: "150% bottom",
+            pin: true,
+            pinType: 'transform',
+            id: 'pinsection',
+            anticipatePin: 1,
+          });
 
-    const BlogsTitle = document.querySelector('#title') as HTMLElement | null;
-    const BlogsSubtitle = document.querySelector('#Desc') as HTMLElement | null;
-      if (!BlogsTitle || !BlogsSubtitle ) {
-        console.warn('⚠️ عناصر الـ hero مش لاقيها SplitText');
-        return;
-      }
-      this.BlogsTitleSplit = new SplitText(BlogsTitle, { type: 'words' });
-      this.BlogsSubtitleSplit = new SplitText(BlogsSubtitle, { type: 'words' });
-                        const tl = gsap.timeline({
-                            defaults: { ease: "power3.out" }, scrollTrigger: {
-                                trigger: "#knowledge-center",
-                            }
-                        });
+          const BlogsTitle = document.querySelector('#title') as HTMLElement | null;
+          const BlogsSubtitle = document.querySelector('#Desc') as HTMLElement | null;
+          if (!BlogsTitle || !BlogsSubtitle) {
+            console.warn('⚠️ عناصر الـ hero مش لاقيها SplitText');
+            return;
+          }
+          this.BlogsTitleSplit = new SplitText(BlogsTitle, { type: 'words' });
+          this.BlogsSubtitleSplit = new SplitText(BlogsSubtitle, { type: 'words' });
+          const tl = gsap.timeline({
+            defaults: { ease: "power3.out" }, scrollTrigger: {
+              trigger: "#knowledge-center",
+            }
+          });
 
 
 
-                        tl.fromTo(this.BlogsTitleSplit.words,
-                            { opacity: 0, visibility: "visible" },
-                            {
-                                opacity: 1,
-                                duration: 0.4,
-                                ease: "sine.out",
-                                stagger: 0.02,
-                                onStart: () => { gsap.set(BlogsTitle, { opacity: 1, visibility: "visible" }) },
-                            }
-                        );
-                        tl.fromTo(this.BlogsSubtitleSplit.words,
-                            { opacity: 0, visibility: "visible" },
-                            {
-                                opacity: 1,
-                                duration: 0.4,
-                                ease: "sine.out",
-                                stagger: 0.02,
-                                onStart: () => { gsap.set(BlogsSubtitle, { opacity: 1, visibility: "visible" }) },
-                            }
-                        );
-                        tl.fromTo("#btn1", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
-                        tl.fromTo("#blogs-bottom", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
+          tl.fromTo(this.BlogsTitleSplit.words,
+            { opacity: 0, visibility: "visible" },
+            {
+              opacity: 1,
+              duration: 0.4,
+              ease: "sine.out",
+              stagger: 0.02,
+              onStart: () => { gsap.set(BlogsTitle, { opacity: 1, visibility: "visible" }) },
+            }
+          );
+          tl.fromTo(this.BlogsSubtitleSplit.words,
+            { opacity: 0, visibility: "visible" },
+            {
+              opacity: 1,
+              duration: 0.4,
+              ease: "sine.out",
+              stagger: 0.02,
+              onStart: () => { gsap.set(BlogsSubtitle, { opacity: 1, visibility: "visible" }) },
+            }
+          );
+          tl.fromTo("#btn1", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
+          tl.fromTo("#blogs-bottom", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
 
           this.navTheme.setColor('var(--primary)');
           Swiper.use([Navigation, Pagination]);

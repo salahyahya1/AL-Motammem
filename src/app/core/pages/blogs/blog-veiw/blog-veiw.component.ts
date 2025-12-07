@@ -7,9 +7,7 @@ import InertiaPlugin from "gsap/InertiaPlugin";
 
 import SplitText from "gsap/SplitText";
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+
 import { RouterLink } from '@angular/router';
 import { NavbarThemeService } from '../../../components/navbar/navbar-theme.service';
 import { SectionsRegistryService } from '../../../shared/services/sections-registry.service';
@@ -37,7 +35,6 @@ export class BlogVeiwComponent {
     private sectionsRegistry: SectionsRegistryService
   ) {
   }
-  @ViewChild('swiperEl2') swiperEl2!: ElementRef<HTMLDivElement>;
 
 
 

@@ -8,10 +8,8 @@ import InertiaPlugin from "gsap/InertiaPlugin";
 import SplitText from "gsap/SplitText";
 
 import Swiper from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
 
@@ -130,6 +128,7 @@ export class SolutionsSection5Component {
                             this.swiperInstance = null;
                         }
                         this.swiperInstance = new Swiper(this.swiperEl.nativeElement, {
+                            modules: [Navigation, Pagination, Autoplay],
                             direction: 'vertical',
                             slidesPerView: 1,
                             slidesPerGroup: 1,

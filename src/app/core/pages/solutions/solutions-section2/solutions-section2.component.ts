@@ -9,9 +9,7 @@ import SplitText from "gsap/SplitText";
 
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+
 import { TranslatePipe } from '@ngx-translate/core';
 import { RemiveRoleAriaService } from '../../../shared/services/removeRoleAria';
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
@@ -35,7 +33,7 @@ export class SolutionsSection2Component {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
-            private RemiveRoleAriaService: RemiveRoleAriaService,
+    private RemiveRoleAriaService: RemiveRoleAriaService,
   ) {
   }
   @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
@@ -79,7 +77,7 @@ export class SolutionsSection2Component {
         setTimeout(() => {
           const solutionsSection2TITLE = document.querySelector('#solutionsSection2-TITLE') as HTMLElement;
           const solutionsSection2TITLESplit = SplitText.create(solutionsSection2TITLE, { type: "words" });
-this.RemiveRoleAriaService.cleanA11y(solutionsSection2TITLE, solutionsSection2TITLESplit);
+          this.RemiveRoleAriaService.cleanA11y(solutionsSection2TITLE, solutionsSection2TITLESplit);
           ScrollTrigger.create({
             trigger: '#solutionsSection2',
             start: 'top top',

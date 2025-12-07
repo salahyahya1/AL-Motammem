@@ -9,9 +9,9 @@ import SplitText from "gsap/SplitText";
 
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+// import 'swiper/css';
+// import 'swiper/css/navigation';
+// import 'swiper/css/pagination';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
 
@@ -120,18 +120,18 @@ export class Section3Component {
               duration: 1,
               ease: "power2.inOut"
             });
-          gsap.set("#section50-TITLE", { perspective: 800,visibility: "visible",opacity:1 });
+          gsap.set("#section50-TITLE", { perspective: 800, visibility: "visible", opacity: 1 });
 
           tl.fromTo(section50TITLESplit.words,
             {
               opacity: 0,
-visibility: "visible",
+              visibility: "visible",
               rotateY: gsap.utils.random(-80, 80),
               filter: "blur(6px)"
             },
             {
               opacity: 1,
-visibility: "visible",
+              visibility: "visible",
               rotateY: 0,
               y: 0,
               filter: "blur(0px)",
