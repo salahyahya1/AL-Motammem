@@ -259,7 +259,7 @@ export class ProductSection1Component implements AfterViewInit {
           const tl = gsap.timeline({
             defaults: { ease: 'power3.out' },
             scrollTrigger: {
-              trigger: '#section7',
+              trigger: '#productSection1',
               start: 'top top',
               end: '150% bottom',
               pin: true,
