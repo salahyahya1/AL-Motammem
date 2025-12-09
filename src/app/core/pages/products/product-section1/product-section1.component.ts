@@ -233,7 +233,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 })
 export class ProductSection1Component implements AfterViewInit {
   // ندي قيمة ابتدائية عشان الـ @for ما يهنّجش
-  items: number[] = [1, 2, 3];
+  items: number[] = [1, 2, 3, 4, 5];
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -254,7 +254,7 @@ export class ProductSection1Component implements AfterViewInit {
       requestAnimationFrame(() => {
         setTimeout(() => {
           // لو عربي خلي الليست 1..4 عشان الشرط بتاع أول عنصرين
-          this.items = this.isRtl ? [1, 2, 3, 4] : [1, 2, 3];
+          this.items = this.isRtl ? [1, 2, 3, 4, 5] : [1, 2, 3];
 
           const tl = gsap.timeline({
             defaults: { ease: 'power3.out' },
@@ -267,9 +267,9 @@ export class ProductSection1Component implements AfterViewInit {
           });
 
           document.fonts.ready.then(() => {
-            const sectionHead = document.querySelector('#Text7') as HTMLElement;
-            const sectionSub = document.querySelector('#SubText7') as HTMLElement;
-            const sectionbottom = document.querySelector('#bottom-text') as HTMLElement;
+            const sectionHead = document.querySelector('#productTitle1') as HTMLElement;
+            const sectionSub = document.querySelector('#productSubTitle1') as HTMLElement;
+            const sectionbottom = document.querySelector('#productbottom-text') as HTMLElement;
 
             if (!sectionHead || !sectionSub || !sectionbottom) return;
 
