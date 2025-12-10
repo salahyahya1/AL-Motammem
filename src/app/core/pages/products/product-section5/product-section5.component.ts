@@ -52,12 +52,20 @@ export class ProductSection5Component {
       this.productSection5DetailsSplit = new SplitText(productSection5Details, { type: "words" });
       this.productSection5ListSplit = new SplitText(productSection5List, { type: "lines" });
       this.productSection5FooterSplit = new SplitText(productSection5Footer, { type: "words" });
-
+      ScrollTrigger.create({
+        trigger: '#productSection5',
+        start: 'top top',
+        end: "150% bottom",
+        pin: true,
+        pinType: 'transform',
+        id: 'pinsection',
+        anticipatePin: 1,
+      });
       const tl = gsap.timeline({
         defaults: { ease: 'power3.out' },
         scrollTrigger: {
           trigger: '#productSection5',
-          start: '-20% top',
+          start: 'top top',
           end: "bottom bottom",
         },
       });

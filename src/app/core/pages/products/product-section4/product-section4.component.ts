@@ -27,69 +27,71 @@ export class ProductSection4Component {
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-
-    this.initMainSwiper();
-  }
-
-  private initMainSwiper(): void {
-    this.ngZone.runOutsideAngular(() => {
-      requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      this.ngZone.runOutsideAngular(() => {
         setTimeout(() => {
-
-          ScrollTrigger.create({
-            trigger: '#productSection4',
-            start: 'top top',
-            end: "150% bottom",
-            pin: true,
-            pinType: 'transform',
-            id: 'pinsection',
-            anticipatePin: 1,
-          });
-          const productSection4Title = document.getElementById('productSection4Title');
-          const productSection4Subtitle = document.getElementById('productSection4SubTitle');
-
-          if (!productSection4Title || !productSection4Subtitle) {
-            console.warn('⚠️ عناصر الـ hero مش لاقيها SplitText');
-            return;
-          }
-          this.productSection4TitleSplit = new SplitText(productSection4Title, { type: 'words' });
-          this.productSection4SubtitleSplit = new SplitText(productSection4Subtitle, { type: 'words' });
-
-          const tl = gsap.timeline({
-            defaults: { ease: "power3.out" }, scrollTrigger: {
-              trigger: "#productSection4",
-              start: 'top top',
-              end: "bottom bottom",
-            }
-          });
-
-
-
-          tl.fromTo(this.productSection4TitleSplit.words,
-            { opacity: 0, visibility: "visible" },
-            {
-              opacity: 1,
-              duration: 0.4,
-              ease: "sine.out",
-              stagger: 0.02,
-              onStart: () => { gsap.set(productSection4Title, { opacity: 1, visibility: "visible" }) },
-            }
-          );
-          tl.fromTo(this.productSection4SubtitleSplit.words,
-            { opacity: 0, visibility: "visible" },
-            {
-              opacity: 1,
-              duration: 0.4,
-              ease: "sine.out",
-              stagger: 0.02,
-              onStart: () => { gsap.set(productSection4Subtitle, { opacity: 1, visibility: "visible" }) },
-            }
-          );
-          tl.fromTo("#productSection4-icons", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
-
+          this.initMainSwiper();
         }, 200);
       });
     });
+  }
+
+  private initMainSwiper(): void {
+    document.fonts.ready.then(() => {
+      const SECTION4_END = "120% bottom";
+      ScrollTrigger.create({
+        trigger: '#productSection4',
+        start: 'top top',
+        end: SECTION4_END,
+        pin: true,
+        pinType: 'transform',
+        id: 'pinsection',
+        anticipatePin: 1,
+        // invalidateOnRefresh: true,
+      });
+      const productSection4Title = document.getElementById('productSection4Title');
+      const productSection4Subtitle = document.getElementById('productSection4SubTitle');
+
+      if (!productSection4Title || !productSection4Subtitle) {
+        console.warn('⚠️ عناصر الـ hero مش لاقيها SplitText');
+        return;
+      }
+      this.productSection4TitleSplit = new SplitText(productSection4Title, { type: 'words' });
+      this.productSection4SubtitleSplit = new SplitText(productSection4Subtitle, { type: 'words' });
+
+      const tl = gsap.timeline({
+        defaults: { ease: "power3.out" }, scrollTrigger: {
+          trigger: "#productSection4",
+          start: 'top top',
+          end: SECTION4_END,
+        }
+      });
+
+
+
+      tl.fromTo(this.productSection4TitleSplit.words,
+        { opacity: 0, visibility: "visible" },
+        {
+          opacity: 1,
+          duration: 0.4,
+          ease: "sine.out",
+          stagger: 0.02,
+          onStart: () => { gsap.set(productSection4Title, { opacity: 1, visibility: "visible" }) },
+        }
+      );
+      tl.fromTo(this.productSection4SubtitleSplit.words,
+        { opacity: 0, visibility: "visible" },
+        {
+          opacity: 1,
+          duration: 0.4,
+          ease: "sine.out",
+          stagger: 0.02,
+          onStart: () => { gsap.set(productSection4Subtitle, { opacity: 1, visibility: "visible" }) },
+        }
+      );
+      tl.fromTo("#productSection4-icons", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
+    });
+
 
   }
 }
