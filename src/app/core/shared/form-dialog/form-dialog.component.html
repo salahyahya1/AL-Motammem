@@ -1,0 +1,54 @@
+<div *ngIf="visible$ | async" id="dialog-backdrop" (click)="onBackdropClick($event)"
+    class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div dir="rtl" class="bg-white rounded-3xl shadow-xl w-[90%] max-w-xl p-6 md:p-8 relative">
+        <!-- الهيدر -->
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg md:text-xl font-semibold text-gray-900">
+                تواصل معنا
+            </h2>
+
+            <button type="button" (click)="closeDialog()" aria-label="إغلاق"
+                class="text-gray-400 hover:text-gray-600 text-2xl leading-none">
+                &times;
+            </button>
+        </div>
+
+        <!-- الفورم -->
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4" autocomplete="off">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-1 text-sm text-gray-700">الاسم الكامل</label>
+                    <input type="text" formControlName="fullName"
+                        class="w-full rounded-full px-4 py-2 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]" />
+                </div>
+
+                <div>
+                    <label class="block mb-1 text-sm text-gray-700">رقم الهاتف</label>
+                    <input type="tel" formControlName="phone"
+                        class="w-full rounded-full px-4 py-2 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]" />
+                </div>
+            </div>
+
+            <div>
+                <label class="block mb-1 text-sm text-gray-700">البريد الإلكتروني</label>
+                <input type="email" formControlName="email"
+                    class="w-full rounded-full px-4 py-2 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]" />
+            </div>
+
+            <div>
+                <label class="block mb-1 text-sm text-gray-700">
+                    رسالة / شرح احتياجاتك (اختياري)
+                </label>
+                <textarea rows="4" formControlName="message"
+                    class="w-full rounded-3xl px-4 py-3 bg-gray-100 resize-none focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]"></textarea>
+            </div>
+
+            <div class="flex justify-center pt-2">
+                <button type="submit"
+                    class="px-10 py-2 rounded-full bg-[#F4B942] text-white font-semibold shadow-md hover:bg-[#f3a924] hover:shadow-lg transition">
+                    إرسال
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

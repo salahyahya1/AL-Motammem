@@ -15,6 +15,7 @@ import { LangChangeEvent, TranslatePipe, TranslateService } from '@ngx-translate
 import { Subject, takeUntil } from 'rxjs';
 import { AnimationLoaderService } from '../../../shared/services/animation-loader.service';
 import { RemiveRoleAriaService } from '../../../shared/services/removeRoleAria';
+import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
 
 
 
@@ -23,7 +24,7 @@ import { RemiveRoleAriaService } from '../../../shared/services/removeRoleAria';
   templateUrl: './section1.component.html',
   styleUrl: './section1.component.scss',
   standalone: true,
-  imports: [AnimatedSequenceComponent, RouterLink, TranslatePipe],
+  imports: [AnimatedSequenceComponent, RouterLink, TranslatePipe, OpenFormDialogDirective],
 })
 export class Section1Component implements OnDestroy {
   @ViewChild(AnimatedSequenceComponent) seq!: AnimatedSequenceComponent;

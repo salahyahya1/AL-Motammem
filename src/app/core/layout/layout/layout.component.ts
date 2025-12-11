@@ -9,10 +9,11 @@ import { NavbarThemeService } from '../../components/navbar/navbar-theme.service
 import { AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { SectionIndicatorComponent } from "../../components/section-indicator/section-indicator.component";
 import { SectionsRegistryService } from '../../shared/services/sections-registry.service';
+import { FormDialogComponent } from "../../shared/form-dialog/form-dialog.component";
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, NavbarComponent, FooterComponent, SectionIndicatorComponent, AsyncPipe],
+  imports: [RouterOutlet, NavbarComponent, FooterComponent, SectionIndicatorComponent, AsyncPipe, FormDialogComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
