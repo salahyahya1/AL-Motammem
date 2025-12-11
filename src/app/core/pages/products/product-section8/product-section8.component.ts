@@ -70,11 +70,11 @@ export class ProductSection8Component {
           });
 
           tl.fromTo(this.productSection8TitleSplit.words,
-            { opacity: 0, visibility: "visible" },
+            { opacity: 0, visibility: 'visible' },
             {
               opacity: 1,
               duration: 0.4,
-              ease: "sine.out",
+              ease: 'sine.out',
               stagger: 0.02,
               onStart: () => { gsap.set(productSection8Title, { opacity: 1, visibility: "visible" }) },
             }
@@ -86,7 +86,7 @@ export class ProductSection8Component {
               duration: 0.4,
               ease: "sine.out",
               stagger: 0.05,
-              onStart: () => { gsap.set(productSection8List, { opacity: 1, visibility: "visible" }) },
+              onStart: () => { gsap.set("#productSection8-list li", { opacity: 1, visibility: "visible" }) },
             }
           );
           tl.fromTo(this.productSection8FooterSplit.words,

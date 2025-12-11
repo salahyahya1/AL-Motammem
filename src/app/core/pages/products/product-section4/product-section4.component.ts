@@ -38,7 +38,7 @@ export class ProductSection4Component {
 
   private initMainSwiper(): void {
     document.fonts.ready.then(() => {
-      const SECTION4_END = "120% bottom";
+      const SECTION4_END = "150% bottom";
       ScrollTrigger.create({
         trigger: '#productSection4',
         start: 'top top',

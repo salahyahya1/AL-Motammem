@@ -9,6 +9,7 @@ import {
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import ScrollSmoother from 'gsap/ScrollSmoother';
 import { Section1Component } from './section1/section1.component';
 import { Section2Component } from './section2/section2.component';
 import { Section4Component } from './section4/section4.component';
@@ -20,13 +21,13 @@ import { BehaviorSubject } from 'rxjs';
 import { Section3Component } from "./section3/section3.component";
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section3Component ],
+  imports: [CommonModule, Section1Component, Section2Component, Section4Component, Section5Component, Section6Component, Section7Component, Section8Component, Section3Component],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -54,6 +55,7 @@ export class HomeComponent implements AfterViewInit {
 
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
+        this.initSmoothScroll();
         const sections: SectionItem[] = [
           { id: 'section1', labelKey: 'HOME.INDECATORS.ABOUT', wholeSectionId: 'section1' },
           { id: 'section2', labelKey: 'HOME.INDECATORS.FACTS', wholeSectionId: 'section2' },
@@ -90,6 +92,11 @@ export class HomeComponent implements AfterViewInit {
         onEnterBack: () => this.updateNavbarColors(textColor),
       });
     });
+
+
+
+
+
   }
 
   private updateNavbarColors(textColor: string) {
@@ -101,5 +108,23 @@ export class HomeComponent implements AfterViewInit {
     if (this.isBrowser) {
       ScrollTrigger.getAll().forEach(t => t.kill());
     }
+  }
+
+
+
+
+  private initSmoothScroll() {
+    this.smoother = ScrollSmoother.create({
+      wrapper: '#smooth-wrapper',
+      content: '#smooth-content',
+      smooth: 1.2,
+      normalizeScroll: true,
+      effects: false,
+      ignoreMobileResize: true,
+      smoothTouch: 0.1,
+    });
+
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+    ScrollTrigger.config({ ignoreMobileResize: true });
   }
 }

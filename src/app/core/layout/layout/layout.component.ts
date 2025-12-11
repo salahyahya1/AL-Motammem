@@ -46,10 +46,9 @@ export class LayoutComponent {
   }
 
   private initSmoothScroll() {
-    // ✅ ScrollSmoother شغال بدون أي تأثيرات إضافية
     if ((window as any).ScrollSmoother?.get?.()) {
       this.smoother = (window as any).ScrollSmoother.get();
-      return; // ✅ لو السموذر شغال فعلاً، ما تعيديش إنشاءه
+      return;
     }
     this.smoother = ScrollSmoother.create({
       wrapper: '#smooth-wrapper',

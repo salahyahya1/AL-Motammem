@@ -2,7 +2,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import Draggable from "gsap/Draggable";
+import { Draggable } from "gsap/all";
 import InertiaPlugin from "gsap/InertiaPlugin";
 
 import SplitText from "gsap/SplitText";

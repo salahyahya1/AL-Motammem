@@ -138,116 +138,79 @@
 <div #containerWrapper>
 
   <!-- SECTION 1 -->
-  <section
-    id="section1"
-    class="panel min-h-screen relative"
-    data-bgcolor="var(--white)"
-    data-textcolor="var(--primary)"
-  >
+  <section id="section1" class="panel min-h-screen relative" data-bgcolor="var(--white)"
+    data-textcolor="var(--primary)">
     <div #section1Trigger class="pointer-events-none absolute left-0 right-0 bottom-[25vh] h-px"></div>
     <app-section1></app-section1>
   </section>
 
   <!-- SECTION 2 (loaded normally, but starts loading 3 earlier) -->
-  <section
-    id="section2"
-    class="panel min-h-screen relative"
-    data-bgcolor="var(--white)"
-    data-textcolor="var(--white)"
-  >
+  <section id="section2" class="panel min-h-screen relative" data-bgcolor="var(--white)" data-textcolor="var(--white)">
     <div #section2Trigger class="pointer-events-none absolute left-0 right-0 bottom-[25vh] h-px"></div>
     <app-section2></app-section2>
   </section>
 
   <!-- SECTION 3 -->
-  <section
-    id="section3"
-    class="panel min-h-screen"
-    data-bgcolor="var(--white)"
-    data-textcolor="var(--primary)"
-  >
+  <section id="section3" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--primary)">
     @defer (on viewport(section2Trigger); prefetch on idle) {
-      <app-section3></app-section3>
+    <app-section3></app-section3>
     } @placeholder {
-      <div class="w-full h-full"></div>
+    <div class="w-full h-full"></div>
     }
   </section>
 
   <!-- SECTION 4 -->
-  <section
-    id="section4"
-    class="panel min-h-screen relative"
-    data-bgcolor="var(--white)"
-    data-textcolor="var(--white)"
-  >
+  <section id="section4" class="panel min-h-screen relative" data-bgcolor="var(--white)" data-textcolor="var(--white)">
     <div #section3Trigger class="pointer-events-none absolute left-0 right-0 bottom-[25vh] h-px"></div>
 
     @defer (on viewport(section2Trigger); prefetch on idle) {
-      <app-section4></app-section4>
+    <app-section4></app-section4>
     } @placeholder {
-      <div class="w-full h-full"></div>
+    <div class="w-full h-full"></div>
     }
   </section>
 
   <!-- SECTION 5 -->
-  <section
-    id="section5"
-    class="panel min-h-screen relative"
-    data-bgcolor="var(--white)"
-    data-textcolor="var(--primary)"
-  >
+  <section id="section5" class="panel min-h-screen relative" data-bgcolor="var(--white)"
+    data-textcolor="var(--primary)">
     <div #section4Trigger class="pointer-events-none absolute left-0 right-0 bottom-[25vh] h-px"></div>
 
     @defer (on viewport(section4Trigger); prefetch on idle) {
-      <app-section5></app-section5>
+    <app-section5></app-section5>
     } @placeholder {
-      <div class="w-full h-full"></div>
+    <div class="w-full h-full"></div>
     }
   </section>
 
   <!-- SECTION 6 -->
-  <section
-    id="section6"
-    class="panel min-h-screen relative"
-    data-bgcolor="var(--white)"
-    data-textcolor="var(--primary)"
-  >
+  <section id="section6" class="panel min-h-screen relative" data-bgcolor="var(--white)"
+    data-textcolor="var(--primary)">
     <div #section5Trigger class="pointer-events-none absolute left-0 right-0 bottom-[25vh] h-px"></div>
 
     @defer (on viewport(section5Trigger); prefetch on idle) {
-      <app-section6></app-section6>
+    <app-section6></app-section6>
     } @placeholder {
-      <div class="w-full h-full"></div>
+    <div class="w-full h-full"></div>
     }
   </section>
 
   <!-- SECTION 7 -->
-  <section
-    id="section7"
-    class="panel min-h-screen relative"
-    data-bgcolor="var(--white)"
-    data-textcolor="var(--white)"
-  >
+  <section id="section7" class="panel min-h-screen relative" data-bgcolor="var(--white)" data-textcolor="var(--white)">
     <div #section6Trigger class="pointer-events-none absolute left-0 right-0 bottom-[25vh] h-px"></div>
 
     @defer (on viewport(section5Trigger); prefetch on idle) {
-      <app-section7></app-section7>
+    <app-section7></app-section7>
     } @placeholder {
-      <div class="w-full h-full"></div>
+    <div class="w-full h-full"></div>
     }
   </section>
 
   <!-- SECTION 8 -->
-  <section
-    id="section8"
-    class="panel min-h-screen"
-    data-bgcolor="var(--white)"
-    data-textcolor="var(--primary)"
-  >
+  <section id="section8" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--primary)">
     @defer (on viewport(section6Trigger); prefetch on idle) {
-      <app-section8></app-section8>
+    <app-section8></app-section8>
     } @placeholder {
-      <div class="w-full h-full"></div>
+    <div class="w-full h-full"></div>
     }
   </section>
 
