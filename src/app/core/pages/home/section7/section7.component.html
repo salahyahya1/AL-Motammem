@@ -60,8 +60,8 @@
                 </div>
             </div>
             <div
-                class="card card2 text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[32%] lg:w-[25%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:pe-[17px] md:ps-[18px]  lg:p-8 shadow-md">
-                <div class="relative flex flex-col items-center w-[80%]  lg:w-[91%]  text-start"
+                class="card card2 text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[32%] lg:w-[25%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:pe-[17px] md:ps-[18px]  lg:p-8 xl:p-6 shadow-md">
+                <div class="relative flex flex-col items-center w-[80%]  xl:w-[99%]  text-start"
                     [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div dir="ltr" class="flex gap-x-2 justify-center items-center  w-full">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
@@ -84,7 +84,7 @@
                         {{ 'HOME.PLANS.CARD2.TITLEp1' | translate }} <br>
                         {{ 'HOME.PLANS.CARD2.TITLEp2' | translate }}
                     </p>
-                    <ul class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 md:pr-[16px] lg:pr-[0px] ">
+                    <ul class="text-gray-800 text-sm leading-relaxed mb-4 md:pr-[16px] lg:pr-[0px] lg:w-[85%]">
                         @for (item of [1,2,3,4,5]; track item) {
                         <li>
                             {{ ('HOME.PLANS.CARD2.LIST.' + (item-1)) | translate }}
@@ -156,7 +156,7 @@
         </p>
     </div>
     <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
-        <source src="./videos/package bg.mp4" type="video/mp4">
+        <source src="./videos/package bg.webm" type="video/mp4">
         متصفحك لا يدعم تشغيل الفيديو.
     </video>
 

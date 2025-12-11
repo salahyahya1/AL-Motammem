@@ -185,8 +185,8 @@
   },
   "SOLUTIONS": {
     "HERO": {
-     "TITLE": "All your business cycles in one place, even across multiple companies and different operations",
-     "DETAILS": "From finance, inventory, sales, and purchasing to HR — discover how Al-Motammem brings all operations together under a single system, whether for one company or multiple companies, with consolidated reporting across companies and other levels."
+      "TITLE": "All your business cycles in one place, even across multiple companies and different operations",
+      "DETAILS": "From finance, inventory, sales, and purchasing to HR — discover how Al-Motammem brings all operations together under a single system, whether for one company or multiple companies, with consolidated reporting across companies and other levels."
     },
     "COURSES": {
       "FINANCE": {
@@ -265,22 +265,22 @@
       "DETAILES": "Al-Motammem does not only connect workflows—it creates a unified environment that brings together all your departments, from finance and sales to HR, projects, and more, all operating on the same system."
     },
     "INTEGRATIONS": {
-  "ITEM1": {
-    "TITLE": "Internal Integration",
-    "TEXT": "Any update made in one department is instantly reflected across all others, allowing you to verify data accuracy before it impacts the system."
-  },
-  "ITEM2": {
-    "TITLE": "Cross-Sector Integration",
-    "TEXT": "Even companies with diverse operations (manufacturing, sales, services) can run smoothly on the same unified platform."
-  },
-  "ITEM3": {
-    "TITLE": "External Integrations (APIs)",
-    "TEXT": "Connect your external systems with your current tools — payment gateways, banking systems, team tools (Google Meet, Excel), and tax platforms (ETA & ZATCA)."
-  },
-  "ITEM4": {
-    "TITLE": "Unified Dashboard",
-    "TEXT": "Gives you a complete and real-time overview of performance across all departments, sectors, and companies in one place."
-  }
+      "ITEM1": {
+        "TITLE": "Internal Integration",
+        "TEXT": "Any update made in one department is instantly reflected across all others, allowing you to verify data accuracy before it impacts the system."
+      },
+      "ITEM2": {
+        "TITLE": "Cross-Sector Integration",
+        "TEXT": "Even companies with diverse operations (manufacturing, sales, services) can run smoothly on the same unified platform."
+      },
+      "ITEM3": {
+        "TITLE": "External Integrations (APIs)",
+        "TEXT": "Connect your external systems with your current tools — payment gateways, banking systems, team tools (Google Meet, Excel), and tax platforms (ETA & ZATCA)."
+      },
+      "ITEM4": {
+        "TITLE": "Unified Dashboard",
+        "TEXT": "Gives you a complete and real-time overview of performance across all departments, sectors, and companies in one place."
+      }
     },
     "CONSULTATION": {
       "TITLE": "Discover the solutions that fit your company",
@@ -288,6 +288,69 @@
       "DETAILS": "Let us help you identify what works best for your business, step by step. Al-Motammem adapts to the way you work — not the other way around.",
       "BTN1": "Book a free consultation with one of our experts",
       "FOOTER": "Over 40 years of experience building systems that support efficiency and sustainability for companies across different sectors."
+    }
+  },
+  "PRODUCTS": {
+    "SECTION1": {
+      "TITLE": "Solutions that fit every stage of your company’s journey",
+      "SUB-TITLE": "The platform offers three packages designed to match the needs of all types of companies, from individuals and small projects to large enterprises.",
+      "CARD1": {
+        "TITLEp1": "Al-Motammem Mini",
+        "TITLEp2": "(Mini)",
+        "LIST": {
+          "0": "Designed for individuals and freelancers who need simple, fast management without complexity.",
+          "1": "Everything you need in an easy-to-use interface.",
+          "2": "Finance, invoicing, and essential reports."
+        },
+        "FEATURES_TITLE": "Key features",
+        "FEATURES": {
+          "0": "Sales",
+          "1": "Purchases",
+          "2": "Customers & vendors management",
+          "3": "Inventory management",
+          "4": "Tax invoices",
+          "5": "Essential reports"
+        },
+        "CTA": "Try it now for free"
+      },
+      "CARD2": {
+        "TITLEp1": "Al-Motammem",
+        "TITLEp2": "",
+        "LIST": {
+          "0": "For small and medium businesses that need a complete system to manage financial resources, purchasing, inventory and sales from a single platform.",
+          "1": "Provides advanced operational reports and integration with tax systems."
+        },
+        "FEATURES_TITLE": "Key features",
+        "FEATURES": {
+          "0": "Point of sale (POS)",
+          "1": "General ledger & accounting",
+          "2": "Advanced inventory management",
+          "3": "Branches management",
+          "4": "Manufacturing",
+          "5": "Human resources management",
+          "6": "Integration with government platforms and systems",
+          "7": "Advanced operational reports"
+        },
+        "CTA": "Book a free consultation"
+      },
+      "CARD3": {
+        "TITLEp1": "Al-Motammem Plus",
+        "TITLEp2": "(Plus)",
+        "LIST": {
+          "0": "Designed for large enterprises with multiple branches and sectors that need flexible customization and advanced permissions, with integration to external systems.",
+          "1": "Delivers the highest levels of security, support, and smart analytics."
+        },
+        "FEATURES_TITLE": "Key features",
+        "FEATURES": {
+          "0": "Full customization for all modules",
+          "1": "End-to-end solutions for large enterprises",
+          "2": "Fully integrated ERP",
+          "3": "Extensive integrations and detailed access control",
+          "4": "Operational intelligence & data analytics"
+        },
+        "CTA": "Request a custom quote"
+      },
+      "DETAILS": "Any features that are not available in one of the systems can be added separately."
     }
   },
   "FOOTER": {

@@ -2,16 +2,14 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import Draggable from "gsap/Draggable";
+import { Draggable } from "gsap/all";
 import InertiaPlugin from "gsap/InertiaPlugin";
 
 import SplitText from "gsap/SplitText";
 
 import Swiper from 'swiper';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
 
@@ -129,7 +127,7 @@ export class SolutionsSection5Component {
                             this.swiperInstance = null;
                         }
                         this.swiperInstance = new Swiper(this.swiperEl.nativeElement, {
-                            modules: [Navigation, Autoplay],
+                            modules: [Navigation, Pagination, Autoplay],
                             direction: 'vertical',
                             slidesPerView: 1,
                             slidesPerGroup: 1,

@@ -2,15 +2,12 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import Draggable from "gsap/Draggable";
+import { Draggable } from "gsap/all";
 import InertiaPlugin from "gsap/InertiaPlugin";
 
 import SplitText from "gsap/SplitText";
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { TranslatePipe } from '@ngx-translate/core';
+
 import { RouterLink } from '@angular/router';
 import { NavbarThemeService } from '../../../components/navbar/navbar-theme.service';
 import { SectionsRegistryService } from '../../../shared/services/sections-registry.service';
@@ -20,7 +17,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
 @Component({
   selector: 'app-blog-veiw',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './blog-veiw.component.html',
   styleUrl: './blog-veiw.component.scss'
 })
@@ -38,7 +35,6 @@ export class BlogVeiwComponent {
     private sectionsRegistry: SectionsRegistryService
   ) {
   }
-  @ViewChild('swiperEl2') swiperEl2!: ElementRef<HTMLDivElement>;
 
 
 

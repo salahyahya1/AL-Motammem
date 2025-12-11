@@ -8,9 +8,8 @@ export class LanguageService {
     private translate: TranslateService,
     @Inject(PLATFORM_ID) private pid: Object
   ) {
-    // تعريف اللغات مرة واحدة
     this.translate.addLangs(['en', 'ar']);
-    this.translate.setFallbackLang('ar'); // نفس اللي في app.config
+    this.translate.setFallbackLang('ar');
   }
 
   /** تتنده مرة واحدة في AppComponent عشان تظبط اللغة عند أول لود */
@@ -21,11 +20,13 @@ export class LanguageService {
       const saved = localStorage.getItem('lang') as 'en' | 'ar' | null;
       if (saved === 'en' || saved === 'ar') {
         lang = saved;
-      }
-      else {
+      } else {
         localStorage.setItem('lang', lang);
       }
-      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+      const html = document.documentElement;
+      html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      html.setAttribute('lang', lang);             // 👈 أهم سطر عشان Lighthouse
     }
 
     this.translate.use(lang);
@@ -37,7 +38,11 @@ export class LanguageService {
 
     if (isPlatformBrowser(this.pid)) {
       localStorage.setItem('lang', lang);
-      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+      const html = document.documentElement;
+      html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      html.setAttribute('lang', lang);             // 👈 برضه هنا
+
       window.location.reload();
     }
   }

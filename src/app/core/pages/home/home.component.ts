@@ -19,13 +19,9 @@ import { Section7Component } from "./section7/section7.component";
 import { Section8Component } from "./section8/section8.component";
 import { BehaviorSubject } from 'rxjs';
 import { Section3Component } from "./section3/section3.component";
-import { RouterLink } from "@angular/router";
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
-import { NavbarComponent } from "../../components/navbar/navbar.component";
-import { SectionIndicatorComponent } from "../../components/section-indicator/section-indicator.component";
-import ScrollToPlugin from 'gsap/ScrollToPlugin';
 import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 
 @Component({
@@ -59,6 +55,7 @@ export class HomeComponent implements AfterViewInit {
 
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
+        this.initSmoothScroll();
         const sections: SectionItem[] = [
           { id: 'section1', labelKey: 'HOME.INDECATORS.ABOUT', wholeSectionId: 'section1' },
           { id: 'section2', labelKey: 'HOME.INDECATORS.FACTS', wholeSectionId: 'section2' },
@@ -95,6 +92,11 @@ export class HomeComponent implements AfterViewInit {
         onEnterBack: () => this.updateNavbarColors(textColor),
       });
     });
+
+
+
+
+
   }
 
   private updateNavbarColors(textColor: string) {
@@ -106,5 +108,23 @@ export class HomeComponent implements AfterViewInit {
     if (this.isBrowser) {
       ScrollTrigger.getAll().forEach(t => t.kill());
     }
+  }
+
+
+
+
+  private initSmoothScroll() {
+    this.smoother = ScrollSmoother.create({
+      wrapper: '#smooth-wrapper',
+      content: '#smooth-content',
+      smooth: 1.2,
+      normalizeScroll: true,
+      effects: false,
+      ignoreMobileResize: true,
+      smoothTouch: 0.1,
+    });
+
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+    ScrollTrigger.config({ ignoreMobileResize: true });
   }
 }

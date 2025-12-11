@@ -1,17 +1,14 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import {Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild} from '@angular/core';
+import { Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import Draggable from "gsap/Draggable";
+import { Draggable } from "gsap/all";
 import InertiaPlugin from "gsap/InertiaPlugin";
 
 import SplitText from "gsap/SplitText";
 
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 @Component({
   selector: 'app-about-section4',

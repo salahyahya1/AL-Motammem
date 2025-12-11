@@ -25,6 +25,7 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "optimization": true,
             "assets": [
               {
                 "glob": "**/*",
@@ -39,7 +40,10 @@
             "prerender": true,
             "ssr": {
               "entry": "src/server.ts"
-            }
+            },
+    "namedChunks": false,
+    "extractLicenses": true,
+    "sourceMap": false
           },
           "configurations": {
             "production": {
