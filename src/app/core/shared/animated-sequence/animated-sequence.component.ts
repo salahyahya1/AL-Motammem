@@ -33,7 +33,7 @@ export class AnimatedSequenceComponent implements OnInit, AfterViewInit, OnDestr
   @Input() imageUrl: string = '';
   @Input() spriteWidth: number = 3302;
   @Input() spriteHeight: number = 4834;
-  currentImageUrl: string = '/images/SS_final_q90.webp';
+  currentImageUrl: string = '/images/homepage/SS_final_q90.webp';
   showText = 0
   lastfram!: number
 
@@ -44,9 +44,9 @@ export class AnimatedSequenceComponent implements OnInit, AfterViewInit, OnDestr
   // constructor(private renderer: Renderer2) {
   //   gsap.registerPlugin(ScrollTrigger);
   // }
-constructor(private renderer: Renderer2, @Inject(PLATFORM_ID) private platformId: Object) {
-  gsap.registerPlugin(ScrollTrigger);
-}
+  constructor(private renderer: Renderer2, @Inject(PLATFORM_ID) private platformId: Object) {
+    gsap.registerPlugin(ScrollTrigger);
+  }
 
   ngOnChanges() {
     if (this.initialized) {
@@ -73,45 +73,45 @@ constructor(private renderer: Renderer2, @Inject(PLATFORM_ID) private platformId
   //   this.setupFrames();
   //   this.setupScrollAnimation();
   // }
-ngAfterViewInit(): void {
-  if (this.initialized) return;
-  this.initialized = true;
+  ngAfterViewInit(): void {
+    if (this.initialized) return;
+    this.initialized = true;
 
-  // ✅ تأكد إننا في المتصفح مش في SSR
-  if (!isPlatformBrowser(this.platformId)) {
-    return;
+    // ✅ تأكد إننا في المتصفح مش في SSR
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    const container = this.imageContainer?.nativeElement;
+    if (container) {
+      this.renderer.setStyle(container, 'width', `${this.frameWidth}px`);
+      this.renderer.setStyle(container, 'height', `${this.frameHeight}px`);
+      this.renderer.setStyle(container, 'opacity', '0');
+      this.renderer.setStyle(container, 'transition', 'opacity 0.5s ease-in-out');
+    }
+
+    this.precalculateFramePositions();
+
+    // ✅ استخدم Renderer2 بدل window.Image لتفادي أي مشكلة SSR
+    const preloadImage = this.renderer.createElement('img');
+    preloadImage.src = this.imageUrl;
+
+    preloadImage.addEventListener('load', () => {
+      // console.log('✅ Sprite sheet loaded');
+      this.setupFrames();
+
+      // أظهر الصورة بسلاسة
+      this.renderer.setStyle(container, 'opacity', '1');
+
+      // 🌀 شغّل الأنيميشن أول ما تتحمل الصورة
+      // this.playForwardAnimation();
+    });
+
+    // 🧠 في حالة الصورة متخزنة بالكاش أصلاً (onload مش هيتنادى)
+    if (preloadImage.complete) {
+      preloadImage.dispatchEvent(new Event('load'));
+    }
   }
-
-  const container = this.imageContainer?.nativeElement;
-  if (container) {
-    this.renderer.setStyle(container, 'width', `${this.frameWidth}px`);
-    this.renderer.setStyle(container, 'height', `${this.frameHeight}px`);
-    this.renderer.setStyle(container, 'opacity', '0');
-    this.renderer.setStyle(container, 'transition', 'opacity 0.5s ease-in-out');
-  }
-
-  this.precalculateFramePositions();
-
-  // ✅ استخدم Renderer2 بدل window.Image لتفادي أي مشكلة SSR
-  const preloadImage = this.renderer.createElement('img');
-  preloadImage.src = this.imageUrl;
-
-  preloadImage.addEventListener('load', () => {
-    // console.log('✅ Sprite sheet loaded');
-    this.setupFrames();
-
-    // أظهر الصورة بسلاسة
-    this.renderer.setStyle(container, 'opacity', '1');
-
-    // 🌀 شغّل الأنيميشن أول ما تتحمل الصورة
-    // this.playForwardAnimation();
-  });
-
-  // 🧠 في حالة الصورة متخزنة بالكاش أصلاً (onload مش هيتنادى)
-  if (preloadImage.complete) {
-    preloadImage.dispatchEvent(new Event('load'));
-  }
-}
 
 
   ngOnDestroy(): void {

@@ -112,21 +112,21 @@ export class Section5Component {
     const slots = Array.from(container.querySelectorAll(".slot")) as HTMLElement[];
 
     const allSources = [
-      "/images/logos/1.webp",
-      "/images/logos/2.webp",
-      "/images/logos/3.webp",
-      "/images/logos/4.webp",
-      "/images/logos/5.webp",
-      "/images/logos/6.webp",
-      "/images/logos/7.webp",
-      "/images/logos/8.webp",
-      "/images/logos/9.webp",
-      "/images/logos/10.webp",
-      "/images/logos/11.webp",
-      "/images/logos/12.webp",
-      "/images/logos/13.webp",
-      "/images/logos/14.webp",
-      "/images/logos/15.webp"
+      "/images/homepage/logos/1.webp",
+      "/images/homepage/logos/2.webp",
+      "/images/homepage/logos/3.webp",
+      "/images/homepage/logos/4.webp",
+      "/images/homepage/logos/5.webp",
+      "/images/homepage/logos/6.webp",
+      "/images/homepage/logos/7.webp",
+      "/images/homepage/logos/8.webp",
+      "/images/homepage/logos/9.webp",
+      "/images/homepage/logos/10.webp",
+      "/images/homepage/logos/11.webp",
+      "/images/homepage/logos/12.webp",
+      "/images/homepage/logos/13.webp",
+      "/images/homepage/logos/14.webp",
+      "/images/homepage/logos/15.webp"
     ];
     const slotImages: Map<HTMLElement, string[]> = new Map();
 
