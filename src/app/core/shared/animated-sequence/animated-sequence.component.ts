@@ -100,7 +100,9 @@ export class AnimatedSequenceComponent implements OnInit, AfterViewInit, OnDestr
       // console.log('✅ Sprite sheet loaded');
       this.setupFrames();
 
-      // أظهر الصورة بسلاسة
+
+      // 1️⃣ ارسم أول فريم فورًا → للـ LCP
+      this.showFrame(1);
       this.renderer.setStyle(container, 'opacity', '1');
 
       // 🌀 شغّل الأنيميشن أول ما تتحمل الصورة
