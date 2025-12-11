@@ -14,7 +14,7 @@
             class="cards relative flex flex-col md:flex-row justify-center items-center gap-6 lg:gap-8 w-full lg:w-[85%] py-40  mx-auto">
             <div
                 class="card card1 text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[32%] lg:w-[25%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:p-8 shadow-md">
-                <div class="relative text-start" style="width: 80%;" [dir]="isRtl ? 'rtl' : 'ltr'">
+                <div class="relative text-start" style="width: 95%;" [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div dir="ltr" class="flex gap-x-2">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
                             xmlns="http://www.w3.org/2000/svg">
@@ -43,7 +43,7 @@
 
                     </p>
                     <ul
-                        class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 rtl:pb-7 ltr:pb-0 md:pr-[16px] lg:pr-[0px]">
+                        class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 rtl:pb-6 ltr:pb-0 md:pr-[16px] lg:pr-[0px]">
                         @for (item of [1,2,3,4]; track item) {
                         <li>
                             {{ ('HOME.PLANS.CARD1.LIST.' + (item-1)) | translate }}
@@ -84,7 +84,7 @@
                         {{ 'HOME.PLANS.CARD2.TITLEp1' | translate }} <br>
                         {{ 'HOME.PLANS.CARD2.TITLEp2' | translate }}
                     </p>
-                    <ul class="text-gray-800 text-sm leading-relaxed mb-4 md:pr-[16px] lg:pr-[0px] lg:w-[85%]">
+                    <ul class="text-gray-800 text-sm leading-relaxed mb-4 md:pr-[16px] pb-5 lg:pr-[0px] lg:w-[85%]">
                         @for (item of [1,2,3,4,5]; track item) {
                         <li>
                             {{ ('HOME.PLANS.CARD2.LIST.' + (item-1)) | translate }}
@@ -102,7 +102,7 @@
             </div>
             <div
                 class=" card card3  text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[32%] lg:w-[25%] text-[#0D47A1] flex flex-col items-center  p-6 md:p-8 shadow-md">
-                <div class="relative   text-start" style="width: 80%;" [dir]="isRtl ? 'rtl' : 'ltr'">
+                <div class="relative   text-start" style="width: 95%;" [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div dir="ltr" class="flex gap-x-2">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
                             xmlns="http://www.w3.org/2000/svg">

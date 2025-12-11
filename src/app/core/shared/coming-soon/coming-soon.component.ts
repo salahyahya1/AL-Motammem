@@ -1,4 +1,11 @@
-import { Component, Inject, OnInit, OnDestroy, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  Inject,
+  PLATFORM_ID,
+  NgZone,
+  ChangeDetectorRef,
+} from '@angular/core';
+import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { isPlatformBrowser } from '@angular/common';
 import { SectionsRegistryService } from '../services/sections-registry.service';
 
@@ -7,17 +14,26 @@ import { SectionsRegistryService } from '../services/sections-registry.service';
   templateUrl: './coming-soon.component.html',
   styleUrl: './coming-soon.component.scss'
 })
-export class ComingSoonComponent implements OnInit, OnDestroy {
+export class ComingSoonComponent {
   year = new Date().getFullYear();
   private timerId: any;
   private readonly launchDate = new Date('2025-12-01T00:00:00Z');
-
+  isBrowser: boolean;
   days = '00';
   hours = '00';
   minutes = '00';
   seconds = '00';
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, private registry: SectionsRegistryService) { }
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef,
+    private navTheme: NavbarThemeService,
+    private registry: SectionsRegistryService
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
+
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
@@ -33,7 +49,20 @@ export class ComingSoonComponent implements OnInit, OnDestroy {
       this.updateCountdown();
     }
   }
+  ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
 
+    this.ngZone.runOutsideAngular(() => {
+      setTimeout(() => {
+        this.navTheme.setColor('var(--primary)');
+        window.addEventListener('resize', () => {
+          this.ngZone.run(() => {
+            this.cdr.detectChanges();
+          });
+        });
+      }, 150);
+    });
+  }
   ngOnDestroy() {
     if (this.timerId) clearInterval(this.timerId);
   }

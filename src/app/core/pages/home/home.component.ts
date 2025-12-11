@@ -55,7 +55,6 @@ export class HomeComponent implements AfterViewInit {
 
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        this.initSmoothScroll();
         const sections: SectionItem[] = [
           { id: 'section1', labelKey: 'HOME.INDECATORS.ABOUT', wholeSectionId: 'section1' },
           { id: 'section2', labelKey: 'HOME.INDECATORS.FACTS', wholeSectionId: 'section2' },
@@ -108,23 +107,5 @@ export class HomeComponent implements AfterViewInit {
     if (this.isBrowser) {
       ScrollTrigger.getAll().forEach(t => t.kill());
     }
-  }
-
-
-
-
-  private initSmoothScroll() {
-    this.smoother = ScrollSmoother.create({
-      wrapper: '#smooth-wrapper',
-      content: '#smooth-content',
-      smooth: 1.2,
-      normalizeScroll: true,
-      effects: false,
-      ignoreMobileResize: true,
-      smoothTouch: 0.1,
-    });
-
-    requestAnimationFrame(() => ScrollTrigger.refresh());
-    ScrollTrigger.config({ ignoreMobileResize: true });
   }
 }

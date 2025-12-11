@@ -1,5 +1,5 @@
 <section id="hero"
-  class="relative w-full min-h-screen flex flex-col-reverse md:flex-row items-center justify-center md:justify-between gap-10 md:gap-0 md:ps-20 py-15 md:pt-10 overflow-x-hidden">
+  class="relative w-full min-h-screen flex flex-col-reverse md:flex-row items-center justify-center md:justify-between gap-10 md:gap-0 md:ps-20 py-15 md:pt-10">
   <div class="w-full md:w-[56.5%] relative text-center md:text-start z-10 px-6 md:px-0">
     <h1 id="hero-title"
       class="text-[1.5rem] md:text-[2rem] lg:text-[2.6rem] xl:text-[3rem] font-bold leading-snug text-[var(--primary)]">
@@ -31,12 +31,12 @@
   <div class="relative md:contents">
     <div class="w-full md:w-[43.5%] relative z-0 flex items-center justify-center">
 
-      <div class="hero-visual-inner relative" style="width:625px;height:391px;">
+      <div class="hero-visual-inner relative">
 
-        <div class="hero-placeholder absolute inset-0 transition-opacity duration-200" [class.opacity-0]="spriteReady"
+        <div class="hero-placeholder  inset-0 transition-opacity duration-200" [class.opacity-0]="spriteReady"
           aria-hidden="true">
         </div>
-        <app-animated-sequence class="absolute inset-0 transition-opacity duration-200" [class.opacity-0]="!spriteReady"
+        <app-animated-sequence class=" inset-0 transition-opacity duration-200" [class.opacity-0]="!spriteReady"
           componentId="comp1" [imageUrl]="'/images/homepage/SS_final_q90.webp'" [totalFrames]="69" [frameWidth]="625"
           [frameHeight]="391" [framesPerRow]="3" [spriteWidth]="1875" [spriteHeight]="8985">
         </app-animated-sequence>
@@ -50,6 +50,5 @@
 
     </div>
   </div>
-
 
 </section>
