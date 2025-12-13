@@ -6,7 +6,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from "gsap/SplitText";
 gsap.registerPlugin(ScrollTrigger, SplitText);
 import { LanguageService } from '../../../shared/services/language.service';
-import {  TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-section8',
   imports: [RouterLink, TranslatePipe],
@@ -39,7 +39,8 @@ export class Section8Component {
       const section8Details = document.querySelector('#section8-details') as HTMLElement;
       const section8button1 = document.querySelector('#section8-button1') as HTMLElement;
       const section8button2 = document.querySelector('#section8-button2') as HTMLElement;
-      if (!section8Title || !section8Details || !section8button1 || !section8button2) {
+      const screens = document.querySelector('.stack-wrap') as HTMLElement;
+      if (!section8Title || !section8Details || !section8button1 || !section8button2 || !screens) {
         console.warn('⚠️ عناصر الـ section8 مش لاقيها SplitText');
         return;
       }
@@ -79,6 +80,15 @@ export class Section8Component {
       );
 
 
+      tl.fromTo(screens,
+        { opacity: 0, visibility: "visible" },
+        {
+          opacity: 1,
+          duration: 0.6,
+          ease: "sine.inOut",
+          onStart: () => { gsap.set(screens, { opacity: 1, visibility: "visible" }) },
+        }
+      );
       tl.fromTo(section8button1,
         { opacity: 0, visibility: "visible" },
         {
