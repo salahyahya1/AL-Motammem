@@ -1,0 +1,70 @@
+.acc {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #F5F5F5;
+}
+
+.acc-head {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+    padding-inline: 18px;
+    min-height: 48px;
+}
+
+.acc-title {
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-align: start;
+    color: var(--dark-gray);
+}
+
+.acc-icon {
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+
+    svg {
+        display: block;
+        width: 30px;
+        height: 30px;
+        color: var(--primary);
+    }
+}
+
+.acc-panel {
+    height: 0; // GSAP controls it
+    overflow: hidden;
+}
+
+.acc-inner {
+    padding: 0 18px 16px 18px;
+    opacity: 0;
+    transform: translateY(-6px);
+}
+
+
+.is-open .acc-icon {
+    transform: rotate(180deg);
+    transform-origin: 50% 50%;
+}
+
+.is-disabled {
+    opacity: 0.6;
+
+    .acc-head {
+        cursor: not-allowed;
+    }
+}

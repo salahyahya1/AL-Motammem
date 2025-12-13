@@ -56,6 +56,8 @@ export class Section6Component {
           start: 'top top',
           end: "150% bottom",
           pin: true,
+          anticipatePin: 1,
+          pinType: 'transform',
         }
       });
 

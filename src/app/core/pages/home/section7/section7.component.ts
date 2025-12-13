@@ -45,6 +45,8 @@ export class Section7Component {
               start: 'top top',
               end: "150% bottom",
               pin: true,
+              anticipatePin: 1,
+              pinType: 'transform',
             },
           });
 
@@ -95,7 +97,7 @@ export class Section7Component {
             );
 
             ScrollTrigger.matchMedia({
-              "(min-width: 1024px)": () => {
+              "(min-width: 1280px)": () => {
                 const tlCards = gsap.timeline();
                 tlCards.fromTo(".card2", {
                   autoAlpha: 0,
@@ -125,7 +127,7 @@ export class Section7Component {
                 }, '<')
                 tl.add(tlCards, ">");
               },
-              "(min-width: 721px) and (max-width: 1023px)": () => {
+              "(min-width: 721px) and (max-width: 1279px)": () => {
                 const tlCards = gsap.timeline();
                 tlCards.fromTo(".card2", {
                   autoAlpha: 0,
@@ -138,7 +140,7 @@ export class Section7Component {
                 tlCards.fromTo(".card1", {
                   autoAlpha: 0,
                 }, {
-                  right: '0%',
+                  right: '-4%',
                   autoAlpha: 1,
                   duration: 1.5,
                   ease: "sine.out",
@@ -149,7 +151,7 @@ export class Section7Component {
                   // left: -14,
                 }, {
                   autoAlpha: 1,
-                  left: '0%',
+                  left: '-4%',
                   duration: 1.5,
                   ease: "sine.out",
                   immediateRender: false,

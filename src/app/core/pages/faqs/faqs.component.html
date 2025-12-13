@@ -1,0 +1,30 @@
+<section id="section8"
+    class=" screens-hero relative w-full min-h-screen flex flex-col md:flex-row items-center justify-start md:justify-between items-start md:gap-10 px-6 md:px-20 md:pt-10 pb-6">
+    <div
+        class="w-[90%] mx-auto md:w-[43%] text-center md:text-right flex md:sticky md:top-[40%]  self-start text-center md:text-right">
+        <div>
+            <div class="mb-2 text-[var(--dark-gray)] text-[0.8rem] lg:text-[1rem] xl:text-[1.3rem] font-bold">
+                الأسئلة
+                الشائعة</div>
+
+            <h2 class="text-[var(--primary)] text-[1.3rem] lg:text-[1.5rem] xl:text-[1.8rem] font-bold">
+                أسئلة متكررة
+            </h2>
+
+            <p class=" text-[var(--dark-gray)] text-[0.7rem] lg:text-[0.9rem] xl:text-[1.2rem] ">
+                الشروع في استخدام نظام برامج لأعمالك يتطلب التأكد من صلاحيته لنظام عملك وأنشطتك المختلفة، نشجعك على
+                قراءة الاجابات المطروحة هنا والاتصال بنا هاتفياً الآن اذا كانت لديك أية استفسارات أخرى سوف يسعدنا الرد
+                عليهاأو تقديمها من خلال صفحة "الاتصال بنا"
+            </p>
+        </div>
+    </div>
+    <div class="flex flex-col gap-[0.7rem] w-[90%] md:w-[50%] mx-auto pt-10 md:pt-30">
+        @for (FAQ of FAQS; track $index) {
+        <app-accordion [title]="FAQ.title | translate" [startOpen]="FAQ.startOpen">
+            {{FAQ.answer | translate}}
+        </app-accordion>
+        }
+
+    </div>
+
+</section>

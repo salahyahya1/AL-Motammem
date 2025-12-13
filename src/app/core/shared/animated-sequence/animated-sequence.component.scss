@@ -17,7 +17,7 @@
     opacity: 0;
     transition: transform 0.5s ease-in-out; // Reduced from 0.7s
     transform-origin: center center;
-    will-change: transform, opacity;
+    // will-change: transform, opacity;
 }
 
 .frame.active {
@@ -48,11 +48,12 @@
     backface-visibility: hidden; // Prevent flickering
     perspective: 1000px; // Hardware acceleration
 }
+
 .animation-container {
-  opacity: 0;
-  transition: opacity 0.6s ease-in-out;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
 }
 
 .animation-container.visible {
-  opacity: 1;
+    opacity: 1;
 }

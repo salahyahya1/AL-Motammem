@@ -86,6 +86,12 @@ export const routes: Routes = [
                 title: `مدونه`
             },
             {
+                path: 'FAQS',
+                loadComponent: () => import('./core/pages/faqs/faqs.component')
+                    .then(m => m.FAQSComponent),
+                title: `مدونه`
+            },
+            {
                 path: 'ContactUs',
                 loadComponent: () => import('./core/pages/contact-us/contact-us.component')
                     .then(m => m.ContactUsComponent),

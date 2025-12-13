@@ -61,6 +61,7 @@ export class Section5Component {
               end: "100% bottom",
               pin: true,
               anticipatePin: 1,
+              pinType: 'transform',
             }
           });
           tl.to("#Text5", { opacity: 1, y: 0, duration: 0.6, ease: 'power2.inOut' });

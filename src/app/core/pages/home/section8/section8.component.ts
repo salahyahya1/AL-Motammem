@@ -53,8 +53,11 @@ export class Section8Component {
         defaults: { ease: 'power3.out' },
         scrollTrigger: {
           trigger: '#section8',
-          start: '-20% top',
-          end: "bottom bottom",
+          start: 'top top',
+          end: "150% bottom",
+          pin: true,
+          anticipatePin: 1,
+          // pinType: 'transform',
         },
       });
 

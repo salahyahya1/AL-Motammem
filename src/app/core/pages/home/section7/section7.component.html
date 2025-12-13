@@ -1,5 +1,5 @@
 <section id="section7"
-    class="w-full min-h-screen  text-white flex flex-col items-center justify-center py-19 px-6 md:px-12">
+    class="w-full min-h-screen  text-white flex flex-col items-center justify-center py-19 px-6 md:px-12 mt-[-1px]">
     <div class="contents">
         <h2 id="Text7" class="text-center text-[1.5rem] lg:text-[1.9rem] font-bold leading-relaxed max-w-3xl">
             {{ 'HOME.PLANS.TITLE' | translate }}
@@ -13,7 +13,7 @@
         <div
             class="cards relative flex flex-col md:flex-row justify-center items-center gap-6 lg:gap-8 w-full lg:w-[85%] py-40  mx-auto">
             <div
-                class="card card1 text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[32%] lg:w-[25%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:p-8 shadow-md">
+                class="card card1 text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[33%] lg:w-[33%] xl:w-[25%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:p-8 shadow-md">
                 <div class="relative text-start" style="width: 95%;" [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div dir="ltr" class="flex gap-x-2">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
@@ -60,8 +60,8 @@
                 </div>
             </div>
             <div
-                class="card card2 text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[32%] lg:w-[25%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:pe-[17px] md:ps-[18px]  lg:p-8 xl:p-6 shadow-md">
-                <div class="relative flex flex-col items-center w-[80%]  xl:w-[99%]  text-start"
+                class="card card2 text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[33%] lg:w-[33%] xl:w-[25%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:pe-[17px] md:ps-[18px]  lg:p-5 xl:p-6 shadow-md">
+                <div class="relative flex flex-col items-center w-[80%] lg:w-[97%]  xl:w-[99%]  text-start"
                     [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div dir="ltr" class="flex gap-x-2 justify-center items-center  w-full">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
@@ -84,7 +84,8 @@
                         {{ 'HOME.PLANS.CARD2.TITLEp1' | translate }} <br>
                         {{ 'HOME.PLANS.CARD2.TITLEp2' | translate }}
                     </p>
-                    <ul class="text-gray-800 text-sm leading-relaxed mb-4 md:pr-[16px] pb-5 lg:pr-[0px] lg:w-[85%]">
+                    <ul
+                        class="text-gray-800 text-sm leading-relaxed mb-4 md:pr-[16px] pb-5 md:pb-0 md:mb-3 lg:pb-5 lg:mb-4 lg:pr-[0px] lg:w-[85%]">
                         @for (item of [1,2,3,4,5]; track item) {
                         <li>
                             {{ ('HOME.PLANS.CARD2.LIST.' + (item-1)) | translate }}
@@ -101,7 +102,7 @@
                 </div>
             </div>
             <div
-                class=" card card3  text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[32%] lg:w-[25%] text-[#0D47A1] flex flex-col items-center  p-6 md:p-8 shadow-md">
+                class=" card card3  text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[33%] lg:w-[33%] xl:w-[25%] text-[#0D47A1] flex flex-col items-center  p-6 md:p-8 shadow-md">
                 <div class="relative   text-start" style="width: 95%;" [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div dir="ltr" class="flex gap-x-2">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"

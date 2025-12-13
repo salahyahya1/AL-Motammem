@@ -1,0 +1,14 @@
+.faq-panel {
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 350ms ease, opacity 200ms ease;
+}
+
+.faq-panel.is-open {
+    max-height: 220px;
+    opacity: 1;
+}
+
+.faq-pill:hover {
+    box-shadow: 0 6px 18px rgba(36, 117, 234, 0.10);
+}

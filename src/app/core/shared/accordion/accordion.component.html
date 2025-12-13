@@ -1,0 +1,17 @@
+<div class="acc" [class.is-open]="isOpen" [class.is-disabled]="disabled">
+    <button type="button" class="acc-head" (click)="toggle()" [disabled]="disabled" [attr.aria-expanded]="isOpen">
+        <span class="acc-title">{{ title }}</span>
+
+        <span class="acc-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+        </span>
+    </button>
+
+    <div class="acc-panel" #panel>
+        <div class="acc-inner" #inner>
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

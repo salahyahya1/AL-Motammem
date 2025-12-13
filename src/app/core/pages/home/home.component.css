@@ -19,14 +19,17 @@
     position: absolute;
     background-color: white;
   }
+
   #hamprgerButton {
     visibility: visible;
   }
+
   .navSmallScreen {
     position: absolute;
     z-index: 50;
   }
 }
+
 html,
 body {
   height: 100%;
@@ -41,5 +44,7 @@ body {
 }
 
 #smooth-content {
-  will-change: transform;
-}/*# sourceMappingURL=home.component.css.map */
+  /* will-change: transform; */
+}
+
+/*# sourceMappingURL=home.component.css.map */

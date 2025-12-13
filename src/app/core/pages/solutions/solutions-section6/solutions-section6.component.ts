@@ -39,14 +39,12 @@ export class SolutionsSection6Component {
               trigger: "#consultation",
               start: 'top top',
               end: '+=150%',
-              // pinType: 'transform',
+              pinType: 'transform',
               pin: true,
               // markers: true,
               invalidateOnRefresh: true,
               id: 'pinsection',
               anticipatePin: 1,
-              onEnter: () => {
-              },
             });
             const consultationTitle = document.querySelector('h1#consultation-title') as HTMLElement;
             const consultationSubtitle = document.querySelector('#consultation-subtitle') as HTMLElement;

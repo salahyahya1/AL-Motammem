@@ -37,7 +37,7 @@ export class ProductSection3Component {
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         setTimeout(() => {
-          gsap.set("#productsection3", { willChange: "transform, opacity" });
+          // gsap.set("#productsection3", { willChange: "transform, opacity" });
           const section = document.querySelector('#productsection3') as HTMLElement;
           const img = document.getElementById('productsection3-img') as HTMLVideoElement;
           const productsection3Title = document.querySelector('h1#productsection3-title') as HTMLElement;

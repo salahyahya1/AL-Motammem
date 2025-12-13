@@ -36,7 +36,6 @@ export class ProductSection8Component {
       requestAnimationFrame(() => {
 
         document.fonts.ready.then(() => {
-          gsap.set("#productSection8", { willChange: "transform, opacity" });
           const section = document.querySelector('#productSection8') as HTMLElement;
           const img = document.getElementById('productSection8-img') as HTMLVideoElement;
           const productSection8Title = document.querySelector('#productSection8-title') as HTMLElement;
@@ -54,7 +53,7 @@ export class ProductSection8Component {
           ScrollTrigger.create({
             trigger: '#productSection8',
             start: 'top top',
-            end: "150% bottom",
+            end: "140% bottom",
             pin: true,
             pinType: 'transform',
             id: 'pinsection',
