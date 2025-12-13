@@ -1,54 +1,79 @@
 <div *ngIf="visible$ | async" id="dialog-backdrop" (click)="onBackdropClick($event)"
     class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <div dir="rtl" class="bg-white rounded-3xl shadow-xl w-[90%] max-w-xl p-6 md:p-8 relative">
-        <!-- الهيدر -->
-        <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg md:text-xl font-semibold text-gray-900">
+        <!-- زرار الـ X ثابت في الحالتين -->
+        <button type="button" (click)="closeDialog()" aria-label="إغلاق"
+            class="absolute left-4 top-4 text-gray-400 hover:text-gray-600 text-2xl leading-none">
+            &times;
+        </button>
+
+        <!-- لو لسه في وضع الفورم -->
+        <div *ngIf="!showSuccess; else successState">
+            <h2 class="text-lg md:text-xl font-semibold text-gray-900 mb-4 text-right">
                 تواصل معنا
             </h2>
 
-            <button type="button" (click)="closeDialog()" aria-label="إغلاق"
-                class="text-gray-400 hover:text-gray-600 text-2xl leading-none">
-                &times;
-            </button>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4" autocomplete="off">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-1 text-sm text-gray-700">الاسم الكامل</label>
+                        <input type="text" formControlName="fullName"
+                            class="w-full rounded-full px-4 py-2 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]" />
+                    </div>
+
+                    <div>
+                        <label class="block mb-1 text-sm text-gray-700">رقم الهاتف</label>
+                        <input type="tel" formControlName="phone"
+                            class="w-full rounded-full px-4 py-2 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block mb-1 text-sm text-gray-700">البريد الإلكتروني</label>
+                    <input type="email" formControlName="email"
+                        class="w-full rounded-full px-4 py-2 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]" />
+                </div>
+
+                <div>
+                    <label class="block mb-1 text-sm text-gray-700">
+                        رسالة / شرح احتياجاتك (اختياري)
+                    </label>
+                    <textarea rows="4" formControlName="message"
+                        class="w-full rounded-3xl px-4 py-3 bg-gray-100 resize-none focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]"></textarea>
+                </div>
+
+                <div class="flex justify-center pt-2">
+                    <button type="submit" [disabled]="isSubmitting"
+                        class="px-10 py-2 rounded-full bg-[#F4B942] text-white font-semibold shadow-md hover:bg-[#f3a924] hover:shadow-lg transition disabled:opacity-60 disabled:cursor-not-allowed">
+                        <span *ngIf="!isSubmitting">إرسال</span>
+                        <span *ngIf="isSubmitting">جارٍ الإرسال...</span>
+                    </button>
+
+                    <div class="text-center text-red-500 text-sm mt-2" *ngIf="errorMessage">
+                        {{ errorMessage }}
+                    </div>
+
+                </div>
+            </form>
         </div>
 
-        <!-- الفورم -->
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4" autocomplete="off">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block mb-1 text-sm text-gray-700">الاسم الكامل</label>
-                    <input type="text" formControlName="fullName"
-                        class="w-full rounded-full px-4 py-2 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]" />
+        <!-- ✅ وضع رسالة النجاح -->
+        <ng-template #successState>
+            <div class="flex flex-col items-center justify-center text-center gap-3 py-6">
+                <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                    <span class="text-2xl">✅</span>
                 </div>
-
-                <div>
-                    <label class="block mb-1 text-sm text-gray-700">رقم الهاتف</label>
-                    <input type="tel" formControlName="phone"
-                        class="w-full rounded-full px-4 py-2 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]" />
-                </div>
-            </div>
-
-            <div>
-                <label class="block mb-1 text-sm text-gray-700">البريد الإلكتروني</label>
-                <input type="email" formControlName="email"
-                    class="w-full rounded-full px-4 py-2 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]" />
-            </div>
-
-            <div>
-                <label class="block mb-1 text-sm text-gray-700">
-                    رسالة / شرح احتياجاتك (اختياري)
-                </label>
-                <textarea rows="4" formControlName="message"
-                    class="w-full rounded-3xl px-4 py-3 bg-gray-100 resize-none focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]"></textarea>
-            </div>
-
-            <div class="flex justify-center pt-2">
-                <button type="submit"
-                    class="px-10 py-2 rounded-full bg-[#F4B942] text-white font-semibold shadow-md hover:bg-[#f3a924] hover:shadow-lg transition">
-                    إرسال
+                <h3 class="text-lg font-semibold text-gray-900">
+                    تم إرسال طلبك بنجاح
+                </h3>
+                <p class="text-sm text-gray-600 max-w-xs">
+                    شكرًا لتواصلك معنا. سيتم التواصل معك في أقرب وقت ممكن.
+                </p>
+                <button type="button" (click)="closeDialog()"
+                    class="mt-2 px-6 py-2 rounded-full text-sm bg-[#F4B942] text-white font-medium shadow hover:bg-[#f3a924] transition">
+                    حسناً
                 </button>
             </div>
-        </form>
+        </ng-template>
     </div>
 </div>

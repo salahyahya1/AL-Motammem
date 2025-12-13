@@ -12,11 +12,12 @@ import { BehaviorSubject } from 'rxjs';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { SectionsRegistryService } from "../../shared/services/sections-registry.service";
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
+import { SectionScreensStackComponent } from "../../shared/section-screens-stack/section-screens-stack.component";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 @Component({
   selector: 'app-contact-us',
-  imports: [],
+  imports: [SectionScreensStackComponent],
   templateUrl: './contact-us.component.html',
   styleUrl: './contact-us.component.scss'
 })

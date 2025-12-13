@@ -1,27 +1,20 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { DOCUMENT } from '@angular/common';
+import { ScrollLockService } from './scroll-lock.service';
 
 @Injectable({ providedIn: 'root' })
 export class FormDialogService {
     private _visible$ = new BehaviorSubject<boolean>(false);
     visible$ = this._visible$.asObservable();
-
-    constructor(@Inject(DOCUMENT) private document: Document) { }
-
+    constructor(private scrollLock: ScrollLockService) { }
     open() {
+        if (this._visible$.value) return;
         this._visible$.next(true);
-
-        // 🔒 قفل سكرول الصفحة
-        const body = this.document.body;
-        body.style.overflow = 'hidden';
+        this.scrollLock.lock();
     }
-
     close() {
+        if (!this._visible$.value) return;
         this._visible$.next(false);
-
-        // 🔓 رجّع السكرول لطبيعته
-        const body = this.document.body;
-        body.style.overflow = '';
+        this.scrollLock.unlock();
     }
 }

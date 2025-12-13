@@ -9,7 +9,6 @@
 
 .cards {
     position: relative;
-    transform: none !important;
     overflow: visible;
 }
 
@@ -56,11 +55,6 @@ ul {
         position: relative;
         width: 80%;
         margin: auto;
-    }
-
-    .cards {
-        transform: none !important;
-
     }
 
     .cards {

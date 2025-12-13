@@ -1,5 +1,5 @@
 import { Directive, HostListener } from '@angular/core';
-import { FormDialogService } from '../services/form-dialog.service'; // عدّل المسار
+import { FormDialogService } from '../services/form-dialog.service';
 
 @Directive({
     selector: '[appOpenFormDialog]',
