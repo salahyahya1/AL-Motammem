@@ -14,6 +14,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { RouterLink } from '@angular/router';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { SectionsRegistryService } from '../../shared/services/sections-registry.service';
+import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
@@ -27,7 +28,7 @@ interface KnowledgeArticle {
 }
 @Component({
   selector: 'app-blogs',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, OpenFormDialogDirective],
   templateUrl: './blogs.component.html',
   styleUrl: './blogs.component.scss'
 })
@@ -95,7 +96,7 @@ export class BlogsComponent {
           ScrollTrigger.create({
             trigger: '#knowledge-center',
             start: 'top top',
-            end: "150% bottom",
+            end: "110% bottom",
             pin: true,
             pinType: 'transform',
             id: 'pinsection',

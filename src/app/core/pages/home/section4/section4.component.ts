@@ -1,16 +1,16 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { LanguageService } from '../../../shared/services/language.service';
-import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-section4',
-  imports: [RouterLink, TranslatePipe],
+  imports: [OpenFormDialogDirective, TranslatePipe],
   templateUrl: './section4.component.html',
   styleUrl: './section4.component.scss'
 })

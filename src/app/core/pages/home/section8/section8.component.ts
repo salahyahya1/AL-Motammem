@@ -7,9 +7,10 @@ import SplitText from "gsap/SplitText";
 gsap.registerPlugin(ScrollTrigger, SplitText);
 import { LanguageService } from '../../../shared/services/language.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
 @Component({
   selector: 'app-section8',
-  imports: [RouterLink, TranslatePipe],
+  imports: [RouterLink, TranslatePipe, OpenFormDialogDirective],
   templateUrl: './section8.component.html',
   styleUrl: './section8.component.scss'
 })

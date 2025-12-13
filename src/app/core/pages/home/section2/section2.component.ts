@@ -4,13 +4,14 @@ import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from 'gsap/SplitText';
-import {LanguageService } from '../../../shared/services/language.service';
-import {TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from '../../../shared/services/language.service';
+import { TranslatePipe } from '@ngx-translate/core';
+import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
   selector: 'app-section2',
-  imports: [RouterLink, TranslatePipe],
+  imports: [RouterLink, TranslatePipe, OpenFormDialogDirective],
   templateUrl: './section2.component.html',
   styleUrls: ['./section2.component.scss'],
 })
@@ -78,7 +79,7 @@ export class Section2Component {
               }
             });
             ScrollTrigger.create({
-              trigger: triggerEl || section,  
+              trigger: triggerEl || section,
               start: 'top top',
               end: '+=400',
               scrub: true, pinType: 'transform',

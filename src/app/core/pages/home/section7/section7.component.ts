@@ -5,15 +5,16 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from 'gsap/SplitText';
 import { LanguageService } from '../../../shared/services/language.service';
-import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
-
+import { TranslatePipe } from '@ngx-translate/core';
+import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
+// import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
   selector: 'app-section7',
   templateUrl: './section7.component.html',
   styleUrls: ['./section7.component.scss'],
-  imports: [RouterLink, TranslatePipe],
+  imports: [RouterLink, TranslatePipe, OpenFormDialogDirective],
 })
 export class Section7Component {
   items!: number[];

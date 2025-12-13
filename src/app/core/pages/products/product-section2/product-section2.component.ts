@@ -1,20 +1,17 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import InertiaPlugin from "gsap/InertiaPlugin";
 
 import SplitText from "gsap/SplitText";
-
-
-
-import { RouterLink } from '@angular/router';
+import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
 
 
 gsap.registerPlugin(ScrollTrigger, SplitText, InertiaPlugin);
 @Component({
   selector: 'app-product-section2',
-  imports: [],
+  imports: [OpenFormDialogDirective],
   templateUrl: './product-section2.component.html',
   styleUrl: './product-section2.component.scss'
 })
