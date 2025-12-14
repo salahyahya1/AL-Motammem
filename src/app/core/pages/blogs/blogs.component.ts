@@ -73,7 +73,7 @@ export class BlogsComponent {
       title: 'كيف تساعدك الأتمتة في تقليل الأخطاء المحاسبية بنسبة 60٪؟',
       excerpt:
         'من خلال تبسيط دورات العمل وتقليل التدخل اليدوي، يمكنك رفع دقة التقارير وزيادة سرعة اتخاذ القرار.',
-      imageUrl: './images/blog2.png',
+      imageUrl: './images/images.jpg',
       ctaLabel: 'اكتشف المزيد',
       link: '/BlogVeiw',
     },
