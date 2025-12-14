@@ -11,17 +11,17 @@
             <address class="not-italic space-y-2 text-sm leading-relaxed text-[color:var(--blue-gray,#E9E9E9)]">
                 <p>{{ 'FOOTER.ADDRESS' | translate }} </p>
                 <p class="flex flex-col">
-                    <a href="tel:+20255896333"
+                    <a href="tel:+20255896333" dir="ltr"
                         class="hover:text-[var(--secondary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--secondary)] rounded px-0.5 w-fit">
                         (+202) 5589-6333
                     </a>
 
-                    <a href="tel:+20270901673"
+                    <a href="tel:+20270901673" dir="ltr"
                         class="hover:text-[var(--secondary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--secondary)] rounded px-0.5 w-fit">
                         (+202) 7090-1673
                     </a>
 
-                    <a href="tel:+1234567890"
+                    <a href="tel:+1234567890" dir="ltr"
                         class="hover:text-[var(--secondary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--secondary)] rounded px-0.5 w-fit">
                         +123 456 7890
                     </a>
@@ -109,11 +109,11 @@
                 </p>
 
                 <ul class="space-y-2 text-sm">
-                    <li><a href="#"
+                    <li><a routerLink="PrivacyPlicy"
                             class="text-[color:var(--blue-gray,#E9E9E9)] underline underline-offset-4 decoration-transparent transition hover:text-[var(--secondary)] hover:decoration-[var(--secondary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--secondary)] rounded px-0.5">
                             {{ 'FOOTER.PRIVACY_POLICY' | translate }} </a>
                     </li>
-                    <li><a href="#"
+                    <li><a routerLink="TermsPlicy"
                             class="text-[color:var(--blue-gray,#E9E9E9)] underline underline-offset-4 decoration-transparent transition hover:text-[var(--secondary)] hover:decoration-[var(--secondary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--secondary)] rounded px-0.5">
                             {{ 'FOOTER.TERMS_POLICY' | translate }}
                         </a>
@@ -147,11 +147,10 @@
         {{ 'FOOTER.COPYRIGHT' | translate }}
     </div>
 
-    <button type="button" (click)="open()" class="inline-flex items-center gap-2 rounded-full px-5 py-3
+    <!-- <button type="button" (click)="open()" class="inline-flex items-center gap-2 rounded-full px-5 py-3
          bg-[var(--primary)] text-white font-bold
          hover:scale-[1.03] transition
          focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)]">
-        <!-- WhatsApp Icon -->
         <svg viewBox="0 0 32 32" class="w-5 h-5 fill-current" aria-hidden="true">
             <path
                 d="M19.11 17.2c-.28-.14-1.64-.8-1.9-.9-.25-.1-.43-.14-.6.14-.18.28-.7.9-.86 1.08-.16.18-.32.2-.6.07-.28-.14-1.17-.43-2.23-1.37-.82-.73-1.37-1.63-1.53-1.9-.16-.28-.02-.43.12-.57.12-.12.28-.32.41-.48.14-.16.18-.28.28-.46.1-.18.05-.35-.02-.5-.07-.14-.6-1.45-.82-1.98-.22-.53-.44-.46-.6-.46h-.52c-.18 0-.46.07-.7.35-.25.28-.94.92-.94 2.25 0 1.33.97 2.62 1.11 2.8.14.18 1.9 2.9 4.6 4.06.64.28 1.14.45 1.53.58.64.2 1.22.17 1.68.1.51-.08 1.64-.67 1.87-1.32.23-.65.23-1.2.16-1.32-.07-.12-.25-.2-.53-.34z" />
@@ -160,6 +159,6 @@
         </svg>
 
         تواصل عبر واتساب
-    </button>
+    </button> -->
 
 </footer>

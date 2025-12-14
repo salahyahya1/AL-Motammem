@@ -98,6 +98,18 @@ export const routes: Routes = [
                 title: `تواصل معنا`
             },
             {
+                path: 'TermsPlicy',
+                loadComponent: () => import('./core/pages/terms-plicy/terms-plicy.component')
+                    .then(m => m.TermsPlicyComponent),
+                title: `تواصل معنا`
+            },
+            {
+                path: 'PrivacyPlicy',
+                loadComponent: () => import('./core/pages/privacy-plicy/privacy-plicy.component')
+                    .then(m => m.PrivacyPlicyComponent),
+                title: `تواصل معنا`
+            },
+            {
                 path: 'coming-soon',
                 loadComponent: () => import('./core/shared/coming-soon/coming-soon.component')
                     .then(m => m.ComingSoonComponent),
