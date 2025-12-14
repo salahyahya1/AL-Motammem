@@ -9,16 +9,15 @@
                 </h2>
 
                 <p id="Desc" class="text-[#6B7280] text-sm md:text-base leading-relaxed w-[80%] md:w-[75%] mx-auto">
-                    هنا تجد مقالات مختصرة تساعدك تفهم الـ ERP، وتطور شغلك، وتتعرف على أفضل الممارسات في الإدارة المالية،
-                    المخزون،
-                    الموارد البشرية وغيرها… خبرة تمتد لأكثر من 40 عامًا.
+                    هنا تجد مقالات مختصرة تساعدك فى فهم انظمة ادارة موارد المؤسسة (ERP System)، وتطوير عملك، والتعرف على
+                    أفضل الممارسات في الإدارة المالية، المخزون، الموارد البشرية وغيرها… خبرة تمتد لأكثر من 40 عامًا.
                 </p>
             </div>
         </div>
 
         <div class="hidden md:flex justify-start gap-10 text-sm mb-3">
             <button id="btn1" class="text-[var(--light-gray)] hover:text-[var(--primary,#1D4ED8)]">
-                الأحدث
+                جميع المقالات
             </button>
         </div>
 
@@ -49,7 +48,7 @@
                                 <div class="text-content flex gap-5 flex-col md:flex-row ">
                                     <div class="relative">
                                         <div
-                                            class="w-[95%] mx-auto md:w-full h-44 md:h-52 lg:h-56 rounded-3xl bg-[#E5E7EB] overflow-hidden">
+                                            class="w-[95%] mx-auto md:w-full h-44 md:h-52 lg:h-56 rounded-3xl bg-[#FFFFFF] overflow-hidden">
                                             <img *ngIf="article.imageUrl" [src]="article.imageUrl"
                                                 alt="{{ article.title }}" class="w-full h-full object-cover" />
                                         </div>
@@ -101,7 +100,10 @@
 
                     <article
                         class="bg-white rounded-3xl shadow-sm border border-[#E5E7EB] flex flex-col overflow-hidden">
-                        <div class="h-32 md:h-36 bg-[#E5E7EB]"></div>
+                        <div class="h-32 md:h-43 bg-[#FFFFFF]">
+                            <img src="./images/blog1.png" class="object-cover h-full" style="border-radius: 1rem;"
+                                alt="">
+                        </div>
                         <div class="p-4 md:p-5 flex flex-col gap-2 text-right">
                             <h4 class="text-[var(--primary,#1D4ED8)] text-sm md:text-base font-semibold">
                                 العنوان
@@ -120,7 +122,10 @@
 
                     <article
                         class="bg-white rounded-3xl shadow-sm border border-[#E5E7EB] flex flex-col overflow-hidden">
-                        <div class="h-32 md:h-36 bg-[#E5E7EB]"></div>
+                        <div class="h-32 md:h-43 bg-[#FFFFFF]  ">
+                            <img src="./images/blog2.jpg" class="object-cover h-full" style="border-radius: 1rem;"
+                                alt="">
+                        </div>
                         <div class="p-4 md:p-5 flex flex-col gap-2 text-right">
                             <h4 class="text-[var(--primary,#1D4ED8)] text-sm md:text-base font-semibold">
                                 العنوان
@@ -139,8 +144,11 @@
 
                     <article
                         class="bg-white rounded-3xl shadow-sm border border-[#E5E7EB] flex flex-col overflow-hidden">
-                        <div class="h-32 md:h-36 bg-[#E5E7EB]"></div>
-                        <div class="p-4 md:p-5 flex flex-col gap-2 text-right">
+                        <div class="h-32 md:h-43 bg-[#FFFFFF]">
+                            <img src="./images/Blog-5-scaled.jpg " class="object-cover h-full"
+                                style="border-radius: 1rem;" alt="">
+                        </div>
+                        <div class="p-4 md:p-5 flex flex-col gap-2 text-right ">
                             <h4 class="text-[var(--primary,#1D4ED8)] text-sm md:text-base font-semibold">
                                 العنوان
                             </h4>

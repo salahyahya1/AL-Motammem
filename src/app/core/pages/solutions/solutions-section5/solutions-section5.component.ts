@@ -61,18 +61,29 @@ export class SolutionsSection5Component {
         this.groupIntegrations();
     }
 
+    // private groupIntegrations() {
+    //     if (!this.Integrations.length) return;
+
+    //     const result: Integration[][] = [];
+
+    //     result.push([this.Integrations[0]]);
+    //     for (let i = 1; i < this.Integrations.length; i += 2) {
+    //         const group: Integration[] = [this.Integrations[i]];
+    //         // if (i + 1 < this.Integrations.length) {
+    //         //     group.push(this.Integrations[i + 1]);
+    //         // }
+    //         result.push(group);
+    //     }
+
+    //     this.groupedIntegrations = result;
+    // }
     private groupIntegrations() {
-        if (!this.Integrations.length) return;
+        if (!this.Integrations?.length) return;
 
         const result: Integration[][] = [];
 
-        result.push([this.Integrations[0]]);
-        for (let i = 1; i < this.Integrations.length; i += 2) {
-            const group: Integration[] = [this.Integrations[i]];
-            if (i + 1 < this.Integrations.length) {
-                group.push(this.Integrations[i + 1]);
-            }
-            result.push(group);
+        for (let i = 0; i < this.Integrations.length; i += 2) {
+            result.push(this.Integrations.slice(i, i + 2)); // [item1,item2] ثم [item3,item4]...
         }
 
         this.groupedIntegrations = result;

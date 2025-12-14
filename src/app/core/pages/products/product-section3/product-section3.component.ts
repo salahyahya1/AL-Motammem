@@ -23,7 +23,8 @@ export class ProductSection3Component {
     private language: LanguageService,
   ) { }
   timeline!: gsap.core.Timeline
-  productsection3TitleSplit: any;
+  productsection3Title1Split: any;
+  productsection3Title2Split: any;
   productsection3SubtitleSplit1: any;
   productsection3SubtitleSplit2: any;
   productsection3SubtitleSplit3: any;
@@ -40,12 +41,13 @@ export class ProductSection3Component {
           // gsap.set("#productsection3", { willChange: "transform, opacity" });
           const section = document.querySelector('#productsection3') as HTMLElement;
           const img = document.getElementById('productsection3-img') as HTMLVideoElement;
-          const productsection3Title = document.querySelector('h1#productsection3-title') as HTMLElement;
+          const productsection3Title1 = document.querySelector('h1#productsection3-title1') as HTMLElement;
+          const productsection3Title2 = document.querySelector('h2#productsection3-title2') as HTMLElement;
           const productsection3Subtitle1 = document.querySelector('#productsection3-title2-p1') as HTMLElement;
           const productsection3Subtitle2 = document.querySelector('#productsection3-title2-p2') as HTMLElement;
           const productsection3Subtitle3 = document.querySelector('#productsection3-title2-p3') as HTMLElement;
 
-          if (!productsection3Title || !productsection3Subtitle1 || !productsection3Subtitle2 || !productsection3Subtitle3) {
+          if (!productsection3Title1 || !productsection3Title2 || !productsection3Subtitle1 || !productsection3Subtitle2 || !productsection3Subtitle3) {
             console.warn('⚠️ عناصر الـ hero مش لاقيها SplitText');
             return;
           }
@@ -57,11 +59,14 @@ export class ProductSection3Component {
             }
           });
 
-          // this.productsection3TitleSplit = new SplitText(productsection3Title, { type: "words" });
+          // this.productsection3Title1Split = new SplitText(productsection3Title1, { type: "words" });
+          // this.productsection3Title1Split = new SplitText(productsection3Title1, { type: "words" });
+          // this.productsection3Title2Split = new SplitText(productsection3Title2, { type: "words" });
           // this.productsection3SubtitleSplit1 = new SplitText(productsection3Subtitle1, { type: "words" });
           // this.productsection3SubtitleSplit2 = new SplitText(productsection3Subtitle2, { type: "words" });
           // this.productsection3SubtitleSplit3 = new SplitText(productsection3Subtitle3, { type: "words" });
-          tl.fromTo(productsection3Title, { opacity: 0, y: 50, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0);
+          tl.fromTo(productsection3Title1, { opacity: 0, y: 50, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0);
+          tl.fromTo(productsection3Title2, { opacity: 0, y: 50, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0);
           tl.fromTo(productsection3Subtitle1, { opacity: 0, y: 50, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0.2);
           tl.fromTo(productsection3Subtitle2, { opacity: 0, y: 50, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0.4);
           tl.fromTo(productsection3Subtitle3, { opacity: 0, y: 50, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0.6);

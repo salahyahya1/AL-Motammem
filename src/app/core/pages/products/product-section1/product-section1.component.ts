@@ -35,7 +35,11 @@ export class ProductSection1Component implements AfterViewInit {
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;
     if (!isPlatformBrowser(this.platformId)) return;
-
+    const video = document.querySelector('#videoElement') as HTMLVideoElement | null;
+    if (video) {
+      gsap.set(video, { autoAlpha: 0 }); // autoAlpha = opacity + visibility
+      gsap.to(video, { autoAlpha: 1, duration: 1.2, ease: 'power2.out' });
+    }
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         setTimeout(() => {

@@ -17,7 +17,8 @@ gsap.registerPlugin(ScrollTrigger, SplitText, InertiaPlugin);
 })
 export class ProductSection2Component {
   isBrowser = false;
-  CustomizationTitleSplit!: SplitText;
+  CustomizationTitle1Split!: SplitText;
+  CustomizationTitle2Split!: SplitText;
   CustomizationSubtitleSplit!: SplitText;
   CustomizationDescSplit!: SplitText;
   constructor(
@@ -48,14 +49,16 @@ export class ProductSection2Component {
             anticipatePin: 1,
           });
           gsap.set("#customizationSection", { willChange: "transform, opacity" });
-          const CustomizationTitle = document.getElementById('customizationTitle');
+          const customizationTitle1 = document.getElementById('customizationTitle1');
+          const customizationTitle2 = document.getElementById('customizationTitle2');
           const CustomizationSubTitle = document.getElementById('customizationSubTitle');
           const CustomizationDesc = document.getElementById('customizationDesc');
-          if (!CustomizationTitle || !CustomizationSubTitle || !CustomizationDesc) {
+          if (!customizationTitle1 || !customizationTitle2 || !CustomizationSubTitle || !CustomizationDesc) {
             console.warn('⚠️ عناصر الـ hero مش لاقيها SplitText');
             return;
           }
-          this.CustomizationTitleSplit = new SplitText(CustomizationTitle, { type: 'words' });
+          this.CustomizationTitle1Split = new SplitText(customizationTitle1, { type: 'words' });
+          this.CustomizationTitle2Split = new SplitText(customizationTitle2, { type: 'words' });
           this.CustomizationSubtitleSplit = new SplitText(CustomizationSubTitle, { type: 'words' });
           this.CustomizationDescSplit = new SplitText(CustomizationDesc, { type: 'words' });
           const tl = gsap.timeline({
@@ -68,14 +71,24 @@ export class ProductSection2Component {
 
 
 
-          tl.fromTo(this.CustomizationTitleSplit.words,
+          tl.fromTo(this.CustomizationTitle1Split.words,
             { opacity: 0, visibility: "visible" },
             {
               opacity: 1,
               duration: 0.4,
               ease: "sine.out",
               stagger: 0.02,
-              onStart: () => { gsap.set(CustomizationTitle, { opacity: 1, visibility: "visible" }) },
+              onStart: () => { gsap.set(customizationTitle1, { opacity: 1, visibility: "visible" }) },
+            }
+          );
+          tl.fromTo(this.CustomizationTitle2Split.words,
+            { opacity: 0, visibility: "visible" },
+            {
+              opacity: 1,
+              duration: 0.4,
+              ease: "sine.out",
+              stagger: 0.02,
+              onStart: () => { gsap.set(customizationTitle2, { opacity: 1, visibility: "visible" }) },
             }
           );
           tl.fromTo(this.CustomizationSubtitleSplit.words,

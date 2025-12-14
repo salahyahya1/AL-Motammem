@@ -55,7 +55,7 @@ export class BlogsComponent {
       title: 'كيف تُحدث الأنظمة المحاسبية السحابية تحوّلًا في إدارة الأعمال؟',
       excerpt:
         'مستقبل المحاسبة يبدأ من السحابة. اكتشف لماذا تعتمد الشركات الحديثة على الأنظمة الذكية في إدارة عملياتها المالية.',
-      imageUrl: './assets/knowledge/article-1.png',
+      imageUrl: './images/ERP-1.jpg',
       ctaLabel: 'اكتشف المزيد',
       link: '/BlogVeiw',
     },
@@ -64,7 +64,7 @@ export class BlogsComponent {
       title: '5 مؤشرات تخبرك أن نظام الـ ERP الحالي لم يعد مناسبًا لشركتك',
       excerpt:
         'تعرف على العلامات المبكرة التي تشير إلى أن الوقت قد حان للانتقال إلى نظام ERP أكثر تطورًا ومرونة.',
-      imageUrl: './assets/knowledge/article-2.png',
+      imageUrl: './images/blog1.png',
       ctaLabel: 'اكتشف المزيد',
       link: '/BlogVeiw',
     },
@@ -73,7 +73,7 @@ export class BlogsComponent {
       title: 'كيف تساعدك الأتمتة في تقليل الأخطاء المحاسبية بنسبة 60٪؟',
       excerpt:
         'من خلال تبسيط دورات العمل وتقليل التدخل اليدوي، يمكنك رفع دقة التقارير وزيادة سرعة اتخاذ القرار.',
-      imageUrl: './assets/knowledge/article-3.png',
+      imageUrl: './images/blog2.png',
       ctaLabel: 'اكتشف المزيد',
       link: '/BlogVeiw',
     },

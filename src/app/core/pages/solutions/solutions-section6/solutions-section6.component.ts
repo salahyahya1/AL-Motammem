@@ -35,17 +35,7 @@ export class SolutionsSection6Component {
       requestAnimationFrame(() => {
         setTimeout(() => {
           document.fonts.ready.then(() => {
-            ScrollTrigger.create({
-              trigger: "#consultation",
-              start: 'top top',
-              end: '+=150%',
-              pinType: 'transform',
-              pin: true,
-              // markers: true,
-              invalidateOnRefresh: true,
-              id: 'pinsection',
-              anticipatePin: 1,
-            });
+
             const consultationTitle = document.querySelector('h1#consultation-title') as HTMLElement;
             const consultationSubtitle = document.querySelector('#consultation-subtitle') as HTMLElement;
             const consultationDetails = document.querySelector('#consultation-details') as HTMLElement;
@@ -65,11 +55,23 @@ export class SolutionsSection6Component {
             this.consultationfootersSplit = new SplitText(consultationfooter, { type: 'words' });
 
             const tl = gsap.timeline({
-              defaults: { ease: "power3.out" }, scrollTrigger: {
+              defaults: { ease: "power3.out" },
+              //  scrollTrigger: {
+              //   trigger: "#consultation",
+              //   start: 'top top',
+              //   end: "150% bottom",
+              //   // markers: true,
+              // }
+              scrollTrigger: {
                 trigger: "#consultation",
                 start: 'top top',
-                end: "150% bottom",
+                end: '130% bottom',
+                pinType: 'transform',
+                pin: true,
                 // markers: true,
+                invalidateOnRefresh: true,
+                id: 'pinsection',
+                anticipatePin: 1,
               }
             });
 

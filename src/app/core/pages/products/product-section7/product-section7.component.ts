@@ -275,28 +275,33 @@ export class ProductSection7Component {
             tl.to(
               capsuleSelector,
               {
-                y: 12,
+                y: -60,
                 duration: 0.7,
                 ease: "power2.inOut",
               },
               ">-0.4"
             );
+            // tl.to("#capsule7", {
+            //   y: -60,
+            //   duration: 1,
+            //   ease: "power2.inOut",
+            // }, ">-0.4");
+            tl.fromTo("#productsSection7Bottom",
+              { opacity: 0, y: 100 },
+              {
+                opacity: 1,
+                y: 0,
+                ease: "sine.out",
+                stagger: 0.1,
+              }, "<+0.5"
+            );
           };
 
           // 📱 أقل من 768px → نفس الكبسولة بس scale = 0.9
-          mm.add("(max-width: 767px)", () => {
+          mm.add("(min-width: 0px)", () => {
             setupCapsuleAnimation("#capsule7", "#productsSection7-TITLE", 0.9);
           });
 
-          // 📲 من 768 إلى 1279px → نفس الكبسولة scale = 0.85
-          mm.add("(min-width: 768px) and (max-width: 1279px)", () => {
-            setupCapsuleAnimation("#capsule7", "#productsSection7-TITLE", 1);
-          });
-
-          // 💻 من 1280px فأعلى → الكبسولة الكبيرة
-          mm.add("(min-width: 1280px)", () => {
-            setupCapsuleAnimation("#capsule7-xl", "#productsSection7-TITLE-xl", 1.4);
-          });
 
         }, 200);
       });
