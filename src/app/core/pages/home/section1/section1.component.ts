@@ -60,17 +60,9 @@ export class Section1Component implements OnDestroy {
     if (!isPlatformBrowser(this.platformId)) return;
 
     this.ngZone.runOutsideAngular(() => {
-      requestIdleCallback(() => {
-        this.waitForLCPThenInit();
+          this.runAfterPaint(() => this.waitForLCPThenInit());
+    this.runAfterPaint(() => this.runGsapAnimation(), 150);
       });
-      requestIdleCallback(() => {
-        setTimeout(() => {
-          this.runGsapAnimation();
-        }, 150);
-      });
-    });
-
-
   }
 
 
@@ -219,27 +211,56 @@ export class Section1Component implements OnDestroy {
     }
   }
 
+  // private initAnimatedSequenceAfterIdle() {
+  //   this.ngZone.runOutsideAngular(() => {
+  //     const run = () => {
+  //       setTimeout(() => {
+  //         try {
+  //           this.ngZone.run(() => {
+  //             this.spriteReady = true;
+  //           });
+
+  //           this.seq?.playForwardAnimation?.();
+  //         } catch (e) { }
+  //       }, 80);
+  //     };
+
+  //     if ('requestIdleCallback' in window) {
+  //       (window as any).requestIdleCallback(run, { timeout: 2000 });
+  //     } else {
+  //       setTimeout(run, 700);
+  //     }
+  //   });
+  // }
   private initAnimatedSequenceAfterIdle() {
-    this.ngZone.runOutsideAngular(() => {
-      const run = () => {
-        setTimeout(() => {
-          try {
-            this.ngZone.run(() => {
-              this.spriteReady = true;
-            });
+  this.ngZone.runOutsideAngular(() => {
+    const run = () => {
+      setTimeout(() => {
+        try {
+          this.ngZone.run(() => {
+            this.spriteReady = true;
+          });
 
-            this.seq?.playForwardAnimation?.();
-          } catch (e) { }
-        }, 80);
-      };
+          this.seq?.playForwardAnimation?.();
+        } catch (e) {}
+      }, 80);
+    };
 
-      if ('requestIdleCallback' in window) {
-        (window as any).requestIdleCallback(run, { timeout: 2000 });
-      } else {
-        setTimeout(run, 700);
-      }
-    });
-  }
+    // بدل idleCallback
+    this.runAfterPaint(run, 0);
+  });
+}
+
+  private runAfterPaint(cb: () => void, delayMs = 0) {
+  if (typeof window === 'undefined') return;
+
+  // after next paint
+  requestAnimationFrame(() => {
+    // after paint queue
+    setTimeout(cb, delayMs);
+  });
+}
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
