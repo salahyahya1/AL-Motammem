@@ -60,8 +60,23 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "nodemon": "^3.1.10",
+    "playwright": "^1.57.0",
     "postcss": "^8.5.6",
     "typescript": "~5.7.2",
     "webpack": "^5.103.0"
-  }
+  },
+  "description": "<<<<<<< HEAD\r # AL-Motammem\r AL-Motammem Company Website\r =======\r # AlMotammem",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salahyahya1/AL-Motammem.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/salahyahya1/AL-Motammem/issues"
+  },
+  "homepage": "https://github.com/salahyahya1/AL-Motammem#readme"
 }
