@@ -91,10 +91,7 @@ export class Section2Component {
                 if (!playedOnce) {
                   playedOnce = true;
                   video.currentTime = 0;
-                  video.play().catch(() => {
-  unlockSafariMediaOnce(); // fallback
-});
-
+                  this.requestPlay(video);
                 }
               },
             });
@@ -154,34 +151,53 @@ export class Section2Component {
         }, 500);
       });
     });
+  }
 
-let unlocked = false;
+  private pendingVideos = new Set<HTMLVideoElement>();
+private unlockCleanup?: () => void;
 
-function unlockSafariMediaOnce() {
-  if (unlocked) return;
-  const handler = async () => {
-    unlocked = true;
-    window.removeEventListener('pointerdown', handler);
-    window.removeEventListener('touchstart', handler);
-    window.removeEventListener('keydown', handler);
+private requestPlay(video: HTMLVideoElement) {
+  if (!video) return;
 
-    // جرّب شغّل/اطفي كل الفيديوهات muted (أو اللي محتاج)
-    document.querySelectorAll('video').forEach(async (v) => {
-      try {
-        v.muted = true;
-        v.setAttribute('muted', '');
-        (v as any).playsInline = true;
-        await v.play();
-        v.pause(); // unlock فقط
-      } catch {}
-    });
-  };
+  video.muted = true;
+  video.setAttribute('muted', '');
+  (video as any).playsInline = true;
+  video.setAttribute('playsinline', '');
+  video.setAttribute('webkit-playsinline', '');
 
-  window.addEventListener('pointerdown', handler, { once: true });
-  window.addEventListener('touchstart', handler, { once: true, passive: true } as any);
-  window.addEventListener('keydown', handler, { once: true });
+  const p = video.play();
+  p?.catch((err: any) => {
+    // Safari: play لازم user gesture
+    if (err?.name === 'NotAllowedError' || String(err?.message || '').includes('user gesture')) {
+      this.pendingVideos.add(video);
+      this.installUnlockOnce();
+    }
+  });
 }
 
-  }
+private installUnlockOnce() {
+  if (this.unlockCleanup) return;
+
+  const unlock = () => {
+    // بعد أول تفاعل: شغّل الفيديوهات اللي اتمنعت
+    this.pendingVideos.forEach(v => v.play().catch(() => {}));
+    this.pendingVideos.clear();
+    cleanup();
+  };
+
+  const cleanup = () => {
+    window.removeEventListener('pointerdown', unlock);
+    window.removeEventListener('touchstart', unlock);
+    window.removeEventListener('keydown', unlock);
+    this.unlockCleanup = undefined;
+  };
+
+  window.addEventListener('pointerdown', unlock, { once: true });
+  window.addEventListener('touchstart', unlock, { once: true, passive: true } as any);
+  window.addEventListener('keydown', unlock, { once: true });
+
+  this.unlockCleanup = cleanup;
+}
+
   
 }
