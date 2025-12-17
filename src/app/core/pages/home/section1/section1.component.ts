@@ -34,6 +34,7 @@ export class Section1Component implements OnDestroy {
   private destroy$ = new Subject<void>();
   isSequenceReady: boolean = false;
   timeline!: gsap.core.Timeline;
+  private mm?: any;
   heroTitleSplit: any;
   heroSubtitleSplit: any;
   heroDetailsSplit: any;
@@ -158,6 +159,43 @@ export class Section1Component implements OnDestroy {
       );
 
       this.timeline = tl;
+
+      try {
+        const ScrollTriggerModule = await import('gsap/ScrollTrigger');
+        const ScrollTrigger = ScrollTriggerModule?.default ?? ScrollTriggerModule;
+        gsap.registerPlugin(ScrollTrigger);
+
+        this.mm?.revert?.();
+        this.mm = gsap.matchMedia();
+
+        let pinInstance: any;
+        this.mm.add("(min-width: 700px)", () => {
+          pinInstance = ScrollTrigger.create({
+            trigger: '#hero',
+            start: 'top top',
+            end: '150% bottom',
+            pin: true,
+            pinType: 'transform',
+            id: 'hero-pin',
+            anticipatePin: 1,
+          });
+          return () => { pinInstance?.kill?.(); pinInstance = null; };
+        });
+
+        this.mm.add("(max-width: 699px)", () => {
+          pinInstance = ScrollTrigger.create({
+            trigger: '#hero',
+            start: 'top top',
+            end: '+=1',
+            pin: false,
+            id: 'hero-pin-small',
+          });
+          return () => { pinInstance?.kill?.(); pinInstance = null; };
+        });
+      } catch (e) {
+        console.warn('ScrollTrigger failed to load', e);
+      }
+
     });
 
     if (this.heroVideo && 'IntersectionObserver' in window) {
@@ -264,6 +302,7 @@ export class Section1Component implements OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.mm?.revert?.();
     this.timeline?.kill?.();
     this.revertSplits();
   }
