@@ -7,6 +7,7 @@ import SplitText from 'gsap/SplitText';
 import { LanguageService } from '../../../shared/services/language.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
+import { VedioPlayerServiceForIosService } from '../../../shared/services/vedio-player-service-for-ios.service';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
@@ -19,6 +20,7 @@ export class Section2Component {
   private language = inject(LanguageService);
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
+    private vedioPlayer:VedioPlayerServiceForIosService,
     private appRef: ApplicationRef,
     private ngZone: NgZone
   ) { }
@@ -91,7 +93,7 @@ export class Section2Component {
                 if (!playedOnce) {
                   playedOnce = true;
                   video.currentTime = 0;
-                  this.requestPlay(video);
+                  this.vedioPlayer.requestPlay(video);
                 }
               },
             });
@@ -152,52 +154,5 @@ export class Section2Component {
       });
     });
   }
-
-  private pendingVideos = new Set<HTMLVideoElement>();
-private unlockCleanup?: () => void;
-
-private requestPlay(video: HTMLVideoElement) {
-  if (!video) return;
-
-  video.muted = true;
-  video.setAttribute('muted', '');
-  (video as any).playsInline = true;
-  video.setAttribute('playsinline', '');
-  video.setAttribute('webkit-playsinline', '');
-
-  const p = video.play();
-  p?.catch((err: any) => {
-    // Safari: play لازم user gesture
-    if (err?.name === 'NotAllowedError' || String(err?.message || '').includes('user gesture')) {
-      this.pendingVideos.add(video);
-      this.installUnlockOnce();
-    }
-  });
-}
-
-private installUnlockOnce() {
-  if (this.unlockCleanup) return;
-
-  const unlock = () => {
-    // بعد أول تفاعل: شغّل الفيديوهات اللي اتمنعت
-    this.pendingVideos.forEach(v => v.play().catch(() => {}));
-    this.pendingVideos.clear();
-    cleanup();
-  };
-
-  const cleanup = () => {
-    window.removeEventListener('pointerdown', unlock);
-    window.removeEventListener('touchstart', unlock);
-    window.removeEventListener('keydown', unlock);
-    this.unlockCleanup = undefined;
-  };
-
-  window.addEventListener('pointerdown', unlock, { once: true });
-  window.addEventListener('touchstart', unlock, { once: true, passive: true } as any);
-  window.addEventListener('keydown', unlock, { once: true });
-
-  this.unlockCleanup = cleanup;
-}
-
   
 }

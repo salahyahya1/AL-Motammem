@@ -7,6 +7,7 @@ import { AnimatedSequenceComponent } from "../../../shared/animated-sequence/ani
 gsap.registerPlugin(ScrollTrigger, SplitText);
 import {  TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
+import { VedioPlayerServiceForIosService } from '../../../shared/services/vedio-player-service-for-ios.service';
 @Component({
   selector: 'app-about-section2',
   imports: [TranslatePipe],
@@ -19,6 +20,7 @@ export class AboutSection2Component {
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
     private language:LanguageService,
+        private vedioPlayer:VedioPlayerServiceForIosService,
   ) { }
   timeline!: gsap.core.Timeline
   AboutSection2TitleSplit: any;
@@ -108,7 +110,7 @@ export class AboutSection2Component {
           if (!playedOnce) {
             playedOnce = true;
             video.currentTime = 0;
-            video?.play();
+                             this.vedioPlayer.requestPlay(video);
           }
         },
       })

@@ -9,11 +9,10 @@ import SplitText from "gsap/SplitText";
 
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
-// import 'swiper/css';
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
+
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
+import { VedioPlayerServiceForIosService } from '../../../shared/services/vedio-player-service-for-ios.service';
 
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
@@ -35,7 +34,8 @@ export class Section3Component {
     private appRef: ApplicationRef,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
-    private language: LanguageService
+    private language: LanguageService,
+        private vedioPlayer:VedioPlayerServiceForIosService,
   ) {
   }
   @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
@@ -94,7 +94,7 @@ export class Section3Component {
               if (!playedOnce) {
                 playedOnce = true;
                 video.currentTime = 0;
-                video.play();
+                               this.vedioPlayer.requestPlay(video);
               }
             },
           });
