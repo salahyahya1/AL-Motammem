@@ -91,7 +91,10 @@ export class Section2Component {
                 if (!playedOnce) {
                   playedOnce = true;
                   video.currentTime = 0;
-                  video.play();
+                  video.play().catch(() => {
+  unlockSafariMediaOnce(); // fallback
+});
+
                 }
               },
             });
@@ -151,5 +154,34 @@ export class Section2Component {
         }, 500);
       });
     });
+
+let unlocked = false;
+
+function unlockSafariMediaOnce() {
+  if (unlocked) return;
+  const handler = async () => {
+    unlocked = true;
+    window.removeEventListener('pointerdown', handler);
+    window.removeEventListener('touchstart', handler);
+    window.removeEventListener('keydown', handler);
+
+    // جرّب شغّل/اطفي كل الفيديوهات muted (أو اللي محتاج)
+    document.querySelectorAll('video').forEach(async (v) => {
+      try {
+        v.muted = true;
+        v.setAttribute('muted', '');
+        (v as any).playsInline = true;
+        await v.play();
+        v.pause(); // unlock فقط
+      } catch {}
+    });
+  };
+
+  window.addEventListener('pointerdown', handler, { once: true });
+  window.addEventListener('touchstart', handler, { once: true, passive: true } as any);
+  window.addEventListener('keydown', handler, { once: true });
+}
+
   }
+  
 }
