@@ -199,7 +199,7 @@ export class Section1Component implements OnDestroy,AfterViewInit {
 
     });
 
-    if (this.heroVideo && 'IntersectionObserver' in window) {
+    if (this.heroVideo && 'IntersectionObserver' in globalThis.window) {
       const io = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
           const v = this.heroVideo!.nativeElement;
@@ -223,54 +223,74 @@ export class Section1Component implements OnDestroy,AfterViewInit {
   }
 
 
+  // private waitForLCPThenInit() {
+  //   if (globalThis.window === undefined) return;
+  //   if ('PerformanceObserver' in globalThis.window) {
+  //     const po = new PerformanceObserver((entryList) => {
+  //       const entries = entryList.getEntries();
+  //       const lcpEntry = entries.at(-1);
+  //       if (lcpEntry) {
+  //         this.initAnimatedSequenceAfterIdle();
+  //         po.disconnect();
+  //       }
+  //     });
+  //     try {
+  //       po.observe({ type: 'largest-contentful-paint', buffered: true });
+  //       setTimeout(() => {
+  //         try { po.disconnect(); } catch (e) { }
+  //       }, 5000);
+  //     } catch (e) {
+  //       // fallback
+  //       this.initAnimatedSequenceAfterIdle();
+  //     }
+  //   } else {
+  //     // no PerformanceObserver -> fallback
+  //     // setTimeout(() => this.initAnimatedSequenceAfterIdle(), 2000);
+  //   }
+  // }
+
+
   private waitForLCPThenInit() {
-    if (typeof window === 'undefined') return;
-    const win: any = window;
-    if ('PerformanceObserver' in window) {
-      const po = new PerformanceObserver((entryList) => {
-        const entries = entryList.getEntries();
-        const lcpEntry = entries[entries.length - 1];
-        if (lcpEntry) {
-          this.initAnimatedSequenceAfterIdle();
-          po.disconnect();
-        }
-      });
-      try {
-        po.observe({ type: 'largest-contentful-paint', buffered: true });
-        setTimeout(() => {
-          try { po.disconnect(); } catch (e) { }
-        }, 5000);
-      } catch (e) {
-        // fallback
-        this.initAnimatedSequenceAfterIdle();
-      }
-    } else {
-      // no PerformanceObserver -> fallback
-      // setTimeout(() => this.initAnimatedSequenceAfterIdle(), 2000);
-    }
+  if (!isPlatformBrowser(this.platformId)) return;
+
+  let started = false;
+  const start = () => {
+    if (started) return;
+    started = true;
+    this.initAnimatedSequenceAfterIdle();
+  };
+
+  // fallback مضمون حتى لو LCP مش شغال على Safari
+  const fallback = setTimeout(start, 1200);
+
+  if (!('PerformanceObserver' in window)) {
+    start();
+    return;
   }
 
-  // private initAnimatedSequenceAfterIdle() {
-  //   this.ngZone.runOutsideAngular(() => {
-  //     const run = () => {
-  //       setTimeout(() => {
-  //         try {
-  //           this.ngZone.run(() => {
-  //             this.spriteReady = true;
-  //           });
+  try {
+    const po = new PerformanceObserver((entryList) => {
+      const entries = entryList.getEntries();
+      if (entries?.length) {
+        clearTimeout(fallback);
+        start();
+        po.disconnect();
+      }
+    });
 
-  //           this.seq?.playForwardAnimation?.();
-  //         } catch (e) { }
-  //       }, 80);
-  //     };
+    po.observe({ type: 'largest-contentful-paint', buffered: true });
 
-  //     if ('requestIdleCallback' in window) {
-  //       (window as any).requestIdleCallback(run, { timeout: 2000 });
-  //     } else {
-  //       setTimeout(run, 700);
-  //     }
-  //   });
-  // }
+    // fallback بعد 5 ثواني لو الـ LCP ماجاش
+    setTimeout(() => {
+      try { po.disconnect(); } catch {}
+      start();
+    }, 5000);
+  } catch {
+    start();
+  }
+}
+
+
   private initAnimatedSequenceAfterIdle() {
   this.ngZone.runOutsideAngular(() => {
     const run = () => {

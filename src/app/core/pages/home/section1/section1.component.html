@@ -36,10 +36,19 @@
         <div class="hero-placeholder  inset-0 transition-opacity duration-200" [class.opacity-0]="spriteReady"
           aria-hidden="true">
         </div>
-        <app-animated-sequence class=" inset-0 transition-opacity duration-200" [class.opacity-0]="!spriteReady"
+        <!-- <app-animated-sequence class=" inset-0 transition-opacity duration-200" [class.opacity-0]="!spriteReady"
           componentId="comp1" [imageUrl]="'/images/homepage/SS_final_q90.webp'" [totalFrames]="69" [frameWidth]="625"
           [frameHeight]="391" [framesPerRow]="3" [spriteWidth]="1875" [spriteHeight]="8985">
-        </app-animated-sequence>
+        </app-animated-sequence> -->
+        <app-animated-sequence
+  [imageUrl]="'/images/homepage/SS_final_4cols_lossless.webp'"
+  [totalFrames]="66"
+  [frameWidth]="625"
+  [frameHeight]="391"
+  [framesPerRow]="4"
+  [spriteWidth]="2500"
+  [spriteHeight]="6647">
+</app-animated-sequence>
       </div>
     </div>
 

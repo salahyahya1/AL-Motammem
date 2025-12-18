@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
+import { AfterViewInit, ApplicationRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -15,12 +15,12 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
   templateUrl: './section2.component.html',
   styleUrls: ['./section2.component.scss'],
 })
-export class Section2Component {
+export class Section2Component implements AfterViewInit {
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private vedioPlayer:VedioPlayerServiceForIosService,
-    private appRef: ApplicationRef,
-    private ngZone: NgZone
+    @Inject(PLATFORM_ID) private readonly platformId: Object,
+    private readonly vedioPlayer:VedioPlayerServiceForIosService,
+    private readonly appRef: ApplicationRef,
+    private readonly ngZone: NgZone
   ) { }
   @ViewChild('section4Video') section4Video!: ElementRef<HTMLVideoElement>;
   ngAfterViewInit() {
@@ -34,7 +34,6 @@ export class Section2Component {
             const section = document.querySelector('#stats-section') as HTMLElement;
             const triggerEl = (document.querySelector('#section2') as HTMLElement) || section;
             const video = document.getElementById('section4Video') as HTMLVideoElement;
-            const content = document.getElementById('section4Content');
             const cta = section.querySelector('button') as HTMLElement | null;
             const subtitle = section.querySelector('p') as HTMLElement | null;
             if (!section) return;
