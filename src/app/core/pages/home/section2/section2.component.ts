@@ -1,10 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Component, ElementRef, inject, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
+import { ApplicationRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from 'gsap/SplitText';
-import { LanguageService } from '../../../shared/services/language.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
 import { VedioPlayerServiceForIosService } from '../../../shared/services/vedio-player-service-for-ios.service';
@@ -17,7 +16,6 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
   styleUrls: ['./section2.component.scss'],
 })
 export class Section2Component {
-  private language = inject(LanguageService);
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private vedioPlayer:VedioPlayerServiceForIosService,

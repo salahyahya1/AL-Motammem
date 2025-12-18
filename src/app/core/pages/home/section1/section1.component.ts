@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   Inject,
@@ -26,12 +27,12 @@ import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-di
   standalone: true,
   imports: [AnimatedSequenceComponent, RouterLink, TranslatePipe, OpenFormDialogDirective],
 })
-export class Section1Component implements OnDestroy {
+export class Section1Component implements OnDestroy,AfterViewInit {
   @ViewChild(AnimatedSequenceComponent) seq!: AnimatedSequenceComponent;
   @ViewChild('heroVideo') heroVideo?: ElementRef<HTMLVideoElement>;
 
   spriteReady = false;
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
   isSequenceReady: boolean = false;
   timeline!: gsap.core.Timeline;
   private mm?: any;
@@ -40,11 +41,11 @@ export class Section1Component implements OnDestroy {
   heroDetailsSplit: any;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private ngZone: NgZone,
-    private translate: TranslateService,
-    private animationLoader: AnimationLoaderService,
-    private RemiveRoleAriaService: RemiveRoleAriaService,
+    @Inject(PLATFORM_ID) private readonly platformId: Object,
+    private readonly ngZone: NgZone,
+    private readonly translate: TranslateService,
+    private readonly animationLoader: AnimationLoaderService,
+    private readonly RemiveRoleAriaService: RemiveRoleAriaService,
   ) {
     this.translate.onLangChange
       .pipe(takeUntil(this.destroy$))
@@ -57,7 +58,7 @@ export class Section1Component implements OnDestroy {
   }
 
   ngAfterViewInit() {
-    if (typeof window === 'undefined') return;
+    if ( globalThis.window === undefined) return;
     if (!isPlatformBrowser(this.platformId)) return;
 
     this.ngZone.runOutsideAngular(() => {
