@@ -41,6 +41,9 @@
           [frameHeight]="391" [framesPerRow]="3" [spriteWidth]="1875" [spriteHeight]="8985">
         </app-animated-sequence> -->
         <app-animated-sequence
+        class=" inset-0 transition-opacity duration-200"
+        componentId="comp1"
+        [class.opacity-0]="!spriteReady"
   [imageUrl]="'/images/homepage/SS_final_4cols_q92.webp'"
   [totalFrames]="66"
   [frameWidth]="625"
