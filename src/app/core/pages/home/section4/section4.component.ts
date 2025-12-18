@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { ApplicationRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { LanguageService } from '../../../shared/services/language.service';
@@ -35,6 +35,8 @@ export class Section4Component {
             start: 'top top',
             end: "140% bottom",
             pin: true,
+            anticipatePin:1,
+            pinType: 'transform',
             // markers: true
           }
         });

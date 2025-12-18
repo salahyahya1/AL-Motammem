@@ -143,3 +143,10 @@ img {
         }
     }
 }
+@media(max-width:400px) {
+.screens-hero {
+    min-height: 115vh;
+    gap: 2rem;
+}
+
+}
