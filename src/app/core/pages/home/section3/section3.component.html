@@ -1,5 +1,5 @@
 <div id="section50" class="h-screen w-full bg-white relative flex flex-col justify-center items-center ">
-    <svg id="capsule2" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg"
+    <!-- <svg id="capsule2" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg"
         style="width: 757px; height: 131px; max-width: 90%;" class="md:w-[761px] mt-10 lg:scale-150">
         <rect class="capsule-path2" x="1" y="1" width="755" height="129" rx="60" stroke="var(--dark-gray)"
             stroke-width="3" fill="transparent" filter="url(#capsule2Shadow)" />
@@ -14,7 +14,24 @@
                 </p>
             </div>
         </foreignObject>
-    </svg>
+    </svg> -->
+<div id="capsule2Wrap" class="capsule-wrap">
+  <svg id="capsule2" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg">
+    <rect class="capsule-path2"
+      x="1" y="1" width="755" height="129" rx="60"
+      stroke="var(--dark-gray)" stroke-width="3" fill="transparent" />
+  </svg>
+
+  <div class="capsule-text">
+              <P id="section50-TITLE" class="text-[var(--primary)] ">
+                    {{ 'HOME.SECTION3.TITLE' | translate }}
+                </P>
+                <p id="section50-details"
+                    class="text-[var(--dark-gray)] text-[0.6rem]  leading-relaxed font-normal">
+                    {{ 'HOME.SECTION3.DETAILS' | translate }}
+                </p>
+  </div>
+</div>
 
     <div id="section50Bottom" class="erp-carousel" [dir]="isRtl ? 'rtl' : 'ltr'">
         <div class="controls">

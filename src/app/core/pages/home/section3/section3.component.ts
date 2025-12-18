@@ -111,7 +111,7 @@ export class Section3Component {
           const path = document.querySelector(".capsule-path2") as SVGPathElement;
           if (!path) return;
           const length = path.getTotalLength();
-          gsap.set('#capsule2', { y: 78 })
+          gsap.set('#capsule2Wrap', { y: 78 })
           tl.fromTo(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 0, visibility: "hidden" },
             {
               strokeDashoffset: 0,
@@ -165,7 +165,7 @@ export class Section3Component {
               }
             }
           );
-          tl.to("#capsule2", {
+          tl.to("#capsule2Wrap", {
             scale: 0.85,
             duration: 0.6,
             ease: "power2.inOut",
@@ -177,7 +177,7 @@ export class Section3Component {
               });
             }
           }, ">+0.3");
-          tl.to("#capsule2", {
+          tl.to("#capsule2Wrap", {
             y: -60,
             duration: 0.7,
             ease: "power2.inOut",
