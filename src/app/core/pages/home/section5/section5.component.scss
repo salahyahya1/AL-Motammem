@@ -71,3 +71,7 @@
       height: auto;
 
   }
+  #capsule img{
+  object-fit: contain;
+  display: block;
+}
