@@ -76,7 +76,7 @@ export class Section1Component implements OnDestroy,AfterViewInit {
       if (!loaded) return;
 
       const { gsap, SplitText } = loaded;
-      gsap.set('#hero', { willChange: 'transform, opacity' });
+      // gsap.set('#hero', { willChange: 'transform, opacity' });
       this.revertSplits();
 
       const heroTitle = document.querySelector('h1#hero-title') as HTMLElement;
