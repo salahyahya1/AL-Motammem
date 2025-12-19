@@ -91,11 +91,6 @@ export class HomeComponent implements AfterViewInit {
         onEnterBack: () => this.updateNavbarColors(textColor),
       });
     });
-
-
-
-
-
   }
 
   private updateNavbarColors(textColor: string) {

@@ -123,7 +123,7 @@ export class Section4Component {
                 pin: true,
 
                 // ✅ على الموبايل نخليه أخف
-                scrub: false,
+                // scrub: false,
                 anticipatePin: mobile ? 0 : 1,
                 pinType: 'transform',
 

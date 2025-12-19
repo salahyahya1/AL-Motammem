@@ -266,7 +266,7 @@ export class Section7Component {
                 end: isMobile ?  'top 2%':'150% bottom' ,
   pinSpacing: true,
                 pin: true,
-                scrub: false,
+                // scrub: false,
                 anticipatePin: 1,
 
 

@@ -215,11 +215,13 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './section5.component.scss'
 })
 export class Section5Component {
-  isMobile = false;
-  private resizeHandler!: () => void;
 
   isVideoLoaded = false;
   safeVideoUrl: SafeResourceUrl | null = null;
+
+  private isIOS = false;
+  private flipTimer: any = null;
+  private mm?: gsap.MatchMedia;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -231,9 +233,13 @@ export class Section5Component {
   ) { }
 
   ngOnInit() {
-    this.updateIsMobile();
     if (typeof window === 'undefined') return;
     if (!isPlatformBrowser(this.platformId)) return;
+
+    const ua = navigator.userAgent;
+    this.isIOS =
+      /iPad|iPhone|iPod/.test(ua) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
     gsap.set("#section100", { opacity: 0, visibility: "hidden" });
   }
@@ -242,26 +248,14 @@ export class Section5Component {
     if (typeof window === 'undefined') return;
     if (!isPlatformBrowser(this.platformId)) return;
 
-    this.resizeHandler = () => {
-      this.ngZone.run(() => {
-        const next = window.innerWidth < 700;
-        if (next !== this.isMobile) {
-          this.isMobile = next;
-          this.cdr.detectChanges();
-        }
-      });
-    };
-
-    window.addEventListener('resize', this.resizeHandler);
-
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         setTimeout(() => {
 
-          // ✅ MATCH MEDIA: pin على الديسكتوب فقط (زي ما كان عندك)
-          const mm = gsap.matchMedia();
+          // ✅ أهم تعديل: نخزن matchMedia في this.mm عشان ngOnDestroy يقدر ينضفه
+          this.mm = gsap.matchMedia();
 
-          mm.add(
+          this.mm.add(
             {
               desktop: '(min-width: 700px)',
               mobile: '(max-width: 699px)',
@@ -274,7 +268,6 @@ export class Section5Component {
                 gsap.set(container, { opacity: 0, visibility: "hidden", y: 10 });
               }
 
-              // مهم: خلي section100 مخفي قبل ما نبدأ (خصوصًا لو حصل resize)
               gsap.set("#section100", { opacity: 0, visibility: "hidden" });
 
               let flipStarted = false;
@@ -294,7 +287,7 @@ export class Section5Component {
               // 1) العنوان
               tl.to("#Text5", { opacity: 1, y: 0, duration: 0.6, ease: 'power2.inOut' });
 
-              // 2) الكونتينر اللي شايل الصور يظهر (أنيميشن بسيط)
+              // 2) الكونتينر اللي شايل الصور يظهر
               if (container) {
                 tl.to(container, {
                   opacity: 1,
@@ -305,13 +298,13 @@ export class Section5Component {
                   onComplete: () => {
                     if (!flipStarted) {
                       flipStarted = true;
-                      this.startImageFlip(container);
+                      if (!this.isIOS) this.startImageFlip(container); // ✅ زي ما أنت عامل
                     }
                   }
                 }, ">-0.1");
               }
 
-              // 3) باقي السكشن كله يظهر مرة واحدة
+              // 3) باقي السكشن يظهر
               tl.to("#section100", {
                 opacity: 1,
                 visibility: "visible",
@@ -383,29 +376,23 @@ export class Section5Component {
       });
     }
 
+    const scheduleNext = (ms: number) => {
+      this.flipTimer = setTimeout(randomLoop, ms);
+    };
+
     function randomLoop() {
       const available = slots.filter(slot => (slotImages.get(slot)?.length ?? 0) > 0);
-      if (!available.length) {
-        console.log("✅ كل الخانات خلصت الصور");
-        return;
-      }
+      if (!available.length) return;
 
       const randomCount = gsap.utils.random(1, Math.min(3, available.length), 1);
       const randomSlots = gsap.utils.shuffle(available).slice(0, randomCount);
-
       randomSlots.forEach(slot => flipSlot(slot));
 
       const nextDelay = gsap.utils.random(1, 2.5, 0.2) * 1000;
-      setTimeout(randomLoop, nextDelay);
+      scheduleNext(nextDelay);
     }
 
     randomLoop();
-  }
-
-  private updateIsMobile() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.isMobile = window.innerWidth < 700;
-    }
   }
 
   loadVideo() {
@@ -419,8 +406,7 @@ export class Section5Component {
   }
 
   ngOnDestroy() {
-    if (this.resizeHandler) {
-      window.removeEventListener('resize', this.resizeHandler);
-    }
+    if (this.flipTimer) clearTimeout(this.flipTimer);
+    this.mm?.revert(); // ✅ دلوقتي هتشتغل فعلاً
   }
 }
