@@ -140,14 +140,13 @@ export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
     const needIntro = !isResize || parseFloat(getComputedStyle(indicator).opacity || '0') < 0.5;
     if (needIntro) {
       const offscreenPx = Math.min(200, Math.max(80, window.innerWidth * 0.06));
-      gsap.set(indicator, { x: offscreenPx, opacity: 0, willChange: 'transform,opacity' });
+      gsap.set(indicator, { x: offscreenPx, opacity: 0 });
       gsap.to(indicator, {
         x: 0,
         opacity: 1,
         duration: 0.6,
         ease: 'power3.out',
         clearProps: 'transform',
-        onComplete: () => { indicator.style.willChange = ''; }
       });
     }
   }

@@ -286,7 +286,7 @@ export class Section2Component implements AfterViewInit {
                     trigger: triggerEl || section,
                     start: 'top top',
                     end: '+=400',
-                    scrub: true,
+                    // scrub: true,
                     pinType: 'transform',
                     pin: true,
                     anticipatePin: 1,

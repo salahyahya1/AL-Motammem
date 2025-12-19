@@ -38,13 +38,12 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     if (!this.isBrowser) return;
     const nav = this.navbar?.nativeElement;
     if (!nav) return;
-    gsap.set(nav, { yPercent: -100, opacity: 0, willChange: 'transform,opacity' });
+    gsap.set(nav, { yPercent: -100, opacity: 0});
     gsap.to(nav, {
       yPercent: 0,
       opacity: 1,
       duration: 0.8,
       ease: 'power3.out',
-      onComplete: () => { nav.style.willChange = '' }
     });
 
     this.theme.color$

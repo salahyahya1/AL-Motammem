@@ -251,6 +251,7 @@ export class Section5Component {
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         setTimeout(() => {
+ScrollTrigger.config({ ignoreMobileResize: true });
 
           // ✅ أهم تعديل: نخزن matchMedia في this.mm عشان ngOnDestroy يقدر ينضفه
           this.mm = gsap.matchMedia();
@@ -312,7 +313,7 @@ export class Section5Component {
                 ease: "power2.out",
               }, ">-0.05");
 
-              ScrollTrigger.refresh();
+              // ScrollTrigger.refresh();
 
               return () => {
                 tl.scrollTrigger?.kill();
