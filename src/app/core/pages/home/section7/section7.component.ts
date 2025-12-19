@@ -263,7 +263,7 @@ export class Section7Component {
               scrollTrigger: {
                 trigger: '#section7',
                 start: 'top top',
-                end: isMobile ? '+=160' : 'top 10%',
+                end: isMobile ?  'top 2%':'150% bottom' ,
   pinSpacing: true,
                 pin: true,
                 scrub: false,

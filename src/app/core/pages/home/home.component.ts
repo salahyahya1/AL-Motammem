@@ -56,14 +56,14 @@ export class HomeComponent implements AfterViewInit {
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         const sections: SectionItem[] = [
-          { id: 'section1', labelKey: 'HOME.INDECATORS.ABOUT', wholeSectionId: 'section1' },
-          { id: 'section2', labelKey: 'HOME.INDECATORS.FACTS', wholeSectionId: 'section2' },
-          { id: 'section3', labelKey: 'HOME.INDECATORS.WHY', wholeSectionId: 'section3' },
-          { id: 'section4', labelKey: 'HOME.INDECATORS.APPS', wholeSectionId: 'section4' },
-          { id: 'section5', labelKey: 'HOME.INDECATORS.TESTIMONIALS', wholeSectionId: 'section5' },
-          { id: 'section6', labelKey: 'HOME.INDECATORS.INTEGRATIONS', wholeSectionId: 'section6' },
-          { id: 'section7', labelKey: 'HOME.INDECATORS.PLANS', wholeSectionId: 'section7' },
-          { id: 'section8', labelKey: 'HOME.INDECATORS.CONTACT', wholeSectionId: 'section8' },
+          { id: 'section1-home', labelKey: 'HOME.INDECATORS.ABOUT', wholeSectionId: 'section1-home' },
+          { id: 'section2-home', labelKey: 'HOME.INDECATORS.FACTS', wholeSectionId: 'section2-home' },
+          { id: 'section3-home', labelKey: 'HOME.INDECATORS.WHY', wholeSectionId: 'section3-home' },
+          { id: 'section4-home', labelKey: 'HOME.INDECATORS.APPS', wholeSectionId: 'section4-home' },
+          { id: 'section5-home', labelKey: 'HOME.INDECATORS.TESTIMONIALS', wholeSectionId: 'section5-home' },
+          { id: 'section6-home', labelKey: 'HOME.INDECATORS.INTEGRATIONS', wholeSectionId: 'section6-home' },
+          { id: 'section7-home', labelKey: 'HOME.INDECATORS.PLANS', wholeSectionId: 'section7-home' },
+          { id: 'section8-home', labelKey: 'HOME.INDECATORS.CONTACT', wholeSectionId: 'section8-home' },
         ];
         this.sectionsRegistry.set(sections);
         this.sectionsRegistry.enable();
