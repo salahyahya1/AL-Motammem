@@ -1,52 +1,163 @@
+// @use 'tailwindcss' as *;
+// @import 'swiper/css';
+// @import 'swiper/css/navigation';
+// @import 'swiper/css/pagination';
+
+// @theme {
+//     --breakpoint-xs: 34rem; // 552px
+// }
+
+// :root {
+//     --primary: #2475EA;
+//     --primary-light: #469CF9;
+//     --primary-dark: #1657c2;
+//     --secondary: #F5B000;
+//     --white: #FFFFFF;
+//     --error: #ff2f43;
+//     --dark-gray: #59595B;
+//     --light-gray: #989898;
+//     --light-light-gray: #E9E9E9;
+// }
+
+// @font-face {
+//     font-family: 'Almarai';
+//     font-style: normal;
+//     font-weight: 400;
+//     src: url('/fonts/almarai-v19-arabic-regular.woff2') format('woff2');
+//     // src: url('/fonts/Acumin-Variable-Concept.ttf') format('ttf');
+//     font-display: swap;
+// }
+
+// html,
+// body {
+//     font-family: Almarai, sans-serif;
+//     height: 100%;
+//     margin: 0;
+//     padding: 0;
+//     background-color: var(--white);
+// }
+
+// html {
+//     font-size: 16px;
+// }
+
+// /* لو ارتفاع الشاشة أقل من 700px */
+// @media (max-height: 650px) {
+//     html {
+//         font-size: 14px;
+//         /* كل الموقع هيصغر بنسبة بسيطة */
+//     }
+// }
+
+// html,
+// body,
+// #smooth-wrapper,
+// #smooth-content,
+// .panel {
+//     background-color: var(--white) !important;
+// }
+
+// * {
+//     cursor: url('/images/custom_cursor_fixed.cur') 16 16, pointer !important;
+// }
+
+// :root {
+//     --cursor-url-cur: url('/images/custom_cursor_fixed.cur') 16 16 !important;
+// }
+
+// a:any-link,
+// button,
+// [role="button"],
+// input[type="button"],
+// input[type="submit"],
+// .summary-action,
+// .btn {
+//     cursor: var(--cursor-url-cur), var(--cursor-url-png), pointer !important;
+// }
+
+// a:any-link:hover,
+// a:any-link:active,
+// button:hover,
+// button:active,
+// [role='button']:hover,
+// [role='button']:active,
+// input[type='button']:hover,
+// input[type='button']:active,
+// input[type='submit']:hover,
+// input[type='submit']:active,
+// .summary-action:hover,
+// .summary-action:active,
+// .btn:hover,
+// .btn:active {
+//     cursor: var(--cursor-url-cur), var(--cursor-url-png), pointer !important;
+// }
+
+// input[type='text'],
+// input[type='search'],
+// input[type='email'],
+// input[type='password'],
+// textarea,
+// [contenteditable='true'] {
+//     cursor: text !important;
+// }
+
+// [draggable='true'] {
+//     cursor: grab;
+// }
+
+// [dragging] {
+//     cursor: grabbing;
+// }
 @use 'tailwindcss' as *;
 @import 'swiper/css';
 @import 'swiper/css/navigation';
 @import 'swiper/css/pagination';
 
 @theme {
-    --breakpoint-xs: 34rem; // 552px
+  --breakpoint-xs: 34rem; // 552px
 }
 
 :root {
-    --primary: #2475EA;
-    --primary-light: #469CF9;
-    --primary-dark: #1657c2;
-    --secondary: #F5B000;
-    --white: #FFFFFF;
-    --error: #ff2f43;
-    --dark-gray: #59595B;
-    --light-gray: #989898;
-    --light-light-gray: #E9E9E9;
+  --primary: #2475EA;
+  --primary-light: #469CF9;
+  --primary-dark: #1657c2;
+  --secondary: #F5B000;
+  --white: #FFFFFF;
+  --error: #ff2f43;
+  --dark-gray: #59595B;
+  --light-gray: #989898;
+  --light-light-gray: #E9E9E9;
+
+  /* custom cursor var (Desktop فقط هيتستخدم) */
+  --cursor-url-cur: url('/images/custom_cursor_fixed.cur') 16 16;
 }
 
 @font-face {
-    font-family: 'Almarai';
-    font-style: normal;
-    font-weight: 400;
-    src: url('/fonts/almarai-v19-arabic-regular.woff2') format('woff2');
-    // src: url('/fonts/Acumin-Variable-Concept.ttf') format('ttf');
-    font-display: swap;
+  font-family: 'Almarai';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/almarai-v19-arabic-regular.woff2') format('woff2');
+  font-display: swap;
 }
 
 html,
 body {
-    font-family: Almarai, sans-serif;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: var(--white);
+  font-family: Almarai, sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--white);
 }
 
 html {
-    font-size: 16px;
+  font-size: 16px;
 }
 
-/* لو ارتفاع الشاشة أقل من 700px */
+/* لو ارتفاع الشاشة أقل من 650px */
 @media (max-height: 650px) {
-    html {
-        font-size: 14px;
-        /* كل الموقع هيصغر بنسبة بسيطة */
-    }
+  html {
+    font-size: 14px;
+  }
 }
 
 html,
@@ -54,57 +165,65 @@ body,
 #smooth-wrapper,
 #smooth-content,
 .panel {
-    background-color: var(--white) !important;
+  background-color: var(--white) !important;
 }
 
-* {
-    cursor: url('/images/custom_cursor_fixed.cur') 16 16, pointer !important;
-}
+/* ===========================
+   ✅ Custom Cursor: Desktop فقط
+   =========================== */
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: var(--cursor-url-cur), pointer !important;
+  }
 
-:root {
-    --cursor-url-cur: url('/images/custom_cursor_fixed.cur') 16 16 !important;
-}
+  a:any-link,
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  .summary-action,
+  .btn {
+    cursor: var(--cursor-url-cur), pointer !important;
+  }
 
-a:any-link,
-button,
-[role="button"],
-input[type="button"],
-input[type="submit"],
-.summary-action,
-.btn {
-    cursor: var(--cursor-url-cur), var(--cursor-url-png), pointer !important;
-}
+  a:any-link:hover,
+  a:any-link:active,
+  button:hover,
+  button:active,
+  [role='button']:hover,
+  [role='button']:active,
+  input[type='button']:hover,
+  input[type='button']:active,
+  input[type='submit']:hover,
+  input[type='submit']:active,
+  .summary-action:hover,
+  .summary-action:active,
+  .btn:hover,
+  .btn:active {
+    cursor: var(--cursor-url-cur), pointer !important;
+  }
 
-a:any-link:hover,
-a:any-link:active,
-button:hover,
-button:active,
-[role='button']:hover,
-[role='button']:active,
-input[type='button']:hover,
-input[type='button']:active,
-input[type='submit']:hover,
-input[type='submit']:active,
-.summary-action:hover,
-.summary-action:active,
-.btn:hover,
-.btn:active {
-    cursor: var(--cursor-url-cur), var(--cursor-url-png), pointer !important;
-}
-
-input[type='text'],
-input[type='search'],
-input[type='email'],
-input[type='password'],
-textarea,
-[contenteditable='true'] {
+  input[type='text'],
+  input[type='search'],
+  input[type='email'],
+  input[type='password'],
+  textarea,
+  [contenteditable='true'] {
     cursor: text !important;
-}
+  }
 
-[draggable='true'] {
+  [draggable='true'] {
     cursor: grab;
+  }
+
+  [dragging] {
+    cursor: grabbing;
+  }
 }
 
-[dragging] {
-    cursor: grabbing;
+/* ✅ Mobile/Touch: اقفل الكيرسور تمامًا */
+@media (hover: none), (pointer: coarse) {
+  * {
+    cursor: auto !important;
+  }
 }

@@ -35,11 +35,23 @@
 
         <div class="hero-placeholder  inset-0 transition-opacity duration-200" [class.opacity-0]="spriteReady"
           aria-hidden="true">
+          <img
+    class="absolute inset-0 w-full h-full object-cover transition-opacity duration-200 block md:hidden"
+    [class.opacity-0]="spriteReady"
+  src="/images/homepage/white_481x302.webp"
+  width="481"
+  height="302"
+  loading="eager"
+  fetchpriority="high"
+  decoding="async"
+  alt=""
+/>
         </div>
         <!-- <app-animated-sequence class=" inset-0 transition-opacity duration-200" [class.opacity-0]="!spriteReady"
           componentId="comp1" [imageUrl]="'/images/homepage/SS_final_q90.webp'" [totalFrames]="69" [frameWidth]="625"
           [frameHeight]="391" [framesPerRow]="3" [spriteWidth]="1875" [spriteHeight]="8985">
         </app-animated-sequence> -->
+          @if(!isMobile){
         <app-animated-sequence
         class=" inset-0 transition-opacity duration-200"
         componentId="comp1"
@@ -52,6 +64,7 @@
   [spriteWidth]="2500"
   [spriteHeight]="6647">
 </app-animated-sequence>
+          }
       </div>
     </div>
 

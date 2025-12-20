@@ -1,35 +1,61 @@
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, withPreloading, PreloadAllModules, withInMemoryScrolling } from '@angular/router';
+import { APP_INITIALIZER, ApplicationConfig,  provideZoneChangeDetection } from '@angular/core';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import {
   provideTranslateService,
+  TranslateService,
 } from '@ngx-translate/core';
 import {
   provideTranslateHttpLoader,
 } from '@ngx-translate/http-loader';
+import { firstValueFrom } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       routes,
-      withPreloading(PreloadAllModules),
+      // withPreloading(PreloadAllModules),
       withInMemoryScrolling({
         scrollPositionRestoration: 'enabled',
         anchorScrolling: 'enabled',
       })
     ),
-    provideClientHydration(withEventReplay()),
+    // provideClientHydration(withEventReplay()),
+    provideClientHydration(),
     provideHttpClient(withFetch()),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
-        prefix: './i18n/',   // لأنك حاططها جوّه public/i18n
+        prefix: '/i18n/',   // لأنك حاططها جوّه public/i18n
         suffix: '.json',
       }),
       // fallbackLang: 'ar',    // بدل defaultLanguage/useDefaultLang
     }),
+    {
+  provide: APP_INITIALIZER,
+  useFactory: initI18n,
+  deps: [TranslateService],
+  multi: true,
+},
   ]
 };
+export function initI18n(translate: TranslateService) {
+  return () => {
+    const lang = 'ar';
+    translate.setDefaultLang(lang);
+
+    const isMobile = typeof window !== 'undefined' && window.matchMedia("(max-width: 699px)").matches;
+
+    if (isMobile) {
+      // ✅ موبايل: خليه يضمن أول paint بالنص النهائي
+      return firstValueFrom(translate.use(lang));
+    }
+
+    // ✅ ديسكتوب: non-blocking
+    translate.use(lang).subscribe({ error: e => console.warn('i18n load failed', e) });
+    return;
+  };
+}
