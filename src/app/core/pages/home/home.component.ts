@@ -175,7 +175,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     // ✅ 2) ScrollTriggers/Indicators خليهم Desktop فقط (عشان ما نحرّقش الموبايل)
     const isMobile = window.matchMedia('(max-width: 699px)').matches;
-    if (isMobile) return;
+    if (isMobile) {
+      setTimeout(() => {
+        this.observeSectionsMobile();
+      }, 7500);
+      return;
+    };
 
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
@@ -212,6 +217,29 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         end: 'bottom 50%',
         onEnter: () => this.updateNavbarColors(textColor),
         onEnterBack: () => this.updateNavbarColors(textColor),
+      });
+    });
+  }
+  //mobile only
+  private observeSectionsMobile() {
+    const sections = gsap.utils.toArray<HTMLElement>('.panel');
+    sections.forEach((section) => {
+      const textColor = section.dataset['textcolor'] || 'var(--primary)';
+      const bgColor = section.dataset['bgcolor'] || 'var(--white)';
+      // console.log(section);
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 50%',
+        end: 'bottom 50%',
+        // markers: true,
+        onEnter: () => {
+          this.navTheme.setColor(textColor);   // ✅ سيبها زي ما هي
+          this.navTheme.setBg(bgColor);        // ✅ الجديد
+        },
+        onEnterBack: () => {
+          this.navTheme.setColor(textColor);
+          this.navTheme.setBg(bgColor);
+        },
       });
     });
   }
@@ -273,7 +301,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     if (this.isBrowser) {
       try {
         window.removeEventListener('resize', this.onResize);
-      } catch {}
+      } catch { }
 
       ScrollTrigger.getAll().forEach((t) => t.kill());
     }

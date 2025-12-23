@@ -14,13 +14,28 @@
 }
 
 @media (max-width: 765px) {
+    .navSmallScreen {
+        background: inherit; // ✅ أهم سطر
+    }
 
     nav {
-        transform: translateY(-150px);
+        background-color: inherit; // ✅ المنيو تورّث نفس الخلفية
+    }
+
+    header.navbar {
+        overflow: visible;
+    }
+
+    nav {
+        // transform: translateY(-150px);
+        transform: translateY(-100%);
         position: absolute;
-        background-color: white;
+        background-color: var(--white);
         z-index: 40;
+        top: 590%;
+        display: none;
         visibility: visible;
+        transition: height 0.25s ease;
     }
 
     #hamprgerButton {
@@ -28,7 +43,12 @@
     }
 
     .navSmallScreen {
-        position: absolute;
+        position: relative;
         z-index: 50;
+        background-color: var(--white);
+    }
+
+    .navbar {
+        background-color: var(--white);
     }
 }

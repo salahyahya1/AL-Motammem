@@ -9,7 +9,7 @@ import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
-  standalone: true,                 
+  standalone: true,
   imports: [CommonModule, RouterLink, TranslatePipe],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
@@ -18,6 +18,7 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
   @ViewChild('navbar', { static: false }) navbar!: ElementRef<HTMLElement>;
   @ViewChild('navbarMenu', { static: false }) navbarMenu!: ElementRef<HTMLElement>;
   @Input() menuOpen = false;
+  @ViewChild('navSmallScreen', { static: false }) navSmallScreen!: ElementRef<HTMLElement>;
 
   private isBrowser: boolean;
   private destroy$ = new Subject<void>();
@@ -38,7 +39,8 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     if (!this.isBrowser) return;
     const nav = this.navbar?.nativeElement;
     if (!nav) return;
-    gsap.set(nav, { yPercent: -100, opacity: 0});
+
+    gsap.set(nav, { yPercent: -100, opacity: 0 });
     gsap.to(nav, {
       yPercent: 0,
       opacity: 1,
@@ -46,25 +48,61 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
       ease: 'power3.out',
     });
 
-    this.theme.color$
-      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe((textColor) => {
-        nav.style.color = textColor;
+    this.theme.theme$
+      .pipe(
+        distinctUntilChanged((a, b) => a.text === b.text && a.bg === b.bg),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(({ text, bg }) => {
+        // ✅ التكست زي ما هو
+        nav.style.color = text;
 
         const brand = nav.querySelector('#brand-text') as HTMLElement | null;
         const brand2 = nav.querySelector('#brand-text2') as HTMLElement | null;
         const brand3 = nav.querySelector('#brand-text3') as HTMLElement | null;
 
-        const brandMain = textColor === 'var(--primary)' ? 'var(--dark-gray)' : 'var(--white)';
-        const brandAux = textColor === 'var(--primary)' ? 'var(--primary)' : 'var(--white)';
+        const brandMain = text === 'var(--primary)' ? 'var(--dark-gray)' : 'var(--white)';
+        const brandAux = text === 'var(--primary)' ? 'var(--primary)' : 'var(--white)';
 
         if (brand) brand.style.color = brandMain;
         if (brand2) brand2.style.color = brandAux;
         if (brand3) brand3.style.color = brandAux;
+
+        // ✅ الخلفية للموبايل فقط
+        const isMobile = window.matchMedia('(max-width: 765px)').matches;
+
+        if (isMobile) {
+          nav.style.backgroundColor = bg;
+
+          const menuEl = this.navbarMenu?.nativeElement;
+          if (menuEl) menuEl.style.backgroundColor = bg;
+
+          const topEl = this.navSmallScreen?.nativeElement;
+          if (topEl) topEl.style.backgroundColor = bg;
+        } else {
+          // nav.style.backgroundColor = 'transparent';
+
+          // const menuEl = this.navbarMenu?.nativeElement;
+          // if (menuEl) menuEl.style.backgroundColor = 'transparent';
+
+          // const topEl = this.navSmallScreen?.nativeElement;
+          // if (topEl) topEl.style.backgroundColor = 'transparent';
+        }
       });
 
-    const last = this.theme.getSnapshot();
-    if (last) nav.style.color = last;
+
+    // const last = this.theme.getSnapshot();
+    // if (last) nav.style.color = last;
+    const snap = this.theme.getSnapshot();
+    nav.style.color = snap.text;
+
+    if (window.matchMedia('(max-width: 765px)').matches) {
+      nav.style.backgroundColor = snap.bg;
+      this.navbarMenu?.nativeElement && (this.navbarMenu.nativeElement.style.backgroundColor = snap.bg);
+      this.navSmallScreen?.nativeElement && (this.navSmallScreen.nativeElement.style.backgroundColor = snap.bg);
+    }
+
+
   }
 
   ngOnDestroy(): void {
@@ -72,23 +110,80 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  // toggleMenu() {
+  //   const el = this.navbarMenu.nativeElement;
+  //   this.menuOpen = !this.menuOpen;
+
+  //   if (!this.isBrowser) {
+  //     el.style.transform = `translateY(${this.menuOpen ? '140px' : '-150px'})`;
+  //     el.style.opacity = this.menuOpen ? '1' : '0';
+  //     return;
+  //   }
+
+  //   gsap.to(el, {
+  //     y: this.menuOpen ? 140 : -150,
+  //     opacity: this.menuOpen ? 1 : 0,
+  //     duration: 0.8,
+  //     ease: 'power2.inOut',
+  //   });
+  // }
   toggleMenu() {
-    const el = this.navbarMenu.nativeElement;
+    const el = this.navbarMenu?.nativeElement;
+    if (!el) return;
+
+    // ✅ toggle الأول (كان ناقص)
     this.menuOpen = !this.menuOpen;
 
+    // SSR
     if (!this.isBrowser) {
-      el.style.transform = `translateY(${this.menuOpen ? '165px' : '-150px'})`;
+      el.style.display = this.menuOpen ? 'flex' : 'none';
+      el.style.transform = `translateY(${this.menuOpen ? '0%' : '-100%'})`;
       el.style.opacity = this.menuOpen ? '1' : '0';
       return;
     }
 
-    gsap.to(el, {
-      y: this.menuOpen ? 165 : -150,
-      opacity: this.menuOpen ? 1 : 0,
-      duration: 0.8,
-      ease: 'power2.inOut',
-    });
+    // ✅ قبل الفتح لازم يظهر عشان يتحسب -100% صح
+    if (this.menuOpen) {
+      el.style.display = 'flex'; // لأن عندك flex layout
+      gsap.set(el, { yPercent: -100, opacity: 0 });
+
+      // ✅ 3) افتح بسلاسة
+      gsap.to(el, {
+        yPercent: 0,
+        opacity: 1,
+        duration: 0.45,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      });
+    }
+    else {
+      gsap.to(el, {
+        yPercent: -100,
+        opacity: 0,
+        duration: 0.35,
+        ease: 'power2.in',
+        overwrite: 'auto',
+        onComplete: () => {
+          el.style.display = 'none';
+        },
+      })
+    }
+
+    // gsap.to(el, {
+    //   yPercent: this.menuOpen ? 0 : -100,
+    //   opacity: this.menuOpen ? 1 : 0,
+    //   duration: 0.45,
+    //   ease: 'power2.inOut',
+    //   overwrite: 'auto',
+    //   onComplete: () => {
+    //     if (!this.menuOpen) {
+    //       el.style.display = 'none';
+    //     }
+    //   },
+    // });
   }
+
+
   private language = inject(LanguageService);
 
   setLang(lang: 'en' | 'ar') {
