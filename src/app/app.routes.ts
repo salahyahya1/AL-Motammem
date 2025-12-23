@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { ComingSoonComponent } from './core/shared/coming-soon/coming-soon.component';
 import { BlogVeiwComponent } from './core/pages/blogs/blog-veiw/blog-veiw.component';
+// import { CreateBlogComponent } from './core/pages/blogs/create-blog/create-blog.component';
 
 export const routes: Routes = [
     {
@@ -77,7 +78,10 @@ export const routes: Routes = [
                 path: 'blogs',
                 loadComponent: () => import('./core/pages/blogs/blogs.component')
                     .then(m => m.BlogsComponent),
-                title: 'المدونات'
+                title: 'المدونات',
+                children:[
+                    // {path:'CreateBlog' ,component:CreateBlogComponent,title:'انشاء مدونة جديدة'}
+                ]
             },
             {
                 path: 'BlogVeiw',

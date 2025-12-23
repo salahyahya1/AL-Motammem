@@ -29,40 +29,11 @@
     #section6 {
         padding-top: 5rem;
     }
-
-    .separator4 {
-        display: none;
-    }
 }
 
-@media (max-width: 700px) {
-    .separator4 {
-        display: none;
-    }
-}
-
-@media (max-width: 654px) {
-    .separator4 {
-        display: none;
-    }
-}
-
-@media (max-width: 530px) {
-    .separator3 {
-        display: none;
-    }
-
-    .separator4 {
-        display: block;
-    }
-}
-
-@media (max-width: 415px) {
-    .separator3 {
-        display: block;
-    }
-    .separator2,
-    .separator4 {
-        display: none;
-    }
-}
+// @media (max-width: 700px) {
+//     .separator4 {
+//         display: none;
+//     }
+//360 - 365
+// }

@@ -1,18 +1,118 @@
+// // // #hero-title,
+// // // #hero-subtitle,
+// // // #hero-details,
+// // // #button1,
+// // // #button2 {
+// // //   opacity: 0;
+// // //   visibility: visible;
+// // // }
+// // #hero-title,
+// // #hero-subtitle,
+// // #hero-details,
+// // #button1,
+// // #button2 {
+// //   opacity: 1 !important;
+// //   visibility: visible !important;
+// // }
+
+// // #hero {
+// //   background-color: transparent;
+// // }
+
+// // .hero-placeholder {
+// //   width: 100%;
+// //   height: 100%;
+// //   background: transparent;
+// // }
+// // .hero-ratio {
+// //   aspect-ratio: 750 / 470;
+// //   min-height: 240px; /* ✅ اللي خلا الفيديو يشتغل عندك */
+// // }
+
+// // /* اختياري: ضمان إضافي على الموبايل */
+// // @media (max-width: 699px) {
+// //   .hero-ratio {
+// //     width: 100%;
+// //     max-width: 480px;
+// //     min-height: 240px;
+// //   }
+// // }
+// // @media (min-width: 700px) {
+// //   #hero-title, #hero-subtitle, #hero-details, #button1, #button2 {
+// //     opacity: 0;
+// //     visibility: hidden;
+// //   }
+// // }
+// /* ✅ Mobile (default): خليه ظاهر ستاتك */
+// #hero-title,
+// #hero-subtitle,
+// #hero-details,
+// #button1,
+// #button2 {
+//   opacity: 1;
+//   visibility: visible;
+// }
+
+// /* ✅ Desktop فقط: نخفيه قبل GSAP */
+// @media (min-width: 700px) {
+//   #hero-title,
+//   #hero-subtitle,
+//   #hero-details,
+//   #button1,
+//   #button2 {
+//     opacity: 0;
+//     visibility: hidden;
+//   }
+// }
+
+// .hero-ratio {
+//   aspect-ratio: 750 / 470;
+//   min-height: 240px;
+// }
+
+// @media (max-width: 699px) {
+//   .hero-ratio {
+//     width: 100%;
+//     max-width: 480px;
+//     min-height: 240px;
+//   }
+//   .hero-visual-inner img {
+//   display: block;
+// }
+
+// }
+/* ✅ Mobile default: visible */
 #hero-title,
 #hero-subtitle,
 #hero-details,
 #button1,
 #button2 {
-  opacity: 0;
-  visibility: hidden;
+  opacity: 1;
+  visibility: visible;
 }
 
-#hero {
-  background-color: transparent;
+/* ✅ Desktop: hidden before GSAP runs */
+@media (min-width: 700px) {
+  #hero-title,
+  #hero-subtitle,
+  #hero-details,
+  #button1,
+  #button2 {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
-.hero-placeholder {
-  width: 100%;
-  height: 100%;
-  background: transparent;
+.hero-ratio {
+  aspect-ratio: 750 / 470;
+  min-height: 240px;
+}
+
+@media (max-width: 699px) {
+  .hero-ratio {
+    width: 100%;
+    max-width: 480px;
+    min-height: 240px;
+  }
+
 }

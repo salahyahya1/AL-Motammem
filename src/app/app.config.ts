@@ -12,6 +12,12 @@ import {
   provideTranslateHttpLoader,
 } from '@ngx-translate/http-loader';
 import { firstValueFrom } from 'rxjs';
+export function provideHydrationIfDesktop() {
+  if (typeof window === 'undefined') return [];
+  return window.matchMedia('(min-width: 700px)').matches
+    ? [provideClientHydration(withEventReplay())]
+    : [];
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,7 +31,7 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     // provideClientHydration(withEventReplay()),
-    provideClientHydration(),
+    // provideClientHydration(),
     provideHttpClient(withFetch()),
     provideTranslateService({
       loader: provideTranslateHttpLoader({

@@ -1,5 +1,5 @@
 <section id="hero"
-  class="relative w-full min-h-screen flex flex-col-reverse md:flex-row items-center justify-center md:justify-between gap-10 md:gap-0 md:ps-20 py-15 md:pt-10 ">
+  class="relative w-full min-h-screen flex flex-col-reverse md:flex-row items-center justify-center md:justify-between gap-10 md:gap-0 md:ps-20 py-15 md:pt-14 ">
   <div class="w-full md:w-[56.5%] relative text-center md:text-start z-10 px-6 md:px-0">
     <h1 id="hero-title"
       class="text-[1.5rem] md:text-[2rem] lg:text-[2.6rem] xl:text-[3rem] font-bold leading-snug text-[var(--primary)]">
@@ -28,52 +28,38 @@
   </div>
 
 
-  <div class="relative md:contents">
-    <div class="w-full md:w-[43.5%] relative z-0 flex items-center justify-center">
+    <div class="relative md:contents">
+  <div class="w-full md:w-[43.5%] relative z-0 flex items-center justify-start">
 
-      <div class="hero-visual-inner relative">
-
-        <div class="hero-placeholder  inset-0 transition-opacity duration-200" [class.opacity-0]="spriteReady"
-          aria-hidden="true">
-          <img
-    class="absolute inset-0 w-full h-full object-cover transition-opacity duration-200 block md:hidden"
-    [class.opacity-0]="spriteReady"
-  src="/images/homepage/white_481x302.webp"
-  width="481"
-  height="302"
-  loading="eager"
-  fetchpriority="high"
-  decoding="async"
-  alt=""
-/>
-        </div>
-        <!-- <app-animated-sequence class=" inset-0 transition-opacity duration-200" [class.opacity-0]="!spriteReady"
-          componentId="comp1" [imageUrl]="'/images/homepage/SS_final_q90.webp'" [totalFrames]="69" [frameWidth]="625"
-          [frameHeight]="391" [framesPerRow]="3" [spriteWidth]="1875" [spriteHeight]="8985">
-        </app-animated-sequence> -->
-          @if(!isMobile){
-        <app-animated-sequence
-        class=" inset-0 transition-opacity duration-200"
-        componentId="comp1"
-        [class.opacity-0]="!spriteReady"
-  [imageUrl]="'/images/homepage/SS_final_4cols_q92.webp'"
-  [totalFrames]="66"
-  [frameWidth]="625"
-  [frameHeight]="391"
-  [framesPerRow]="4"
-  [spriteWidth]="2500"
-  [spriteHeight]="6647">
-</app-animated-sequence>
-          }
+    <!-- ✅ Mobile: static image -->
+    @if (isMobile) {
+      <div class="hero-visual-inner relative w-full max-w-[750px] hero-ratio">
+        <img
+          class=" w-full h-full object-cover z-10"
+          src="/images/homepage/SS_final_4cols_q92Sm.jpg"
+          width="631"
+          height="407"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          alt=""
+        />
       </div>
-    </div>
+    } @else {
+  <ng-container #desktopHost></ng-container>
 
-    <div class="absolute w-full h-full inset-0 md:left-0 right-0 md:top-0 -z-10 overflow-hidden">
+    }
+
+  </div>
+</div>
+
+
+    <!-- <div class="absolute w-full h-full inset-0 md:left-0 right-0 md:top-0 -z-10 overflow-hidden">
       <video #heroVideo class="hidden md:block md:left-0 right-0 w-full absolute top-0 bottom-0 h-full object-cover"
         style="opacity: 0.8;" preload="none" muted playsinline loop poster="/images/hero-lcp.webp">
       </video>
 
-    </div>
-  </div>
+    </div> -->
+
 
 </section>

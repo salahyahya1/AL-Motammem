@@ -111,7 +111,7 @@ export class SolutionsSection4Component {
                             });
                         }
                     }, ">+0.3");
-                    tl.to("#capsule4", {
+                    tl.to("#solutions-Section4-container", {
                         y: -30,
                         duration: 0.7,
                         ease: "power2.inOut",
