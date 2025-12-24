@@ -1,29 +1,13 @@
 <div class="hero-visual-inner relative w-full max-w-[750px] hero-ratio">
   <!-- ✅ Desktop placeholder -->
-  <img
-    class="absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-200"
-    [class.opacity-0]="spriteReady"
-    src="/images/homepage/white_481x302.webp"
-    width="750"
-    height="470"
-    loading="eager"
-    fetchpriority="high"
-    decoding="async"
-    alt=""
-  />
+  <img class="absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-200"
+    [class.opacity-0]="spriteReady" src="/images/homepage/white_481x302.webp" width="750" height="470" loading="eager"
+    fetchpriority="high" decoding="async" alt="" />
 
   @if (showDesktopSprite) {
-    <app-animated-sequence
-      class="absolute inset-0 transition-opacity duration-200"
-      componentId="comp1"
-      [class.opacity-0]="!spriteReady"
-      [imageUrl]="'/images/homepage/SS_final_4cols_q92.webp'"
-      [totalFrames]="66"
-      [frameWidth]="625"
-      [frameHeight]="391"
-      [framesPerRow]="4"
-      [spriteWidth]="2500"
-      [spriteHeight]="6647">
-    </app-animated-sequence>
+  <app-animated-sequence class="absolute inset-0 transition-opacity duration-200" componentId="comp1"
+    [class.opacity-0]="!spriteReady" [imageUrl]="'/images/homepage/SS_final_4cols_q92.webp'" [totalFrames]="66"
+    [frameWidth]="625" [frameHeight]="391" [framesPerRow]="4" [spriteWidth]="2500" [spriteHeight]="6647">
+  </app-animated-sequence>
   }
 </div>

@@ -1,24 +1,23 @@
-<!-- <div class="min-h-screen bg-gray-50 pb-20 font-sans" dir="rtl" [formGroup]="blogForm">
+<div class="min-h-screen bg-gray-50 pb-20 font-sans pt-20" dir="rtl" [formGroup]="blogForm">
   <nav class="sticky top-0 z-50 flex items-center justify-between bg-white px-8 py-4 shadow-sm">
     <h1 class="text-xl font-bold text-slate-800">إضافة مقال جديد</h1>
-    <button (click)="onSubmit()" 
-            class="rounded-lg bg-blue-700 px-6 py-2.5 font-semibold text-white transition hover:bg-blue-800 shadow-md">
+    <button (click)="onSubmit()"
+      class="rounded-lg bg-blue-700 px-6 py-2.5 font-semibold text-white transition hover:bg-blue-800 shadow-md">
       نشر المقال
     </button>
   </nav>
 
   <div class="mx-auto mt-8 max-w-6xl px-4 lg:px-0">
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
-      
-      <div class="lg:col-span-8">
-        <input type="text" 
-               formControlName="title"
-               placeholder="عنوان المقال الحديث..." 
-               class="mb-6 w-full border-none bg-transparent text-4xl font-black outline-none placeholder:text-gray-300 focus:ring-0">
 
-        <div class="rounded-xl border border-gray-100 bg-white p-6 shadow-sm min-h-[500px]">
-          <div id="editorjs-container" class="prose prose-slate max-w-none"></div>
+      <div class="lg:col-span-8">
+        <input type="text" formControlName="title" placeholder="عنوان المقال الحديث..."
+          class="mb-6 w-full border-none bg-transparent text-4xl font-black outline-none placeholder:text-gray-300 focus:ring-0">
+
+        <div class="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+          <div id="editorjs-container" class="editor-scroll"></div>
         </div>
+
 
         <div class="mt-10 rounded-xl bg-white p-6 shadow-sm">
           <div class="mb-6 flex items-center justify-between">
@@ -29,27 +28,32 @@
           </div>
 
           <div formArrayName="faqs" class="space-y-6">
-            <div *ngFor="let faq of faqs.controls; let i=index" [formGroupName]="i" 
-                 class="relative rounded-lg border border-gray-100 bg-gray-50 p-4 pt-8">
-              
-              <button (click)="removeFaq(i)" class="absolute left-4 top-4 text-red-500 text-xs hover:font-bold">حذف</button>
+            <div *ngFor="let faq of faqs.controls; let i=index" [formGroupName]="i"
+              class="relative rounded-lg border border-gray-100 bg-gray-50 p-4 pt-8">
+
+              <button (click)="removeFaq(i)"
+                class="absolute left-4 top-4 text-red-500 text-xs hover:font-bold">حذف</button>
 
               <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <label class="mb-1 block text-xs text-gray-500">السؤال (بالعربي)</label>
-                  <input type="text" formControlName="question" class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500">
+                  <input type="text" formControlName="question"
+                    class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500">
                 </div>
                 <div>
                   <label class="mb-1 block text-xs text-gray-500 text-left" dir="ltr">Question (English)</label>
-                  <input type="text" dir="ltr" formControlName="englishQuestion" class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500">
+                  <input type="text" dir="ltr" formControlName="englishQuestion"
+                    class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500">
                 </div>
                 <div>
                   <label class="mb-1 block text-xs text-gray-500">الإجابة (بالعربي)</label>
-                  <textarea formControlName="answer" rows="2" class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500"></textarea>
+                  <textarea formControlName="answer" rows="2"
+                    class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500"></textarea>
                 </div>
                 <div>
                   <label class="mb-1 block text-xs text-gray-500 text-left" dir="ltr">Answer (English)</label>
-                  <textarea dir="ltr" formControlName="englishAnswer" rows="2" class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500"></textarea>
+                  <textarea dir="ltr" formControlName="englishAnswer" rows="2"
+                    class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500"></textarea>
                 </div>
               </div>
             </div>
@@ -61,7 +65,7 @@
         <div class="sticky top-24 space-y-6">
           <div class="rounded-xl bg-white p-6 shadow-sm border border-gray-50">
             <h4 class="mb-4 font-bold text-slate-800">إعدادات النشر</h4>
-            
+
             <div class="space-y-4 text-sm">
               <div>
                 <label class="mb-1 block text-gray-500 font-medium">القسم (Category)</label>
@@ -74,17 +78,22 @@
 
               <div>
                 <label class="mb-1 block text-gray-500 font-medium">رابط المقال (URL Slug)</label>
-                <input type="text" formControlName="url" class="w-full rounded-lg border-gray-200 py-2 placeholder:text-gray-300" placeholder="modern-architecture-2024">
+                <input type="text" formControlName="url"
+                  class="w-full rounded-lg border-gray-200 py-2 placeholder:text-gray-300"
+                  placeholder="modern-architecture-2024">
               </div>
 
               <div>
                 <label class="mb-1 block text-gray-500 font-medium">SEO Meta Title</label>
-                <input type="text" formControlName="metaTitle" class="w-full rounded-lg border-gray-200 py-2" placeholder="Google SEO Title">
+                <input type="text" formControlName="metaTitle" class="w-full rounded-lg border-gray-200 py-2"
+                  placeholder="Google SEO Title">
               </div>
 
               <div>
                 <label class="mb-1 block text-gray-500 font-medium">رابط الصورة الرئيسية</label>
-                <input type="text" formControlName="mainImage" class="w-full rounded-lg border-gray-200 py-2" placeholder="/uploads/main.jpg">
+                <input type="file" accept="image/*" (change)="onMainImageChange($event)"
+                  class="w-full rounded-lg border-gray-200 py-2" />
+
               </div>
             </div>
           </div>
@@ -93,4 +102,4 @@
 
     </div>
   </div>
-</div> -->
+</div>

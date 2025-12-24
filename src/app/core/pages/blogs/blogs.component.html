@@ -1,4 +1,12 @@
-<section id="knowledge-center" class="relative w-full bg-[#F8F9FB] py-10 md:py-16 pt-20">
+<section id="knowledge-center" class="relative w-full bg-[#F8F9FB] py-10 md:py-16 pt-20 min-h-[150vh]">
+    @if (isLoading) {
+    <div class="blogs-loading-overlay" aria-label="Loading">
+        <div class="blogs-loading-card">
+            <img src="./images/logo.svg" alt="Al-Motammem" class="blogs-loading-logo" />
+        </div>
+    </div>
+    }
+
     <div class="max-w-6xl mx-auto px-4 md:px-8 lg:px-10 pt-0 md:pt-[30px]">
 
         <div class="flex items-start justify-between gap-4 mb-6">
@@ -14,10 +22,18 @@
                 </p>
             </div>
         </div>
-
+        @if (isAuthenticated && hasrole) {
+        <div class="w-full flex justify-center items-center">
+            <a [routerLink]="['CreateBlog']" class="inline-flex items-center justify-center px-6 py-2 pt-3 rounded-full
+                     bg-sky-600 text-white text-sm font-semibold shadow-sm
+                     hover:bg-sky-500 transition cursor-pointer">
+                إضافة مقال جديد
+            </a>
+        </div>
+        }
         <div class="hidden md:flex justify-start gap-10 text-sm mb-3">
             <button id="btn1" class="text-[var(--light-gray)] hover:text-[var(--primary,#1D4ED8)]">
-               الأكثر قراءة
+                الأكثر قراءة
             </button>
         </div>
 
@@ -54,29 +70,69 @@
                                         </div>
 
                                     </div>
-                                    <div class="text-right">
+                                    <div class="text-right flex justify-center items-start flex-col">
                                         <h3 class="text-[var(--primary,#1D4ED8)]
                      text-base md:text-lg font-bold mb-3 leading-relaxed">
                                             {{ article.title }}
                                         </h3>
 
                                         <p class="text-[#6B7280] text-sm md:text-base leading-relaxed w-full mb-4">
-                                            {{ article.excerpt }}
+                                            {{ article.metaDescription }}
                                         </p>
 
-                                        <a *ngIf="article.link; else btnOnly" [routerLink]="article.link" class="inline-flex items-center justify-center px-6 py-2 rounded-full
+                                        <div class="flex justify-start items-start gap-2">
+                                            <a [routerLink]="['BlogVeiw', article.englishURL]" class="inline-flex items-center justify-center px-6 py-2 pt-3 rounded-full
                      bg-[#F4B942] text-[#58595B] text-sm font-semibold shadow-sm
-                     hover:bg-[#f2a90c] transition">
-                                            {{ article.ctaLabel }}
-                                        </a>
-
-                                        <ng-template #btnOnly>
-                                            <button class="inline-flex items-center justify-center px-6 py-2 rounded-full
-                       bg-[#F4B942] text-[#58595B] text-sm font-semibold shadow-sm
-                       hover:bg-[#f2a90c] transition">
-                                                {{ article.ctaLabel }}
-                                            </button>
-                                        </ng-template>
+                     hover:bg-[#f2a90c] transition cursor-pointer">
+                                                اكتشف المزيد
+                                            </a>
+                                            @if (isAuthenticated && hasrole) {
+                                            <div>
+                                                @if (role === 'SuperAdmin'|| role === 'Admin' ) {
+                                                <a [routerLink]="['EditBlog', article.englishURL]"
+                                                    class="inline-flex items-center justify-center  px-0 py-1.5 rounded-full cursor-pointer">
+                                                    <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                            stroke-linejoin="round"></g>
+                                                        <g id="SVGRepo_iconCarrier">
+                                                            <path
+                                                                d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H9M15 5H17C18.1046 5 19 5.89543 19 7V9"
+                                                                stroke="oklch(50% 0.134 242.749) " stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                                            <path
+                                                                d="M14.902 20.3343L12.7153 20.7716L13.1526 18.585C13.1914 18.3914 13.2865 18.2136 13.4261 18.074L17.5 14L19.5 12L21.4869 13.9869L19.4869 15.9869L15.413 20.0608C15.2734 20.2004 15.0956 20.2956 14.902 20.3343Z"
+                                                                stroke="oklch(50% 0.134 242.749)" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                                            <path
+                                                                d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
+                                                                stroke="oklch(50% 0.134 242.749)" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        </g>
+                                                    </svg>
+                                                </a>
+                                                }
+                                                @if(role === 'SuperAdmin'){
+                                                <a (click)="DeleteBlog(article.id)"
+                                                    class="inline-flex items-center justify-center px-0  py-1.5 rounded-full cursor-pointer">
+                                                    <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                            stroke-linejoin="round"></g>
+                                                        <g id="SVGRepo_iconCarrier">
+                                                            <path
+                                                                d="M18 6L17.1991 18.0129C17.129 19.065 17.0939 19.5911 16.8667 19.99C16.6666 20.3412 16.3648 20.6235 16.0011 20.7998C15.588 21 15.0607 21 14.0062 21H9.99377C8.93927 21 8.41202 21 7.99889 20.7998C7.63517 20.6235 7.33339 20.3412 7.13332 19.99C6.90607 19.5911 6.871 19.065 6.80086 18.0129L6 6M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M14 10V17M10 10V17"
+                                                                stroke="red" stroke-width="2" stroke-linecap="round"
+                                                                stroke-linejoin="round"></path>
+                                                        </g>
+                                                    </svg>
+                                                </a>
+                                                }
+                                            </div>
+                                            }
+                                        </div>
                                     </div>
 
 
@@ -89,7 +145,7 @@
 
             <div class="hidden md:flex justify-start mt-10 mb-3">
                 <span class="text-sm text-[var(--light-gray)] hover:text-[var(--primary,#1D4ED8)]">
-                     جميع المقالات
+                    جميع المقالات
                 </span>
             </div>
 
@@ -97,30 +153,81 @@
 
             <div class="pt-6 md:pt-8">
                 <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-
+                    @for (blog of allBlogs; track $index) {
                     <article
                         class="bg-white rounded-3xl shadow-sm border border-[#E5E7EB] flex flex-col overflow-hidden">
                         <div class="h-32 md:h-43 bg-[#FFFFFF]">
-                            <img src="./images/blog1.png" class="object-cover h-full" style="border-radius: 1rem;"
-                                alt="">
+                            <img *ngIf="blog.mainImage" [src]="blog.mainImage" alt="{{ blog.title }}"
+                                class="w-full h-full object-cover" />
                         </div>
                         <div class="p-4 md:p-5 flex flex-col gap-2 text-right">
                             <h4 class="text-[var(--primary,#1D4ED8)] text-sm md:text-base font-semibold">
-                                العنوان
+                                {{ blog.title }}
                             </h4>
                             <p class="text-[#6B7280] text-xs md:text-sm">
-                                وصف للعنوان
+                                {{ blog.metaDescription }}
                             </p>
                             <div class="mt-3">
-                                <button class="inline-flex px-4 py-1.5 rounded-full bg-[#F4B942] text-[#58595B]
-                       text-xs md:text-sm font-semibold hover:bg-[#f2a90c] transition">
-                                    اكتشف المزيد
-                                </button>
+                                <div class="flex justify-start items-start gap-2">
+                                    <a [routerLink]="['BlogVeiw', blog.englishURL]" class="inline-flex items-center justify-center px-6 py-2 pt-3 rounded-full
+                     bg-[#F4B942] text-[#58595B] text-sm font-semibold shadow-sm
+                     hover:bg-[#f2a90c] transition cursor-pointer">
+                                        اكتشف المزيد
+                                    </a>
+                                    @if (isAuthenticated && hasrole) {
+                                    <div>
+                                        @if (role === 'SuperAdmin'|| role === 'Admin' ) {
+                                        <a [routerLink]="['EditBlog', blog.englishURL]"
+                                            class="inline-flex items-center justify-center  px-0 py-1.5 rounded-full cursor-pointer">
+                                            <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <path
+                                                        d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H9M15 5H17C18.1046 5 19 5.89543 19 7V9"
+                                                        stroke="oklch(50% 0.134 242.749) " stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    <path
+                                                        d="M14.902 20.3343L12.7153 20.7716L13.1526 18.585C13.1914 18.3914 13.2865 18.2136 13.4261 18.074L17.5 14L19.5 12L21.4869 13.9869L19.4869 15.9869L15.413 20.0608C15.2734 20.2004 15.0956 20.2956 14.902 20.3343Z"
+                                                        stroke="oklch(50% 0.134 242.749)" stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    <path
+                                                        d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
+                                                        stroke="oklch(50% 0.134 242.749)" stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                        }
+                                        @if(role === 'SuperAdmin'){
+                                        <a (click)="DeleteBlog(blog.id)"
+                                            class="inline-flex items-center justify-center px-0  py-1.5 rounded-full cursor-pointer">
+                                            <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <path
+                                                        d="M18 6L17.1991 18.0129C17.129 19.065 17.0939 19.5911 16.8667 19.99C16.6666 20.3412 16.3648 20.6235 16.0011 20.7998C15.588 21 15.0607 21 14.0062 21H9.99377C8.93927 21 8.41202 21 7.99889 20.7998C7.63517 20.6235 7.33339 20.3412 7.13332 19.99C6.90607 19.5911 6.871 19.065 6.80086 18.0129L6 6M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M14 10V17M10 10V17"
+                                                        stroke="red" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"></path>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                        }
+                                    </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </article>
+                    }
 
-                    <article
+
+                    <!-- <article
                         class="bg-white rounded-3xl shadow-sm border border-[#E5E7EB] flex flex-col overflow-hidden">
                         <div class="h-32 md:h-43 bg-[#FFFFFF]  ">
                             <img src="./images/blog2.jpg" class="object-cover h-full" style="border-radius: 1rem;"
@@ -162,7 +269,7 @@
                                 </button>
                             </div>
                         </div>
-                    </article>
+                    </article> -->
                 </div>
             </div>
 

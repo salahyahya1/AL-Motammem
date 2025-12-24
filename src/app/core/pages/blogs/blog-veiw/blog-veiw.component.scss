@@ -1,0 +1,125 @@
+/* ✅ Scoped ONLY to BlogVeiwComponent + ONLY to #blog-view + ONLY to .blog-content */
+:host ::ng-deep #blog-view .blog-content {
+    direction: rtl;
+    text-align: right;
+    line-height: 1.9;
+    font-size: 0.95rem;
+}
+
+/* Headings */
+:host ::ng-deep #blog-view .blog-content h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 1.2rem 0 0.6rem;
+    color: #facc15;
+}
+
+:host ::ng-deep #blog-view .blog-content h2 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin: 1.1rem 0 0.5rem;
+    color: #facc15;
+}
+
+:host ::ng-deep #blog-view .blog-content h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin: 1rem 0 0.4rem;
+    color: #25e9f7;
+}
+
+:host ::ng-deep #blog-view .blog-content h4 {
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0.9rem 0 0.35rem;
+    color: #25e9f7;
+}
+
+/* Paragraph */
+:host ::ng-deep #blog-view .blog-content p {
+    margin: 0.5rem 0;
+}
+
+/* Links */
+:host ::ng-deep #blog-view .blog-content a {
+    color: #facc15;
+    text-decoration: underline;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+:host ::ng-deep #blog-view .blog-content a:hover {
+    opacity: 0.9;
+}
+
+/* Lists */
+:host ::ng-deep #blog-view .blog-content ul,
+:host ::ng-deep #blog-view .blog-content ol {
+    margin: 0.75rem 0;
+    padding-right: 1.25rem;
+    /* RTL */
+    list-style-position: outside;
+}
+
+:host ::ng-deep #blog-view .blog-content ul {
+    list-style-type: disc;
+}
+
+:host ::ng-deep #blog-view .blog-content ol {
+    list-style-type: decimal;
+}
+
+:host ::ng-deep #blog-view .blog-content li {
+    margin: 0.25rem 0;
+}
+
+/* Images */
+:host ::ng-deep #blog-view .blog-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+    margin: 0.75rem 0;
+    display: block;
+}
+
+:host ::ng-deep #blog-view .blog-content figure {
+    margin: 0.75rem 0;
+}
+
+:host ::ng-deep #blog-view .blog-content figcaption {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* Quote */
+:host ::ng-deep #blog-view .blog-content blockquote {
+    border-right: 4px solid #25e9f7;
+    padding-right: 1rem;
+    margin: 1rem 0;
+    opacity: 0.95;
+}
+
+:host ::ng-deep #blog-view .blog-content blockquote footer {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* Code */
+:host ::ng-deep #blog-view .blog-content pre {
+    overflow: auto;
+    padding: 0.75rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.12);
+    margin: 0.75rem 0;
+}
+
+/* Embed */
+:host ::ng-deep #blog-view .blog-content .embed iframe {
+    width: 100%;
+    min-height: 360px;
+    border: 0;
+    border-radius: 16px;
+    margin: 0.75rem 0;
+}

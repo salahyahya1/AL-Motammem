@@ -1,9 +1,9 @@
-
 #section50-details,
 #section50-TITLE {
     opacity: 0;
     visibility: hidden;
 }
+
 #erp {
     font-size: 3rem;
     font-weight: 700;
@@ -134,7 +134,7 @@
         position: relative;
 
         .controls {
-            width: 102%;
+            width: 95%;
             display: flex;
             justify-content: space-between;
             margin-bottom: 1.5rem;
@@ -165,7 +165,7 @@
         }
 
         .swiper {
-            width: 94%;
+            width: 90%;
             overflow: hidden;
         }
 
@@ -202,75 +202,131 @@
         }
     }
 }
-.capsule-wrap{
-  position: relative;
-  width: min(757px, 90vw);
-  aspect-ratio: 759 / 132;   // يخلي الارتفاع يتظبط تلقائي
-  margin-top: 2.5rem;
+
+.capsule-wrap {
+    position: relative;
+    width: min(757px, 90vw);
+    aspect-ratio: 759 / 132; // يخلي الارتفاع يتظبط تلقائي
+    margin-top: 2.5rem;
 }
 
-#capsule2{
-  position: absolute;
-  inset: 0;
-  width: 85%;
-  height: 80%;
-  margin: auto;
+#capsule2 {
+    position: absolute;
+    inset: 0;
+    width: 85%;
+    height: 80%;
+    margin: auto;
 }
 
-.capsule-text{
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 0 24px;
+.capsule-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 24px;
 }
-       #section50-TITLE{ font-size: 2.1rem; }
-#section50-details{  font-size: 1.1rem;}
+
+#section50-TITLE {
+    font-size: 2.1rem;
+}
+
+#section50-details {
+    font-size: 1.1rem;
+}
+
 @media (max-width: 1024px) {
-       #section50-TITLE{ font-size: 1.9rem; }
-#section50-details{  font-size: 1.05rem;}
-#capsule2{
-  width: 85%;
-  height: 80%;
-}
+    #section50-TITLE {
+        font-size: 1.9rem;
+    }
+
+    #section50-details {
+        font-size: 1.05rem;
+    }
+
+    #capsule2 {
+        width: 85%;
+        height: 80%;
+    }
 }
 
 @media (max-width: 720px) {
-       #section50-TITLE{ font-size: 1.4rem; }
-#section50-details{  font-size: 0.8rem;}
-#capsule2{
-  width: 80%;
-  height: 80%;
-}
+    #section50-TITLE {
+        font-size: 1.4rem;
+    }
+
+    #section50-details {
+        font-size: 0.8rem;
+    }
+
+    #capsule2 {
+        width: 80%;
+        height: 80%;
+    }
 }
 
 @media (max-width: 600px) {
-       #section50-TITLE{ font-size: 1.15rem; }
-#section50-details{  font-size: 0.65rem;} 
-#capsule2{
-  width: 90%;
-  height: 90%;
+    #section50-TITLE {
+        font-size: 1.15rem;
+    }
+
+    #section50-details {
+        font-size: 0.65rem;
+    }
+
+    #capsule2 {
+        width: 90%;
+        height: 90%;
+    }
 }
-}
+
 @media (max-width: 400px) {
-       #section50-TITLE{ font-size: 0.9rem; }
-#section50-details{  font-size: 0.5rem;} 
-#capsule2{
-  width: 80%;
-  height: 80%;
-}
+    #section50-TITLE {
+        font-size: 0.9rem;
+    }
+
+    #section50-details {
+        font-size: 0.5rem;
+    }
+
+    #capsule2 {
+        width: 80%;
+        height: 80%;
+    }
+
+    .controls {
+        width: 95%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+        position: absolute;
+        top: 50%;
+    }
+
+    .swiper {
+        width: 90%;
+        overflow: hidden;
+    }
+
+    .erp-carousel .card p {
+        font-size: 0.9rem;
+    }
 }
 
 
 @media (max-width: 335px) {
-       #section50-TITLE{ font-size: 0.75rem; }
-#section50-details{  font-size: 0.45rem;} 
-#capsule2{
-  width: 90%;
-  height: 90%;
-}
-}
+    #section50-TITLE {
+        font-size: 0.75rem;
+    }
 
+    #section50-details {
+        font-size: 0.45rem;
+    }
+
+    #capsule2 {
+        width: 90%;
+        height: 90%;
+    }
+}

@@ -153,7 +153,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   visibility$ = this.visibilitySubject.asObservable();
   visibilityState: 'visible' | 'invisible' = 'visible';
   private smoother!: any;
-
+  isMobile!: boolean
   menuOpen = false;
   isBrowser: boolean;
 
@@ -174,8 +174,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     this.setupMobileStaticHeroLanguage();
 
     // ✅ 2) ScrollTriggers/Indicators خليهم Desktop فقط (عشان ما نحرّقش الموبايل)
-    const isMobile = window.matchMedia('(max-width: 699px)').matches;
-    if (isMobile) {
+    this.isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (this.isMobile) {
       setTimeout(() => {
         this.observeSectionsMobile();
       }, 7500);
@@ -223,15 +223,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   //mobile only
   private observeSectionsMobile() {
     const sections = gsap.utils.toArray<HTMLElement>('.panel');
-    sections.forEach((section) => {
+    sections.forEach((section, index) => {
       const textColor = section.dataset['textcolor'] || 'var(--primary)';
       const bgColor = section.dataset['bgcolor'] || 'var(--white)';
       // console.log(section);
       ScrollTrigger.create({
         trigger: section,
-        start: 'top 50%',
+        start: 'top 10%',
         end: 'bottom 50%',
         // markers: true,
+        // invalidateOnRefresh: true,
         onEnter: () => {
           this.navTheme.setColor(textColor);   // ✅ سيبها زي ما هي
           this.navTheme.setBg(bgColor);        // ✅ الجديد
@@ -239,6 +240,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         onEnterBack: () => {
           this.navTheme.setColor(textColor);
           this.navTheme.setBg(bgColor);
+        },
+        onLeaveBack: () => {
+          if (index === 0) {
+            this.navTheme.setBg('var(--white)');
+            this.navTheme.setColor('var(--primary)');
+            return;
+          }
         },
       });
     });

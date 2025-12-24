@@ -1,0 +1,22 @@
+.editor-scroll {
+    min-height: 520px;
+    max-height: 70vh;
+    overflow: auto;
+    padding: 8px 6px;
+}
+
+/* RTL content, icons stay normal */
+#editorjs-container,
+#editorjs-container .codex-editor {
+    direction: rtl;
+    text-align: right;
+}
+
+#editorjs-container .ce-toolbar__actions {
+    direction: ltr;
+}
+
+#editorjs-container .ce-block__content,
+#editorjs-container .ce-toolbar__content {
+    max-width: 100%;
+}

@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
 import { ComingSoonComponent } from './core/shared/coming-soon/coming-soon.component';
 import { BlogVeiwComponent } from './core/pages/blogs/blog-veiw/blog-veiw.component';
-// import { CreateBlogComponent } from './core/pages/blogs/create-blog/create-blog.component';
+import { CreateBlogComponent } from './core/pages/blogs/create-blog/create-blog.component';
+import { EditBlogComponent } from './core/pages/blogs/edit-blog/edit-blog.component';
 
 export const routes: Routes = [
     {
@@ -76,18 +77,25 @@ export const routes: Routes = [
             },
             {
                 path: 'blogs',
-                loadComponent: () => import('./core/pages/blogs/blogs.component')
-                    .then(m => m.BlogsComponent),
+                loadComponent: () => import('./core/pages/blogs/main-blogs/main-blogs.component')
+                    .then(m => m.MainBlogsComponent),
                 title: 'المدونات',
-                children:[
-                    // {path:'CreateBlog' ,component:CreateBlogComponent,title:'انشاء مدونة جديدة'}
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () => import('./core/pages/blogs/blogs.component')
+                            .then(m => m.BlogsComponent),
+                        title: 'المدونات'
+                    },
+                    {
+                        path: 'BlogVeiw/:url',
+                        loadComponent: () => import('./core/pages/blogs/blog-veiw/blog-veiw.component')
+                            .then(m => m.BlogVeiwComponent),
+                        title: `مدونه`
+                    },
+                    { path: 'CreateBlog', component: CreateBlogComponent, title: 'انشاء مدونة جديدة' },
+                    { path: 'EditBlog/:url', component: EditBlogComponent, title: 'تعديل مدونة' }
                 ]
-            },
-            {
-                path: 'BlogVeiw',
-                loadComponent: () => import('./core/pages/blogs/blog-veiw/blog-veiw.component')
-                    .then(m => m.BlogVeiwComponent),
-                title: `مدونه`
             },
             {
                 path: 'FAQS',
@@ -118,6 +126,12 @@ export const routes: Routes = [
                 loadComponent: () => import('./core/shared/coming-soon/coming-soon.component')
                     .then(m => m.ComingSoonComponent),
                 title: 'قريبًا'
+            },
+            {
+                path: 'login',
+                loadComponent: () => import('./core/auth/login/login.component')
+                    .then(m => m.LoginComponent),
+                title: 'تسجيل الدخول'
             }
         ]
     },
