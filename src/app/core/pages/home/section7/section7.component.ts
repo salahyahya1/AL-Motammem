@@ -127,7 +127,7 @@
 //                 }, '<')
 //                 tl.add(tlCards, ">");
 //               },
-//               "(min-width: 721px) and (max-width: 1279px)": () => {
+//               "(min-width: 768px) and (max-width: 1279px)": () => {
 //                 const tlCards = gsap.timeline();
 //                 tlCards.fromTo(".card2", {
 //                   autoAlpha: 0,
@@ -158,7 +158,7 @@
 //                 }, '<')
 //                 tl.add(tlCards, ">");
 //               },
-//               "(max-width: 720px)": () => {
+//               "(max-width: 767px)": () => {
 //                 const tlCards = gsap.timeline();
 
 //                 tlCards.fromTo(".card2", {
@@ -262,16 +262,18 @@ export class Section7Component {
               defaults: { ease: 'power3.out' },
               scrollTrigger: {
                 trigger: '#section7',
-                start: 'top top',
-                end: isMobile ?  'top 2%':'150% bottom' ,
-  pinSpacing: true,
                 pin: true,
-                // scrub: false,
+                scrub: false,
                 anticipatePin: 1,
-
-
-                // ✅ ده بيقلل إحساس الـ pin جدًا على الموبايل (جرّبه)
-                // pinSpacing: isMobile ? false : true,
+                start: isMobile ? 'top 85%' : 'top top',
+                end: isMobile ? 'top bottom' : '150% bottom',
+                pinSpacing: isMobile ? true : true,
+                pinType: 'transform',
+                id: 'section7',
+                invalidateOnRefresh: true,
+                markers: false,
+                onLeave: () => { if (isMobile) tl.progress(1); },
+                onLeaveBack: () => { if (isMobile) tl.progress(0); },
               },
             });
 
@@ -354,7 +356,7 @@ export class Section7Component {
                 tl.add(tlCards, '>');
               });
 
-              mmCards.add('(min-width: 721px) and (max-width: 1279px)', () => {
+              mmCards.add('(min-width: 768px) and (max-width: 1279px)', () => {
                 const tlCards = gsap.timeline();
                 tlCards.fromTo(
                   '.card2',
@@ -377,7 +379,7 @@ export class Section7Component {
                 tl.add(tlCards, '>');
               });
 
-              mmCards.add('(max-width: 720px)', () => {
+              mmCards.add('(max-width: 767px)', () => {
                 const tlCards = gsap.timeline();
                 tlCards.fromTo(
                   '.card2',
@@ -416,7 +418,7 @@ export class Section7Component {
               );
 
               // ✅ مهم عشان الحسابات تتظبط بعد pin/end
-              ScrollTrigger.refresh();
+              // ScrollTrigger.refresh();
             });
 
             return () => {
@@ -432,8 +434,8 @@ export class Section7Component {
 
           // ✅ هنا بس بنحدد موبايل/ديسكتوب
           ScrollTrigger.matchMedia({
-            '(min-width: 721px)': () => buildTimeline(false), // desktop
-            '(max-width: 720px)': () => buildTimeline(true),  // mobile (pin خفيف)
+            '(min-width: 768px)': () => buildTimeline(false), // desktop
+            '(max-width: 767px)': () => buildTimeline(true),  // mobile (pin خفيف)
           });
 
         }, 500);

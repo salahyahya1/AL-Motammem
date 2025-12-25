@@ -432,7 +432,7 @@
 
     @if (isMobile) {
     <!-- Batch 3: load with section6 -->
-    @defer (on viewport(section6Trigger); prefetch on idle) {
+    @defer (on viewport(section5Trigger); prefetch on idle) {
     <app-section7></app-section7>
     } @placeholder { <div class="w-full h-[60vh]"></div> }
     } @else {

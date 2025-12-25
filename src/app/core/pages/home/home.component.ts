@@ -166,15 +166,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
-
+  ngOnInit() {
+    if (!this.isBrowser) return;
+    this.isMobile = window.matchMedia('(max-width: 767px)').matches;
+  }
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
 
-    // ✅ 1) لو موبايل: عدّل نص الـ Static Hero للإنجليزي لو المستخدم مختاره (بعد idle)
     this.setupMobileStaticHeroLanguage();
 
-    // ✅ 2) ScrollTriggers/Indicators خليهم Desktop فقط (عشان ما نحرّقش الموبايل)
-    this.isMobile = window.matchMedia('(max-width: 768px)').matches;
     if (this.isMobile) {
       setTimeout(() => {
         this.observeSectionsMobile();

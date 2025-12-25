@@ -251,7 +251,7 @@ export class Section5Component {
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         setTimeout(() => {
-ScrollTrigger.config({ ignoreMobileResize: true });
+          ScrollTrigger.config({ ignoreMobileResize: true });
 
           // ✅ أهم تعديل: نخزن matchMedia في this.mm عشان ngOnDestroy يقدر ينضفه
           this.mm = gsap.matchMedia();
@@ -262,7 +262,7 @@ ScrollTrigger.config({ ignoreMobileResize: true });
               mobile: '(max-width: 699px)',
             },
             (ctx) => {
-              const { desktop } = (ctx.conditions || {}) as any;
+              const { desktop, mobile } = (ctx.conditions || {}) as any;
 
               const container = document.querySelector("#image-container") as HTMLElement | null;
               if (container) {
@@ -277,11 +277,26 @@ ScrollTrigger.config({ ignoreMobileResize: true });
                 defaults: { ease: "power3.out" },
                 scrollTrigger: {
                   trigger: "#section5",
-                  start: 'top top',
-                  end: desktop ? "100% bottom" : "top 5%",
+                  start: mobile ? 'top 85%' : 'top top',
+                  end: desktop ? "100% bottom" : '50% bottom',
                   pin: desktop ? true : false,
                   anticipatePin: 1,
+                  // markers: true,
+                  scrub: mobile ? true : false,
                   pinType: 'transform',
+                  invalidateOnRefresh: true,
+                  pinSpacing: mobile ? false : true,
+                  onLeave: () => {
+                    if (mobile) {
+                      tl.progress(1);
+
+                      // (اختياري) لو عايز تمنع flip لو اليوزر نزل بسرعة
+                      if (this.flipTimer) clearTimeout(this.flipTimer);
+                    }
+                  },
+                  onLeaveBack: () => {
+                    if (mobile) tl.progress(0);
+                  },
                 }
               });
 
@@ -299,7 +314,7 @@ ScrollTrigger.config({ ignoreMobileResize: true });
                   onComplete: () => {
                     if (!flipStarted) {
                       flipStarted = true;
-                      if (!this.isIOS) this.startImageFlip(container); // ✅ زي ما أنت عامل
+                      if (!mobile && !this.isIOS) this.startImageFlip(container);
                     }
                   }
                 }, ">-0.1");

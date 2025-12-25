@@ -333,8 +333,8 @@ export class Section3Component {
 
           mm.add(
             {
-                desktop: '(min-width: 721px)',
-                mobile: '(max-width: 720px)',
+              desktop: '(min-width: 768px)',
+              mobile: '(max-width: 767px)',
             },
             (ctx) => {
               const { desktop, mobile } = (ctx.conditions || {}) as any;
@@ -366,9 +366,13 @@ export class Section3Component {
                 playST = ScrollTrigger.create({
                   trigger: '#section50',
                   start: 'top 80%',
-                                      end:'top 82%',
-                                        pin: true,
+                  end: 'top 95%',
+                  pin: true,
+                  // markers: true,
+                  pinType: 'transform',
+                  anticipatePin: 1,
                   once: true,
+                  pinSpacing: true,
                   onEnter: () => {
                     if (!playedOnce) {
                       playedOnce = true;
@@ -386,12 +390,17 @@ export class Section3Component {
               };
             }
           );
+          const isMobileNow = window.matchMedia('(max-width: 767px)').matches;
 
           const tl = gsap.timeline({
             defaults: { ease: "power3.out" }, scrollTrigger: {
               trigger: "#section50",
-              start: 'top top',
-              end: "150% bottom",
+              start: isMobileNow ? 'top 80%' : 'top top',
+              end: isMobileNow ? 'bottom 25%' : "150% bottom",
+
+              // ✅ لو اليوزر ساب بسرعة على الموبايل: خلص الانميشن فورًا
+              onLeave: () => { if (isMobileNow) tl.progress(1); },
+              onLeaveBack: () => { if (isMobileNow) tl.progress(0); },
             }
           });
           let triggered = false;
