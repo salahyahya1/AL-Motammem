@@ -171,12 +171,16 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
   styleUrls: ['./section2.component.scss'],
 })
 export class Section2Component implements AfterViewInit {
+  mobile!: boolean;
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: Object,
     private readonly vedioPlayer: VedioPlayerServiceForIosService,
     private readonly appRef: ApplicationRef,
     private readonly ngZone: NgZone
-  ) { }
+  ) {
+    if (typeof window === 'undefined') return;
+    this.mobile = window.innerWidth < 768;
+  }
 
   @ViewChild('section4Video') section4Video!: ElementRef<HTMLVideoElement>;
 

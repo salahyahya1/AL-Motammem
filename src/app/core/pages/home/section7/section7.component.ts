@@ -237,12 +237,17 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 export class Section7Component {
   items!: number[];
 
+  mobile!: boolean;
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
     private ngZone: NgZone,
     private language: LanguageService
-  ) { }
+  ) {
+    if (typeof window === 'undefined') return;
+    this.mobile = window.innerWidth < 768;
+  }
 
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;

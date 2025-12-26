@@ -157,8 +157,14 @@
         </p>
     </div>
     <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
+        @if (mobile) {
+        <source src="./videos/package bgsm.webm" type="video/webm">
+        <source src="./videos/package bgsafarihighsm.mp4" type="video/mp4">
+        }
+        @else {
         <source src="./videos/package bg.webm" type="video/webm">
         <source src="./videos/package bgsafarihigh.mp4" type="video/mp4">
+        }
         متصفحك لا يدعم تشغيل الفيديو.
     </video>
 

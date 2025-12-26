@@ -272,7 +272,7 @@ export class Section3Component {
   swipeConfig: any;
 
   isBrowser = false;
-
+  mobile!: boolean;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -282,6 +282,8 @@ export class Section3Component {
     private language: LanguageService,
     private vedioPlayer: VedioPlayerServiceForIosService,
   ) {
+    if (typeof window === 'undefined') return;
+    this.mobile = window.innerWidth < 768;
   }
   @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
 

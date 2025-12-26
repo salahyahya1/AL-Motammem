@@ -15,23 +15,21 @@
             </div>
         </foreignObject>
     </svg> -->
-<div id="capsule2Wrap" class="capsule-wrap">
-  <svg id="capsule2" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg">
-    <rect class="capsule-path2"
-      x="1" y="1" width="755" height="129" rx="60"
-      stroke="var(--dark-gray)" stroke-width="3" fill="transparent" />
-  </svg>
+    <div id="capsule2Wrap" class="capsule-wrap">
+        <svg id="capsule2" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg">
+            <rect class="capsule-path2" x="1" y="1" width="755" height="129" rx="60" stroke="var(--dark-gray)"
+                stroke-width="3" fill="transparent" />
+        </svg>
 
-  <div class="capsule-text">
-              <P id="section50-TITLE" class="text-[var(--primary)] ">
-                    {{ 'HOME.SECTION3.TITLE' | translate }}
-                </P>
-                <p id="section50-details"
-                    class="text-[var(--dark-gray)] text-[0.6rem]  leading-relaxed font-normal">
-                    {{ 'HOME.SECTION3.DETAILS' | translate }}
-                </p>
-  </div>
-</div>
+        <div class="capsule-text">
+            <P id="section50-TITLE" class="text-[var(--primary)] ">
+                {{ 'HOME.SECTION3.TITLE' | translate }}
+            </P>
+            <p id="section50-details" class="text-[var(--dark-gray)] text-[0.6rem]  leading-relaxed font-normal">
+                {{ 'HOME.SECTION3.DETAILS' | translate }}
+            </p>
+        </div>
+    </div>
 
     <div id="section50Bottom" class="erp-carousel" [dir]="isRtl ? 'rtl' : 'ltr'">
         <div class="controls">
@@ -67,9 +65,16 @@
 
 
     </div>
-    <video id="bg-vedio" preload="auto" muted playsinline class="absolute inset-0 w-full h-full object-cover top-0 bottom-0 left-0 right-0 z-[-1]">
+    <video id="bg-vedio" preload="auto" muted playsinline
+        class="absolute inset-0 w-full h-full object-cover top-0 bottom-0 left-0 right-0 z-[-1]">
+        @if (mobile) {
+        <source src="./videos/white bgsm.webm" type="video/webm">
+        <source src="./videos/white bgsafarihighsm.mp4" type="video/mp4">
+        }
+        @else {
         <source src="./videos/white bg.webm" type="video/webm">
         <source src="./videos/white bgsafarihigh.mp4" type="video/mp4">
+        }
         متصفحك لا يدعم تشغيل الفيديو.
     </video>
 </div>

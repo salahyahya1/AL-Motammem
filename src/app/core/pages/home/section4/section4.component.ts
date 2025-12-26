@@ -121,12 +121,16 @@ gsap.registerPlugin(ScrollTrigger);
   styleUrl: './section4.component.scss'
 })
 export class Section4Component {
+  mobile!: boolean;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private appRef: ApplicationRef,
     private ngZone: NgZone,
     private language: LanguageService
-  ) { }
+  ) {
+    if (typeof window === 'undefined') return;
+    this.mobile = window.innerWidth < 768;
+  }
 
   ngAfterViewInit() {
     if (typeof window === 'undefined') return;
@@ -134,6 +138,8 @@ export class Section4Component {
 
     requestAnimationFrame(() => {
       setTimeout(() => {
+
+        this.mobile = window.innerWidth < 768;
 
         const mm = gsap.matchMedia();
 
