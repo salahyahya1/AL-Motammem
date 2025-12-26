@@ -6,9 +6,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs';
 
 type LoginResponse = {
-  role?: string;
-  token?: string;
-  user?: { role?: string };
+  token: string;
+  user: { role: string };
 };
 
 @Component({
@@ -65,7 +64,7 @@ export class LoginComponent {
       .subscribe({
         next: (res) => {
           if (this.isBrowser) {
-            const role = res.role ?? res.user?.role ?? '';
+            const role = res.user.role;
             if (role) localStorage.setItem('role', role);
             if (res.token) localStorage.setItem('token', res.token);
           }

@@ -131,35 +131,35 @@ export class BlogVeiwComponent {
     }
 
     // ✅ يقبل /BlogVeiw/ERP أو /BlogVeiw/blog:draft:ERP
-    const url = rawParam.startsWith('blog:draft:')
-      ? rawParam.replace('blog:draft:', '')
-      : rawParam;
+    // const url = rawParam.startsWith('blog:draft:')
+    //   ? rawParam.replace('blog:draft:', '')
+    //   : rawParam;
 
     // ✅ 1) LocalStorage First
-    if (this.isBrowser) {
-      const key = `blog:draft:${url}`;
-      const raw = localStorage.getItem(key);
+    // if (this.isBrowser) {
+    //   const key = `blog:draft:${url}`;
+    //   const raw = localStorage.getItem(key);
 
-      if (raw) {
-        try {
-          this.blog = JSON.parse(raw);
+    //   if (raw) {
+    //     try {
+    //       this.blog = JSON.parse(raw);
 
-          // ✅ Fix any old body shape (list items objects) before render
-          const fixedBody = this.fixEditorJsBody(this.blog.body);
-          this.blogHtml = this.sanitizer.bypassSecurityTrustHtml(
-            this.renderEditorJsBody(fixedBody)
-          );
+    //       // ✅ Fix any old body shape (list items objects) before render
+    //       const fixedBody = this.fixEditorJsBody(this.blog.body);
+    //       this.blogHtml = this.sanitizer.bypassSecurityTrustHtml(
+    //         this.renderEditorJsBody(fixedBody)
+    //       );
 
-          this.loading = false;
-          return;
-        } catch {
-          // ignore and fallback
-        }
-      }
-    }
+    //       this.loading = false;
+    //       return;
+    //     } catch {
+    //       // ignore and fallback
+    //     }
+    //   }
+    // }
 
     // ✅ 2) Fallback API
-    this.blogsService.getBlogByName(url).subscribe({
+    this.blogsService.getBlogByName(rawParam).subscribe({
       next: (res: any) => {
         this.blog = res.data;
 

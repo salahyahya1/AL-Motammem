@@ -66,4 +66,11 @@ export class BlogsService {
     UploadImage(image: any) {
         return this.http.post(`api/images/upload-image`, image);
     }
+    spacesToHyphen(input: string): string {
+        return (input ?? '')
+            .toString()
+            .trim()
+            .replace(/\s+/g, '-').toLowerCase(); // أي عدد مسافات -> -
+    }
+
 }

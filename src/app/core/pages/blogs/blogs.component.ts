@@ -1,233 +1,3 @@
-// import { CommonModule, isPlatformBrowser } from '@angular/common';
-// import { ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
-// import gsap from 'gsap';
-// import ScrollTrigger from 'gsap/ScrollTrigger';
-// import { Draggable } from "gsap/all";
-// import InertiaPlugin from "gsap/InertiaPlugin";
-
-// import SplitText from "gsap/SplitText";
-
-// import Swiper from 'swiper';
-// import { Navigation, Pagination } from 'swiper/modules';
-
-// import { TranslatePipe } from '@ngx-translate/core';
-// import { RouterLink } from '@angular/router';
-// import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
-// import { SectionsRegistryService } from '../../shared/services/sections-registry.service';
-// import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
-// import { AllBlogsResponse, BlogApiItem, BlogsService, MostReadResponse } from './services/blogs-service';
-// import { finalize } from 'rxjs';
-// import { error } from 'console';
-
-// gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
-
-// interface KnowledgeArticle {
-//   id: number;
-//   title: string;
-//   excerpt: string;
-//   imageUrl: string;
-//   ctaLabel: string;
-//   link?: string;
-// }
-// @Component({
-//   selector: 'app-blogs',
-//   imports: [CommonModule, RouterLink, OpenFormDialogDirective],
-//   templateUrl: './blogs.component.html',
-//   styleUrl: './blogs.component.scss'
-// })
-// export class BlogsComponent {
-//   swipeConfig: any;
-
-//   isBrowser = false;
-//   BlogsTitleSplit: any;
-//   BlogsSubtitleSplit: any;
-//   mostReadArticles: BlogApiItem[] = [];
-//   allBlogs: BlogApiItem[] = [];
-//   loadingMostRead = true;
-//   loadingAllBlogs = true;
-//   private swiper2?: Swiper;
-
-//   get isLoading(): boolean {
-//     return this.loadingMostRead || this.loadingAllBlogs;
-//   }
-
-//   constructor(
-//     @Inject(PLATFORM_ID) private platformId: Object,
-//     private ngZone: NgZone,
-//     private cdr: ChangeDetectorRef,
-//     private navTheme: NavbarThemeService,
-//     private sectionsRegistry: SectionsRegistryService,
-//     private blogsService: BlogsService
-//   ) {
-//     this.isBrowser = isPlatformBrowser(this.platformId);
-//   }
-//   @ViewChild('swiperEl2') swiperEl2!: ElementRef<HTMLDivElement>;
-
-//   articles: any = [];
-//   ngOnInit(): void {
-//     if (!this.isBrowser) return;
-//     this.loadMostRead();
-//     this.loadAllBlogs(1);
-//   }
-
-//   ngAfterViewInit(): void {
-//     if (!isPlatformBrowser(this.platformId)) return;
-//     if (this.isLoading) {
-//       this.initMainSwiper();
-//     }
-//   }
-
-//   private initMainSwiper(): void {
-//     this.ngZone.runOutsideAngular(() => {
-//       requestAnimationFrame(() => {
-//         setTimeout(() => {
-
-
-//           ScrollTrigger.getById('pinsection')?.kill();
-
-//           ScrollTrigger.create({
-//             trigger: '#knowledge-center',
-//             start: 'top top',
-//             end: "110% bottom",
-//             pin: true,
-//             pinType: 'transform',
-//             id: 'pinsection',
-//             anticipatePin: 1,
-//           });
-
-//           const BlogsTitle = document.querySelector('#title') as HTMLElement | null;
-//           const BlogsSubtitle = document.querySelector('#Desc') as HTMLElement | null;
-//           if (!BlogsTitle || !BlogsSubtitle) {
-//             console.warn('⚠️ عناصر الـ hero مش لاقيها SplitText');
-//             return;
-//           }
-//           this.BlogsTitleSplit = new SplitText(BlogsTitle, { type: 'words' });
-//           this.BlogsSubtitleSplit = new SplitText(BlogsSubtitle, { type: 'words' });
-//           const tl = gsap.timeline({
-//             defaults: { ease: "power3.out" }, scrollTrigger: {
-//               trigger: "#knowledge-center",
-//             }
-//           });
-
-
-
-//           tl.fromTo(this.BlogsTitleSplit.words,
-//             { opacity: 0, visibility: "visible" },
-//             {
-//               opacity: 1,
-//               duration: 0.4,
-//               ease: "sine.out",
-//               stagger: 0.02,
-//               onStart: () => { gsap.set(BlogsTitle, { opacity: 1, visibility: "visible" }) },
-//             }
-//           );
-//           tl.fromTo(this.BlogsSubtitleSplit.words,
-//             { opacity: 0, visibility: "visible" },
-//             {
-//               opacity: 1,
-//               duration: 0.4,
-//               ease: "sine.out",
-//               stagger: 0.02,
-//               onStart: () => { gsap.set(BlogsSubtitle, { opacity: 1, visibility: "visible" }) },
-//             }
-//           );
-//           tl.fromTo("#btn1", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
-//           tl.fromTo("#blogs-bottom", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
-
-//           this.navTheme.setColor('var(--primary)');
-//           Swiper.use([Navigation, Pagination]);
-//           const canLoop = (this.articles?.length ?? 0) > 1;
-//           this.swiper2 = new Swiper(this.swiperEl2.nativeElement, {
-//             modules: [Navigation, Pagination],
-//             direction: 'horizontal',
-//             slidesPerView: 1,
-//             spaceBetween: 30,
-//             loop: canLoop,
-//             watchOverflow: true,
-//             grabCursor: true,
-//             navigation: {
-//               nextEl: '#arrowRight3',
-//               prevEl: '#arrowLeft3',
-//             },
-//             breakpoints: {
-//               0: { slidesPerView: 1, spaceBetween: 19 },
-//               768: { slidesPerView: 1, spaceBetween: 19, },
-//               1024: { slidesPerView: 1 },
-//             },
-//           });
-
-//           gsap.from('.swiper-slide', {
-//             scrollTrigger: {
-//               trigger: '.erp-carousel',
-//               start: 'top 85%',
-//             },
-//             opacity: 0,
-//             y: 60,
-//             duration: 0.7,
-//             stagger: 0.2,
-//             ease: 'power3.out',
-//           });
-//           this.swiper2.on('slideChangeTransitionStart', () => {
-//             const activeSlide = document.querySelector('.swiper-slide-active .card');
-//             if (activeSlide) {
-//               gsap.fromTo(
-//                 activeSlide,
-//                 { scale: 0.9, opacity: 0.7 },
-//                 { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }
-//               );
-//             }
-//           });
-//         }, 200);
-//       });
-//     });
-
-//   }
-//   loadMostRead() {
-//     this.blogsService.getMostReadBlogs().pipe(finalize(() => (this.loadingMostRead = false))).subscribe({
-//       next: (res: any) => {
-//         this.loadingMostRead = true;
-//         this.mostReadArticles = res.data;
-//         this.articles = this.mostReadArticles;
-
-//         requestAnimationFrame(() => {
-//           if (!this.swiper2) {
-//             this.initMainSwiper();
-//           } else {
-//             // حدّث loop حسب عدد السلايدز
-//             const canLoop = (this.articles?.length ?? 0) > 1;
-//             this.swiper2.params.loop = canLoop;
-
-//             this.swiper2.update();
-//             this.swiper2.navigation?.update();
-//           }
-//         });
-//         setTimeout(() => ScrollTrigger.refresh(), 0);
-//         console.log(this.mostReadArticles);
-//       },
-//       error: (err: any) => {
-//         console.log(err.message);
-
-//       }
-
-//     });
-//   }
-//   loadAllBlogs(page: number) {
-//     this.blogsService.getAllBlogs(page).pipe(finalize(() => (this.loadingAllBlogs = false))).subscribe((res: any) => {
-//       this.loadingAllBlogs = true
-//       this.allBlogs = res.data;
-//       console.log(this.allBlogs);
-//       setTimeout(() => ScrollTrigger.refresh(), 0);
-
-//     });
-//   }
-//   ngOnDestroy(): void {
-//     this.sectionsRegistry.clear();
-//     this.sectionsRegistry.disable();
-//     if (this.isBrowser) {
-//       ScrollTrigger.getAll().forEach(t => t.kill());
-//     }
-//   }
-// }
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectorRef,
@@ -238,6 +8,9 @@ import {
   PLATFORM_ID,
   ViewChild
 } from '@angular/core';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { ViewContainerRef, TemplateRef } from '@angular/core';
 
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -248,24 +21,28 @@ import SplitText from 'gsap/SplitText';
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
 
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { SectionsRegistryService } from '../../shared/services/sections-registry.service';
 import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
 import { BlogApiItem, BlogsService } from './services/blogs-service';
 import { finalize } from 'rxjs';
-
+import { DialogButton, MessegeDialogComponent } from "../../shared/messege-dialog/messege-dialog.component";
+import { SafeHtml } from '@angular/platform-browser';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PortalModule } from '@angular/cdk/portal';
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
 @Component({
   selector: 'app-blogs',
-  imports: [CommonModule, RouterLink, OpenFormDialogDirective],
+  imports: [CommonModule, RouterLink, OpenFormDialogDirective, MessegeDialogComponent, OverlayModule, PortalModule],
   templateUrl: './blogs.component.html',
   styleUrl: './blogs.component.scss'
 })
 export class BlogsComponent {
   isBrowser = false;
-
+  page: number = 1
+  totalPages!: number
   BlogsTitleSplit: any;
   BlogsSubtitleSplit: any;
 
@@ -278,8 +55,8 @@ export class BlogsComponent {
   private swiper2?: Swiper;
 
   // Flags to control init once
-  private viewReady = false;
-  private uiInitialized = false;
+  viewReady = false;
+  uiInitialized = false;
   isAuthenticated = false;
   hasrole = false;
   role: any;
@@ -289,25 +66,43 @@ export class BlogsComponent {
   get isLoading(): boolean {
     return this.loadingMostRead || this.loadingAllBlogs;
   }
+  private overlayRef?: OverlayRef;
+  private pendingDeleteId: number | null = null;
 
+  @ViewChild('deleteConfirmTpl') deleteConfirmTpl!: TemplateRef<any>;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private navTheme: NavbarThemeService,
     private sectionsRegistry: SectionsRegistryService,
-    private blogsService: BlogsService
+    private blogsService: BlogsService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private overlay: Overlay,
+    private vcr: ViewContainerRef,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
-  @ViewChild('swiperEl2') swiperEl2!: ElementRef<HTMLDivElement>;
+  private _swiperEl2?: ElementRef<HTMLDivElement>;
+
+  @ViewChild('swiperEl2')
+  set swiperEl2Setter(el: ElementRef<HTMLDivElement> | undefined) {
+    this._swiperEl2 = el;
+    this.tryInitUI();
+  }
+
+  get swiperEl2(): ElementRef<HTMLDivElement> | undefined {
+    return this._swiperEl2;
+  }
+
 
   articles: any[] = [];
 
   ngOnInit(): void {
     if (!this.isBrowser) return;
-
+    this.navTheme.setColor('var(--primary)');
     this.isAuthenticated = this.blogsService.isAuthenticated();
     this.role = localStorage.getItem('role')
     this.hasrole = this.role ? true : false;
@@ -316,35 +111,40 @@ export class BlogsComponent {
     console.log(this.hasrole);
 
     this.loadMostRead();
-    this.loadAllBlogs(1);
+    this.loadAllBlogs(this.page);
+
   }
 
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
     this.viewReady = true;
-
-    // لو الداتا كانت وصلت قبل الـ view
     this.tryInitUI();
   }
 
-  // -------------------------
-  // Core Fix: init once only
-  // -------------------------
   private tryInitUI(): void {
     if (!this.isBrowser) return;
-    if (!this.viewReady) return;
     if (this.uiInitialized) return;
 
-    // لازم يكون عندي element + ممكن أكون لسه مستني articles (بس حتى لو 0 هننشيء)
-    if (!this.swiperEl2?.nativeElement) return;
+    const el = this._swiperEl2?.nativeElement;
+    console.log('swiperEl2:', el);
+
+    if (!el) return;
 
     this.uiInitialized = true;
     this.initMainSwiper();
   }
+  private initialMostReadLoaded = false;
+  private initialAllBlogsLoaded = false;
 
-  // -------------------------
-  // Batch ScrollTrigger.refresh
-  // -------------------------
+  get showInitialLoader(): boolean {
+    return (!this.initialMostReadLoaded || !this.initialAllBlogsLoaded) && this.isLoading;
+  }
+
+  get showOverlayLoader(): boolean {
+    // بعد أول تحميل، لو في أي تحميل جديد → Overlay صغير
+    const initialDone = this.initialMostReadLoaded && this.initialAllBlogsLoaded;
+    return initialDone && this.isLoading;
+  }
   private scheduleScrollRefresh(): void {
     if (!this.isBrowser) return;
 
@@ -359,14 +159,10 @@ export class BlogsComponent {
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         setTimeout(() => {
-          // ✅ prevent duplicate pin trigger
-          // ScrollTrigger.create({
-          //   trigger: '#knowledge-center',
-          //   start: 'top top',
-          //   end: '5% bottom',
-          // });
           const BlogsTitle = document.querySelector('#title') as HTMLElement | null;
           const BlogsSubtitle = document.querySelector('#Desc') as HTMLElement | null;
+          const Addbutton = document.querySelector('#Addbutton') as HTMLElement | null;
+          const showMore = document.querySelector('#showMore') as HTMLElement | null;
           if (!BlogsTitle || !BlogsSubtitle) {
             console.warn('⚠️ عناصر العنوان/الوصف مش موجودة لـ SplitText');
             return;
@@ -407,17 +203,19 @@ export class BlogsComponent {
               }
             }
           );
-
+          tl.fromTo('#Addbutton', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.8 });
           tl.fromTo('#btn1', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.8 });
+          tl.fromTo('#showMore', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.8 });
+
           tl.fromTo('#blogs-bottom', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.8 });
 
-          this.navTheme.setColor('var(--primary)');
+
 
           Swiper.use([Navigation, Pagination]);
 
           const canLoop = (this.articles?.length ?? 0) > 1;
 
-          this.swiper2 = new Swiper(this.swiperEl2.nativeElement, {
+          this.swiper2 = new Swiper(this._swiperEl2!.nativeElement, {
             modules: [Navigation, Pagination],
             direction: 'horizontal',
             slidesPerView: 1,
@@ -487,7 +285,10 @@ export class BlogsComponent {
 
     this.blogsService
       .getMostReadBlogs()
-      .pipe(finalize(() => (this.loadingMostRead = false)))
+      .pipe(finalize(() => {
+        this.loadingMostRead = false
+        this.initialMostReadLoaded = true;
+      }))
       .subscribe({
         next: (res: any) => {
           this.mostReadArticles = res?.data ?? [];
@@ -516,14 +317,20 @@ export class BlogsComponent {
 
     this.blogsService
       .getAllBlogs(page)
-      .pipe(finalize(() => (this.loadingAllBlogs = false)))
+      .pipe(finalize(() => {
+        this.loadingAllBlogs = false
+        if (page === 1) this.initialAllBlogsLoaded = true;
+      }))
       .subscribe({
         next: (res: any) => {
-          this.allBlogs = res?.data ?? [];
+          this.totalPages = res.pagination.totalPages;
+          console.log(res.data);
+          console.log(res.data.length);
+          this.allBlogs.push(...res?.data);
           console.log(this.allBlogs);
 
           // ما نعملش refresh هنا كل مرة — بس batch refresh واحدة
-          this.scheduleScrollRefresh();
+          // this.scheduleScrollRefresh();
         },
         error: (err: any) => {
           console.log(err?.message);
@@ -550,15 +357,138 @@ export class BlogsComponent {
       this.refreshTimer = null;
     }
   }
+  showMoreBlogs() {
+    if (this.page >= this.totalPages) return;
+    this.page++;
+    this.loadAllBlogs(this.page);
+  }
+  id!: number;
   DeleteBlog(id: number) {
+    // this.id = id;
+    // this.dialogMessage = 'هل انت متأكد انك تريد حذف هذا المقال';
+    // this.dialogButtons = [
+    //   { id: 'cancel', text: 'الغاء', style: 'outline' },
+    //   { id: 'ok', text: 'أجل', style: 'danger' },
+    // ];
+    // this.dialogOpen = true;
+  }
+
+  // ================= Dialog helpers =================
+
+
+  // loading = true;
+  // errorMsg = '';
+
+  // // dialog
+  // dialogOpen = false;
+  // blog: any;
+  // blogHtml: SafeHtml = '' as any;
+  // dialogVariant: 'success' | 'error' = 'success';
+  // dialogTitle = '';
+  // dialogMessage = '';
+  // dialogButtons: DialogButton[] = [];
+  // openSuccess() {
+  //   this.dialogVariant = 'success';
+  //   this.dialogTitle = 'تم حذف المقال بنجاح';
+  //   this.dialogMessage = '';
+  //   this.dialogButtons = [
+  //     { id: 'show all', text: 'عرض كل المقالات', style: 'primary' },
+  //   ];
+  //   this.dialogOpen = true;
+  // }
+
+  // openFail() {
+  //   this.dialogVariant = 'error';
+  //   this.dialogTitle = 'تعذر حذف المقال';
+  //   this.dialogMessage = 'حاول مرة أخرى أو تواصل مع الدعم.';
+  //   this.dialogButtons = [
+  //     { id: 'show all', text: 'عرض كل المقالات', style: 'primary' },
+  //   ];
+  //   this.dialogOpen = true;
+  // }
+
+  // onDialogAction(id: string) {
+  //   if (id === 'ok') {
+  //     this.dialogOpen = false;
+  //     this.blogsService.DeleteBlog(this.id).subscribe({
+  //       next: (res: any) => {
+  //         this.openSuccess();
+  //         this.loadMostRead();
+  //         this.loadAllBlogs(1);
+  //       },
+  //       error: (err: any) => {
+  //         this.openFail();
+  //         console.log(err?.message);
+  //       }
+  //     });
+  //   }
+  //   if (id === 'show all') {
+  //     this.dialogOpen = false;
+  //   }
+  //   if (id === 'cancel') {
+  //     this.dialogOpen = false;
+  //   }
+  // }
+
+  openDeletePopover(ev: MouseEvent, id: number) {
+    ev.stopPropagation();
+
+    const origin = ev.currentTarget as HTMLElement;
+    this.pendingDeleteId = id;
+
+    this.closeDeletePopover();
+
+    const positionStrategy = this.overlay.position()
+      .flexibleConnectedTo(origin).withFlexibleDimensions(false)
+      .withGrowAfterOpen(false)
+      .withPush(false)
+      .withPositions([
+        { originX: 'end', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 8, offsetX: 8 },
+        { originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -8, offsetX: 8 },
+        { originX: 'start', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: 8, offsetX: -8 },
+      ])
+      .withPush(true);
+
+
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: true,
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+      panelClass: 'delete-popover-panel'
+    });
+
+    this.overlayRef.backdropClick().subscribe(() => this.closeDeletePopover());
+    this.overlayRef.keydownEvents().subscribe((e) => {
+      if (e.key === 'Escape') this.closeDeletePopover();
+    });
+
+    const portal = new TemplatePortal(this.deleteConfirmTpl, this.vcr);
+    this.overlayRef.attach(portal);
+  }
+
+  closeDeletePopover() {
+    this.overlayRef?.detach();
+    this.overlayRef?.dispose();
+    this.overlayRef = undefined;
+    this.pendingDeleteId = null;
+  }
+
+  confirmDeletePopover() {
+    if (!this.pendingDeleteId) return;
+    const id = this.pendingDeleteId;
+
+    this.closeDeletePopover();
+
     this.blogsService.DeleteBlog(id).subscribe({
-      next: (res: any) => {
-        this.loadMostRead();
-        this.loadAllBlogs(1);
+      next: () => {
+        // ✅ Update UI بدون reload كامل
+        this.allBlogs = this.allBlogs.filter(b => b.id !== id);
+        this.articles = this.articles.filter(a => a.id !== id);
       },
-      error: (err: any) => {
-        console.log(err?.message);
-      }
+      error: (err) => console.log(err?.message)
     });
   }
+
+
 }

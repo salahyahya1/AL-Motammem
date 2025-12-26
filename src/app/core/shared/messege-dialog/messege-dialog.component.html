@@ -1,0 +1,42 @@
+<div *ngIf="open" id="dialog-backdrop" (click)="onBackdropClick($event)"
+    class="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] px-4">
+
+    <div class="fixed bottom-1/2 flex items-center justify-center w-full h-[64%]">
+        <div [attr.dir]="dir" class="bg-white rounded-3xl shadow-xl w-full max-w-xl p-6 md:p-8 relative">
+
+            <button *ngIf="showCloseX" type="button" (click)="close()" aria-label="إغلاق"
+                class="absolute left-4 top-4 text-gray-400 hover:text-gray-600 text-2xl leading-none">
+                &times;
+            </button>
+
+            <div class="flex flex-col items-center text-center gap-3 py-6">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center" [ngClass]="iconWrapClass">
+                    <span class="text-3xl" [ngClass]="iconClass">{{ icon }}</span>
+                </div>
+
+                <h3 class="text-lg md:text-xl font-semibold text-gray-900">
+                    {{ title }}
+                </h3>
+
+                <p *ngIf="message" class="text-sm md:text-base text-gray-600 max-w-md">
+                    {{ message }}
+                </p>
+
+                <!-- ✅ لو عايز تبعت محتوى HTML من الصفحة (اختياري) -->
+                <ng-content></ng-content>
+
+                <div class="w-full mt-4 flex items-center justify-center gap-4"
+                    [ngClass]="buttons.length === 1 ? 'flex-col' : 'flex-row'">
+
+                    <button *ngFor="let btn of buttons" type="button" [disabled]="btn.disabled"
+                        (click)="onBtnClick(btn)"
+                        class="h-11 md:h-12 rounded-full px-8 text-sm md:text-base font-medium transition w-full"
+                        [ngClass]="[btnClass(btn.style), buttons.length === 2 ? 'w-1/2' : 'w-full']">
+
+                        {{ btn.text }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

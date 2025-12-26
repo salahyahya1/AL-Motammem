@@ -230,21 +230,26 @@
 //         }
 //     }
 // }
+///////////////////////////
+
 import { AfterViewInit, Component, Inject, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { BlogsService } from '../services/blogs-service';
+import { DialogButton, MessegeDialogComponent } from "../../../shared/messege-dialog/messege-dialog.component";
+import { SafeHtml } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 
 type UploadImageResponse = {
     success: boolean;
-    imageUrl: string;
+    imageUrl: string; // "/uploads/....jpg"
 };
 
 @Component({
     selector: 'app-create-blog',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule, ReactiveFormsModule, MessegeDialogComponent],
     templateUrl: './create-blog.component.html',
     styleUrl: './create-blog.component.scss'
 })
@@ -254,44 +259,112 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
     private editor: any = null;
     private isBrowser: boolean;
 
-    private mainImageFile: File | null = null;
-    private mainImageObjectUrl: string | null = null;
+    mainImageFile: File | null = null;
+
+
+    mainImagePreviewUrl: string | null = null;
+
 
     isSubmitting = false;
 
+
+    // ✅ loading / error like view
+    loading = true;
+    errorMsg = '';
+
+    // dialog
+    dialogOpen = false;
+    blog: any;
+    blogHtml: SafeHtml = '';
+    dialogVariant: 'success' | 'error' = 'success';
+    dialogTitle = '';
+    dialogMessage = '';
+    dialogButtons: DialogButton[] = [];
+
+    openSuccess() {
+        this.dialogVariant = 'success';
+        this.dialogTitle = 'تم حفظ التعديلات علي المقال بنجاح ';
+        this.dialogMessage = '';
+        this.dialogButtons = [
+            { id: 'show all', text: 'عرض كل المقالات', style: 'primary' },
+            { id: 'show edited blog', text: 'عرض المقاله بعد التعديل', style: 'outline' }
+        ];
+        this.dialogOpen = true;
+    }
+
+    openFail() {
+        this.dialogVariant = 'error';
+        this.dialogTitle = 'تعذر حفظ التعديلات';
+        this.dialogMessage = 'حاول مرة أخرى أو تواصل مع الدعم.';
+        this.dialogButtons = [
+            { id: 'cancel', text: 'Cancel', style: 'outline' },
+            { id: 'retry', text: 'Try again', style: 'danger' },
+        ];
+        this.dialogOpen = true;
+    }
+
+    onDialogAction(id: string) {
+        if (id === 'show all') {
+            this.dialogOpen = false;
+            this.router.navigate(['/blogs']);
+        }
+        if (id === 'show edited blog') {
+            this.dialogOpen = false;
+            this.router.navigate(['/blogs/BlogVeiw', this.blogsService.spacesToHyphen(this.blogForm.value.englishUrl ?? '')]);
+        }
+        if (id === 'retry') {
+            this.dialogOpen = false;
+            // ✅ optional: retry submit or reload
+        }
+        if (id === 'cancel') {
+            this.dialogOpen = false;
+        }
+    }
+
+
+    // لو السيرفر بيرجع "/uploads/.." وعايز تخليها absolute داخل editor preview
     private readonly SERVER_ORIGIN = 'https://almotammem-server.onrender.com';
 
     constructor(
         private fb: FormBuilder,
         private blogsService: BlogsService,
-        @Inject(PLATFORM_ID) platformId: object
+        @Inject(PLATFORM_ID) platformId: object,
+        private router: Router,
+        private route: ActivatedRoute
     ) {
         this.isBrowser = isPlatformBrowser(platformId);
         this.initForm();
     }
 
-    async ngAfterViewInit() {
+    async ngAfterViewInit(): Promise<void> {
         if (!this.isBrowser) return;
         await this.initEditor();
     }
 
-    private initForm() {
+    private initForm(): void {
         this.blogForm = this.fb.group({
             title: ['', Validators.required],
             metaTitle: [''],
-            url: [''],
+            metaDescription: [''],
             category: ['general'],
+
+            arabicUrl: ['', Validators.required],
+            englishUrl: ['', Validators.required],
+
+            altText: [''],
+
             faqs: this.fb.array([]),
         });
 
+        // FAQ واحدة افتراضيًا
         this.addFaq();
     }
 
-    get faqs() {
+    get faqs(): FormArray {
         return this.blogForm.get('faqs') as FormArray;
     }
 
-    addFaq() {
+    addFaq(): void {
         this.faqs.push(
             this.fb.group({
                 question: [''],
@@ -302,29 +375,41 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
         );
     }
 
-    removeFaq(index: number) {
+    removeFaq(index: number): void {
         this.faqs.removeAt(index);
     }
 
-    onMainImageChange(e: Event) {
+    // onMainImageChange(e: Event): void {
+    //     const input = e.target as HTMLInputElement;
+    //     this.mainImageFile = input.files?.[0] ?? null;
+    // }
+    onMainImageChange(e: Event): void {
         const input = e.target as HTMLInputElement;
         const file = input.files?.[0] ?? null;
+
+        // خزّن الملف
         this.mainImageFile = file;
 
-        if (this.isBrowser) {
-            if (this.mainImageObjectUrl) URL.revokeObjectURL(this.mainImageObjectUrl);
-            this.mainImageObjectUrl = file ? URL.createObjectURL(file) : null;
+        // نظّف القديم
+        if (this.mainImagePreviewUrl) {
+            URL.revokeObjectURL(this.mainImagePreviewUrl);
+            this.mainImagePreviewUrl = null;
+        }
+
+        // اعمل preview
+        if (file) {
+            this.mainImagePreviewUrl = URL.createObjectURL(file);
         }
     }
 
-    private absoluteUrl(pathOrUrl: string) {
+    private absoluteUrl(pathOrUrl: string): string {
         if (!pathOrUrl) return pathOrUrl;
         if (pathOrUrl.startsWith('http')) return pathOrUrl;
         return `${this.SERVER_ORIGIN}${pathOrUrl}`;
     }
 
-    // ✅ يحول list items من object -> string / nested structure
-    private normalizeListBlocks(savedData: any) {
+    // ✅ عشان ما يطلعش [object Object] في اللست وقت العرض لاحقًا
+    private normalizeListBlocks(savedData: any): any {
         const blocks = Array.isArray(savedData?.blocks) ? savedData.blocks : [];
 
         const normalizeItem = (it: any): any => {
@@ -333,12 +418,10 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
             const content = it?.content ?? it?.text ?? '';
             const nestedItems = Array.isArray(it?.items) ? it.items.map(normalizeItem) : undefined;
 
-            // EditorJS nested list object
             if (nestedItems && nestedItems.length) {
                 return { content, items: nestedItems };
             }
 
-            // fallback to string
             return content;
         };
 
@@ -351,7 +434,8 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
         return savedData;
     }
 
-    private sanitizeEditorData(savedData: any) {
+    // ✅ يقلّل احتمالات "Block paragraph skipped because saved data is invalid"
+    private sanitizeEditorData(savedData: any): any {
         const blocks = Array.isArray(savedData?.blocks) ? savedData.blocks : [];
 
         savedData.blocks = blocks
@@ -379,13 +463,10 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
         savedData.time = savedData?.time ?? Date.now();
         savedData.version = savedData?.version ?? '2.0.0';
 
-        // ✅ مهم: normalize list items عشان ميطلعش [object Object] عند العرض
-        savedData = this.normalizeListBlocks(savedData);
-
-        return savedData;
+        return this.normalizeListBlocks(savedData);
     }
 
-    private async initEditor() {
+    private async initEditor(): Promise<void> {
         const holderEl = document.getElementById('editorjs-container');
         if (!holderEl) return;
 
@@ -438,6 +519,7 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
                 config: { services: { youtube: true, instagram: true, twitter: true, facebook: true } }
             },
 
+            // ✅ رفع صور EditorJS باستخدام endpoint بتاعك في BlogsService.UploadImage
             image: {
                 class: ImageTool,
                 config: {
@@ -445,12 +527,19 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
                     uploader: {
                         uploadByFile: async (file: File) => {
                             const fd = new FormData();
+                            // لازم key = image (حسب السيرفر بتاعك)
                             fd.append('image', file);
 
                             const resp = await firstValueFrom(this.blogsService.UploadImage(fd)) as UploadImageResponse;
-                            if (!resp?.success || !resp?.imageUrl) throw new Error('UploadImage: invalid response');
 
-                            return { success: 1, file: { url: this.absoluteUrl(resp.imageUrl) } };
+                            if (!resp?.success || !resp?.imageUrl) {
+                                throw new Error('UploadImage: invalid response');
+                            }
+
+                            return {
+                                success: 1,
+                                file: { url: this.absoluteUrl(resp.imageUrl) }
+                            };
                         }
                     }
                 }
@@ -466,56 +555,81 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
         });
     }
 
-    async onSubmit() {
+    async onSubmit(): Promise<void> {
         if (!this.isBrowser || !this.editor) return;
         if (this.isSubmitting) return;
+
+        if (this.blogForm.invalid) {
+            this.blogForm.markAllAsTouched();
+            return;
+        }
 
         this.isSubmitting = true;
 
         try {
             await this.editor.isReady;
 
+            // 1) save editor content
             let savedData = await this.editor.save();
             savedData = this.sanitizeEditorData(savedData);
 
-            const slug = (this.blogForm.value.url ?? '').trim();
-            if (!slug) {
-                console.warn('Slug (url) is empty. Please fill url field.');
+            // 2) build FormData (multipart/form-data) exactly as backend expects
+            const title = String(this.blogForm.value.title ?? '').trim();
+            const metaTitle = String(this.blogForm.value.metaTitle ?? '').trim();
+            const metaDescription = String(this.blogForm.value.metaDescription ?? '').trim();
+            const englishUrl = String(this.blogForm.value.englishUrl ?? '').trim();
+            const arabicUrl = String(this.blogForm.value.arabicUrl ?? '').trim();
+            const category = String(this.blogForm.value.category ?? 'general').trim();
+            const faqs = this.blogForm.value.faqs ?? [];
+
+            // slug required
+            if (!englishUrl) {
+                console.warn('Slug (url) is empty.');
                 return;
             }
 
-            const draft = {
-                title: this.blogForm.value.title ?? '',
-                metaTitle: this.blogForm.value.metaTitle ?? '',
-                metaDescription: '',
-                url: slug,
-                category: this.blogForm.value.category ?? 'general',
-                faqs: this.blogForm.value.faqs ?? [],
-                body: JSON.stringify(savedData),
-                mainImage: this.mainImageObjectUrl ?? '',
-                __source: 'localStorage'
-            };
+            const fd = new FormData();
+            fd.append('title', title);
+            fd.append('metaTitle', metaTitle);
+            fd.append('metaDescription', metaDescription);
+            fd.append('englishURL', englishUrl);
+            fd.append('url', arabicUrl);
+            fd.append('category', category);
 
-            const key = `blog:draft:${draft.url}`;
-            localStorage.setItem(key, JSON.stringify(draft));
+            // IMPORTANT: faqs as JSON string
+            fd.append('faqs', JSON.stringify(faqs));
 
-            console.log('Saved draft to localStorage:', key, draft);
+            // IMPORTANT: body as JSON string
+            fd.append('body', JSON.stringify(savedData));
+
+            // IMPORTANT: mainImage file under key "mainImage" (multer.single("mainImage"))
+            if (this.mainImageFile) {
+                fd.append('mainImage', this.mainImageFile);
+            }
+
+            // 3) call your service (it already uses base url interceptor)
+            this.blogsService.AddBlog(fd).subscribe({
+                next: (resp) => {
+                    console.log('✅ AddBlog response:', resp);
+                    this.openSuccess();
+                },
+                error: (err) => {
+                    console.error('❌ AddBlog error:', err);
+                    this.openFail();
+                }
+            });
 
         } catch (err) {
-            console.error(err);
+            console.error('❌ AddBlog error:', err);
         } finally {
             this.isSubmitting = false;
         }
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         if (this.isBrowser && this.editor) {
             this.editor.destroy();
             this.editor = null;
-        }
-        if (this.isBrowser && this.mainImageObjectUrl) {
-            URL.revokeObjectURL(this.mainImageObjectUrl);
-            this.mainImageObjectUrl = null;
         }
     }
 }
