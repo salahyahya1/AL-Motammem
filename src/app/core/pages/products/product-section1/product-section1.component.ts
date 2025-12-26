@@ -120,7 +120,7 @@ export class ProductSection1Component implements AfterViewInit {
                 tl.add(tlCards, '>');
               },
 
-              '(min-width: 721px) and (max-width: 1023px)': () => {
+              '(min-width: 768px) and (max-width: 1023px)': () => {
                 const tlCards = gsap.timeline();
                 tlCards
                   .fromTo(
@@ -143,7 +143,7 @@ export class ProductSection1Component implements AfterViewInit {
                 tl.add(tlCards, '>');
               },
 
-              '(max-width: 720px)': () => {
+              '(max-width: 767px)': () => {
                 const tlCards = gsap.timeline();
                 tlCards
                   .fromTo(

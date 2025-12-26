@@ -151,7 +151,7 @@
 //       });
 //     });
 //   }
-  
+
 // }
 import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, ApplicationRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
@@ -259,8 +259,8 @@ export class Section2Component implements AfterViewInit {
 
             mm.add(
               {
-                desktop: '(min-width: 721px)',
-                mobile: '(max-width: 720px)',
+                desktop: '(min-width: 768px)',
+                mobile: '(max-width: 767px)',
               },
               (ctx) => {
                 const { desktop, mobile } = (ctx.conditions || {}) as any;
@@ -268,50 +268,66 @@ export class Section2Component implements AfterViewInit {
                 let pinST: ScrollTrigger | null = null;
                 let playST: ScrollTrigger | null = null;
 
-                if (mobile) {
-                  // ✅ بدون pin: شغل الفيديو أول ما يدخل السكشن في الـ viewport
-                  playST = ScrollTrigger.create({
-                    trigger: triggerEl || section,
-                    start: 'top 80%',
-                    end:'top 82%',
-                                        pin: true,
-                    onEnter: play,
-                    onEnterBack: play,
-                  });
-                }
+                // if (mobile) {
+                //   // ✅ بدون pin: شغل الفيديو أول ما يدخل السكشن في الـ viewport
+                //   playST = ScrollTrigger.create({
+                //     trigger: triggerEl || section,
+                //     start: '-100% 20%',
+                //     end: '+=220',
+                //     pin: true,
+                //     onEnter: play,
+                //     // markers: true,
+                //     // onEnterBack: play,
+                //   });
+                // }
 
-                if (desktop) {
-                  // ✅ مع pin على الشاشات الكبيرة
-                  pinST = ScrollTrigger.create({
-                    trigger: triggerEl || section,
-                    start: 'top top',
-                    end: '+=400',
-                    // scrub: true,
-                    pinType: 'transform',
-                    pin: true,
-                    anticipatePin: 1,
-                    id: 'pinsection',
-                    onEnter: play,
-                  });
-                }
+                // if (desktop) {
+                //   // ✅ مع pin على الشاشات الكبيرة
+                //   pinST = ScrollTrigger.create({
+                //     trigger: triggerEl || section,
+                //     start: 'top top',
+                //     end: '+=400',
+                //     // scrub: true,
+                //     pinType: 'transform',
+                //     pin: true,
+                //     anticipatePin: 1,
+                //     id: 'pinsection',
+                //     onEnter: play,
+                //   });
+                // }
 
                 // ✅ مهم بعد إنشاء triggers
-                ScrollTrigger.refresh();
+                const st = ScrollTrigger.create({
+                  trigger: triggerEl || section,
+                  start: mobile ? 'top 85%' : 'top top',
+                  end: mobile ? 'top 95%' : '+=400',
+                  pin: true,
+                  // markers: true,
+                  pinType: 'transform',
+                  anticipatePin: 1,
+                  pinSpacing: mobile ? false : true, // مهم للفيديو
+                  once: mobile ? true : false,
+                  onEnter: play,
+                });
+
 
                 return () => {
-                  pinST?.kill();
-                  playST?.kill();
+                  st.kill();
                 };
               }
             );
 
             video.addEventListener('ended', () => {
+              const isMobile = window.matchMedia('(max-width: 767px)').matches;
               const tl = gsap.timeline({
                 defaults: { ease: 'power3.out' },
                 scrollTrigger: {
                   trigger: triggerEl || section,
-                  start: '-50% top',
-                  end: '+=400',
+                  start: isMobile ? 'top 80%' : '-50% top',
+                  end: isMobile ? 'bottom 25%' : '+=400',
+                  // ✅ لو اليوزر ساب السكشن بسرعة على الموبايل: خلّص الأنيميشين فورًا
+                  onLeave: () => { if (isMobile) tl.progress(1); },
+                  onLeaveBack: () => { if (isMobile) tl.progress(0); },
                 },
               });
 

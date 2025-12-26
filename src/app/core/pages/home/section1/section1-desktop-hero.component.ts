@@ -121,7 +121,7 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
       po.observe({ type: 'largest-contentful-paint', buffered: true });
 
       setTimeout(() => {
-        try { po.disconnect(); } catch {}
+        try { po.disconnect(); } catch { }
         run();
       }, 3500);
     } catch {
@@ -137,14 +137,14 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
     const img = new Image();
     this.spritePreloadImg = img;
 
-    try { (img as any).fetchPriority = 'high'; } catch {}
+    try { (img as any).fetchPriority = 'high'; } catch { }
 
     img.src = this.SPRITE_URL;
 
     const done = () => {
       this.ngZone.run(() => (this.spriteReady = true));
       setTimeout(() => {
-        try { this.seq?.playForwardAnimation?.(); } catch {}
+        try { this.seq?.playForwardAnimation?.(); } catch { }
       }, 50);
     };
 
@@ -152,7 +152,7 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
       (img as any).decode().then(done).catch(done);
     } else {
       img.onload = done;
-      img.onerror = () => {};
+      img.onerror = () => { };
     }
   }
 
@@ -227,7 +227,7 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
         gsap.registerPlugin(ScrollTrigger);
 
         this.mm = gsap.matchMedia();
-        this.mm.add('(min-width: 720px)', () => {
+        this.mm.add('(min-width: 767px)', () => {
           const pin = ScrollTrigger.create({
             trigger: '#hero',
             start: 'top top',
@@ -252,7 +252,7 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
       if (entries[0].isIntersecting) {
         const v = this.heroVideo!.nativeElement;
         v.src = '/videos/gradient.webm';
-        v.play().catch(() => {});
+        v.play().catch(() => { });
         io.disconnect();
       }
     }, { threshold: 0.2 });

@@ -163,8 +163,8 @@ export class Section6Component {
 
       mm.add(
         {
-          desktop: '(min-width: 700px)',
-          mobile: '(max-width: 699px)',
+          desktop: '(min-width: 768px)',
+          mobile: '(max-width: 767px)',
         },
         (ctx) => {
           const { desktop, mobile } = (ctx.conditions || {}) as any;
@@ -173,11 +173,17 @@ export class Section6Component {
             defaults: { ease: "power3.out" },
             scrollTrigger: {
               trigger: "#section6",
-              start: 'top top',
-                                                end: desktop ? "150% bottom" : "top 5%",
-              pin: desktop ? true : false,   // ✅ pin فقط على الديسكتوب
+              start: mobile ? 'top 85%' : 'top top',
+              end: desktop ? "150% bottom" : 'bottom 95%',
+              pin: desktop ? true : false,
               anticipatePin: 1,
+              // markers: true,
+              scrub: mobile ? true : false,
               pinType: 'transform',
+              pinSpacing: mobile ? false : true,
+              invalidateOnRefresh: true,
+              onLeave: () => { if (mobile) tl.progress(1); },
+              onLeaveBack: () => { if (mobile) tl.progress(0); },
             }
           });
 
@@ -230,6 +236,9 @@ export class Section6Component {
           return () => {
             tl.scrollTrigger?.kill();
             tl.kill();
+            titleSplit?.revert?.();
+            subtitleSplit?.revert?.();
+            descSplit?.revert?.();
           };
         }
       );
