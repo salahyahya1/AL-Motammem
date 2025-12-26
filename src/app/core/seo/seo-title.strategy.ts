@@ -8,9 +8,9 @@ export class SeoTitleStrategy extends TitleStrategy {
     constructor(private readonly title: Title) {
         super();
     }
-
     override updateTitle(snapshot: RouterStateSnapshot) {
         const pageTitle = this.buildTitle(snapshot);
-        this.title.setTitle(pageTitle ? `${pageTitle} | Al-Motammem` : 'Al-Motammem');
+        this.title.setTitle(pageTitle ? `${pageTitle} | المتمم` : 'المتمم');
     }
+
 }

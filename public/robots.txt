@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
+# منع الزحف لصفحات غير مناسبة للفهرسة
+Disallow: /login
+Disallow: /blogs/CreateBlog
+Disallow: /blogs/EditBlog
+Disallow: /blogs/EditBlog/
+Disallow: /blogs/CreateBlog/
+
+
 Sitemap: https://almotammem.com/sitemap.xml

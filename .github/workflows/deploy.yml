@@ -23,6 +23,10 @@ jobs:
       - name: Build Angular app
         run: npm run build
 
+# ✅ Generate sitemap.xml (dynamic blogs)
+      - name: Generate sitemaps (index + static + blogs)
+        run: node scripts/generate-sitemaps.mjs
+
       # هنا بيرفع الـ build على السيرفر عن طريق FTP
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.3

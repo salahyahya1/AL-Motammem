@@ -93,15 +93,15 @@ export const routes: Routes = [
                             .then(m => m.BlogVeiwComponent),
                         title: `مدونه`
                     },
-                    { path: 'CreateBlog', component: CreateBlogComponent, title: 'انشاء مدونة جديدة' },
-                    { path: 'EditBlog/:url', component: EditBlogComponent, title: 'تعديل مدونة' }
+                    { path: 'CreateBlog', component: CreateBlogComponent, title: 'انشاء مدونة جديدة', data: { seo: { robots: 'noindex, nofollow' } } },
+                    { path: 'EditBlog/:url', component: EditBlogComponent, title: 'تعديل مدونة', data: { seo: { robots: 'noindex, nofollow' } } }
                 ]
             },
             {
                 path: 'FAQS',
                 loadComponent: () => import('./core/pages/faqs/faqs.component')
                     .then(m => m.FAQSComponent),
-                title: `مدونه`
+                title: `FAQS`
             },
             {
                 path: 'ContactUs',
@@ -125,13 +125,15 @@ export const routes: Routes = [
                 path: 'coming-soon',
                 loadComponent: () => import('./core/shared/coming-soon/coming-soon.component')
                     .then(m => m.ComingSoonComponent),
-                title: 'قريبًا'
+                title: 'قريبًا',
+                data: { seo: { robots: 'noindex, nofollow' } }
             },
             {
                 path: 'login',
                 loadComponent: () => import('./core/auth/login/login.component')
                     .then(m => m.LoginComponent),
-                title: 'تسجيل الدخول'
+                title: 'تسجيل الدخول',
+                data: { seo: { robots: 'noindex, nofollow' } }
             }
         ]
     },
