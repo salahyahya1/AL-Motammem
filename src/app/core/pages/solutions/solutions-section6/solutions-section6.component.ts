@@ -35,6 +35,7 @@ export class SolutionsSection6Component {
       requestAnimationFrame(() => {
         setTimeout(() => {
           document.fonts.ready.then(() => {
+            let mm = gsap.matchMedia();
 
             const consultationTitle = document.querySelector('h1#consultation-title') as HTMLElement;
             const consultationSubtitle = document.querySelector('#consultation-subtitle') as HTMLElement;
@@ -42,96 +43,103 @@ export class SolutionsSection6Component {
             const consultationfooter = document.querySelector('#consultation-footer') as HTMLElement;
             const button1 = document.querySelector('#button1') as HTMLElement;
 
-
             if (!consultationTitle || !consultationSubtitle || !consultationDetails || !button1) {
               console.warn('⚠️ عناصر الـ consultation مش لاقيها SplitText');
               return;
             }
 
-            // 3️⃣ SplitText على النص الحالي (بعد الترجمة)
-            this.consultationTitleSplit = new SplitText(consultationTitle, { type: 'words' });
-            this.consultationSubtitleSplit = new SplitText(consultationSubtitle, { type: 'words' });
-            this.consultationDetailsSplit = new SplitText(consultationDetails, { type: 'words' });
-            this.consultationfootersSplit = new SplitText(consultationfooter, { type: 'words' });
+            mm.add({
+              desktop: '(min-width: 768px)',
+              mobile: '(max-width: 767px)',
+            }, (context) => {
+              let { desktop, mobile } = context.conditions as any;
 
-            const tl = gsap.timeline({
-              defaults: { ease: "power3.out" },
-              //  scrollTrigger: {
-              //   trigger: "#consultation",
-              //   start: 'top top',
-              //   end: "150% bottom",
-              //   // markers: true,
-              // }
-              scrollTrigger: {
-                trigger: "#consultation",
-                start: 'top top',
-                end: '130% bottom',
-                pinType: 'transform',
-                pin: true,
-                // markers: true,
-                invalidateOnRefresh: true,
-                id: 'pinsection',
-                anticipatePin: 1,
-              }
-            });
+              // 3️⃣ SplitText على النص الحالي (بعد الترجمة)
+              this.consultationTitleSplit = new SplitText(consultationTitle, { type: 'words' });
+              this.consultationSubtitleSplit = new SplitText(consultationSubtitle, { type: 'words' });
+              this.consultationDetailsSplit = new SplitText(consultationDetails, { type: 'words' });
+              this.consultationfootersSplit = new SplitText(consultationfooter, { type: 'words' });
 
-            tl.fromTo(
-              this.consultationTitleSplit.words,
-              { opacity: 0, visibility: 'visible' },
-              {
-                opacity: 1,
-                duration: 0.4,
-                ease: 'sine.out',
-                stagger: 0.02,
-                onStart: () => { gsap.set(consultationTitle, { opacity: 1, visibility: 'visible' }) },
-              }
-            );
-
-            tl.fromTo(
-              this.consultationSubtitleSplit.words,
-              { opacity: 0, visibility: 'visible' },
-              {
-                opacity: 1,
-                duration: 0.4,
-                ease: 'sine.out',
-                stagger: 0.02,
-                onStart: () => { gsap.set(consultationSubtitle, { opacity: 1, visibility: 'visible' }) },
-              }
-            );
-
-            tl.fromTo(
-              this.consultationDetailsSplit.words,
-              { opacity: 0, visibility: 'visible' },
-              {
-                opacity: 1,
-                duration: 0.4,
-                ease: 'sine.out',
-                stagger: 0.02,
-                onStart: () => { gsap.set(consultationDetails, { opacity: 1, visibility: 'visible' }) },
-              }
-            );
-            tl.fromTo(
-              button1,
-              { opacity: 0, visibility: 'visible' },
-              {
-                opacity: 1,
-                duration: 0.5,
-                ease: 'sine.inOut',
-                onStart: () => { gsap.set(button1, { opacity: 1, visibility: 'visible' }) },
+              const tl = gsap.timeline({
+                defaults: { ease: "power3.out" },
+                scrollTrigger: {
+                  trigger: "#consultation",
+                  start: 'top top',
+                  end: mobile ? 'top 95%' : '130% bottom',
+                  pinType: 'transform',
+                  pin: true,
+                  // markers: true,
+                  invalidateOnRefresh: true,
+                  id: 'pinsection',
+                  anticipatePin: 1,
+                  onLeave: () => { if (mobile) tl.progress(1); },
+                  // onEnterBack: () => { if (mobile) tl.progress(0); },
+                }
               });
-            tl.fromTo(
-              this.consultationfootersSplit.words,
-              { opacity: 0, visibility: 'visible' },
-              {
-                opacity: 1,
-                duration: 0.4,
-                ease: 'sine.out',
-                stagger: 0.02,
-                onStart: () => { gsap.set(consultationfooter, { opacity: 1, visibility: 'visible' }) },
-              }
-            );
 
+              tl.fromTo(
+                this.consultationTitleSplit.words,
+                { opacity: 0, visibility: 'visible' },
+                {
+                  opacity: 1,
+                  duration: 0.4,
+                  ease: 'sine.out',
+                  stagger: 0.02,
+                  onStart: () => { gsap.set(consultationTitle, { opacity: 1, visibility: 'visible' }) },
+                }
+              );
 
+              tl.fromTo(
+                this.consultationSubtitleSplit.words,
+                { opacity: 0, visibility: 'visible' },
+                {
+                  opacity: 1,
+                  duration: 0.4,
+                  ease: 'sine.out',
+                  stagger: 0.02,
+                  onStart: () => { gsap.set(consultationSubtitle, { opacity: 1, visibility: 'visible' }) },
+                }
+              );
+
+              tl.fromTo(
+                this.consultationDetailsSplit.words,
+                { opacity: 0, visibility: 'visible' },
+                {
+                  opacity: 1,
+                  duration: 0.4,
+                  ease: 'sine.out',
+                  stagger: 0.02,
+                  onStart: () => { gsap.set(consultationDetails, { opacity: 1, visibility: 'visible' }) },
+                }
+              );
+              tl.fromTo(
+                button1,
+                { opacity: 0, visibility: 'visible' },
+                {
+                  opacity: 1,
+                  duration: 0.5,
+                  ease: 'sine.inOut',
+                  onStart: () => { gsap.set(button1, { opacity: 1, visibility: 'visible' }) },
+                });
+              tl.fromTo(
+                this.consultationfootersSplit.words,
+                { opacity: 0, visibility: 'visible' },
+                {
+                  opacity: 1,
+                  duration: 0.4,
+                  ease: 'sine.out',
+                  stagger: 0.02,
+                  onStart: () => { gsap.set(consultationfooter, { opacity: 1, visibility: 'visible' }) },
+                }
+              );
+
+              return () => {
+                if (this.consultationTitleSplit) this.consultationTitleSplit.revert();
+                if (this.consultationSubtitleSplit) this.consultationSubtitleSplit.revert();
+                if (this.consultationDetailsSplit) this.consultationDetailsSplit.revert();
+                if (this.consultationfootersSplit) this.consultationfootersSplit.revert();
+              };
+            });
           });
         }, 0);
       });

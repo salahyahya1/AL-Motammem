@@ -137,7 +137,7 @@ export class SolutionsSection3Component {
               );
             };
             this.mm = gsap.matchMedia();
-            this.mm.add('(min-width: 700px)', () => {
+            this.mm.add('(min-width: 768px)', () => {
               const tl = gsap.timeline({
                 defaults: { ease: 'power3.out' },
                 scrollTrigger: {
@@ -196,14 +196,15 @@ export class SolutionsSection3Component {
                 tl.kill();
               };
             });
-            this.mm.add('(max-width: 699px)', () => {
+            this.mm.add('(max-width: 767px)', () => {
               const tl = gsap.timeline({
                 defaults: { ease: 'power3.out' },
                 scrollTrigger: {
                   trigger: '#solutionsSection3',
                   start: 'top top',
-                  end: '+=50%',
+                  end: 'top 95%',
                   pin: true,
+                  onLeave: () => { tl.progress(1) },
                   // markers: true,
                 },
               });

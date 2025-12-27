@@ -97,43 +97,61 @@ export class SolutionsSection5Component {
             requestAnimationFrame(() => {
                 setTimeout(() => {
                     document.fonts.ready.then(() => {
-
-                        ScrollTrigger.create({
-                            trigger: '#solutionsSection5',
-                            start: 'top top',
-                            end: "150% bottom",
-                            // pinType: 'transform',
-                            pin: true,
-                            // markers: true,
-                            id: 'pinsection',
-                            anticipatePin: 1,
-                        });
-
-
+                        let mm = gsap.matchMedia();
                         const section5Top = document.querySelector('#section5-top') as HTMLElement;
-                        this.section5TopSplit = new SplitText(section5Top, { type: "words" });
-                        const tl = gsap.timeline({
-                            defaults: { ease: "power3.out" }, scrollTrigger: {
-                                trigger: "#solutionsSection5",
+
+                        mm.add({
+                            desktop: '(min-width: 768px)',
+                            mobile: '(max-width: 767px)',
+                        }, (context) => {
+                            let { desktop, mobile } = context.conditions as any;
+
+                            this.section5TopSplit = new SplitText(section5Top, { type: "words" });
+
+                            ScrollTrigger.create({
+                                trigger: '#solutionsSection5',
                                 start: 'top top',
-                                end: "150% bottom",
+                                end: mobile ? 'top 95%' : "150% bottom",
+                                pin: true,
+                                pinType: 'transform',
                                 // markers: true,
-                            }
+                                id: 'pinsection',
+                                anticipatePin: 1,
+                                onLeave: () => { if (mobile) tl.progress(1); },
+                                // onEnterBack: () => { if (mobile) tl.progress(0); },
+                            });
+
+                            const tl = gsap.timeline({
+                                defaults: { ease: "power3.out" }, scrollTrigger: {
+                                    trigger: "#solutionsSection5",
+                                    start: 'top top',
+                                    end: "150% bottom",
+                                    // markers: true,
+                                }
+                            });
+
+                            tl.fromTo(this.section5TopSplit.words,
+                                { opacity: 0, visibility: "visible" },
+                                {
+                                    opacity: 1,
+                                    duration: 0.4,
+                                    ease: "sine.out",
+                                    stagger: 0.02,
+                                    onStart: () => { gsap.set(section5Top, { opacity: 1, visibility: "visible" }) },
+                                }
+                            );
+
+                            tl.fromTo("#section5-bottom", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
+
+                            return () => {
+                                if (this.section5TopSplit) this.section5TopSplit.revert();
+                            };
                         });
 
-
-
-                        tl.fromTo(this.section5TopSplit.words,
-                            { opacity: 0, visibility: "visible" },
-                            {
-                                opacity: 1,
-                                duration: 0.4,
-                                ease: "sine.out",
-                                stagger: 0.02,
-                                onStart: () => { gsap.set(section5Top, { opacity: 1, visibility: "visible" }) },
-                            }
-                        );
-                        tl.fromTo("#section5-bottom", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
+                        // Swiper initialization (can remain outside matchMedia or be inside if behavior differs significantly, but here it looks consistent)
+                        // However, to be safe with re-init on resize if needed, user didn't ask for responsive swiper logic change, just matchMedia for GSAP.
+                        // We will keep Swiper init logic simple around matchMedia or inside if we want it strictly controlled.
+                        // Given previous patterns, Swiper was initialized once. Let's keep it here but ensure idempotency is handled if we ever moved it.
                         if (this.swiperInstance) {
                             this.swiperInstance.destroy(true, true);
                             this.swiperInstance = null;
@@ -154,6 +172,7 @@ export class SolutionsSection5Component {
                                 pauseOnMouseEnter: true
                             },
                         });
+
                     });
                 }, 0);
             });
