@@ -53,7 +53,7 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    this.isMobile = window.innerWidth < 700;
+    this.isMobile = window.innerWidth < 768;
   }
 
   ngAfterViewInit(): void {
@@ -68,7 +68,7 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
     });
 
     this.resizeHandler = () => {
-      const next = window.innerWidth < 700;
+      const next = window.innerWidth < 768;
       if (next !== this.isMobile) {
         this.isMobile = next;
         this.rebuildAnimations();
@@ -93,88 +93,95 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
   makeanimation() {
     const finalTextScrollDuration = 1.5;
 
-    this.mm.add('(max-width: 699px)', () => {
-      if (!document.querySelector('.scroll-bg-section-m')) return () => { };
+    this.mm.add({
+      desktop: '(min-width: 768px)',
+      mobile: '(max-width: 767px)',
+    }, (context) => {
+      let { desktop, mobile } = context.conditions as any;
 
-      const tl = gsap.timeline({
-        id: 'AboutSection3TL-mobile',
-        scrollTrigger: {
-          id: 'AboutSection3Trigger-mobile',
-          trigger: '#AboutSection3',
-          start: 'top top',
-          end: '+=4000 bottom',
-          scrub: true,
-          pin: true,
-        }
-      });
-      this.AboutSection3Timeline = tl;
+      if (mobile) {
+        if (!document.querySelector('.scroll-bg-section-m')) return;
 
-      tl.fromTo('.scroll-bg-section-m', { autoAlpha: 0 }, {
-        autoAlpha: 1,
-        onStart: () => { this.show = 1; this.DivisionId = 1; },
-        onReverseComplete: () => { this.show = 0; }
-      }, '>-0.2');
+        const tl = gsap.timeline({
+          id: 'AboutSection3TL-mobile',
+          scrollTrigger: {
+            id: 'AboutSection3Trigger-mobile',
+            trigger: '#AboutSection3',
+            start: 'top top',
+            end: '+=4000 bottom',
+            scrub: true,
+            pin: true,
+            pinType: 'transform',
+          }
+        });
+        this.AboutSection3Timeline = tl;
 
-      tl.fromTo('.scroll-bg-section-text-m', { yPercent: 50 }, { yPercent: -190 }, '<')
-        .fromTo('.scroll-bg-section-text-m', { yPercent: -190, opacity: 1 }, {
-          yPercent: -350, opacity: 0, duration: finalTextScrollDuration
-        }, '>+0.8');
+        tl.fromTo('.scroll-bg-section-m', { autoAlpha: 0 }, {
+          autoAlpha: 1,
+          onStart: () => { this.show = 1; this.DivisionId = 1; },
+          onReverseComplete: () => { this.show = 0; }
+        }, '>-0.2');
 
-      tl.fromTo('.scroll-bg-section1-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
-        .fromTo('.scroll-bg-section-text1-m', { yPercent: 50 }, { yPercent: -190 }, '<')
-        .fromTo('.scroll-bg-section-text1-m', { yPercent: -190, opacity: 1 }, {
-          yPercent: -350, opacity: 0, duration: finalTextScrollDuration
-        }, '>+0.8');
+        // Lighter animation for mobile (reduced yPercent)
+        tl.fromTo('.scroll-bg-section-text-m', { yPercent: 50 }, { yPercent: -130 }, '<')
+          .fromTo('.scroll-bg-section-text-m', { yPercent: -130, opacity: 1 }, {
+            yPercent: -250, opacity: 0, duration: finalTextScrollDuration
+          }, '>+0.8');
 
-      tl.fromTo('.scroll-bg-section2-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
-        .fromTo('.scroll-bg-section-text2-m', { yPercent: 50 }, { yPercent: -190 }, '<')
-        .fromTo('.scroll-bg-section-text2-m', { yPercent: -190, opacity: 1 }, {
-          yPercent: -350, opacity: 0, duration: finalTextScrollDuration
-        }, '>+0.8');
+        tl.fromTo('.scroll-bg-section1-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
+          .fromTo('.scroll-bg-section-text1-m', { yPercent: 50 }, { yPercent: -130 }, '<')
+          .fromTo('.scroll-bg-section-text1-m', { yPercent: -130, opacity: 1 }, {
+            yPercent: -250, opacity: 0, duration: finalTextScrollDuration
+          }, '>+0.8');
 
-      return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-mobile')?.kill(); };
-    });
+        tl.fromTo('.scroll-bg-section2-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
+          .fromTo('.scroll-bg-section-text2-m', { yPercent: 50 }, { yPercent: -130 }, '<')
+          .fromTo('.scroll-bg-section-text2-m', { yPercent: -130, opacity: 1 }, {
+            yPercent: -250, opacity: 0, duration: finalTextScrollDuration
+          }, '>+0.8');
 
-    this.mm.add('(min-width: 700px)', () => {
-      if (!document.querySelector('.scroll-bg-section')) return () => { };
+        return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-mobile')?.kill(); };
+      } else {
+        if (!document.querySelector('.scroll-bg-section')) return;
 
-      const tl = gsap.timeline({
-        id: 'AboutSection3TL-desktop',
-        scrollTrigger: {
-          id: 'AboutSection3Trigger-desktop',
-          trigger: '#AboutSection3',
-          start: 'top top',
-          end: '+=4000 bottom',
-          scrub: true,
-          pin: true,
-        }
-      });
-      this.AboutSection3Timeline = tl;
+        const tl = gsap.timeline({
+          id: 'AboutSection3TL-desktop',
+          scrollTrigger: {
+            id: 'AboutSection3Trigger-desktop',
+            trigger: '#AboutSection3',
+            start: 'top top',
+            end: '+=4000 bottom',
+            scrub: true,
+            pin: true,
+          }
+        });
+        this.AboutSection3Timeline = tl;
 
-      tl.fromTo('.scroll-bg-section', { autoAlpha: 0 }, {
-        autoAlpha: 1,
-        onStart: () => { this.show = 1; this.DivisionId = 1; },
-        onReverseComplete: () => { this.show = 0; }
-      }, '>-0.2');
+        tl.fromTo('.scroll-bg-section', { autoAlpha: 0 }, {
+          autoAlpha: 1,
+          onStart: () => { this.show = 1; this.DivisionId = 1; },
+          onReverseComplete: () => { this.show = 0; }
+        }, '>-0.2');
 
-      tl.fromTo('.scroll-bg-section-text', { yPercent: 50 }, { yPercent: -190 }, '<')
-        .fromTo('.scroll-bg-section-text', { yPercent: -190, opacity: 1 }, {
-          yPercent: -350, opacity: 0, duration: finalTextScrollDuration
-        }, '>+0.8');
+        tl.fromTo('.scroll-bg-section-text', { yPercent: 50 }, { yPercent: -190 }, '<')
+          .fromTo('.scroll-bg-section-text', { yPercent: -190, opacity: 1 }, {
+            yPercent: -350, opacity: 0, duration: finalTextScrollDuration
+          }, '>+0.8');
 
-      tl.fromTo('.scroll-bg-section1', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
-        .fromTo('.scroll-bg-section-text1', { yPercent: 50 }, { yPercent: -190 }, '<')
-        .fromTo('.scroll-bg-section-text1', { yPercent: -190, opacity: 1 }, {
-          yPercent: -350, opacity: 0, duration: finalTextScrollDuration
-        }, '>+0.8');
+        tl.fromTo('.scroll-bg-section1', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
+          .fromTo('.scroll-bg-section-text1', { yPercent: 50 }, { yPercent: -190 }, '<')
+          .fromTo('.scroll-bg-section-text1', { yPercent: -190, opacity: 1 }, {
+            yPercent: -350, opacity: 0, duration: finalTextScrollDuration
+          }, '>+0.8');
 
-      tl.fromTo('.scroll-bg-section2', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
-        .fromTo('.scroll-bg-section-text2', { yPercent: 50 }, { yPercent: -190 }, '<')
-        .fromTo('.scroll-bg-section-text2', { yPercent: -190, opacity: 1 }, {
-          yPercent: -350, opacity: 0, duration: finalTextScrollDuration
-        }, '>+0.8');
+        tl.fromTo('.scroll-bg-section2', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
+          .fromTo('.scroll-bg-section-text2', { yPercent: 50 }, { yPercent: -190 }, '<')
+          .fromTo('.scroll-bg-section-text2', { yPercent: -190, opacity: 1 }, {
+            yPercent: -350, opacity: 0, duration: finalTextScrollDuration
+          }, '>+0.8');
 
-      return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-desktop')?.kill(); };
+        return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-desktop')?.kill(); };
+      }
     });
   }
   get isRtl() {

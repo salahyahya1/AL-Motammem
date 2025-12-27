@@ -376,11 +376,11 @@ export class Section3Component {
                   once: true,
                   pinSpacing: true,
                   onEnter: () => {
-                    if (!playedOnce) {
-                      playedOnce = true;
-                      video.currentTime = 0;
-                      this.vedioPlayer.requestPlay(video);
-                    }
+                    // if (!playedOnce) {
+                    //   playedOnce = true;
+                    //   video.currentTime = 0;
+                    //   this.vedioPlayer.requestPlay(video);
+                    // }
                   },
                 });
               }
@@ -457,10 +457,10 @@ export class Section3Component {
                   opacity: 0,
                   duration: 0.7,
                   ease: "power2.out",
-                  onComplete: () => {
-                    video.pause();
-                    gsap.set(video, { display: 'none' });
-                  }
+                  // onComplete: () => {
+                  //   video.pause();
+                  //   gsap.set(video, { display: 'none' });
+                  // }
                 });
               }
             }

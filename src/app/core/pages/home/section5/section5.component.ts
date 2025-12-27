@@ -282,20 +282,20 @@ export class Section5Component {
                   pin: desktop ? true : false,
                   anticipatePin: 1,
                   // markers: true,
-                  scrub: mobile ? true : false,
+                  scrub: mobile ? 0.2 : false,
                   pinType: 'transform',
                   invalidateOnRefresh: true,
                   pinSpacing: mobile ? false : true,
                   onLeave: () => {
                     if (mobile) {
-                      tl.progress(1);
+                      tl.totalProgress(1, false)
 
                       // (اختياري) لو عايز تمنع flip لو اليوزر نزل بسرعة
                       if (this.flipTimer) clearTimeout(this.flipTimer);
                     }
                   },
                   onLeaveBack: () => {
-                    if (mobile) tl.progress(0);
+                    if (mobile) tl.totalProgress(0, false);
                   },
                 }
               });
@@ -336,8 +336,10 @@ export class Section5Component {
               };
             }
           );
-
-        }, 500);
+          requestAnimationFrame(() => {
+            ScrollTrigger.refresh();
+          });
+        }, 0);
       });
     });
   }

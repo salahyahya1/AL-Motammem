@@ -66,74 +66,13 @@ export class AboutSection4Component {
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         setTimeout(() => {
+
+          let mm = gsap.matchMedia();
           const AboutSection4TITLE = document.querySelector('#AboutSection4-TITLE') as HTMLElement;
-          const AboutSection4TITLESplit = SplitText.create(AboutSection4TITLE, { type: "words" });
-          ScrollTrigger.create({
-            trigger: '#AboutSection4',
-            start: 'top top',
-            end: "170% bottom",
-            pin: true,
-            pinType: 'transform',
-            id: 'pinsection',
-            anticipatePin: 1,
-          });
-          const tl = gsap.timeline({
-            defaults: { ease: "power3.out" }, scrollTrigger: {
-              trigger: "#AboutSection4",
-              start: 'top top',
-              end: "150% bottom",
-            }
-          });
+          let AboutSection4TITLESplit: SplitText;
 
-          const path = document.querySelector(".capsule-path3") as SVGPathElement;
-          if (!path) return;
-          const length = path.getTotalLength();
-          gsap.set('#capsule3', { y: 100 })
-          tl.fromTo(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 0, visibility: "hidden" },
-            {
-              strokeDashoffset: 0,
-              opacity: 1,
-              visibility: "visible",
-              duration: 2,
-              ease: "power2.inOut"
-            });
-          gsap.set("#AboutSection4-TITLE", { perspective: 800 });
-
-          tl.fromTo(AboutSection4TITLESplit.words,
-            {
-              opacity: 0,
-              rotateY: gsap.utils.random(-80, 80),
-              filter: "blur(6px)"
-            },
-            {
-              opacity: 1,
-              rotateY: 0,
-              y: 0,
-              filter: "blur(0px)",
-              duration: 1.2,
-              stagger: {
-                each: 0.25,
-                from: "start"
-              }
-            }
-          );
-          tl.to("#capsule3", {
-            y: -60,
-            duration: 1,
-            ease: "power2.inOut",
-          }, ">-0.4");
-          tl.fromTo("#AboutSection4Bottom",
-            { opacity: 0, y: 100 },
-            {
-              opacity: 1,
-              y: 0,
-              ease: "sine.out",
-              stagger: 0.1,
-            }, "<+0.5"
-          );
-
+          // Initialize Swiper (Common for both, handled by internal breakpoints)
           Swiper.use([Navigation, Pagination]);
-
           const swiper = new Swiper(this.swiperEl.nativeElement, {
             modules: [Navigation, Pagination],
             direction: 'horizontal',
@@ -152,17 +91,6 @@ export class AboutSection4Component {
             },
           });
 
-          gsap.from('.swiper-slide', {
-            scrollTrigger: {
-              trigger: '.erp-carousel',
-              start: 'top 85%',
-            },
-            opacity: 0,
-            y: 60,
-            duration: 0.7,
-            stagger: 0.2,
-            ease: 'power3.out',
-          });
           swiper.on('slideChangeTransitionStart', () => {
             const activeSlide = document.querySelector('.swiper-slide-active .card');
             if (activeSlide) {
@@ -173,8 +101,127 @@ export class AboutSection4Component {
               );
             }
           });
+
+          mm.add({
+            desktop: '(min-width: 768px)',
+            mobile: '(max-width: 767px)',
+          }, (context) => {
+            let { desktop, mobile } = context.conditions as any;
+
+            // Re-select title to ensure fresh reference if needed, though simpler to just use outer var
+            // Initialize SplitText
+            AboutSection4TITLESplit = SplitText.create(AboutSection4TITLE, { type: "words" });
+
+            ScrollTrigger.create({
+              trigger: '#AboutSection4',
+              start: 'top top',
+              end: mobile ? 'top 95%' : "170% bottom",
+              pin: true,
+              pinType: 'transform',
+              id: 'pinsection',
+              anticipatePin: 1,
+              onLeave: () => { if (mobile) tl.progress(0.5); },
+              onEnterBack: () => { if (mobile) tl.progress(0); },
+            });
+
+            const tl = gsap.timeline({
+              defaults: { ease: "power3.out" }, scrollTrigger: {
+                trigger: "#AboutSection4",
+                start: 'top top',
+                end: "150% bottom",
+              }
+            });
+
+            const path = document.querySelector(".capsule-path3") as SVGPathElement;
+            if (path) {
+              const length = path.getTotalLength();
+              gsap.set('#capsule3', { y: 100 });
+
+              tl.fromTo(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 0, visibility: "hidden" },
+                {
+                  strokeDashoffset: 0,
+                  opacity: 1,
+                  visibility: "visible",
+                  duration: 2,
+                  ease: "power2.inOut"
+                });
+            }
+
+            gsap.set("#AboutSection4-TITLE", { perspective: 800 });
+
+            // Title Animation: Lighter on mobile
+            if (mobile) {
+              tl.fromTo(AboutSection4TITLESplit.words,
+                {
+                  opacity: 0,
+                  y: 20, // Simple fade up
+                  filter: "blur(2px)"
+                },
+                {
+                  opacity: 1,
+                  y: 0,
+                  filter: "blur(0px)",
+                  duration: 0.8,
+                  stagger: 0.1
+                }
+              );
+            } else {
+              // Desktop: Original Complex Animation
+              tl.fromTo(AboutSection4TITLESplit.words,
+                {
+                  opacity: 0,
+                  rotateY: gsap.utils.random(-80, 80),
+                  filter: "blur(6px)"
+                },
+                {
+                  opacity: 1,
+                  rotateY: 0,
+                  y: 0,
+                  filter: "blur(0px)",
+                  duration: 1.2,
+                  stagger: {
+                    each: 0.25,
+                    from: "start"
+                  }
+                }
+              );
+            }
+
+            tl.to("#capsule3", {
+              y: mobile ? 20 : -60, // Reduced movement on mobile
+              duration: 1,
+              ease: "power2.inOut",
+            }, ">-0.4");
+
+            tl.fromTo("#AboutSection4Bottom",
+              { opacity: 0, y: mobile ? 50 : 100 }, // Reduced movement on mobile
+              {
+                opacity: 1,
+                y: 35,
+                ease: "sine.out",
+                stagger: 0.1,
+              }, "<+0.5"
+            );
+
+            gsap.from('.swiper-slide', {
+              scrollTrigger: {
+                trigger: '.erp-carousel',
+                start: 'top 85%',
+              },
+              opacity: 0,
+              y: mobile ? 40 : 60, // Reduced movement on mobile
+              duration: 0.7,
+              stagger: 0.2,
+              ease: 'power3.out',
+            });
+
+            return () => {
+              if (AboutSection4TITLESplit) AboutSection4TITLESplit.revert();
+            };
+          });
+
         }, 500);
-      })
-    })
+      });
+    });
   }
 }

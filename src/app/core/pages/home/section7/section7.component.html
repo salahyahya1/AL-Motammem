@@ -130,14 +130,14 @@
                         {{ 'HOME.PLANS.CARD3.TITLEp2' | translate }}
                     </p>
                     <ul class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 md:pr-[16px] lg:pr-[0px]">
-                        @for (item of items; track item) {
+                        @for (i of [0,2,3,4]; track i) {
                         <li>
-                            @if(item<2){ {{ ('HOME.PLANS.CARD3.LIST.' + (item-1))| translate }} <br>
-                                {{ ('HOME.PLANS.CARD3.LIST.' + (item)) | translate }}
-                                }
-                                @else{
-                                {{ ('HOME.PLANS.CARD3.LIST.' + (item)) | translate }}
-                                }
+                            @if (i === 0) {
+                            {{ 'HOME.PLANS.CARD3.LIST.0' | translate }} <br>
+                            {{ 'HOME.PLANS.CARD3.LIST.1' | translate }}
+                            } @else {
+                            {{ ('HOME.PLANS.CARD3.LIST.' + i) | translate }}
+                            }
                         </li>
                         }
 

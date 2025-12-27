@@ -39,59 +39,77 @@ export class AboutSection5Component {
   private runGsapAnimation() {
 
     document.fonts.ready.then(() => {
-      gsap.set("#AboutSection5", { willChange: "transform, opacity" });
       const section = document.querySelector('#AboutSection5') as HTMLElement;
       const image = document.querySelector('#AboutSection5Image') as HTMLElement;
       const video = document.getElementById('About-Section5-video') as HTMLVideoElement;
       const heroTitle = document.querySelector('h1#AboutSection5title') as HTMLElement;
       const button2 = document.querySelector('#AboutSection5Button') as HTMLElement;
+
       if (!heroTitle || !button2) {
         console.warn('⚠️ عناصر الـ hero مش لاقيها SplitText');
         return;
       }
 
-      this.heroTitleSplit = new SplitText(heroTitle, { type: "words" });
+      let mm = gsap.matchMedia();
 
+      mm.add({
+        desktop: '(min-width: 768px)',
+        mobile: '(max-width: 767px)',
+      }, (context) => {
+        let { desktop, mobile } = context.conditions as any;
 
-      const tl = gsap.timeline();
+        // gsap.set("#AboutSection5", { willChange: "transform, opacity" });
 
-      tl.fromTo(this.heroTitleSplit.words,
-        { opacity: 0, visibility: "visible" },
-        {
-          opacity: 1,
-          duration: 0.4,
-          ease: "sine.out",
-          stagger: 0.02,
-          onStart: () => { gsap.set(heroTitle, { opacity: 1, visibility: "visible" }) },
-        }
-      );
+        this.heroTitleSplit = new SplitText(heroTitle, { type: "words" });
 
+        const tl = gsap.timeline();
 
-      tl.fromTo(button2,
-        { opacity: 0, visibility: "visible" },
-        {
-          opacity: 1,
-          duration: 0.5,
-          ease: "sine.inOut",
-          onStart: () => { gsap.set(button2, { opacity: 1, visibility: "visible" }) },
-        }
-      );
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top top',
-        end: "150% bottom",
-        pin: true,
-        anticipatePin: 1,
-        id: 'pinsection',
-        animation: tl,
-        onEnter: () => {
-          gsap.to(section, { backgroundColor: "transparent", duration: 0.5, ease: "sine.out" });
-          gsap.to(video, { opacity: "1", duration: 0.5, ease: "sine.out" });
-          video?.play();
-          gsap.to(image, { opacity: "1", duration: 0.5, ease: "sine.out" });
-        },
-      })
-      this.timeline = tl
+        tl.fromTo(this.heroTitleSplit.words,
+          { opacity: 0, visibility: "visible" },
+          {
+            opacity: 1,
+            duration: 0.4,
+            ease: "sine.out",
+            stagger: 0.02,
+            onStart: () => { gsap.set(heroTitle, { opacity: 1, visibility: "visible" }) },
+          }
+        );
+
+        tl.fromTo(button2,
+          { opacity: 0, visibility: "visible" },
+          {
+            opacity: 1,
+            duration: 0.5,
+            ease: "sine.inOut",
+            onStart: () => { gsap.set(button2, { opacity: 1, visibility: "visible" }) },
+          }
+        );
+
+        ScrollTrigger.create({
+          trigger: section,
+          start: 'top top',
+          end: mobile ? 'top 95%' : "150% bottom",
+          pin: true,
+          pinType: 'transform',
+          anticipatePin: 1,
+          id: 'pinsection',
+          animation: tl,
+          onEnter: () => {
+            gsap.to(section, { backgroundColor: "transparent", duration: 0.5, ease: "sine.out" });
+            gsap.to(video, { opacity: "1", duration: 0.5, ease: "sine.out" });
+            video?.play();
+            gsap.to(image, { opacity: "1", duration: 0.5, ease: "sine.out" });
+          },
+          onLeave: () => { if (mobile) tl.progress(1); },
+          onLeaveBack: () => { if (mobile) tl.progress(0); },
+        });
+
+        this.timeline = tl;
+
+        return () => {
+          if (this.heroTitleSplit) this.heroTitleSplit.revert();
+        };
+      });
     });
   }
 }

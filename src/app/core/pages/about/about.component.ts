@@ -73,8 +73,16 @@ export class AboutComponent {
         trigger: section,
         start: 'top 50%',
         end: 'bottom 50%',
-        onEnter: () => this.updateNavbarColors(textColor),
-        onEnterBack: () => this.updateNavbarColors(textColor),
+        // onEnter: () => this.updateNavbarColors(textColor),
+        // onEnterBack: () => this.updateNavbarColors(textColor),
+        onEnter: () => {
+          this.navTheme.setColor(textColor);
+          this.navTheme.setBg(bgColor);
+        },
+        onEnterBack: () => {
+          this.navTheme.setColor(textColor);
+          this.navTheme.setBg(bgColor);
+        },
       });
     });
   }

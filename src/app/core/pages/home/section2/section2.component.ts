@@ -162,11 +162,12 @@ import SplitText from 'gsap/SplitText';
 import { TranslatePipe } from '@ngx-translate/core';
 import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
 import { VedioPlayerServiceForIosService } from '../../../shared/services/vedio-player-service-for-ios.service';
+import { ResponsiveVideoDirective } from '../../../shared/Directives/change-vedio-mob-Deck.directive';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 @Component({
   selector: 'app-section2',
-  imports: [RouterLink, TranslatePipe, OpenFormDialogDirective],
+  imports: [RouterLink, TranslatePipe, OpenFormDialogDirective, ResponsiveVideoDirective],
   templateUrl: './section2.component.html',
   styleUrls: ['./section2.component.scss'],
 })
