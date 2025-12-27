@@ -1,23 +1,40 @@
 <div id="solutionsSection4" class="h-screen w-full bg-white relative flex flex-col justify-center items-center">
-<div id="solutions-Section4-container" class="flex flex-col justify-center items-center">
-  <svg id="capsule4" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg"
-    style="width: 757px; height: 131px; max-width: 90%;" class="md:w-[761px] lg:scale-[1.35]">
-    <rect class="capsule-path4" x="1" y="1" width="755" height="129" rx="60" stroke="var(--dark-gray)" stroke-width="3"
-      fill="transparent" filter="url(#capsule4Shadow)" />
-    <foreignObject x="35" y="10" width="689" height="105">
-      <div class="text-center" xmlns="http://www.w3.org/1999/xhtml">
-        <P id="solutionsSection4-TITLE" class="text-[var(--primary)] text-[2rem] lg:text-[2rem] xl:text-[2.2rem]">
-          {{ 'SOLUTIONS.SECTION4.TITLE' | translate }}
-        </P>
-      </div>
-    </foreignObject>
-  </svg>
-  <div class="text-center">
-    <p id="solutionsSection4-Detailes"
-      class="mx-auto text-center text-[#1976D2] font-bold text-[0.9rem] md:text-[1.5rem] leading-snug mb-10 w-[80%] md:w-[85%] mt-20">
-      {{ 'SOLUTIONS.SECTION4.DETAILES' | translate }}
-    </p>
-  </div>
+  <div id="solutions-Section4-container" class="flex flex-col justify-center items-center">
 
-</div>
+
+    <!-- <div id="capsuleSolutionsWrap" class="capsule-wrap">
+      <svg id="capsule-solutions" viewBox="0 0 759 132" style="width: 757px; height: 131px; max-width: 90%;"
+        class="md:w-[761px] lg:scale-[1.35]" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect class="capsule-solutionsRect" x="1" y="1" width="755" height="129" rx="60" stroke="var(--light-gray)"
+          stroke-width="3" fill="transparent" />
+      </svg>
+
+      <div class="capsule-text-solutions">
+        <div class="text-center" xmlns="http://www.w3.org/1999/xhtml">
+          <P id="solutionsSection4-TITLE" class="text-[var(--primary)] text-[2rem] lg:text-[2rem] xl:text-[2.2rem]">
+            {{ 'SOLUTIONS.SECTION4.TITLE' | translate }}
+          </P>
+        </div>
+      </div>
+    </div> -->
+    <div id="capsuleSolutionsWrap" class="capsule-solutions-wrap">
+      <svg id="capsule-solutions" viewBox="0 0 759 132" preserveAspectRatio="xMidYMid meet"
+        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect class="capsule-solutionsRect" x="1" y="1" width="755" height="129" rx="60" stroke="var(--light-gray)"
+          stroke-width="3" fill="transparent" />
+      </svg>
+
+      <p id="solutionsSection4-TITLE" class="capsule-solutions-title">
+        {{ 'SOLUTIONS.SECTION4.TITLE' | translate }}
+      </p>
+    </div>
+
+    <div class="text-center">
+      <p id="solutionsSection4-Detailes"
+        class="mx-auto text-center text-[#1976D2] font-bold text-[0.9rem] md:text-[1.5rem] leading-snug mb-10 w-[80%] md:w-[85%] mt-20">
+        {{ 'SOLUTIONS.SECTION4.DETAILES' | translate }}
+      </p>
+    </div>
+
+  </div>
 </div>

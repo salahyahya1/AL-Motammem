@@ -66,10 +66,10 @@ export class SolutionsSection4Component {
                     let triggered = false;
                     triggered = false;
 
-                    const path = document.querySelector(".capsule-path4") as SVGPathElement;
+                    const path = document.querySelector(".capsule-solutionsRect") as SVGPathElement;
                     if (!path) return;
                     const length = path.getTotalLength();
-                    gsap.set('#capsule4', { y: 78 })
+                    gsap.set('#capsuleSolutionsWrap', { y: 78 })
                     tl.fromTo(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 0, visibility: "hidden" },
                         {
                             strokeDashoffset: 0,
@@ -78,7 +78,7 @@ export class SolutionsSection4Component {
                             duration: 1,
                             ease: "power2.inOut"
                         });
-                    gsap.set("#solutionsSection4-TITLE", { perspective: 800 });
+                    gsap.set("#solutionsSection4-TITLE", { perspective: 800, visibility: "visible", opacity: 1 });
 
                     tl.fromTo(solutionsSection4TITLESplit.words,
                         {
@@ -99,9 +99,10 @@ export class SolutionsSection4Component {
 
                         }
                     );
-                    tl.to("#capsule4", {
+                    tl.to("#capsuleSolutionsWrap", {
                         scale: 0.85,
                         duration: 0.6,
+                        y: 30,
                         ease: "power2.inOut",
                         onStart: () => {
                             gsap.to('#solutionsSection4', {
