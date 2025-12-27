@@ -121,7 +121,7 @@ export class AboutSection4Component {
               id: 'pinsection',
               anticipatePin: 1,
               onLeave: () => { if (mobile) tl.progress(0.5); },
-              onEnterBack: () => { if (mobile) tl.progress(0); },
+              // onEnterBack: () => { if (mobile) tl.progress(0); },
             });
 
             const tl = gsap.timeline({
@@ -132,10 +132,10 @@ export class AboutSection4Component {
               }
             });
 
-            const path = document.querySelector(".capsule-path3") as SVGPathElement;
+            const path = document.querySelector(".capsule-aboutRect") as SVGPathElement;
             if (path) {
               const length = path.getTotalLength();
-              gsap.set('#capsule3', { y: 100 });
+              gsap.set('#capsuleAboutWrap', { y: 100 });
 
               tl.fromTo(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 0, visibility: "hidden" },
                 {
@@ -147,19 +147,17 @@ export class AboutSection4Component {
                 });
             }
 
-            gsap.set("#AboutSection4-TITLE", { perspective: 800 });
+            gsap.set("#AboutSection4-TITLE", { perspective: 800, visibility: "visible", opacity: 1 });
 
             // Title Animation: Lighter on mobile
             if (mobile) {
               tl.fromTo(AboutSection4TITLESplit.words,
                 {
                   opacity: 0,
-                  y: 20, // Simple fade up
                   filter: "blur(2px)"
                 },
                 {
                   opacity: 1,
-                  y: 0,
                   filter: "blur(0px)",
                   duration: 0.8,
                   stagger: 0.1
@@ -187,7 +185,7 @@ export class AboutSection4Component {
               );
             }
 
-            tl.to("#capsule3", {
+            tl.to("#capsuleAboutWrap", {
               y: mobile ? 20 : -60, // Reduced movement on mobile
               duration: 1,
               ease: "power2.inOut",

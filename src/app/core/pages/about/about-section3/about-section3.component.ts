@@ -111,7 +111,6 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
             end: '+=4000 bottom',
             scrub: true,
             pin: true,
-            pinType: 'transform',
           }
         });
         this.AboutSection3Timeline = tl;
