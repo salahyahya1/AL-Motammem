@@ -5,12 +5,13 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import InertiaPlugin from "gsap/InertiaPlugin";
 
 import SplitText from "gsap/SplitText";
+import { OverlayModule } from "@angular/cdk/overlay";
 
 
 gsap.registerPlugin(ScrollTrigger, SplitText, InertiaPlugin);
 @Component({
   selector: 'app-product-section6',
-  imports: [],
+  imports: [OverlayModule],
   templateUrl: './product-section6.component.html',
   styleUrl: './product-section6.component.scss'
 })

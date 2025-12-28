@@ -384,14 +384,14 @@ export class Section5Component {
       "/images/homepage/logos/34.webp",
       "/images/homepage/logos/35.webp",
       "/images/homepage/logos/36.webp",
-      // "/images/homepage/logos/37.webp",
-      // "/images/homepage/logos/38.webp",
-      // "/images/homepage/logos/39.webp",
-      // "/images/homepage/logos/40.webp",
-      // "/images/homepage/logos/41.webp",
-      // "/images/homepage/logos/42.webp",
-      // "/images/homepage/logos/43.webp",
-      // "/images/homepage/logos/44.webp",
+      "/images/homepage/logos/37.webp",
+      "/images/homepage/logos/38.webp",
+      "/images/homepage/logos/39.webp",
+      "/images/homepage/logos/40.webp",
+      "/images/homepage/logos/41.webp",
+      "/images/homepage/logos/42.webp",
+      "/images/homepage/logos/43.webp",
+      "/images/homepage/logos/44.webp",
 
     ];
 

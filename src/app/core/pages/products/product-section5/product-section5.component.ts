@@ -5,9 +5,10 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from "gsap/SplitText";
 gsap.registerPlugin(ScrollTrigger, SplitText);
 import { TranslatePipe } from '@ngx-translate/core';
+import { OverlayModule } from "@angular/cdk/overlay";
 @Component({
   selector: 'app-product-section5',
-  imports: [TranslatePipe],
+  imports: [TranslatePipe, OverlayModule],
   templateUrl: './product-section5.component.html',
   styleUrl: './product-section5.component.scss'
 })
