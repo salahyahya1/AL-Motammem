@@ -46,138 +46,138 @@ export class ProductSection1Component implements AfterViewInit {
           // لو عربي خلي الليست 1..4 عشان الشرط بتاع أول عنصرين
           this.items = this.isRtl ? [1, 2, 3, 4, 5] : [1, 2, 3];
 
-          const tl = gsap.timeline({
-            defaults: { ease: 'power3.out' },
-            scrollTrigger: {
-              trigger: '#productSection1',
-              start: 'top top',
-              end: '150% bottom',
-              pin: true,
-            },
-          });
+          let mm = gsap.matchMedia();
 
-          document.fonts.ready.then(() => {
-            const sectionHead = document.querySelector('#productTitle1') as HTMLElement;
-            const sectionSub = document.querySelector('#productSubTitle1') as HTMLElement;
-            const sectionbottom = document.querySelector('#productbottom-text') as HTMLElement;
+          mm.add({
+            desktop: '(min-width: 768px)',
+            mobile: '(max-width: 767px)',
+          }, (context) => {
+            let { desktop, mobile } = context.conditions as any;
+            const wcTargets = ["#productSection1 .cards", ".card1", ".card2", ".card3"];
+            const tl = gsap.timeline({
+              defaults: { ease: 'power3.out' },
+              scrollTrigger: {
+                trigger: '#productSection1',
+                start: 'top top',
+                end: mobile ? 'top 95%' : '150% bottom',
+                pin: true,
+                pinType: 'transform',
+                id: 'pinsection',
+                anticipatePin: 1,
+                onLeave: () => { if (mobile) tl.progress(1); },
 
-            if (!sectionHead || !sectionSub || !sectionbottom) return;
-
-            const splitedtext = SplitText.create(sectionHead, { type: 'words' });
-            const splitedSub = SplitText.create(sectionSub, { type: 'words' });
-            const splitedbottom = SplitText.create(sectionbottom, { type: 'words' });
-
-            gsap.set(['.card1', '.card2', '.card3'], {
-              opacity: 0,
-              visibility: 'hidden',
+                // onEnterBack: () => { if (mobile) tl.progress(0); },
+              },
             });
 
-            tl.fromTo(
-              splitedtext.words,
-              { opacity: 0, visibility: 'visible' },
-              {
-                opacity: 1,
-                duration: 0.4,
-                stagger: 0.02,
-                onStart: () => { gsap.set(sectionHead, { opacity: 1, visibility: 'visible' }) },
+            document.fonts.ready.then(() => {
+              const sectionHead = document.querySelector('#productTitle1') as HTMLElement;
+              const sectionSub = document.querySelector('#productSubTitle1') as HTMLElement;
+              const sectionbottom = document.querySelector('#productbottom-text') as HTMLElement;
+
+              if (!sectionHead || !sectionSub || !sectionbottom) return;
+
+              const splitedtext = SplitText.create(sectionHead, { type: 'words' });
+              const splitedSub = SplitText.create(sectionSub, { type: 'words' });
+              const splitedbottom = SplitText.create(sectionbottom, { type: 'words' });
+
+              gsap.set(['.card1', '.card2', '.card3'], {
+                opacity: 0,
+                visibility: 'hidden',
+              });
+
+              tl.fromTo(
+                splitedtext.words,
+                { opacity: 0, visibility: 'visible' },
+                {
+                  opacity: 1,
+                  duration: 0.4,
+                  stagger: 0.02,
+                  onStart: () => { gsap.set(sectionHead, { opacity: 1, visibility: 'visible' }) },
+                }
+              );
+
+              tl.fromTo(
+                splitedSub.words,
+                { opacity: 0, visibility: 'visible' },
+                {
+                  opacity: 1,
+                  duration: 0.4,
+                  stagger: 0.02,
+                  onStart: () => { gsap.set(sectionSub, { opacity: 1, visibility: 'visible' }) },
+                },
+                '>-0.3'
+              );
+
+              // أنيميشن الكروت
+              const tlCards = gsap.timeline();
+
+              if (mobile) {
+                // Mobile: Simpler fade in without heavy movement
+                tlCards
+                  .fromTo(
+                    '.card2',
+                    { autoAlpha: 0, y: 30 },
+                    { autoAlpha: 1, y: 0, duration: 0.8, ease: 'sine.out' }
+                  )
+                  .fromTo(
+                    '.card1',
+                    { autoAlpha: 0, y: 30 },
+                    { autoAlpha: 1, y: 0, duration: 0.8, ease: 'sine.out' },
+                    '<'
+                  )
+                  .fromTo(
+                    '.card3',
+                    { autoAlpha: 0, y: 30 },
+                    { autoAlpha: 1, y: 0, duration: 0.8, ease: 'sine.out' },
+                    '<'
+                  );
+              } else {
+                // Desktop: Original movement animation
+                tlCards
+                  .fromTo(
+                    '.card2',
+                    { autoAlpha: 0 },
+                    { autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false }
+                  )
+                  .fromTo(
+                    '.card1',
+                    { autoAlpha: 0 },
+                    { right: '0%', autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false },
+                    '<'
+                  )
+                  .fromTo(
+                    '.card3',
+                    { autoAlpha: 0 },
+                    { left: '0%', autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false },
+                    '<'
+                  );
               }
-            );
+              tl.add(tlCards, '>');
 
-            tl.fromTo(
-              splitedSub.words,
-              { opacity: 0, visibility: 'visible' },
-              {
-                opacity: 1,
-                duration: 0.4,
-                stagger: 0.02,
-                onStart: () => { gsap.set(sectionSub, { opacity: 1, visibility: 'visible' }) },
-              },
-              '>-0.3'
-            );
-
-            // أنيميشن الكروت حسب الريزوليوشن
-            ScrollTrigger.matchMedia({
-              '(min-width: 1024px)': () => {
-                const tlCards = gsap.timeline();
-                tlCards
-                  .fromTo(
-                    '.card2',
-                    { autoAlpha: 0 },
-                    { autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false }
-                  )
-                  .fromTo(
-                    '.card1',
-                    { autoAlpha: 0 },
-                    { right: '0%', autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false },
-                    '<'
-                  )
-                  .fromTo(
-                    '.card3',
-                    { autoAlpha: 0 },
-                    { left: '0%', autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false },
-                    '<'
-                  );
-                tl.add(tlCards, '>');
-              },
-
-              '(min-width: 768px) and (max-width: 1023px)': () => {
-                const tlCards = gsap.timeline();
-                tlCards
-                  .fromTo(
-                    '.card2',
-                    { autoAlpha: 0 },
-                    { autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false }
-                  )
-                  .fromTo(
-                    '.card1',
-                    { autoAlpha: 0 },
-                    { right: '0%', autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false },
-                    '<'
-                  )
-                  .fromTo(
-                    '.card3',
-                    { autoAlpha: 0 },
-                    { left: '0%', autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false },
-                    '<'
-                  );
-                tl.add(tlCards, '>');
-              },
-
-              '(max-width: 767px)': () => {
-                const tlCards = gsap.timeline();
-                tlCards
-                  .fromTo(
-                    '.card2',
-                    { autoAlpha: 0 },
-                    { autoAlpha: 1, duration: 1.5, ease: 'sine.in', immediateRender: false }
-                  )
-                  .fromTo(
-                    '.card1',
-                    { autoAlpha: 0, xPercent: 150 },
-                    { xPercent: 0, autoAlpha: 1, duration: 1.5, ease: 'sine.in', immediateRender: false },
-                    '<'
-                  )
-                  .fromTo(
-                    '.card3',
-                    { autoAlpha: 0, xPercent: -150 },
-                    { xPercent: 0, autoAlpha: 1, duration: 1.5, ease: 'sine.in', immediateRender: false },
-                    '<'
-                  );
-                tl.add(tlCards, '>');
-              },
+              tl.fromTo(
+                splitedbottom.words,
+                { opacity: 0, visibility: 'visible' },
+                {
+                  opacity: 1,
+                  duration: 0.8,
+                  stagger: 0.15,
+                  onStart: () => { gsap.set(sectionbottom, { opacity: 1, visibility: 'visible' }) },
+                },
+                '>-0.1'
+              );
             });
 
-            tl.fromTo(
-              splitedbottom.words,
-              { opacity: 0, visibility: 'visible' },
-              {
-                opacity: 1,
-                duration: 0.8,
-                stagger: 0.15,
-                onStart: () => { gsap.set(sectionbottom, { opacity: 1, visibility: 'visible' }) },
-              },
-              '>-0.1'
-            );
+            return () => {
+              // Cleanup logic if needed, SplitText usually needs reverting but inside mismatch it often handles resets. 
+              // But good practice to revert manually if created inside add.
+              // Note: Variables splitedtext etc are captured in closure but created inside add(), so they are re-created. 
+              // Ideally we should keep references to revert them, but for this specific structure SplitText.revert() isn't strictly called 
+              // on clean up by user request in previous steps clearly. 
+              // However, we can revert by selecting elements if we kept refs. 
+              // Let's rely on GSAP cleaning up timeline.
+            };
+
           });
         }, 500);
       });

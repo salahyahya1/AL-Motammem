@@ -111,12 +111,13 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import { LanguageService } from '../../../shared/services/language.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
+import { RouterLink } from "@angular/router";
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-section4',
-  imports: [OpenFormDialogDirective, TranslatePipe],
+  imports: [TranslatePipe, RouterLink],
   templateUrl: './section4.component.html',
   styleUrl: './section4.component.scss'
 })

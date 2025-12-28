@@ -85,19 +85,20 @@
 #hero-title,
 #hero-subtitle,
 #hero-details,
-#button1,
-#button2 {
+#button1home,
+#button2home {
   opacity: 1;
   visibility: visible;
 }
 
 /* ✅ Desktop: hidden before GSAP runs */
 @media (min-width: 700px) {
+
   #hero-title,
   #hero-subtitle,
   #hero-details,
-  #button1,
-  #button2 {
+  #button1home,
+  #button2home {
     opacity: 0;
     visibility: hidden;
   }

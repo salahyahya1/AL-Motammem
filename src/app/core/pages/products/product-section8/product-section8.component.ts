@@ -34,8 +34,9 @@ export class ProductSection8Component {
   private initMainSwiper(): void {
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
-
         document.fonts.ready.then(() => {
+          let mm = gsap.matchMedia();
+
           const section = document.querySelector('#productSection8') as HTMLElement;
           const img = document.getElementById('productSection8-img') as HTMLVideoElement;
           const productSection8Title = document.querySelector('#productSection8-title') as HTMLElement;
@@ -47,78 +48,83 @@ export class ProductSection8Component {
             return;
           }
 
-          this.productSection8TitleSplit = new SplitText(productSection8Title, { type: "words" });
-          this.productSection8ListSplit = new SplitText(productSection8List, { type: "lines" });
-          this.productSection8FooterSplit = new SplitText(productSection8Footer, { type: "words" });
-          ScrollTrigger.create({
-            trigger: '#productSection8',
-            start: 'top top',
-            end: "140% bottom",
-            pin: true,
-            pinType: 'transform',
-            id: 'pinsection',
-            anticipatePin: 1,
-          });
-          const tl = gsap.timeline({
-            defaults: { ease: 'power3.out' },
-            scrollTrigger: {
+          mm.add({
+            desktop: '(min-width: 768px)',
+            mobile: '(max-width: 767px)',
+          }, (context) => {
+            let { desktop, mobile } = context.conditions as any;
+
+            this.productSection8TitleSplit = new SplitText(productSection8Title, { type: "words" });
+            this.productSection8ListSplit = new SplitText(productSection8List, { type: "lines" });
+            this.productSection8FooterSplit = new SplitText(productSection8Footer, { type: "words" });
+
+            ScrollTrigger.create({
               trigger: '#productSection8',
               start: 'top top',
-              end: "bottom bottom",
-            },
+              end: mobile ? 'top 95%' : "140% bottom",
+              pin: true,
+              pinType: 'transform',
+              id: 'pinsection',
+              anticipatePin: 1,
+              onLeave: () => { if (mobile) tl.progress(1); },
+              // onEnterBack: () => { if (mobile) tl.progress(0); },
+            });
+
+            const tl = gsap.timeline({
+              defaults: { ease: 'power3.out' },
+              scrollTrigger: {
+                trigger: '#productSection8',
+                start: 'top top',
+                end: mobile ? 'top 95%' : "bottom bottom",
+              },
+            });
+
+            tl.fromTo(this.productSection8TitleSplit.words,
+              { opacity: 0, visibility: 'visible' },
+              {
+                opacity: 1,
+                duration: 0.4,
+                ease: 'sine.out',
+                stagger: 0.02,
+                onStart: () => { gsap.set(productSection8Title, { opacity: 1, visibility: "visible" }) },
+              }
+            );
+
+            // For list, reduce stagger on mobile
+            tl.fromTo(this.productSection8ListSplit.lines,
+              { opacity: 0, visibility: "visible" },
+              {
+                opacity: 1,
+                duration: 0.4,
+                ease: "sine.out",
+                stagger: mobile ? 0.02 : 0.05,
+                onStart: () => { gsap.set("#productSection8-list li", { opacity: 1, visibility: "visible" }) },
+              }
+            );
+            tl.fromTo(this.productSection8FooterSplit.words,
+              { opacity: 0, visibility: "visible" },
+              {
+                opacity: 1,
+                duration: 0.4,
+                ease: "sine.out",
+                stagger: 0.02,
+                onStart: () => { gsap.set(productSection8Footer, { opacity: 1, visibility: "visible" }) },
+              }
+            );
+
+            tl.to(section, { backgroundColor: "transparent", duration: 0.3, ease: "sine.out" });
+            tl.to(img, { opacity: "1", duration: 0.3, ease: "sine.out" });
+
+            this.timeline = tl;
+
+            return () => {
+              if (this.productSection8TitleSplit) this.productSection8TitleSplit.revert();
+              if (this.productSection8ListSplit) this.productSection8ListSplit.revert();
+              if (this.productSection8FooterSplit) this.productSection8FooterSplit.revert();
+            }
           });
-
-          tl.fromTo(this.productSection8TitleSplit.words,
-            { opacity: 0, visibility: 'visible' },
-            {
-              opacity: 1,
-              duration: 0.4,
-              ease: 'sine.out',
-              stagger: 0.02,
-              onStart: () => { gsap.set(productSection8Title, { opacity: 1, visibility: "visible" }) },
-            }
-          );
-          tl.fromTo(this.productSection8ListSplit.lines,
-            { opacity: 0, visibility: "visible" },
-            {
-              opacity: 1,
-              duration: 0.4,
-              ease: "sine.out",
-              stagger: 0.05,
-              onStart: () => { gsap.set("#productSection8-list li", { opacity: 1, visibility: "visible" }) },
-            }
-          );
-          tl.fromTo(this.productSection8FooterSplit.words,
-            { opacity: 0, visibility: "visible" },
-            {
-              opacity: 1,
-              duration: 0.4,
-              ease: "sine.out",
-              stagger: 0.02,
-              onStart: () => { gsap.set(productSection8Footer, { opacity: 1, visibility: "visible" }) },
-            }
-          );
-
-          tl.to(section, { backgroundColor: "transparent", duration: 0.3, ease: "sine.out" });
-          tl.to(img, { opacity: "1", duration: 0.3, ease: "sine.out" });
-          // ScrollTrigger.create({
-          //   trigger: section,
-          //   start: 'top top',
-          //   end: "150% bottom",
-          //   pin: true,
-          //   anticipatePin: 1,
-          //   id: 'pinsection',
-          //   animation: tl,
-          //   onEnter: () => {
-          //     gsap.to(section, { backgroundColor: "transparent", duration: 0.5, ease: "sine.out" });
-          //     gsap.to(img, { opacity: "1", duration: 0.5, ease: "sine.out" });
-          //   },
-          // })
-
-          this.timeline = tl
         });
       });
     });
-
   }
 }

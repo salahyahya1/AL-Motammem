@@ -16,45 +16,39 @@
       {{ 'HOME.HERO.DETAILS' | translate }}
     </p>
     <div class="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-4">
-      <a appOpenFormDialog id="button1"
+      <a appOpenFormDialog id="button1home"
         class="bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-6 py-3 rounded-full text-sm font-semibold shadow-md transition">
         {{ 'HOME.HERO.BTN1' | translate }}
       </a>
-      <a id="button2"
-        class="bg-[var(--primary-light)] hover:bg-[var(--primary-dark)] text-white px-6 py-3 rounded-full text-sm font-semibold shadow-md transition">
-        {{ 'HOME.HERO.BTN2' | translate }}
+      <a id="button2home"
+        href="https://wa.me/201205999468?text=%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%AE%D8%AF%D9%85%D9%87"
+        target="_blank" rel="noopener noreferrer"
+        class="bg-[var(--primary-light)] hover:bg-[var(--primary-dark)] text-white px-14 py-3 rounded-full text-sm font-semibold shadow-md transition">
+        أبدأ المحادثة الآن
       </a>
     </div>
   </div>
 
 
-    <div class="relative md:contents">
-  <div class="w-full md:w-[43.5%] relative z-0 flex items-center justify-start">
+  <div class="relative md:contents">
+    <div class="w-full md:w-[43.5%] relative z-0 flex items-center justify-start">
 
-    <!-- ✅ Mobile: static image -->
-    @if (isMobile) {
+      <!-- ✅ Mobile: static image -->
+      @if (isMobile) {
       <div class="hero-visual-inner relative w-full max-w-[750px] hero-ratio">
-        <img
-          class=" w-full h-full object-cover z-10"
-          src="/images/homepage/SS_final_4cols_q92Sm.jpg"
-          width="631"
-          height="407"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-          alt=""
-        />
+        <img class=" w-full h-full object-cover z-10" src="/images/homepage/SS_final_4cols_q92Sm.jpg" width="631"
+          height="407" loading="eager" fetchpriority="high" decoding="async" alt="" />
       </div>
-    } @else {
-  <ng-container #desktopHost></ng-container>
+      } @else {
+      <ng-container #desktopHost></ng-container>
 
-    }
+      }
 
+    </div>
   </div>
-</div>
 
 
-    <!-- <div class="absolute w-full h-full inset-0 md:left-0 right-0 md:top-0 -z-10 overflow-hidden">
+  <!-- <div class="absolute w-full h-full inset-0 md:left-0 right-0 md:top-0 -z-10 overflow-hidden">
       <video #heroVideo class="hidden md:block md:left-0 right-0 w-full absolute top-0 bottom-0 h-full object-cover"
         style="opacity: 0.8;" preload="none" muted playsinline loop poster="/images/hero-lcp.webp">
       </video>

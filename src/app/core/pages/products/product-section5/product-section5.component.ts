@@ -36,6 +36,8 @@ export class ProductSection5Component {
   private runGsapAnimation() {
 
     document.fonts.ready.then(() => {
+      let mm = gsap.matchMedia();
+
       const productSection5Title1 = document.querySelector('#productSection5-title1') as HTMLElement;
       const productSection5Title2 = document.querySelector('#productSection5-title2') as HTMLElement;
       const productSection5Subtitle = document.querySelector('#productSection5-subtitle') as HTMLElement;
@@ -44,105 +46,127 @@ export class ProductSection5Component {
       const productSection5Footer = document.querySelector('#productSection5-footer') as HTMLElement;
       const productSection5imgtop = document.querySelector('#productSection5-img-top') as HTMLElement;
       const productSection5imgbottom = document.querySelector('#productSection5-img-bottom') as HTMLElement;
+
       if (!productSection5Title1 || !productSection5Title2 || !productSection5Subtitle || !productSection5Details || !productSection5List || !productSection5Footer || !productSection5imgtop || !productSection5imgbottom) {
         console.warn('⚠️ عناصر الـ productSection5 مش لاقيها SplitText');
         return;
       }
 
-      this.productSection5Title1Split = new SplitText(productSection5Title1, { type: "words" });
-      this.productSection5Title2Split = new SplitText(productSection5Title2, { type: "words" });
-      this.productSection5SubtitleSplit = new SplitText(productSection5Subtitle, { type: "words" });
-      this.productSection5DetailsSplit = new SplitText(productSection5Details, { type: "words" });
-      this.productSection5ListSplit = new SplitText(productSection5List, { type: "lines" });
-      this.productSection5FooterSplit = new SplitText(productSection5Footer, { type: "words" });
-      ScrollTrigger.create({
-        trigger: '#productSection5',
-        start: 'top top',
-        end: "150% bottom",
-        pin: true,
-        pinType: 'transform',
-        id: 'pinsection',
-        anticipatePin: 1,
-      });
-      const tl = gsap.timeline({
-        defaults: { ease: 'power3.out' },
-        scrollTrigger: {
+      mm.add({
+        desktop: '(min-width: 768px)',
+        mobile: '(max-width: 767px)',
+      }, (context) => {
+        let { desktop, mobile } = context.conditions as any;
+
+        this.productSection5Title1Split = new SplitText(productSection5Title1, { type: "words" });
+        this.productSection5Title2Split = new SplitText(productSection5Title2, { type: "words" });
+        this.productSection5SubtitleSplit = new SplitText(productSection5Subtitle, { type: "words" });
+        this.productSection5DetailsSplit = new SplitText(productSection5Details, { type: "words" });
+        this.productSection5ListSplit = new SplitText(productSection5List, { type: "lines" });
+        this.productSection5FooterSplit = new SplitText(productSection5Footer, { type: "words" });
+
+        ScrollTrigger.create({
           trigger: '#productSection5',
           start: 'top top',
-          end: "bottom bottom",
-        },
-      });
+          end: mobile ? 'top 95%' : "150% bottom",
+          pin: true,
+          pinType: 'transform',
+          id: 'pinsection',
+          anticipatePin: 1,
+          onLeave: () => { if (mobile) tl.progress(1); },
+          // onEnterBack: () => { if (mobile) tl.progress(0); },
+        });
 
-      tl.fromTo(this.productSection5Title1Split.words,
-        { opacity: 0, visibility: "visible" },
-        {
-          opacity: 1,
-          duration: 0.4,
-          ease: "sine.out",
-          stagger: 0.02,
-          onStart: () => { gsap.set(productSection5Title1, { opacity: 1, visibility: "visible" }) },
-        }
-      );
-      tl.fromTo(this.productSection5Title2Split.words,
-        { opacity: 0, visibility: "visible" },
-        {
-          opacity: 1,
-          duration: 0.4,
-          ease: "sine.out",
-          stagger: 0.02,
-          onStart: () => { gsap.set(productSection5Title2, { opacity: 1, visibility: "visible" }) },
-        }
-      );
-      tl.fromTo(this.productSection5SubtitleSplit.words,
-        { opacity: 0, visibility: "visible" },
-        {
-          opacity: 1,
-          duration: 0.4,
-          ease: "sine.out",
-          stagger: 0.02,
-          onStart: () => { gsap.set(productSection5Subtitle, { opacity: 1, visibility: "visible" }) },
-        }
-      );
-      tl.fromTo(productSection5imgbottom, {
-        opacity: 0,
-        visibility: "hidden",
-      }, {
-        opacity: 1,
-        visibility: "visible",
-        duration: 0.8,
-        ease: "sine.out",
-      });
-      tl.fromTo(this.productSection5DetailsSplit.words,
-        { opacity: 0, visibility: "visible" },
-        {
-          opacity: 1,
-          duration: 0.4,
-          ease: "sine.out",
-          stagger: 0.02,
-          onStart: () => { gsap.set(productSection5Details, { opacity: 1, visibility: "visible" }) },
-        }
-      );
-      tl.fromTo(this.productSection5ListSplit.lines,
-        { opacity: 0, visibility: "visible" },
-        {
-          opacity: 1,
-          duration: 0.4,
-          ease: "sine.out",
-          stagger: 0.05,
-          onStart: () => { gsap.set(productSection5List, { opacity: 1, visibility: "visible" }) },
-        }
-      );
-      tl.fromTo(this.productSection5FooterSplit.words,
-        { opacity: 0, visibility: "visible" },
-        {
-          opacity: 1,
-          duration: 0.4,
-          ease: "sine.out",
-          stagger: 0.02,
-          onStart: () => { gsap.set(productSection5Footer, { opacity: 1, visibility: "visible" }) },
-        }
-      );
+        const tl = gsap.timeline({
+          defaults: { ease: 'power3.out' },
+          scrollTrigger: {
+            trigger: '#productSection5',
+            start: 'top top',
+            end: "bottom bottom",
+          },
+        });
 
+        tl.fromTo(this.productSection5Title1Split.words,
+          { opacity: 0, visibility: "visible" },
+          {
+            opacity: 1,
+            duration: 0.4,
+            ease: "sine.out",
+            stagger: 0.02,
+            onStart: () => { gsap.set(productSection5Title1, { opacity: 1, visibility: "visible" }) },
+          }
+        );
+        tl.fromTo(this.productSection5Title2Split.words,
+          { opacity: 0, visibility: "visible" },
+          {
+            opacity: 1,
+            duration: 0.4,
+            ease: "sine.out",
+            stagger: 0.02,
+            onStart: () => { gsap.set(productSection5Title2, { opacity: 1, visibility: "visible" }) },
+          }
+        );
+        tl.fromTo(this.productSection5SubtitleSplit.words,
+          { opacity: 0, visibility: "visible" },
+          {
+            opacity: 1,
+            duration: 0.4,
+            ease: "sine.out",
+            stagger: 0.02,
+            onStart: () => { gsap.set(productSection5Subtitle, { opacity: 1, visibility: "visible" }) },
+          }
+        );
+        tl.fromTo(productSection5imgbottom, {
+          opacity: 0,
+          visibility: "hidden",
+        }, {
+          opacity: 1,
+          visibility: "visible",
+          duration: 0.8,
+          ease: "sine.out",
+        });
+        tl.fromTo(this.productSection5DetailsSplit.words,
+          { opacity: 0, visibility: "visible" },
+          {
+            opacity: 1,
+            duration: 0.4,
+            ease: "sine.out",
+            stagger: 0.02,
+            onStart: () => { gsap.set(productSection5Details, { opacity: 1, visibility: "visible" }) },
+          }
+        );
+
+        // For list, reduce stagger on mobile to make it snappier
+        tl.fromTo(this.productSection5ListSplit.lines,
+          { opacity: 0, visibility: "visible" },
+          {
+            opacity: 1,
+            duration: 0.4,
+            ease: "sine.out",
+            stagger: mobile ? 0.02 : 0.05,
+            onStart: () => { gsap.set(productSection5List, { opacity: 1, visibility: "visible" }) },
+          }
+        );
+        tl.fromTo(this.productSection5FooterSplit.words,
+          { opacity: 0, visibility: "visible" },
+          {
+            opacity: 1,
+            duration: 0.4,
+            ease: "sine.out",
+            stagger: 0.02,
+            onStart: () => { gsap.set(productSection5Footer, { opacity: 1, visibility: "visible" }) },
+          }
+        );
+
+        return () => {
+          if (this.productSection5Title1Split) this.productSection5Title1Split.revert();
+          if (this.productSection5Title2Split) this.productSection5Title2Split.revert();
+          if (this.productSection5SubtitleSplit) this.productSection5SubtitleSplit.revert();
+          if (this.productSection5DetailsSplit) this.productSection5DetailsSplit.revert();
+          if (this.productSection5ListSplit) this.productSection5ListSplit.revert();
+          if (this.productSection5FooterSplit) this.productSection5FooterSplit.revert();
+        }
+      });
     });
   }
 }

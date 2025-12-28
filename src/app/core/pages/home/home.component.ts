@@ -128,6 +128,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Section3Component } from './section3/section3.component';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
+import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -144,6 +145,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
     Section7Component,
     Section8Component,
     Section3Component,
+    OpenFormDialogDirective,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],

@@ -38,7 +38,7 @@ export class ProductSection3Component {
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         setTimeout(() => {
-          // gsap.set("#productsection3", { willChange: "transform, opacity" });
+          let mm = gsap.matchMedia();
           const section = document.querySelector('#productsection3') as HTMLElement;
           const img = document.getElementById('productsection3-img') as HTMLVideoElement;
           const productsection3Title1 = document.querySelector('h1#productsection3-title1') as HTMLElement;
@@ -51,40 +51,53 @@ export class ProductSection3Component {
             console.warn('⚠️ عناصر الـ hero مش لاقيها SplitText');
             return;
           }
-          const tl = gsap.timeline({
-            defaults: { ease: "power3.out" }, scrollTrigger: {
-              trigger: "#productsection3",
+
+          mm.add({
+            desktop: '(min-width: 768px)',
+            mobile: '(max-width: 767px)',
+          }, (context) => {
+            let { desktop, mobile } = context.conditions as any;
+
+            const tl = gsap.timeline({
+              defaults: { ease: "power3.out" }, scrollTrigger: {
+                trigger: "#productsection3",
+                start: 'top top',
+                end: mobile ? 'top 95%' : "bottom bottom", // Match previous logic or keep consistent
+              }
+            });
+
+            // Lighter animation for mobile (reduced distance)
+            const yOffset = mobile ? 30 : 50;
+
+            tl.fromTo(productsection3Title1, { opacity: 0, y: yOffset, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0);
+            tl.fromTo(productsection3Title2, { opacity: 0, y: yOffset, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0);
+            tl.fromTo(productsection3Subtitle1, { opacity: 0, y: yOffset, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0.2);
+            tl.fromTo(productsection3Subtitle2, { opacity: 0, y: yOffset, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0.4);
+            tl.fromTo(productsection3Subtitle3, { opacity: 0, y: yOffset, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0.6);
+
+            ScrollTrigger.create({
+              trigger: section,
               start: 'top top',
-              end: "bottom bottom",
-            }
+              end: mobile ? 'top 95%' : "150% bottom",
+              pin: true,
+              pinType: 'transform',
+              anticipatePin: 1,
+              id: 'pinsection',
+              animation: tl,
+              onEnter: () => {
+                gsap.to(section, { backgroundColor: "transparent", duration: 0.5, ease: "sine.out" });
+                gsap.to(img, { opacity: "1", duration: 0.5, ease: "sine.out" });
+              },
+              onLeave: () => { if (mobile) tl.progress(1); },
+              // onEnterBack: () => { if (mobile) tl.progress(0); },
+            });
+
+            this.timeline = tl;
+
+            return () => {
+              if (this.timeline) this.timeline.kill();
+            };
           });
-
-          // this.productsection3Title1Split = new SplitText(productsection3Title1, { type: "words" });
-          // this.productsection3Title1Split = new SplitText(productsection3Title1, { type: "words" });
-          // this.productsection3Title2Split = new SplitText(productsection3Title2, { type: "words" });
-          // this.productsection3SubtitleSplit1 = new SplitText(productsection3Subtitle1, { type: "words" });
-          // this.productsection3SubtitleSplit2 = new SplitText(productsection3Subtitle2, { type: "words" });
-          // this.productsection3SubtitleSplit3 = new SplitText(productsection3Subtitle3, { type: "words" });
-          tl.fromTo(productsection3Title1, { opacity: 0, y: 50, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0);
-          tl.fromTo(productsection3Title2, { opacity: 0, y: 50, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0);
-          tl.fromTo(productsection3Subtitle1, { opacity: 0, y: 50, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0.2);
-          tl.fromTo(productsection3Subtitle2, { opacity: 0, y: 50, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0.4);
-          tl.fromTo(productsection3Subtitle3, { opacity: 0, y: 50, visibility: "hidden" }, { opacity: 1, y: 0, visibility: "visible", duration: 0.8 }, 0.6);
-          ScrollTrigger.create({
-            trigger: section,
-            start: 'top top',
-            end: "150% bottom",
-            pin: true,
-            anticipatePin: 1,
-            id: 'pinsection',
-            animation: tl,
-            onEnter: () => {
-              gsap.to(section, { backgroundColor: "transparent", duration: 0.5, ease: "sine.out" });
-              gsap.to(img, { opacity: "1", duration: 0.5, ease: "sine.out" });
-            },
-          })
-
-          this.timeline = tl
 
         }, 200);
       });

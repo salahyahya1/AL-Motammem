@@ -173,8 +173,8 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
       const heroTitle = document.querySelector('h1#hero-title') as HTMLElement;
       const heroSubtitle = document.querySelector('#hero-subtitle') as HTMLElement;
       const heroDetails = document.querySelector('#hero-details') as HTMLElement;
-      const button1 = document.querySelector('#button1') as HTMLElement;
-      const button2 = document.querySelector('#button2') as HTMLElement;
+      const button1 = document.querySelector('#button1home') as HTMLElement;
+      const button2 = document.querySelector('#button2home') as HTMLElement;
       if (!heroTitle || !heroSubtitle || !heroDetails || !button1 || !button2) return;
 
       gsap.set([heroTitle, heroSubtitle, heroDetails, button1, button2], {

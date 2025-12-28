@@ -44,8 +44,9 @@ export class AboutSection5Component {
       const video = document.getElementById('About-Section5-video') as HTMLVideoElement;
       const heroTitle = document.querySelector('h1#AboutSection5title') as HTMLElement;
       const button2 = document.querySelector('#AboutSection5Button') as HTMLElement;
+      const button3 = document.querySelector('#AboutSection5Button2') as HTMLElement;
 
-      if (!heroTitle || !button2) {
+      if (!heroTitle || !button2 || !button3) {
         console.warn('⚠️ عناصر الـ hero مش لاقيها SplitText');
         return;
       }
@@ -82,6 +83,16 @@ export class AboutSection5Component {
             duration: 0.5,
             ease: "sine.inOut",
             onStart: () => { gsap.set(button2, { opacity: 1, visibility: "visible" }) },
+          }
+        );
+
+        tl.fromTo(button3,
+          { opacity: 0, visibility: "visible" },
+          {
+            opacity: 1,
+            duration: 0.5,
+            ease: "sine.inOut",
+            onStart: () => { gsap.set(button3, { opacity: 1, visibility: "visible" }) },
           }
         );
 

@@ -176,11 +176,16 @@ export class ProductSection7Component {
 
           const mm = gsap.matchMedia();
 
-          const setupCapsuleAnimation = (
-            capsuleSelector: string,
-            titleSelector: string,
-            endScale: number
-          ) => {
+          mm.add({
+            desktop: '(min-width: 768px)',
+            mobile: '(max-width: 767px)',
+          }, (context) => {
+            let { desktop, mobile } = context.conditions as any;
+
+            const capsuleSelector = ".capsule-products7-wrap";
+            const titleSelector = "#productsSection7-TITLE";
+            const endScale = 0.9;
+
             const titleEl = document.querySelector(titleSelector) as HTMLElement | null;
             if (!titleEl) return;
 
@@ -194,29 +199,33 @@ export class ProductSection7Component {
 
             const length = path.getTotalLength();
 
-            ScrollTrigger.create({
-              trigger: '#productsSection7',
-              start: 'top top',
-              end: "150% bottom",
-              pin: true,
-              pinType: 'transform',
-              id: `pinsection-${capsuleSelector}`,
-              // markers: true,
-              anticipatePin: 1,
-            });
-
+            // ScrollTrigger.create({
+            //   trigger: '#productsSection7',
+            //   start: 'top top',
+            //   end: mobile ? 'bottom bottom' : "150% bottom",
+            //   pin: mobile ? false : true,
+            //   pinType: 'transform',
+            //   id: `pinsection-products7`,
+            //   anticipatePin: 1,
+            //   onLeave: () => { if (mobile) tl.progress(1); },
+            //   // onEnterBack: () => { if (mobile) tl.progress(0); },
+            // });
+            const targets = [capsuleSelector, "#productsSection7Bottom"];
             const tl = gsap.timeline({
               defaults: { ease: "power3.out" },
               scrollTrigger: {
                 trigger: "#productsSection7",
                 start: 'top top',
-                end: "150% bottom",
-                // markers: true,
+                end: mobile ? 'bottom bottom' : "150% bottom",
+                pin: mobile ? false : true,
+                pinType: 'transform',
+                id: `pinsection-products7`,
+                anticipatePin: 1,
+                onLeave: () => { if (mobile) tl.progress(1); },
               }
             });
-
-            gsap.set(capsuleSelector, { y: 78 });
-            gsap.set(titleSelector, { perspective: 800 });
+            gsap.set(capsuleSelector, { y: 78, scale: 0.9 });
+            gsap.set(titleSelector, { perspective: 800, visibility: "visible", opacity: 1 });
 
             tl.fromTo(
               path,
@@ -235,30 +244,50 @@ export class ProductSection7Component {
               }
             );
 
-            tl.fromTo(
-              split.words,
-              {
-                opacity: 0,
-                rotateY: gsap.utils.random(-80, 80),
-                filter: "blur(6px)"
-              },
-              {
-                opacity: 1,
-                rotateY: 0,
-                y: 0,
-                filter: "blur(0px)",
-                duration: 0.4,
-                stagger: {
-                  each: 0.15,
-                  from: "start"
+            if (mobile) {
+              // Mobile Lite Animation
+              tl.fromTo(
+                split.words,
+                {
+                  opacity: 0,
+                  y: 20,
+                  filter: "blur(2px)"
+                },
+                {
+                  opacity: 1,
+                  y: 0,
+                  filter: "blur(0px)",
+                  duration: 0.6,
+                  stagger: 0.1
                 }
-              }
-            );
+              );
+            } else {
+              // Desktop Original Animation
+              tl.fromTo(
+                split.words,
+                {
+                  opacity: 0,
+                  rotateY: gsap.utils.random(-80, 80),
+                  filter: "blur(6px)"
+                },
+                {
+                  opacity: 1,
+                  rotateY: 0,
+                  y: 0,
+                  filter: "blur(0px)",
+                  duration: 0.4,
+                  stagger: {
+                    each: 0.15,
+                    from: "start"
+                  }
+                }
+              );
+            }
 
             tl.to(
               capsuleSelector,
               {
-                scale: endScale, // 👈 هنا بنستخدم البراميتر
+                scale: endScale,
                 duration: 0.6,
                 ease: "power2.inOut",
                 onStart: () => {
@@ -275,33 +304,28 @@ export class ProductSection7Component {
             tl.to(
               capsuleSelector,
               {
-                y: -60,
+                y: mobile ? -40 : -60,
                 duration: 0.7,
                 ease: "power2.inOut",
               },
               ">-0.4"
             );
-            // tl.to("#capsule7", {
-            //   y: -60,
-            //   duration: 1,
-            //   ease: "power2.inOut",
-            // }, ">-0.4");
+
             tl.fromTo("#productsSection7Bottom",
-              { opacity: 0, y: 100 },
+              { opacity: 0, y: mobile ? 50 : 100 },
               {
                 opacity: 1,
-                y: 0,
+                y: mobile ? 0 : 0,
                 ease: "sine.out",
                 stagger: 0.1,
               }, "<+0.5"
             );
-          };
 
-          // 📱 أقل من 768px → نفس الكبسولة بس scale = 0.9
-          mm.add("(min-width: 0px)", () => {
-            setupCapsuleAnimation("#capsule7", "#productsSection7-TITLE", 0.9);
+            return () => {
+              if (split) split.revert();
+            };
+
           });
-
 
         }, 200);
       });
