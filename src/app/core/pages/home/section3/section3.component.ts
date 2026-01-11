@@ -417,7 +417,7 @@ export class Section3Component {
               strokeDashoffset: 0,
               opacity: 1,
               visibility: "visible",
-              duration: 1,
+              duration: 0.2,
               ease: "power2.inOut"
             });
           gsap.set("#section50-TITLE", { perspective: 800, visibility: "visible", opacity: 1 });
@@ -435,7 +435,7 @@ export class Section3Component {
               rotateY: 0,
               y: 0,
               filter: "blur(0px)",
-              duration: 0.4,
+              duration: 0.2,
               stagger: {
                 each: 0.15,
                 from: "start"
@@ -448,14 +448,14 @@ export class Section3Component {
             { opacity: 0, visibility: "visible" },
             {
               opacity: 1,
-              duration: 0.44,
+              duration: 0.2,
               ease: "sine.out",
               stagger: 0.1,
               onStart: () => { gsap.set(section50Details, { opacity: 1, visibility: "visible" }) },
               onComplete: () => {
                 gsap.to(video, {
                   opacity: 0,
-                  duration: 0.7,
+                  duration: 0.2,
                   ease: "power2.out",
                   // onComplete: () => {
                   //   video.pause();
@@ -467,19 +467,19 @@ export class Section3Component {
           );
           tl.to("#capsule2Wrap", {
             scale: 0.85,
-            duration: 0.6,
+            duration: 0.2,
             ease: "power2.inOut",
             onStart: () => {
               gsap.to('#section50', {
                 backgroundColor: '#ffffff',
-                duration: 0.8,
+                duration: 0.2,
                 ease: "power2.inOut"
               });
             }
           }, ">+0.3");
           tl.to("#capsule2Wrap", {
             y: -60,
-            duration: 0.7,
+            duration: 0.2,
             ease: "power2.inOut",
           }, ">-0.4");
           tl.fromTo("#section50Bottom",
@@ -489,7 +489,7 @@ export class Section3Component {
               y: 0,
               ease: "sine.out",
               stagger: 0.1,
-            }, "<+0.5"
+            }, "<+0.2"
           );
 
           Swiper.use([Navigation, Pagination]);
@@ -519,7 +519,7 @@ export class Section3Component {
             },
             opacity: 0,
             y: 60,
-            duration: 0.7,
+            duration: 0.2,
             stagger: 0.2,
             ease: 'power3.out',
           });
@@ -530,7 +530,7 @@ export class Section3Component {
               gsap.fromTo(
                 activeSlide,
                 { scale: 0.9, opacity: 0.7 },
-                { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }
+                { scale: 1, opacity: 1, duration: 0.2, ease: 'power2.out' }
               );
             }
           });

@@ -301,7 +301,7 @@ export class Section5Component {
               });
 
               // 1) العنوان
-              tl.to("#Text5", { opacity: 1, y: 0, duration: 0.6, ease: 'power2.inOut' });
+              tl.to("#Text5", { opacity: 1, y: 0, duration: 0.2, ease: 'power2.inOut' });
 
               // 2) الكونتينر اللي شايل الصور يظهر
               if (container) {
@@ -309,7 +309,7 @@ export class Section5Component {
                   opacity: 1,
                   y: 0,
                   visibility: "visible",
-                  duration: 0.5,
+                  duration: 0.2,
                   ease: "power2.out",
                   onComplete: () => {
                     if (!flipStarted) {
@@ -324,7 +324,7 @@ export class Section5Component {
               tl.to("#section100", {
                 opacity: 1,
                 visibility: "visible",
-                duration: 0.5,
+                duration: 0.2,
                 ease: "power2.out",
               }, ">-0.05");
 
@@ -414,12 +414,12 @@ export class Section5Component {
       gsap.to(img, {
         y: -80,
         opacity: 0,
-        duration: 0.4,
+        duration: 0.2,
         ease: "power2.in",
         onComplete: () => {
           img.src = newSrc;
           gsap.set(img, { y: 80, opacity: 0 });
-          gsap.to(img, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" });
+          gsap.to(img, { y: 0, opacity: 1, duration: 0.2, ease: "power2.out" });
         },
       });
     }
@@ -436,7 +436,7 @@ export class Section5Component {
       const randomSlots = gsap.utils.shuffle(available).slice(0, randomCount);
       randomSlots.forEach(slot => flipSlot(slot));
 
-      const nextDelay = gsap.utils.random(1, 2.5, 0.2) * 1000;
+      const nextDelay = gsap.utils.random(1, 2, 0.2) * 1000;
       scheduleNext(nextDelay);
     }
 

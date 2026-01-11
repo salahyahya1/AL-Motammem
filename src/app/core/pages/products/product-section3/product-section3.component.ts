@@ -85,8 +85,8 @@ export class ProductSection3Component {
               id: 'pinsection',
               animation: tl,
               onEnter: () => {
-                gsap.to(section, { backgroundColor: "transparent", duration: 0.5, ease: "sine.out" });
-                gsap.to(img, { opacity: "1", duration: 0.5, ease: "sine.out" });
+                gsap.to(section, { backgroundColor: "transparent", duration: 0.2, ease: "sine.out" });
+                gsap.to(img, { opacity: "1", duration: 0.2, ease: "sine.out" });
               },
               onLeave: () => { if (mobile) tl.progress(1); },
               // onEnterBack: () => { if (mobile) tl.progress(0); },

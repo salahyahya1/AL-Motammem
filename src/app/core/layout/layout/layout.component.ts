@@ -60,7 +60,7 @@ export class LayoutComponent {
       ignoreMobileResize: true,
       smoothTouch: 0.1,
     });
-
+    ScrollTrigger.defaults({ scroller: this.smoother.wrapper() });
     requestAnimationFrame(() => ScrollTrigger.refresh());
     ScrollTrigger.config({ ignoreMobileResize: true });
   }

@@ -55,7 +55,7 @@ export class AboutSection1Component {
         tl.from(videoEl, {
           opacity: 0,
           y: -100,
-          duration: 0.7,
+          duration: 0.2,
           ease: "sine.out",
         }, "<");
 

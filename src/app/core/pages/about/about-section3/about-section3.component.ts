@@ -273,7 +273,7 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
 
   //nice sol
   makeanimation() {
-    const finalTextScrollDuration = 1.5;
+    const finalTextScrollDuration = 0.2;
 
     this.mm.add({
       desktop: '(min-width: 768px)',
@@ -377,7 +377,7 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
         const { bg, text, sceneIndex } = opts;
 
         // 1) background يظهر
-        tl.to(bg, { autoAlpha: 1, duration: 0.4 }, sceneIndex === 0 ? 0 : '>');
+        tl.to(bg, { autoAlpha: 1, duration: 0.2 }, sceneIndex === 0 ? 0 : '>');
         if (sceneIndex === 0) {
           tl.add(() => { this.show = 1; this.DivisionId = 1; }, '<');
         }
@@ -386,7 +386,7 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
         const enterTween = tl.to(text, {
           yPercent: -190,
           opacity: 1,
-          duration: 0.55,
+          duration: 0.2,
           ease: 'power2.out'
         }, '<');
 

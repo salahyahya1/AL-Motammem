@@ -49,19 +49,26 @@ export class SolutionsComponent {
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
-
+  private ctx2?: gsap.Context;
+  private onResizeRefresh = () => ScrollTrigger.refresh();
+  private onResizeCD = () => {
+    this.ngZone.run(() => this.cdr.detectChanges());
+  };
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
 
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        this.observeSections();
-        window.addEventListener('resize', () => {
-          this.ngZone.run(() => {
-            this.cdr.detectChanges();
-          });
+        this.ctx2 = gsap.context(() => {
+          this.observeSections();
+
+          window.addEventListener('resize', this.onResizeCD);
+          window.addEventListener('resize', this.onResizeRefresh);
+
+          ScrollTrigger.refresh();
         });
       }, 150);
+
     });
   }
   private observeSections() {
@@ -91,8 +98,12 @@ export class SolutionsComponent {
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
+
     if (this.isBrowser) {
-      ScrollTrigger.getAll().forEach(t => t.kill());
+      window.removeEventListener('resize', this.onResizeCD);
+      window.removeEventListener('resize', this.onResizeRefresh);
     }
+
+    this.ctx2?.revert();
   }
 }

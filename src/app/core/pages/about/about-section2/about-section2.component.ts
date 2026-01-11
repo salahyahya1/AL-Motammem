@@ -73,7 +73,7 @@ export class AboutSection2Component {
           { opacity: 0, visibility: "visible" },
           {
             opacity: 1,
-            duration: 0.5,
+            duration: 0.2,
             ease: "sine.out",
             stagger: 0.03,
             onStart: () => { gsap.set(AboutSection2Title, { opacity: 1, visibility: "visible" }) },
@@ -84,7 +84,7 @@ export class AboutSection2Component {
           { opacity: 0, visibility: "visible" },
           {
             opacity: 1,
-            duration: 0.5,
+            duration: 0.2,
             ease: "sine.out",
             stagger: 0.03,
             onStart: () => { gsap.set(AboutSection2Subtitle, { opacity: 1, visibility: "visible" }) },
@@ -97,7 +97,7 @@ export class AboutSection2Component {
           { opacity: 0, y: yDistance, visibility: "visible" },
           {
             opacity: 1,
-            duration: 0.5,
+            duration: 0.2,
             y: 0,
             ease: "sine.out",
             stagger: 0.02,
@@ -115,8 +115,8 @@ export class AboutSection2Component {
           id: 'pinsection',
           animation: tl,
           onEnter: () => {
-            gsap.to(section, { backgroundColor: "transparent", duration: 0.5, ease: "sine.out" });
-            gsap.to(video, { opacity: "1", duration: 0.5, ease: "sine.out" });
+            gsap.to(section, { backgroundColor: "transparent", duration: 0.2, ease: "sine.out" });
+            gsap.to(video, { opacity: "1", duration: 0.2, ease: "sine.out" });
             if (!playedOnce) {
               playedOnce = true;
               video.currentTime = 0;

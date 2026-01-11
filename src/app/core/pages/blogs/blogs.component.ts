@@ -114,11 +114,29 @@ export class BlogsComponent {
     this.loadAllBlogs(this.page);
 
   }
+  private uiCtx?: gsap.Context;
+  private onResizeCD = () => {
+    this.ngZone.run(() => this.cdr.detectChanges());
+  };
+
+  private onResize = () => ScrollTrigger.refresh();
 
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
     this.viewReady = true;
-    this.tryInitUI();
+    // this.ctx5 = gsap.context(() => {
+    //   this.tryInitUI();
+    //   window.addEventListener('resize', this.onResize);
+    //   ScrollTrigger.refresh();
+    // });
+    this.ngZone.runOutsideAngular(() => {
+      this.tryInitUI();
+      window.addEventListener('resize', this.onResizeCD);
+      window.addEventListener('resize', this.onResize);
+      ScrollTrigger.refresh();
+
+
+    });
   }
 
   private tryInitUI(): void {
@@ -159,102 +177,106 @@ export class BlogsComponent {
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
         setTimeout(() => {
-          const BlogsTitle = document.querySelector('#title') as HTMLElement | null;
-          const BlogsSubtitle = document.querySelector('#Desc') as HTMLElement | null;
-          const Addbutton = document.querySelector('#Addbutton') as HTMLElement | null;
-          const showMore = document.querySelector('#showMore') as HTMLElement | null;
-          if (!BlogsTitle || !BlogsSubtitle) {
-            console.warn('⚠️ عناصر العنوان/الوصف مش موجودة لـ SplitText');
-            return;
-          }
+          this.uiCtx?.revert();
 
-          this.BlogsTitleSplit = new SplitText(BlogsTitle, { type: 'words' });
-          this.BlogsSubtitleSplit = new SplitText(BlogsSubtitle, { type: 'words' });
+          this.uiCtx = gsap.context(() => {
+            const BlogsTitle = document.querySelector('#title') as HTMLElement | null;
+            const BlogsSubtitle = document.querySelector('#Desc') as HTMLElement | null;
+            const Addbutton = document.querySelector('#Addbutton') as HTMLElement | null;
+            const showMore = document.querySelector('#showMore') as HTMLElement | null;
+            if (!BlogsTitle || !BlogsSubtitle) {
+              console.warn('⚠️ عناصر العنوان/الوصف مش موجودة لـ SplitText');
+              return;
+            }
 
-          const tl = gsap.timeline({
-            defaults: { ease: 'power3.out' },
-            scrollTrigger: { trigger: '#knowledge-center' }
-          });
+            this.BlogsTitleSplit = new SplitText(BlogsTitle, { type: 'words' });
+            this.BlogsSubtitleSplit = new SplitText(BlogsSubtitle, { type: 'words' });
 
-          tl.fromTo(
-            this.BlogsTitleSplit.words,
-            { opacity: 0, visibility: 'visible' },
-            {
-              opacity: 1,
-              duration: 0.4,
-              ease: 'sine.out',
-              stagger: 0.02,
-              onStart: () => {
-                gsap.set(BlogsTitle, { opacity: 1, visibility: 'visible' });
+            const tl = gsap.timeline({
+              defaults: { ease: 'power3.out' },
+              scrollTrigger: { trigger: '#knowledge-center' }
+            });
+
+            tl.fromTo(
+              this.BlogsTitleSplit.words,
+              { opacity: 0, visibility: 'visible' },
+              {
+                opacity: 1,
+                duration: 0.2,
+                ease: 'sine.out',
+                stagger: 0.02,
+                onStart: () => {
+                  gsap.set(BlogsTitle, { opacity: 1, visibility: 'visible' });
+                }
               }
-            }
-          );
+            );
 
-          tl.fromTo(
-            this.BlogsSubtitleSplit.words,
-            { opacity: 0, visibility: 'visible' },
-            {
-              opacity: 1,
-              duration: 0.4,
-              ease: 'sine.out',
-              stagger: 0.02,
-              onStart: () => {
-                gsap.set(BlogsSubtitle, { opacity: 1, visibility: 'visible' });
+            tl.fromTo(
+              this.BlogsSubtitleSplit.words,
+              { opacity: 0, visibility: 'visible' },
+              {
+                opacity: 1,
+                duration: 0.2,
+                ease: 'sine.out',
+                stagger: 0.02,
+                onStart: () => {
+                  gsap.set(BlogsSubtitle, { opacity: 1, visibility: 'visible' });
+                }
               }
-            }
-          );
-          tl.fromTo('#Addbutton', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.8 });
-          tl.fromTo('#btn1', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.8 });
-          tl.fromTo('#showMore', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.8 });
+            );
+            tl.fromTo('#Addbutton', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.2 });
+            tl.fromTo('#btn1', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.2 });
+            tl.fromTo('#showMore', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.2 });
 
-          tl.fromTo('#blogs-bottom', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.8 });
-
+            tl.fromTo('#blogs-bottom', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.2 });
 
 
-          Swiper.use([Navigation, Pagination]);
 
-          const canLoop = (this.articles?.length ?? 0) > 1;
+            Swiper.use([Navigation, Pagination]);
 
-          this.swiper2 = new Swiper(this._swiperEl2!.nativeElement, {
-            modules: [Navigation, Pagination],
-            direction: 'horizontal',
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: canLoop,
-            watchOverflow: true,
-            grabCursor: true,
-            navigation: {
-              nextEl: '#arrowRight3',
-              prevEl: '#arrowLeft3'
-            },
-            breakpoints: {
-              0: { slidesPerView: 1, spaceBetween: 19 },
-              768: { slidesPerView: 1, spaceBetween: 19 },
-              1024: { slidesPerView: 1 }
-            }
-          });
+            const canLoop = (this.articles?.length ?? 0) > 1;
 
-          gsap.from('.swiper-slide', {
-            scrollTrigger: {
-              trigger: '.erp-carousel',
-              start: 'top 85%'
-            },
-            opacity: 0,
-            y: 60,
-            duration: 0.7,
-            stagger: 0.2,
-            ease: 'power3.out'
-          });
+            this.swiper2 = new Swiper(this._swiperEl2!.nativeElement, {
+              modules: [Navigation, Pagination],
+              direction: 'horizontal',
+              slidesPerView: 1,
+              spaceBetween: 30,
+              loop: canLoop,
+              watchOverflow: true,
+              grabCursor: true,
+              navigation: {
+                nextEl: '#arrowRight3',
+                prevEl: '#arrowLeft3'
+              },
+              breakpoints: {
+                0: { slidesPerView: 1, spaceBetween: 19 },
+                768: { slidesPerView: 1, spaceBetween: 19 },
+                1024: { slidesPerView: 1 }
+              }
+            });
 
-          this.swiper2.on('slideChangeTransitionStart', () => {
-            const activeSlide = document.querySelector('.swiper-slide-active .card');
-            if (activeSlide) {
-              gsap.fromTo(
-                activeSlide,
-                { scale: 0.9, opacity: 0.7 },
-                { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }
-              );
-            }
+            gsap.from('.swiper-slide', {
+              scrollTrigger: {
+                trigger: '.erp-carousel',
+                start: 'top 85%'
+              },
+              opacity: 0,
+              y: 60,
+              duration: 0.2,
+              stagger: 0.2,
+              ease: 'power3.out'
+            });
+
+            this.swiper2.on('slideChangeTransitionStart', () => {
+              const activeSlide = document.querySelector('.swiper-slide-active .card');
+              if (activeSlide) {
+                gsap.fromTo(
+                  activeSlide,
+                  { scale: 0.9, opacity: 0.7 },
+                  { scale: 1, opacity: 1, duration: 0.2, ease: 'power2.out' }
+                );
+              }
+            });
           });
 
           // ✅ refresh once after init
@@ -343,10 +365,17 @@ export class BlogsComponent {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
 
+    // if (this.isBrowser) {
+    //   ScrollTrigger.getAll().forEach((t) => t.kill());
+    // }
+    this.uiCtx?.revert();
     if (this.isBrowser) {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    }
+      try {
+        window.removeEventListener('resize', this.onResizeCD);
+        window.removeEventListener('resize', this.onResize);
 
+      } catch { }
+    }
     if (this.swiper2) {
       this.swiper2.destroy(true, true);
       this.swiper2 = undefined;
@@ -356,6 +385,8 @@ export class BlogsComponent {
       clearTimeout(this.refreshTimer);
       this.refreshTimer = null;
     }
+
+    this.closeDeletePopover();
   }
   showMoreBlogs() {
     if (this.page >= this.totalPages) return;

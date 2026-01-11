@@ -33,7 +33,7 @@ export class ProductSection6Component {
     const video = document.querySelector('#videoElement2') as HTMLVideoElement | null;
     if (video) {
       gsap.set(video, { autoAlpha: 0 }); // autoAlpha = opacity + visibility
-      gsap.to(video, { autoAlpha: 1, duration: 1.2, ease: 'power2.out' });
+      gsap.to(video, { autoAlpha: 1, duration: 0.2, ease: 'power2.out' });
     } else {
       console.log("notloaded");
 
@@ -92,7 +92,7 @@ export class ProductSection6Component {
               { opacity: 0, visibility: "visible" },
               {
                 opacity: 1,
-                duration: 0.4,
+                duration: 0.2,
                 ease: "sine.out",
                 stagger: 0.02,
                 onStart: () => { gsap.set(productSection6Title1, { opacity: 1, visibility: "visible" }) },
@@ -102,7 +102,7 @@ export class ProductSection6Component {
               { opacity: 0, visibility: "visible" },
               {
                 opacity: 1,
-                duration: 0.4,
+                duration: 0.2,
                 ease: "sine.out",
                 stagger: 0.02,
                 onStart: () => { gsap.set(productSection6Title2, { opacity: 1, visibility: "visible" }) },
@@ -112,18 +112,18 @@ export class ProductSection6Component {
               { opacity: 0, visibility: "visible" },
               {
                 opacity: 1,
-                duration: 0.4,
+                duration: 0.2,
                 ease: "sine.out",
                 stagger: 0.02,
                 onStart: () => { gsap.set(productSection6Subtitle, { opacity: 1, visibility: "visible" }) },
               }
             );
-            tl.fromTo("#productSection6-icons", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
+            tl.fromTo("#productSection6-icons", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.2 });
             tl.fromTo(this.productSection6FooterSplit.words,
               { opacity: 0, visibility: "visible" },
               {
                 opacity: 1,
-                duration: 0.4,
+                duration: 0.2,
                 ease: "sine.out",
                 stagger: 0.02,
                 onStart: () => { gsap.set(productSection6Footer, { opacity: 1, visibility: "visible" }) },

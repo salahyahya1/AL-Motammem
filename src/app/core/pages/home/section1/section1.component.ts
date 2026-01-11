@@ -2027,7 +2027,7 @@ export class Section1Component implements AfterViewInit, OnDestroy {
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: Object,
     private readonly ngZone: NgZone,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -2060,16 +2060,16 @@ export class Section1Component implements AfterViewInit, OnDestroy {
   //   });
   // }
   ngAfterViewInit() {
-  if (!isPlatformBrowser(this.platformId)) return;
+    if (!isPlatformBrowser(this.platformId)) return;
 
-  // تأكيد 100% من الـ viewport نفسه
-  const isDesktopNow = window.matchMedia('(min-width: 700px)').matches;
-  if (!isDesktopNow) return;
+    // تأكيد 100% من الـ viewport نفسه
+    const isDesktopNow = window.matchMedia('(min-width: 700px)').matches;
+    if (!isDesktopNow) return;
 
-  this.ngZone.runOutsideAngular(() => {
-    requestAnimationFrame(() => setTimeout(() => this.loadDesktopHero(), 0));
-  });
-}
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => setTimeout(() => this.loadDesktopHero(), 0));
+    });
+  }
 
 
   private async loadDesktopHero() {

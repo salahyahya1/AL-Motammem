@@ -46,19 +46,27 @@ export class ProductsComponent {
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
+  private ctx4?: gsap.Context;
 
+  // ✅ handlers ثابتة (عشان نقدر نشيلها)
+  private onResizeRefresh = () => ScrollTrigger.refresh();
+  private onResizeCD = () => {
+    this.ngZone.run(() => this.cdr.detectChanges());
+  };
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
 
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        this.observeSections();
-        window.addEventListener('resize', () => {
-          this.ngZone.run(() => {
-            this.cdr.detectChanges();
-          });
+        this.ctx4 = gsap.context(() => {
+          this.observeSections();
+          window.addEventListener('resize', this.onResizeCD);
+          window.addEventListener('resize', this.onResizeRefresh);
+
+          ScrollTrigger.refresh();
         });
       }, 150);
+
     });
   }
   private observeSections() {
@@ -83,12 +91,13 @@ export class ProductsComponent {
       });
     });
   }
-
-  private updateNavbarColors(textColor: string) {
-    this.navTheme.setColor(textColor);
-  }
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
+    if (this.isBrowser) {
+      window.removeEventListener('resize', this.onResizeCD);
+      window.removeEventListener('resize', this.onResizeRefresh);
+    }
+    this.ctx4?.revert();
   }
 }

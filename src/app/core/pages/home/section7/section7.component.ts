@@ -311,7 +311,7 @@ export class Section7Component {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.4,
+                  duration: 0.2,
                   ease: 'sine.out',
                   stagger: 0.02,
                   onStart: () => {
@@ -325,7 +325,7 @@ export class Section7Component {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.4,
+                  duration: 0.2,
                   ease: 'sine.out',
                   stagger: 0.02,
                   onStart: () => {
@@ -343,19 +343,19 @@ export class Section7Component {
                 tlCards.fromTo(
                   '.card2',
                   { autoAlpha: 0 },
-                  { autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false },
+                  { autoAlpha: 1, duration: 0.5, ease: 'sine.out', immediateRender: false },
                   '>'
                 );
                 tlCards.fromTo(
                   '.card1',
                   { autoAlpha: 0 },
-                  { right: '9%', autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false },
+                  { right: '9%', autoAlpha: 1, duration: 0.5, ease: 'sine.out', immediateRender: false },
                   '<'
                 );
                 tlCards.fromTo(
                   '.card3',
                   { autoAlpha: 0 },
-                  { autoAlpha: 1, left: '9%', duration: 1.5, ease: 'sine.out', immediateRender: false },
+                  { autoAlpha: 1, left: '9%', duration: 0.5, ease: 'sine.out', immediateRender: false },
                   '<'
                 );
                 tl.add(tlCards, '>');
@@ -366,19 +366,19 @@ export class Section7Component {
                 tlCards.fromTo(
                   '.card2',
                   { autoAlpha: 0 },
-                  { autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false },
+                  { autoAlpha: 1, duration: 0.5, ease: 'sine.out', immediateRender: false },
                   '>'
                 );
                 tlCards.fromTo(
                   '.card1',
                   { autoAlpha: 0 },
-                  { right: '-4%', autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false },
+                  { right: '-4%', autoAlpha: 1, duration: 0.5, ease: 'sine.out', immediateRender: false },
                   '<'
                 );
                 tlCards.fromTo(
                   '.card3',
                   { autoAlpha: 0 },
-                  { autoAlpha: 1, left: '-4%', duration: 1.5, ease: 'sine.out', immediateRender: false },
+                  { autoAlpha: 1, left: '-4%', duration: 0.5, ease: 'sine.out', immediateRender: false },
                   '<'
                 );
                 tl.add(tlCards, '>');
@@ -389,19 +389,19 @@ export class Section7Component {
                 tlCards.fromTo(
                   '.card2',
                   { autoAlpha: 0 },
-                  { autoAlpha: 1, duration: 1.5, ease: 'sine.in', immediateRender: false },
+                  { autoAlpha: 1, duration: 0.5, ease: 'sine.in', immediateRender: false },
                   '>'
                 );
                 tlCards.fromTo(
                   '.card1',
                   { autoAlpha: 0 },
-                  { autoAlpha: 1, duration: 1.5, ease: 'sine.in', immediateRender: false },
+                  { autoAlpha: 1, duration: 0.5, ease: 'sine.in', immediateRender: false },
                   '<'
                 );
                 tlCards.fromTo(
                   '.card3',
                   { autoAlpha: 0 },
-                  { autoAlpha: 1, duration: 1.5, ease: 'sine.in', immediateRender: false },
+                  { autoAlpha: 1, duration: 0.5, ease: 'sine.in', immediateRender: false },
                   '<'
                 );
                 tl.add(tlCards, '>');
@@ -412,7 +412,7 @@ export class Section7Component {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.8,
+                  duration: 0.2,
                   ease: 'sine.out',
                   stagger: 0.15,
                   onStart: () => {

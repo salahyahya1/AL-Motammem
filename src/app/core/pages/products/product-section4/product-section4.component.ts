@@ -73,7 +73,7 @@ export class ProductSection4Component {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 0.4,
+          duration: 0.2,
           ease: "sine.out",
           stagger: 0.02,
           onStart: () => { gsap.set(productSection4Title, { opacity: 1, visibility: "visible" }) },
@@ -83,13 +83,13 @@ export class ProductSection4Component {
         { opacity: 0, visibility: "visible" },
         {
           opacity: 1,
-          duration: 0.4,
+          duration: 0.2,
           ease: "sine.out",
           stagger: 0.02,
           onStart: () => { gsap.set(productSection4Subtitle, { opacity: 1, visibility: "visible" }) },
         }
       );
-      tl.fromTo("#productSection4-icons", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
+      tl.fromTo("#productSection4-icons", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.2 });
     });
 
 

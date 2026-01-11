@@ -87,7 +87,7 @@ export class SolutionsSection4Component {
                                     strokeDashoffset: 0,
                                     opacity: 1,
                                     visibility: "visible",
-                                    duration: 1,
+                                    duration: 0.2,
                                     ease: "power2.inOut"
                                 });
                         }
@@ -106,7 +106,7 @@ export class SolutionsSection4Component {
                                     opacity: 1,
                                     y: 0,
                                     filter: "blur(0px)",
-                                    duration: 0.6,
+                                    duration: 0.2,
                                     stagger: 0.05
                                 }
                             );
@@ -123,7 +123,7 @@ export class SolutionsSection4Component {
                                     rotateY: 0,
                                     y: 0,
                                     filter: "blur(0px)",
-                                    duration: 0.4,
+                                    duration: 0.2,
                                     stagger: {
                                         each: 0.15,
                                         from: "start"
@@ -134,13 +134,13 @@ export class SolutionsSection4Component {
 
                         tl.to("#capsuleSolutionsWrap", {
                             scale: 0.85,
-                            duration: 0.6,
+                            duration: 0.2,
                             y: mobile ? 50 : 30, // Adjusted for mobile if needed
                             ease: "power2.inOut",
                             onStart: () => {
                                 gsap.to('#solutionsSection4', {
                                     backgroundColor: '#ffffff',
-                                    duration: 0.8,
+                                    duration: 0.2,
                                     ease: "power2.inOut"
                                 });
                             }
@@ -148,7 +148,7 @@ export class SolutionsSection4Component {
 
                         tl.to("#solutions-Section4-container", {
                             y: -30,
-                            duration: 0.7,
+                            duration: 0.2,
                             ease: "power2.inOut",
                         }, ">-0.4");
 
@@ -156,7 +156,7 @@ export class SolutionsSection4Component {
                             { opacity: 0, visibility: "visible" },
                             {
                                 opacity: 1,
-                                duration: 0.4,
+                                duration: 0.2,
                                 ease: "sine.out",
                                 stagger: 0.02,
                                 onStart: () => { gsap.set(solutionsSection4Details, { opacity: 1, visibility: "visible" }) },

@@ -193,7 +193,7 @@ export class Section6Component {
             {
               opacity: 1,
               y: 0,
-              duration: 0.4,
+              duration: 0.2,
               ease: 'sine.out',
               stagger: 0.02,
               onStart: () => { gsap.set(title, { opacity: 1, visibility: 'visible' }) },
@@ -206,7 +206,7 @@ export class Section6Component {
             {
               opacity: 1,
               y: 0,
-              duration: 0.4,
+              duration: 0.2,
               ease: 'sine.out',
               stagger: 0.02,
               onStart: () => { gsap.set(subtitle, { opacity: 1, visibility: 'visible' }) },
@@ -216,7 +216,7 @@ export class Section6Component {
           tl.fromTo(
             logos,
             { opacity: 0 },
-            { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '>'
+            { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, '>'
           );
 
           tl.fromTo(
@@ -225,7 +225,7 @@ export class Section6Component {
             {
               opacity: 1,
               y: 0,
-              duration: 0.4,
+              duration: 0.2,
               ease: 'sine.out',
               stagger: 0.02,
               onStart: () => { gsap.set(desc, { opacity: 1, visibility: 'visible' }) },

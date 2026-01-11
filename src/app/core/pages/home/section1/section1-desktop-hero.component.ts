@@ -193,7 +193,7 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
 
       tl.fromTo(this.heroTitleSplit.words, { opacity: 0 }, {
         opacity: 1,
-        duration: 0.4,
+        duration: 0.1,
         ease: 'sine.out',
         stagger: 0.02,
         onStart: () => gsap.set(heroTitle, { opacity: 1 }),
@@ -201,7 +201,7 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
 
       tl.fromTo(this.heroSubtitleSplit.words, { opacity: 0 }, {
         opacity: 1,
-        duration: 0.35,
+        duration: 0.1,
         ease: 'sine.out',
         stagger: 0.015,
         onStart: () => gsap.set(heroSubtitle, { opacity: 1 }),
@@ -209,15 +209,15 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
 
       tl.fromTo(this.heroDetailsSplit.words, { opacity: 0 }, {
         opacity: 1,
-        duration: 0.35,
+        duration: 0.1,
         ease: 'sine.out',
         stagger: 0.015,
         onStart: () => gsap.set(heroDetails, { opacity: 1 }),
       });
 
       // ✅ أزرار
-      tl.fromTo(button1, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'sine.inOut' });
-      tl.fromTo(button2, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'sine.inOut' });
+      tl.fromTo(button1, { opacity: 0 }, { opacity: 1, duration: 0.1, ease: 'sine.inOut' });
+      tl.fromTo(button2, { opacity: 0 }, { opacity: 1, duration: 0.1, ease: 'sine.inOut' });
 
       this.timeline = tl;
 

@@ -91,7 +91,7 @@ export class ProductSection5Component {
           { opacity: 0, visibility: "visible" },
           {
             opacity: 1,
-            duration: 0.4,
+            duration: 0.2,
             ease: "sine.out",
             stagger: 0.02,
             onStart: () => { gsap.set(productSection5Title1, { opacity: 1, visibility: "visible" }) },
@@ -101,7 +101,7 @@ export class ProductSection5Component {
           { opacity: 0, visibility: "visible" },
           {
             opacity: 1,
-            duration: 0.4,
+            duration: 0.2,
             ease: "sine.out",
             stagger: 0.02,
             onStart: () => { gsap.set(productSection5Title2, { opacity: 1, visibility: "visible" }) },
@@ -111,7 +111,7 @@ export class ProductSection5Component {
           { opacity: 0, visibility: "visible" },
           {
             opacity: 1,
-            duration: 0.4,
+            duration: 0.2,
             ease: "sine.out",
             stagger: 0.02,
             onStart: () => { gsap.set(productSection5Subtitle, { opacity: 1, visibility: "visible" }) },
@@ -123,14 +123,14 @@ export class ProductSection5Component {
         }, {
           opacity: 1,
           visibility: "visible",
-          duration: 0.8,
+          duration: 0.2,
           ease: "sine.out",
         });
         tl.fromTo(this.productSection5DetailsSplit.words,
           { opacity: 0, visibility: "visible" },
           {
             opacity: 1,
-            duration: 0.4,
+            duration: 0.2,
             ease: "sine.out",
             stagger: 0.02,
             onStart: () => { gsap.set(productSection5Details, { opacity: 1, visibility: "visible" }) },
@@ -142,7 +142,7 @@ export class ProductSection5Component {
           { opacity: 0, visibility: "visible" },
           {
             opacity: 1,
-            duration: 0.4,
+            duration: 0.2,
             ease: "sine.out",
             stagger: mobile ? 0.02 : 0.05,
             onStart: () => { gsap.set(productSection5List, { opacity: 1, visibility: "visible" }) },
@@ -152,7 +152,7 @@ export class ProductSection5Component {
           { opacity: 0, visibility: "visible" },
           {
             opacity: 1,
-            duration: 0.4,
+            duration: 0.2,
             ease: "sine.out",
             stagger: 0.02,
             onStart: () => { gsap.set(productSection5Footer, { opacity: 1, visibility: "visible" }) },

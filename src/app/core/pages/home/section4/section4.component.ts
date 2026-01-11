@@ -172,15 +172,15 @@ export class Section4Component {
               });
 
               // 👇 أنيميشن الديسكتوب (سيبه زي ما عندك)
-              tl.to("#Text1", { opacity: 1, y: 0, duration: 0.8 });
+              tl.to("#Text1", { opacity: 1, y: 0, duration: 0.2 });
               tl.to(".card", {
                 opacity: 1,
                 visibility: "visible",
                 x: 0,
-                duration: 0.8,
+                duration: 0.2,
                 stagger: 0.2,
               }, "-=1.5");
-              tl.to("#Text2", { opacity: 1, y: 0, duration: 0.8 });
+              tl.to("#Text2", { opacity: 1, y: 0, duration: 0.2 });
 
               return () => {
                 tl.scrollTrigger?.kill();
@@ -199,15 +199,15 @@ export class Section4Component {
               });
 
               // 👇 نفس أنيميشن السكشن
-              tl.to("#Text1", { opacity: 1, y: 0, duration: 0.8 });
+              tl.to("#Text1", { opacity: 1, y: 0, duration: 0.2 });
               tl.to(".card", {
                 opacity: 1,
                 visibility: "visible",
                 x: 0,
-                duration: 0.8,
+                duration: 0.2,
                 stagger: 0.2,
               }, "-=1.5");
-              tl.to("#Text2", { opacity: 1, y: 0, duration: 0.8 });
+              tl.to("#Text2", { opacity: 1, y: 0, duration: 0.2 });
 
               // 2) Trigger بدري (بدون pin) عشان لو اليوزر سكرول سريع
               const earlyST = ScrollTrigger.create({

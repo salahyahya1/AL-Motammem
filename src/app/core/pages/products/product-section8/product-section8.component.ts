@@ -83,7 +83,7 @@ export class ProductSection8Component {
               { opacity: 0, visibility: 'visible' },
               {
                 opacity: 1,
-                duration: 0.4,
+                duration: 0.2,
                 ease: 'sine.out',
                 stagger: 0.02,
                 onStart: () => { gsap.set(productSection8Title, { opacity: 1, visibility: "visible" }) },
@@ -95,7 +95,7 @@ export class ProductSection8Component {
               { opacity: 0, visibility: "visible" },
               {
                 opacity: 1,
-                duration: 0.4,
+                duration: 0.2,
                 ease: "sine.out",
                 stagger: mobile ? 0.02 : 0.05,
                 onStart: () => { gsap.set("#productSection8-list li", { opacity: 1, visibility: "visible" }) },
@@ -105,15 +105,15 @@ export class ProductSection8Component {
               { opacity: 0, visibility: "visible" },
               {
                 opacity: 1,
-                duration: 0.4,
+                duration: 0.2,
                 ease: "sine.out",
                 stagger: 0.02,
                 onStart: () => { gsap.set(productSection8Footer, { opacity: 1, visibility: "visible" }) },
               }
             );
 
-            tl.to(section, { backgroundColor: "transparent", duration: 0.3, ease: "sine.out" });
-            tl.to(img, { opacity: "1", duration: 0.3, ease: "sine.out" });
+            tl.to(section, { backgroundColor: "transparent", duration: 0.2, ease: "sine.out" });
+            tl.to(img, { opacity: "1", duration: 0.2, ease: "sine.out" });
 
             this.timeline = tl;
 

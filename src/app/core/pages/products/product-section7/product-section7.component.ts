@@ -239,7 +239,7 @@ export class ProductSection7Component {
                 strokeDashoffset: 0,
                 opacity: 1,
                 visibility: "visible",
-                duration: 1,
+                duration: 0.2,
                 ease: "power2.inOut"
               }
             );
@@ -257,7 +257,7 @@ export class ProductSection7Component {
                   opacity: 1,
                   y: 0,
                   filter: "blur(0px)",
-                  duration: 0.6,
+                  duration: 0.2,
                   stagger: 0.1
                 }
               );
@@ -275,7 +275,7 @@ export class ProductSection7Component {
                   rotateY: 0,
                   y: 0,
                   filter: "blur(0px)",
-                  duration: 0.4,
+                  duration: 0.2,
                   stagger: {
                     each: 0.15,
                     from: "start"
@@ -288,7 +288,7 @@ export class ProductSection7Component {
               capsuleSelector,
               {
                 scale: endScale,
-                duration: 0.6,
+                duration: 0.2,
                 ease: "power2.inOut",
                 onStart: () => {
                   gsap.to('#productsSection7', {
@@ -305,7 +305,7 @@ export class ProductSection7Component {
               capsuleSelector,
               {
                 y: mobile ? -40 : -60,
-                duration: 0.7,
+                duration: 0.2,
                 ease: "power2.inOut",
               },
               ">-0.4"

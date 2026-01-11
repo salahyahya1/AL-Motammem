@@ -70,7 +70,7 @@ export class AboutSection5Component {
           { opacity: 0, visibility: "visible" },
           {
             opacity: 1,
-            duration: 0.4,
+            duration: 0.2,
             ease: "sine.out",
             stagger: 0.02,
             onStart: () => { gsap.set(heroTitle, { opacity: 1, visibility: "visible" }) },
@@ -81,7 +81,7 @@ export class AboutSection5Component {
           { opacity: 0, visibility: "visible" },
           {
             opacity: 1,
-            duration: 0.5,
+            duration: 0.2,
             ease: "sine.inOut",
             onStart: () => { gsap.set(button2, { opacity: 1, visibility: "visible" }) },
           }
@@ -91,7 +91,7 @@ export class AboutSection5Component {
           { opacity: 0, visibility: "visible" },
           {
             opacity: 1,
-            duration: 0.5,
+            duration: 0.2,
             ease: "sine.inOut",
             onStart: () => { gsap.set(button3, { opacity: 1, visibility: "visible" }) },
           }
@@ -107,10 +107,10 @@ export class AboutSection5Component {
           id: 'pinsection',
           animation: tl,
           onEnter: () => {
-            gsap.to(section, { backgroundColor: "transparent", duration: 0.5, ease: "sine.out" });
-            gsap.to(video, { opacity: "1", duration: 0.5, ease: "sine.out" });
+            gsap.to(section, { backgroundColor: "transparent", duration: 0.2, ease: "sine.out" });
+            gsap.to(video, { opacity: "1", duration: 0.2, ease: "sine.out" });
             video?.play();
-            gsap.to(image, { opacity: "1", duration: 0.5, ease: "sine.out" });
+            gsap.to(image, { opacity: "1", duration: 0.2, ease: "sine.out" });
           },
           onLeave: () => { if (mobile) tl.progress(1); },
           onLeaveBack: () => { if (mobile) tl.progress(0); },

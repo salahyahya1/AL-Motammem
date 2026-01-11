@@ -134,14 +134,14 @@ export class SolutionsSection5Component {
                                 { opacity: 0, visibility: "visible" },
                                 {
                                     opacity: 1,
-                                    duration: 0.4,
+                                    duration: 0.2,
                                     ease: "sine.out",
                                     stagger: 0.02,
                                     onStart: () => { gsap.set(section5Top, { opacity: 1, visibility: "visible" }) },
                                 }
                             );
 
-                            tl.fromTo("#section5-bottom", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
+                            tl.fromTo("#section5-bottom", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.2 });
 
                             return () => {
                                 if (this.section5TopSplit) this.section5TopSplit.revert();

@@ -47,17 +47,22 @@ export class AboutComponent {
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
-
+  private ctx3?: gsap.Context;
+  private onResizeRefresh = () => ScrollTrigger.refresh();
+  private onResizeCD = () => {
+    this.ngZone.run(() => this.cdr.detectChanges());
+  };
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
 
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        this.observeSections();
-        window.addEventListener('resize', () => {
-          this.ngZone.run(() => {
-            this.cdr.detectChanges();
-          });
+        this.ctx3 = gsap.context(() => {
+          this.observeSections();
+          window.addEventListener('resize', this.onResizeCD);
+          window.addEventListener('resize', this.onResizeRefresh);
+
+          ScrollTrigger.refresh();
         });
       }, 150);
     });
@@ -93,5 +98,11 @@ export class AboutComponent {
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
+    this.ctx3?.revert();
+
+    if (this.isBrowser) {
+      window.removeEventListener('resize', this.onResizeCD);
+      window.removeEventListener('resize', this.onResizeRefresh);
+    }
   }
 }

@@ -17,7 +17,7 @@ export class SolutionsSection1Component {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
-        private RemiveRoleAriaService: RemiveRoleAriaService,
+    private RemiveRoleAriaService: RemiveRoleAriaService,
   ) { }
   timeline!: gsap.core.Timeline
   Section1_title_split: any;
@@ -51,7 +51,7 @@ export class SolutionsSection1Component {
       requestAnimationFrame(() => {
         // Split بعد ما المتصفح رسم السطور فعليًا
         const split = SplitText.create('#solutions-Section1-title', { type: "lines", autoSplit: true })
-this.RemiveRoleAriaService.cleanA11y(titleEl, split);
+        this.RemiveRoleAriaService.cleanA11y(titleEl, split);
 
         gsap.set(titleEl, { opacity: 1, visibility: "visible" });
         gsap.set(videoEl, { opacity: 1, visibility: "visible" });
@@ -59,7 +59,7 @@ this.RemiveRoleAriaService.cleanA11y(titleEl, split);
         const tl = gsap.timeline();
 
         tl.from(split.lines, {
-          duration: 1,
+          duration: 0.2,
           yPercent: 100,
           opacity: 0,
           ease: "expo.out",
@@ -69,7 +69,7 @@ this.RemiveRoleAriaService.cleanA11y(titleEl, split);
         tl.from(videoEl, {
           opacity: 0,
           y: -100,
-          duration: 0.7,
+          duration: 0.2,
           ease: "sine.out",
         }, "<");
 

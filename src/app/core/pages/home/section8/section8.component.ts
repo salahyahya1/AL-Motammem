@@ -271,7 +271,7 @@ export class Section8Component {
       { autoAlpha: 0 },
       {
         autoAlpha: 1,
-        duration: 0.4,
+        duration: 0.2,
         ease: "sine.out",
         stagger: 0.02,
         onStart: () => { gsap.set(section8Title, { autoAlpha: 1 }) },
@@ -283,7 +283,7 @@ export class Section8Component {
       { autoAlpha: 0 },
       {
         autoAlpha: 1,
-        duration: 0.4,
+        duration: 0.2,
         ease: "sine.out",
         stagger: 0.02,
         onStart: () => { gsap.set(section8Details, { autoAlpha: 1 }) },
@@ -294,21 +294,21 @@ export class Section8Component {
     tl.fromTo(
       screens,
       { autoAlpha: 0 },
-      { autoAlpha: 1, duration: 0.6, ease: "sine.inOut" },
+      { autoAlpha: 1, duration: 0.2, ease: "sine.inOut" },
       '>-0.1'
     );
 
     tl.fromTo(
       section8button1,
       { autoAlpha: 0 },
-      { autoAlpha: 1, duration: 0.45, ease: "sine.inOut" },
+      { autoAlpha: 1, duration: 0.2, ease: "sine.inOut" },
       '>-0.1'
     );
 
     tl.fromTo(
       section8button2,
       { autoAlpha: 0 },
-      { autoAlpha: 1, duration: 0.45, ease: "sine.inOut" },
+      { autoAlpha: 1, duration: 0.2, ease: "sine.inOut" },
       '<'
     );
 

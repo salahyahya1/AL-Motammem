@@ -216,7 +216,7 @@ export class Section2Component implements AfterViewInit {
               if (c) c.textContent = '0';
             });
 
-            const animateCounter = (el: HTMLElement, to: number, duration = 1.4, decimals = 0) => {
+            const animateCounter = (el: HTMLElement, to: number, duration = 0.4, decimals = 0) => {
               const obj = { val: 0 };
               gsap.to(obj, {
                 val: to,
@@ -349,9 +349,9 @@ export class Section2Component implements AfterViewInit {
                 if (labelWords) {
                   rowTL.to(labelWords, {
                     opacity: 1,
-                    duration: 0.6,
+                    duration: 0.2,
                     ease: 'sine.out',
-                    stagger: { each: 0.4, from: 'start' },
+                    stagger: { each: 0.2, from: 'start' },
                   });
                 }
 
@@ -360,29 +360,29 @@ export class Section2Component implements AfterViewInit {
                     numEl,
                     {
                       opacity: 1,
-                      duration: 0.8,
+                      duration: 0.4,
                       ease: 'power2.out',
                       onStart: () => {
                         const target = Number(counterEl.getAttribute('data-target') ?? 0);
                         const decimals = target % 1 !== 0 ? 1 : 0;
-                        animateCounter(counterEl, target, 1.5, decimals);
+                        animateCounter(counterEl, target, 0.5, decimals);
                       },
                     },
                     0
                   );
                 }
 
-                tl.add(rowTL, i === 0 ? '>' : '-=0.8');
+                tl.add(rowTL, i === 0 ? '>' : '-=0.2');
               });
 
               if (cta) {
                 gsap.set(cta, { opacity: 0, y: 20 });
-                tl.to(cta, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.15');
+                tl.to(cta, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, '-=0.15');
               }
 
               if (subtitle) {
                 gsap.set(subtitle, { opacity: 0, y: 10 });
-                tl.to(subtitle, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '<');
+                tl.to(subtitle, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, '<');
               }
             });
 

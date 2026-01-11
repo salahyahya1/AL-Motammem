@@ -109,7 +109,7 @@ export class SolutionsSection2Component {
               gsap.fromTo(
                 activeSlide,
                 { scale: 0.9, opacity: 0.7 },
-                { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }
+                { scale: 1, opacity: 1, duration: 0.2, ease: 'power2.out' }
               );
             }
           });
@@ -173,7 +173,7 @@ export class SolutionsSection2Component {
                   opacity: 1,
                   y: 0,
                   filter: "blur(0px)",
-                  duration: 0.4,
+                  duration: 0.2,
                   stagger: 0.1
                 }
               );
@@ -190,7 +190,7 @@ export class SolutionsSection2Component {
                   rotateY: 0,
                   y: 0,
                   filter: "blur(0px)",
-                  duration: 0.7,
+                  duration: 0.2,
                   stagger: {
                     each: 0.25,
                     from: "start"
@@ -201,7 +201,7 @@ export class SolutionsSection2Component {
 
             tl.to("#capsule3", {
               y: mobile ? 20 : -60, // Reduced/Adjusted movement on mobile
-              duration: 1,
+              duration: 0.2,
               ease: "power2.inOut",
             }, ">-0.4");
 
@@ -222,7 +222,7 @@ export class SolutionsSection2Component {
               },
               opacity: 0,
               y: mobile ? 40 : 60,
-              duration: 0.6,
+              duration: 0.2,
               stagger: 0.2,
               ease: 'power3.out',
             });

@@ -129,6 +129,7 @@ import { Section3Component } from './section3/section3.component';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
 import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
+// import { ScrollSnapService } from '../../shared/services/scroll-snap.service';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -164,7 +165,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private navTheme: NavbarThemeService,
-    private sectionsRegistry: SectionsRegistryService
+    private sectionsRegistry: SectionsRegistryService,
+    // private snap: ScrollSnapService,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -172,6 +174,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     if (!this.isBrowser) return;
     this.isMobile = window.matchMedia('(max-width: 767px)').matches;
   }
+  private ctx?: gsap.Context;
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
 
@@ -186,25 +189,39 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        const sections: SectionItem[] = [
-          { id: 'section1-home', labelKey: 'HOME.INDECATORS.ABOUT', wholeSectionId: 'section1-home' },
-          { id: 'section2-home', labelKey: 'HOME.INDECATORS.FACTS', wholeSectionId: 'section2-home' },
-          { id: 'section3-home', labelKey: 'HOME.INDECATORS.WHY', wholeSectionId: 'section3-home' },
-          { id: 'section4-home', labelKey: 'HOME.INDECATORS.APPS', wholeSectionId: 'section4-home' },
-          { id: 'section5-home', labelKey: 'HOME.INDECATORS.TESTIMONIALS', wholeSectionId: 'section5-home' },
-          { id: 'section6-home', labelKey: 'HOME.INDECATORS.INTEGRATIONS', wholeSectionId: 'section6-home' },
-          { id: 'section7-home', labelKey: 'HOME.INDECATORS.PLANS', wholeSectionId: 'section7-home' },
-          { id: 'section8-home', labelKey: 'HOME.INDECATORS.CONTACT', wholeSectionId: 'section8-home' },
-        ];
+        this.ctx = gsap.context(() => {
+          const sections: SectionItem[] = [
+            { id: 'section1-home', labelKey: 'HOME.INDECATORS.ABOUT', wholeSectionId: 'section1-home' },
+            { id: 'section2-home', labelKey: 'HOME.INDECATORS.FACTS', wholeSectionId: 'section2-home' },
+            { id: 'section3-home', labelKey: 'HOME.INDECATORS.WHY', wholeSectionId: 'section3-home' },
+            { id: 'section4-home', labelKey: 'HOME.INDECATORS.APPS', wholeSectionId: 'section4-home' },
+            { id: 'section5-home', labelKey: 'HOME.INDECATORS.TESTIMONIALS', wholeSectionId: 'section5-home' },
+            { id: 'section6-home', labelKey: 'HOME.INDECATORS.INTEGRATIONS', wholeSectionId: 'section6-home' },
+            { id: 'section7-home', labelKey: 'HOME.INDECATORS.PLANS', wholeSectionId: 'section7-home' },
+            { id: 'section8-home', labelKey: 'HOME.INDECATORS.CONTACT', wholeSectionId: 'section8-home' },
+          ];
 
-        this.sectionsRegistry.set(sections);
-        this.sectionsRegistry.enable();
+          this.sectionsRegistry.set(sections);
+          this.sectionsRegistry.enable();
 
-        this.observeSections();
+          this.observeSections();
 
-        window.addEventListener('resize', this.onResize);
+          window.addEventListener('resize', this.onResize);
+        });
       }, 150);
+      // ScrollTrigger.refresh();
+
     });
+    // this.ngZone.runOutsideAngular(() => {
+    //   setTimeout(() => {
+    //     this.snap.init({
+    //       panelSelector: '.panel',
+    //       navOffsetPx: 0,          // لو عندك navbar ثابتة حطي ارتفاعها
+    //       enableOnMobile: false,   // عشان الموبايل مايبقاش مزعج
+    //       // سيبيه فاضي: السرفس هيكتشف ScrollSmoother لو موجود
+    //     });
+    //   }, 150);
+    // });
   }
 
   // ✅ Desktop only
@@ -308,13 +325,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
-
+    // this.snap.destroy();
     if (this.isBrowser) {
       try {
         window.removeEventListener('resize', this.onResize);
       } catch { }
 
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      // ScrollTrigger.getAll().forEach((t) => t.kill());
+      this.ctx?.revert();
     }
   }
 }

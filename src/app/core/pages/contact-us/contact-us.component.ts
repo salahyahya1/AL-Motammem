@@ -38,17 +38,24 @@ export class ContactUsComponent {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
+  private ctx6?: gsap.Context;
+  private onResize = () => ScrollTrigger.refresh();
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
 
+
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        this.navTheme.setColor('var(--white)');
-        window.addEventListener('resize', () => {
-          this.ngZone.run(() => {
-            this.cdr.detectChanges();
+        this.ctx6 = gsap.context(() => {
+          this.navTheme.setColor('var(--white)');
+          window.addEventListener('resize', () => {
+            this.ngZone.run(() => {
+              this.cdr.detectChanges();
+            });
           });
         });
+        window.addEventListener('resize', this.onResize);
+        ScrollTrigger.refresh();
       }, 150);
     });
   }
@@ -57,8 +64,10 @@ export class ContactUsComponent {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
 
-    if (this.isBrowser) {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    }
+    // if (this.isBrowser) {
+    //   ScrollTrigger.getAll().forEach(t => t.kill());
+    // }
+    this.ctx6?.revert();
+    window.removeEventListener('resize', this.onResize);
   }
 }

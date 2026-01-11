@@ -38,7 +38,7 @@ export class ProductSection1Component implements AfterViewInit {
     const video = document.querySelector('#videoElement') as HTMLVideoElement | null;
     if (video) {
       gsap.set(video, { autoAlpha: 0 }); // autoAlpha = opacity + visibility
-      gsap.to(video, { autoAlpha: 1, duration: 1.2, ease: 'power2.out' });
+      gsap.to(video, { autoAlpha: 1, duration: 0.2, ease: 'power2.out' });
     }
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
@@ -91,7 +91,7 @@ export class ProductSection1Component implements AfterViewInit {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.4,
+                  duration: 0.2,
                   stagger: 0.02,
                   onStart: () => { gsap.set(sectionHead, { opacity: 1, visibility: 'visible' }) },
                 }
@@ -102,7 +102,7 @@ export class ProductSection1Component implements AfterViewInit {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.4,
+                  duration: 0.2,
                   stagger: 0.02,
                   onStart: () => { gsap.set(sectionSub, { opacity: 1, visibility: 'visible' }) },
                 },
@@ -118,18 +118,18 @@ export class ProductSection1Component implements AfterViewInit {
                   .fromTo(
                     '.card2',
                     { autoAlpha: 0, y: 30 },
-                    { autoAlpha: 1, y: 0, duration: 0.8, ease: 'sine.out' }
+                    { autoAlpha: 1, y: 0, duration: 0.2, ease: 'sine.out' }
                   )
                   .fromTo(
                     '.card1',
                     { autoAlpha: 0, y: 30 },
-                    { autoAlpha: 1, y: 0, duration: 0.8, ease: 'sine.out' },
+                    { autoAlpha: 1, y: 0, duration: 0.2, ease: 'sine.out' },
                     '<'
                   )
                   .fromTo(
                     '.card3',
                     { autoAlpha: 0, y: 30 },
-                    { autoAlpha: 1, y: 0, duration: 0.8, ease: 'sine.out' },
+                    { autoAlpha: 1, y: 0, duration: 0.2, ease: 'sine.out' },
                     '<'
                   );
               } else {
@@ -138,18 +138,18 @@ export class ProductSection1Component implements AfterViewInit {
                   .fromTo(
                     '.card2',
                     { autoAlpha: 0 },
-                    { autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false }
+                    { autoAlpha: 1, duration: 0.5, ease: 'sine.out', immediateRender: false }
                   )
                   .fromTo(
                     '.card1',
                     { autoAlpha: 0 },
-                    { right: '0%', autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false },
+                    { right: '0%', autoAlpha: 1, duration: 0.5, ease: 'sine.out', immediateRender: false },
                     '<'
                   )
                   .fromTo(
                     '.card3',
                     { autoAlpha: 0 },
-                    { left: '0%', autoAlpha: 1, duration: 1.5, ease: 'sine.out', immediateRender: false },
+                    { left: '0%', autoAlpha: 1, duration: 0.5, ease: 'sine.out', immediateRender: false },
                     '<'
                   );
               }
@@ -160,7 +160,7 @@ export class ProductSection1Component implements AfterViewInit {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.8,
+                  duration: 0.2,
                   stagger: 0.15,
                   onStart: () => { gsap.set(sectionbottom, { opacity: 1, visibility: 'visible' }) },
                 },

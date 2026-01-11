@@ -86,7 +86,7 @@ export class ProductSection2Component {
               { opacity: 0, visibility: "visible" },
               {
                 opacity: 1,
-                duration: 0.4,
+                duration: 0.2,
                 ease: "sine.out",
                 stagger: 0.02,
                 onStart: () => { gsap.set(customizationTitle1, { opacity: 1, visibility: "visible" }) },
@@ -96,7 +96,7 @@ export class ProductSection2Component {
               { opacity: 0, visibility: "visible" },
               {
                 opacity: 1,
-                duration: 0.4,
+                duration: 0.2,
                 ease: "sine.out",
                 stagger: 0.02,
                 onStart: () => { gsap.set(customizationTitle2, { opacity: 1, visibility: "visible" }) },
@@ -106,7 +106,7 @@ export class ProductSection2Component {
               { opacity: 0, visibility: "visible" },
               {
                 opacity: 1,
-                duration: 0.4,
+                duration: 0.2,
                 ease: "sine.out",
                 stagger: 0.02,
                 onStart: () => { gsap.set(CustomizationSubTitle, { opacity: 1, visibility: "visible" }) },
@@ -116,14 +116,14 @@ export class ProductSection2Component {
               { opacity: 0, visibility: "visible" },
               {
                 opacity: 1,
-                duration: 0.4,
+                duration: 0.2,
                 ease: "sine.out",
                 stagger: 0.02,
                 onStart: () => { gsap.set(CustomizationDesc, { opacity: 1, visibility: "visible" }) },
               }
             );
-            tl.fromTo("#Customization-icons", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
-            tl.fromTo("#customization-bottom", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.8 });
+            tl.fromTo("#Customization-icons", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.2 });
+            tl.fromTo("#customization-bottom", { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.2 });
 
             return () => {
               if (this.CustomizationTitle1Split) this.CustomizationTitle1Split.revert();
