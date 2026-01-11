@@ -48,11 +48,11 @@ export class ContactUsComponent {
       setTimeout(() => {
         this.ctx6 = gsap.context(() => {
           this.navTheme.setColor('var(--white)');
-          window.addEventListener('resize', () => {
-            this.ngZone.run(() => {
-              this.cdr.detectChanges();
-            });
-          });
+          // window.addEventListener('resize', () => {
+          //   this.ngZone.run(() => {
+          //     this.cdr.detectChanges();
+          //   });
+          // });
         });
         window.addEventListener('resize', this.onResize);
         ScrollTrigger.refresh();
@@ -68,6 +68,8 @@ export class ContactUsComponent {
     //   ScrollTrigger.getAll().forEach(t => t.kill());
     // }
     this.ctx6?.revert();
-    window.removeEventListener('resize', this.onResize);
+    if (this.isBrowser) {
+      window.removeEventListener('resize', this.onResize);
+    }
   }
 }
