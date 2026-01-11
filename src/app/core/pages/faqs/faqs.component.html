@@ -19,11 +19,75 @@
         </div>
     </div>
     <div class="flex flex-col gap-[0.7rem] w-[90%] md:w-[50%] mx-auto pt-10 md:pt-30">
-        @for (FAQ of FAQS; track $index) {
-        <app-accordion [title]="FAQ.title | translate" [startOpen]="FAQ.startOpen">
-            {{FAQ.answer | translate}}
+        <form [formGroup]="faqForm" class="mt-8" (ngSubmit)="onSubmit()">
+            <div formArrayName="faqs" class="space-y-6">
+                <div *ngFor="let faq of faqs.controls; let i=index" [formGroupName]="i"
+                    class="relative rounded-lg border border-gray-100 bg-gray-50 p-4 pt-8">
+
+                    <button (click)="removeFaq(i)"
+                        class="absolute left-4 top-4 text-red-500 text-xs hover:font-bold">حذف</button>
+
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="mb-1 block text-xs text-gray-900">السؤال (بالعربي)</label>
+                            <input type="text" formControlName="question"
+                                class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="mb-1 block text-xs text-gray-900 text-left" dir="ltr">Question
+                                (English)</label>
+                            <input type="text" dir="ltr" formControlName="englishQuestion"
+                                class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="mb-1 block text-xs text-gray-900">الإجابة (بالعربي)</label>
+                            <textarea formControlName="answer" rows="2"
+                                class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500"></textarea>
+                        </div>
+                        <div>
+                            <label class="mb-1 block text-xs text-gray-900 text-left" dir="ltr">Answer (English)</label>
+                            <textarea dir="ltr" formControlName="englishAnswer" rows="2"
+                                class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" (click)="addFaq()"
+                    class="mt-4 w-full rounded-lg bg-[var(--primary)] px-5 py-2.5 text-center text-sm font-medium text-white hover:opacity-90">
+                    إضافة سؤال جديد
+                </button>
+                <button type="submit"
+                    class="mt-4 w-full rounded-lg bg-[var(--primary)] px-5 py-2.5 text-center text-sm font-medium text-white hover:opacity-90">
+                    إضافة
+                </button>
+            </div>
+        </form>
+        <!-- @for (FAQ of FAQS; track $index) {
+        <app-accordion [title]="FAQ.question" [isDeleteable]="true" (deletefaq)="onDeleteFaq($event)">
+            {{FAQ.answer}}
         </app-accordion>
-        }
+        } -->
+        <!-- Skeleton state -->
+        <div *ngIf="loadingFaqs" class="flex flex-col gap-4">
+            <div *ngFor="let _ of [1,2,3,4,5]" class="acc-skel">
+                <!-- left chevron placeholder -->
+                <span class="skel skel-icon"></span>
+
+                <!-- right title placeholder -->
+                <span class="skel skel-title"></span>
+            </div>
+        </div>
+
+        <!-- Real content -->
+        <div *ngIf="!loadingFaqs" class="flex flex-col gap-[0.7rem]">
+            @for (FAQ of FAQS; track FAQ.id) {
+            <app-accordion [title]="FAQ.question" [isDeleteable]="true" (deletefaq)="onDeleteFaq(FAQ.id)">
+                {{ FAQ.answer }}
+            </app-accordion>
+            }
+        </div>
 
     </div>
 

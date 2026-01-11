@@ -6,12 +6,12 @@ import InertiaPlugin from "gsap/InertiaPlugin";
 
 import SplitText from "gsap/SplitText";
 import { OverlayModule } from "@angular/cdk/overlay";
-
+import { TranslatePipe } from '@ngx-translate/core';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, InertiaPlugin);
 @Component({
   selector: 'app-product-section6',
-  imports: [OverlayModule],
+  imports: [OverlayModule, TranslatePipe],
   templateUrl: './product-section6.component.html',
   styleUrl: './product-section6.component.scss'
 })

@@ -1,16 +1,17 @@
 <div id="AboutSection4" #AboutSection4
     class="h-screen w-full bg-white relative flex flex-col justify-center items-center relative">
     <div id="capsuleAboutWrap" class="capsule-wrap">
-        <svg id="capsule-about" class="md:w-[142px] w-[100px] h-[55px] " width="142" height="55" viewBox="0 0 157 56"
-            fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg id="capsule-about" class="md:w-[142px] w-[100px] h-[55px] ltr:md:w-[200px] ltr:w-[100px] ltr:h-[75px] "
+            width="142" height="55" viewBox="0 0 157 56" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect class="capsule-aboutRect" x="2.5" y="0.5" width="142" height="55" rx="27.5" stroke="var(--light-gray)"
                 stroke-width="3" fill="transparent" />
         </svg>
 
         <div class="capsule-text-about">
             <div class="text-center" xmlns="http://www.w3.org/1999/xhtml">
-                <P id="AboutSection4-TITLE" class="text-[var(--primary)] text-[2rem] lg:text-[2rem] xl:text-[2rem]">
-                    قيمنا
+                <P id="AboutSection4-TITLE"
+                    class="text-[var(--primary)] text-[2rem] lg:text-[2rem] xl:text-[2rem] ltr:text-[1.6rem] ltr:lg:text-[1.6rem] ltr:xl:text-[1.6rem] text-nowrap ltr:mr-2.5">
+                    {{ 'ABOUT.SECTION4.TITLE' | translate }}
                 </P>
             </div>
         </div>
@@ -33,13 +34,13 @@
             </button>
         </div>
 
-        <div #swiperEl class="swiper" dir="rtl">
+        <div #swiperEl class="swiper" [dir]="isRtl ? 'rtl' : 'ltr'">
             <div class="swiper-wrapper ps-[1.18rem]">
                 <div class="swiper-slide" *ngFor="let f of features">
                     <div class="card">
-                        <div class="text-content">
-                            <h3>{{ f.title }}</h3>
-                            <p>{{ f.text }}</p>
+                        <div class="text-content text-start">
+                            <h3>{{ f.title | translate }}</h3>
+                            <p>{{ f.text | translate }}</p>
                         </div>
                     </div>
                     <P class="separator"></P>

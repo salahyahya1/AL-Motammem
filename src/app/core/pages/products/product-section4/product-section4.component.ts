@@ -5,12 +5,12 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import InertiaPlugin from "gsap/InertiaPlugin";
 
 import SplitText from "gsap/SplitText";
-
+import { TranslatePipe } from '@ngx-translate/core';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, InertiaPlugin);
 @Component({
   selector: 'app-product-section4',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './product-section4.component.html',
   styleUrl: './product-section4.component.scss'
 })

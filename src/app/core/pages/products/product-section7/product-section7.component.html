@@ -4,15 +4,16 @@
     <div class="absolute top-0 left-0 -z-1 " id="productSection5-img-top">
         <img src="./images/Rectangle.svg" alt="" srcset="">
     </div>
-    <div class="capsule-products7-wrap">
+    <div class="capsule-products7-wrap w-[min(260px,90vw)] md:w-[min(340px,90vw)] lg:w-[min(400px,90vw)] ">
         <svg id="capsule7" viewBox="0 0 362 92" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true">
             <rect class="capsule-path7" x="1" y="1" width="360" height="90" rx="45" stroke="var(--dark-gray)"
                 stroke-width="3" fill="transparent" />
         </svg>
 
-        <p id="productsSection7-TITLE" class="capsule-products7-title">
-            ما يميز خطط المتمم:
+        <p id="productsSection7-TITLE"
+            class="capsule-products7-title text-[1.55rem] rtl:md:text-[1.8rem] rtl:lg:text-[2.25rem] ltr:md:text-[1.35rem] ltr:lg:text-[1.75rem]">
+            {{ 'PRODUCTS.SECTION7.MAINTITLE' | translate }}
         </p>
     </div>
 
@@ -20,24 +21,25 @@
 
         <div
             class="flex justify-center items-center flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:gap-10 text-start  mx-auto">
-            <p class="lg:text-[1.1rem] mb-3 text-[var(--primary)] font-bold"> 1- التخصيص الفعلي (Customization)</p>
-            <p class="lg:text-[1.1rem] mb-3 text-[var(--primary)] font-bold  hidden md:block"> 3- دعم يستحق أن تعتمد
-                عليه -
-                Real Lifetime
-                Support
+            <p class="lg:text-[1.1rem] mb-3 text-[var(--primary)] font-bold"> {{ 'PRODUCTS.SECTION7.TITLE1' | translate
+                }}</p>
+            <p class="lg:text-[1.1rem] mb-3 text-[var(--primary)] font-bold  hidden md:block"> {{
+                'PRODUCTS.SECTION7.TITLE3' | translate }}
             </p>
-            <p class="lg:text-[1.1rem] mb-3 text-[var(--primary)] font-bold"> 2- التكلفة الفعلية للملكية… وليس فقط
-                الاشتراك
+            <p class="lg:text-[1.1rem] mb-3 text-[var(--primary)] font-bold"> {{ 'PRODUCTS.SECTION7.TITLE2.Tar' |
+                translate
+                }}
                 <br>
-                -
-                Total Cost of Ownership
+                {{ 'PRODUCTS.SECTION7.TITLE2.Ten' | translate }}
             </p>
-            <p class="lg:text-[1.1rem] mb-3 text-[var(--primary)] font-bold block md:hidden"> 3- دعم يستحق أن تعتمد عليه
-                -
-                Real Lifetime
-                Support
+            <p class="lg:text-[1.1rem] mb-3 text-[var(--primary)] font-bold block md:hidden"> {{
+                'PRODUCTS.SECTION7.TITLE3' |
+                translate
+                }}
             </p>
-            <p class="lg:text-[1.1rem] text-[var(--primary)] font-bold"> 4- مرونة النظام - System Flexability
+            <p class="lg:text-[1.1rem] text-[var(--primary)] font-bold"> {{ 'PRODUCTS.SECTION7.TITLE4' |
+                translate
+                }}
             </p>
         </div>
     </div>

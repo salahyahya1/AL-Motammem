@@ -3,9 +3,10 @@
     "MAIN": "HOME",
     "ABOUT-US": "ABOUT US",
     "SOLUTIONS": "Solutions and sectors",
-    "PRODUCTS": "Products and Prices",
+    "PRODUCTS": "Products",
     "kNOWLEDGE": "Knowledge base",
-    "CONTACT": "Contact Us"
+    "CONTACT": "Contact Us",
+    "SUPPORT": "FAQS"
   },
   "HOME": {
     "INDECATORS": {
@@ -23,7 +24,7 @@
       "SUB-TITLE": "Al Motammem ERP for enterprise resource management, backed by 40 years of experience in local and Gulf markets.",
       "DETAILS": "Financial management - inventory - HR and payroll - reporting - fixed assets management - cash and banks - letters of guarantee - letters of credit - tax integrations, plus many more features tailored to your business.",
       "BTN1": "Book a free consultation",
-      "BTN2": "Try Mini Motammem for individuals for free"
+      "BTN2": "Start chat Know"
     },
     "STATUS": {
       "CARD1": "Active Clients",
@@ -144,7 +145,8 @@
         "TITLEp1": "Al-Motammem Plus ",
         "TITLEp2": "for Large Enterprises",
         "LIST": [
-          "Full customization and advanced capabilities",
+          "Full customization and advanced",
+          "capabilities",
           "Workflow customization.",
           "Premium local support (SLA).",
           "Extensive integrations."
@@ -181,6 +183,40 @@
         "LABEL": "Our Message",
         "TEXT": "We believe that real success comes from managing operations intelligently and efficiently. We are committed to delivering smart, comprehensive ERP solutions that help companies achieve their goals with high efficiency."
       }
+    },
+    "SECTION4": {
+      "TITLE": "Our Values",
+      "VALUES": {
+        "TRUST": {
+          "TITLE": "Trust",
+          "TEXT": "Over four decades of continuous work, Al Motammem has earned the trust of many clients across Egypt, the Middle East, and North Africa. This trust stems from our high level of professionalism and craftsmanship throughout all stages of our work."
+        },
+        "QUALITY": {
+          "TITLE": "Quality",
+          "TEXT": "Al Motammem strives to deliver ERP System solutions through high-quality software that adds real value to its clients and contributes to the growth of their businesses."
+        },
+        "INNOVATION": {
+          "TITLE": "Development & Innovation",
+          "TEXT": "Al Motammem and its leadership believe that continuous development and innovation are the foundation for delivering advanced and creative solutions that provide a completely different user experience. Through continuous research, studies, and keeping up with the latest regulations and technologies, our teams and engineers deliver innovative technological solutions that simplify tasks and operations while complying with laws, regulations, and legislations."
+        },
+        "EFFICIENCY": {
+          "TITLE": "Efficiency & Effectiveness",
+          "TEXT": "The efficiency and effectiveness of our services, teams, and support staff are key pillars in earning our clients’ trust and reliance on the solutions we provide to simplify their tasks and drive them toward growth and prosperity."
+        },
+        "COMMITMENT": {
+          "TITLE": "Commitment",
+          "TEXT": "We are committed to providing continuous support for our systems and our clients’ teams, delivering smart and comprehensive ERP System solutions that help achieve our clients’ business objectives."
+        },
+        "INTEGRITY": {
+          "TITLE": "Strength & Ethics",
+          "TEXT": "Al Motammem believes that true strength stems from professional principles and ethical and cultural values. Commitment to our institutional principles and ethical policies is embodied by all our employees, as our ethical values represent personal principles and a way of life shared by everyone in our organization."
+        }
+      }
+    },
+    "SECTION5": {
+      "TITLE": "Al Motammem is your partner in simplifying your business",
+      "BTN1": "Contact Us",
+      "BTN2": "Start chat Know"
     }
   },
   "SOLUTIONS": {
@@ -188,98 +224,112 @@
       "TITLE": "All your business cycles in one place, even across multiple companies and different operations",
       "DETAILS": "From finance, inventory, sales, and purchasing to HR — discover how Al-Motammem brings all operations together under a single system, whether for one company or multiple companies, with consolidated reporting across companies and other levels."
     },
-    "COURSES": {
-      "FINANCE": {
-        "TITLE": "Finance & Accounting",
-        "DESC": "General ledger, accounts, fixed assets and depreciation, cost centers, financial reports."
-      },
-      "INVENTORY": {
-        "TITLE": "Inventory",
-        "DESC": "Inventory control, stock valuation, balance tracking, stocktaking, and revaluation of inventory."
-      },
-      "PURCHASING": {
-        "TITLE": "Purchasing and Supplier Accounts with payables tracking",
-        "DESC": "Full purchasing cycle from purchase requisitions, supplier quotations and evaluation, to purchase orders, receipts, invoices and returns, and purchasing analysis."
-      },
-      "SALES": {
-        "TITLE": "Sales and Customer Accounts with receivables tracking",
-        "DESC": "Full sales cycle from quotation requests and price offers, to sales orders, invoicing, delivery and returns, statements of account and aging of receivables, and sales analysis."
-      },
-      "HR": {
-        "TITLE": "HR & Payroll",
-        "DESC": "Employee management, payroll, attendance and time tracking, performance, HR records, recruitment, appraisal, and employee self-services."
-      },
-      "PROJECTS": {
-        "TITLE": "Projects & Control",
-        "DESC": "Resource planning, project costing, and execution tracking."
-      },
-      "REPORTS": {
-        "TITLE": "Reports & Dashboards",
-        "DESC": "Real-time insights, performance indicators, and custom analytics."
+    "SECTION2": {
+      "TITLE": "Our Core Courses",
+      "COURSES": {
+        "FINANCE": {
+          "TITLE": "Finance & Accounting",
+          "DESC": "General ledger, accounts, fixed assets and depreciation, cost centers, financial reports."
+        },
+        "INVENTORY": {
+          "TITLE": "Inventory",
+          "DESC": "Inventory control, stock valuation, balance tracking, stocktaking, and revaluation of inventory."
+        },
+        "PURCHASING": {
+          "TITLE": "Purchasing and Supplier Accounts with payables tracking",
+          "DESC": "Full purchasing cycle from purchase requisitions, supplier quotations and evaluation, to purchase orders, receipts, invoices and returns, and purchasing analysis."
+        },
+        "SALES": {
+          "TITLE": "Sales and Customer Accounts with receivables tracking",
+          "DESC": "Full sales cycle from quotation requests and price offers, to sales orders, invoicing, delivery and returns, statements of account and aging of receivables, and sales analysis."
+        },
+        "HR": {
+          "TITLE": "HR & Payroll",
+          "DESC": "Employee management, payroll, attendance and time tracking, performance, HR records, recruitment, appraisal, and employee self-services."
+        },
+        "PROJECTS": {
+          "TITLE": "Projects & Control",
+          "DESC": "Resource planning, project costing, and execution tracking."
+        },
+        "REPORTS": {
+          "TITLE": "Reports & Dashboards",
+          "DESC": "Real-time insights, performance indicators, and custom analytics."
+        }
       }
     },
-    "SECTORS": {
-      "MANUFACTURING": {
-        "TITLE": "Manufacturing",
-        "DESC": "Track items and their movements, including raw materials, semi-finished goods and finished products, with full costing for each item. All movements are linked to sales, purchases and both production and service cost centers, with alerts when predefined thresholds or conditions are reached or about to be reached."
-      },
-      "CONTRACTING": {
-        "TITLE": "Contracting",
-        "DESC": "Monitor supplier and subcontractor accounts, and calculate the costs and revenues of each project and every work item in real time, fully linked to trial balances, income statements and balance sheets."
-      },
-      "NON_PROFIT": {
-        "TITLE": "Non-profit Organizations",
-        "DESC": "Track funding sources and related spending, link them to the planned budget, and receive alerts when predefined limits or conditions are about to be or have been exceeded."
-      },
-      "IMPORT_EXPORT": {
-        "TITLE": "Import & Export",
-        "DESC": "Follow up import operations and calculate the exact cost of each shipment and every item within it, linking this to inventory and accounts until the item reaches the warehouse, enabling accurate real-time cost of sales and profitability calculations."
-      },
-      "DISTRIBUTION": {
-        "TITLE": "Distribution",
-        "DESC": "Monitor the sales plan at company, region and sales-rep levels and beyond, follow up sales representatives and their commissions, and generate detailed analytics on sales and profitability by rep, region, governorate, city, route and item, and many other analysis dimensions."
-      },
-      "MULTINATIONAL": {
-        "TITLE": "Multinational Companies",
-        "DESC": "Accurate management of financial data with advanced reports and analytics, and the ability to generate all financial reports in real time in operating currencies, local currency and the parent company’s currency."
-      },
-      "FOOD_BEVERAGE": {
-        "TITLE": "Food & Beverage",
-        "DESC": "Accurately track items and their expiry dates, and monitor production batches for each item, whether on purchase, sale or remaining stock."
-      },
-      "SERVICES": {
-        "TITLE": "Services",
-        "DESC": "Manage contracts, monitor team performance and issue invoices with ease and accuracy."
-      },
-      "TRADING_PROJECTS": {
-        "TITLE": "Trading, Import/Export & Projects",
-        "DESC": "Plan resources, control costs and schedule tasks for each project, with direct linkage to financial and operational results."
-      },
-      "FINANCE_ACCOUNTING": {
-        "TITLE": "Finance & Accounting",
-        "DESC": "Accurate management of financial data with advanced reports and analytics, real-time financial reporting, and alerts when predefined thresholds or conditions are about to be or have been reached."
+    "SECTION3": {
+      "TITLE": "Al Motammem serves most business sectors",
+      "DESC": "Regardless of your company’s field, Al Motammem provides integrated functionalities that help you manage your business more efficiently, serving industries ranging from manufacturing and commercial companies to service sectors, distribution, export and import, non-profit organizations, and multinational corporations.",
+      "SECTORS": {
+        "COMMERCIAL": {
+          "TITLE": "Commercial Sector",
+          "DESC": "Accurate management of financial data with advanced reports and analytics, timely generation of all financial reports, and automated alerts triggered upon or prior to predefined financial events."
+        },
+        "MANUFACTURING": {
+          "TITLE": "Manufacturing",
+          "DESC": "Track items and their movements, including raw materials, semi-finished goods and finished products, with full costing for each item. All movements are linked to sales, purchases and both production and service cost centers, with alerts when predefined thresholds or conditions are reached or about to be reached."
+        },
+        "CONTRACTING": {
+          "TITLE": "Contracting",
+          "DESC": "Monitor supplier and subcontractor accounts, and calculate the costs and revenues of each project and every work item in real time, fully linked to trial balances, income statements and balance sheets."
+        },
+        "NON_PROFIT": {
+          "TITLE": "Non-profit Organizations",
+          "DESC": "Track funding sources and related spending, link them to the planned budget, and receive alerts when predefined limits or conditions are about to be or have been exceeded."
+        },
+        "IMPORT_EXPORT": {
+          "TITLE": "Import & Export",
+          "DESC": "Follow up import operations and calculate the exact cost of each shipment and every item within it, linking this to inventory and accounts until the item reaches the warehouse, enabling accurate real-time cost of sales and profitability calculations."
+        },
+        "DISTRIBUTION": {
+          "TITLE": "Distribution",
+          "DESC": "Monitor the sales plan at company, region and sales-rep levels and beyond, follow up sales representatives and their commissions, and generate detailed analytics on sales and profitability by rep, region, governorate, city, route and item, and many other analysis dimensions."
+        },
+        "MULTINATIONAL": {
+          "TITLE": "Multinational Companies",
+          "DESC": "Accurate management of financial data with advanced reports and analytics, and the ability to generate all financial reports in real time in operating currencies, local currency and the parent company’s currency."
+        },
+        "FOOD_BEVERAGE": {
+          "TITLE": "Food & Beverage",
+          "DESC": "Accurately track items and their expiry dates, and monitor production batches for each item, whether on purchase, sale or remaining stock."
+        },
+        "SERVICES": {
+          "TITLE": "Services",
+          "DESC": "Manage contracts, monitor team performance and issue invoices with ease and accuracy."
+        },
+        "TRADING_PROJECTS": {
+          "TITLE": "Trading, Import/Export & Projects",
+          "DESC": "Plan resources, control costs and schedule tasks for each project, with direct linkage to financial and operational results."
+        },
+        "FINANCE_ACCOUNTING": {
+          "TITLE": "Finance & Accounting",
+          "DESC": "Accurate management of financial data with advanced reports and analytics, real-time financial reporting, and alerts when predefined thresholds or conditions are about to be or have been reached."
+        }
       }
     },
     "SECTION4": {
       "TITLE": "The integration that makes all your company’s departments work in harmony and accuracy",
       "DETAILES": "Al-Motammem does not only connect workflows—it creates a unified environment that brings together all your departments, from finance and sales to HR, projects, and more, all operating on the same system."
     },
-    "INTEGRATIONS": {
-      "ITEM1": {
-        "TITLE": "Internal Integration",
-        "TEXT": "Any update made in one department is instantly reflected across all others, allowing you to verify data accuracy before it impacts the system."
-      },
-      "ITEM2": {
-        "TITLE": "Cross-Sector Integration",
-        "TEXT": "Even companies with diverse operations (manufacturing, sales, services) can run smoothly on the same unified platform."
-      },
-      "ITEM3": {
-        "TITLE": "External Integrations (APIs)",
-        "TEXT": "Connect your external systems with your current tools — payment gateways, banking systems, team tools (Google Meet, Excel), and tax platforms (ETA & ZATCA)."
-      },
-      "ITEM4": {
-        "TITLE": "Unified Dashboard",
-        "TEXT": "Gives you a complete and real-time overview of performance across all departments, sectors, and companies in one place."
+    "SECTION5": {
+      "TITLE": "This means that data flows seamlessly across different departments regardless of the sector, enabling faster decision-making and eliminating errors caused by manual data transfer.",
+      "INTEGRATIONS": {
+        "ITEM1": {
+          "TITLE": "Internal Integration",
+          "TEXT": "Any update made in one department is instantly reflected across all others, allowing you to verify data accuracy before it impacts the system."
+        },
+        "ITEM2": {
+          "TITLE": "Cross-Sector Integration",
+          "TEXT": "Even companies with diverse operations (manufacturing, sales, services) can run smoothly on the same unified platform."
+        },
+        "ITEM3": {
+          "TITLE": "External Integrations (APIs)",
+          "TEXT": "Connect your external systems with your current tools — payment gateways, banking systems, team tools (Google Meet, Excel), and tax platforms (ETA & ZATCA)."
+        },
+        "ITEM4": {
+          "TITLE": "Unified Dashboard",
+          "TEXT": "Gives you a complete and real-time overview of performance across all departments, sectors, and companies in one place."
+        }
       }
     },
     "CONSULTATION": {
@@ -345,12 +395,132 @@
           "0": "Full customization for all modules",
           "1": "End-to-end solutions for large enterprises",
           "2": "Fully integrated ERP",
-          "3": "Extensive integrations and detailed access control",
-          "4": "Operational intelligence & data analytics"
+          "3": "Extensive integration capabilities",
+          "4": "Granular role-based access control",
+          "5": "Operational intelligence & data analytics"
         },
         "CTA": "Request a custom quote"
       },
       "DETAILS": "Any features that are not available in one of the systems can be added separately."
+    },
+    "SECTION7": {
+      "MAINTITLE": "What makes Al Motammem packages unique",
+      "TITLE1": "1- Configuration",
+      "TITLE2": {
+        "Tar": "2- Total Cost of Ownership… not just the subscription",
+        "Ten": ""
+      },
+      "TITLE3": "3- Support you can truly rely on - Real Lifetime Support",
+      "TITLE4": "4- System Flexibility"
+    },
+    "SECTION2": {
+      "TITLE1": {
+        "Tar": "1- True Configuration",
+        "Ten": ""
+      },
+      "SUBTITLE": "One solution, precisely tailored to your company’s needs.",
+      "DESC": "Unlike traditional plans available in the market, the platform does not force you to commit to a predefined package; instead, it allows you to design the system exactly as you see fit, through:",
+      "LIST": {
+        "0": "Configuration business processes",
+        "1": "(Workflow)",
+        "2": "Adding or removing any feature",
+        "3": "Modifying access permissions",
+        "4": "Integrating different solutions",
+        "5": "Configuration the interface"
+      },
+      "BOTTOM": {
+        "TITLE": "This means:",
+        "LIST": {
+          "0": "The system adapts to your business",
+          "1": "You don’t pay for what you don’t need",
+          "2": "Easily scaling your business without",
+          "3": "changing the entire system"
+        }
+      }
+    },
+    "SECTION3": {
+      "TITLE11": "2- Total Cost of Ownership… not just",
+      "TITLE12": "the subscription",
+      "TITLE2": {
+        "p1": "In most solutions available in the market, the subscription price appears simple",
+        "p2": "at the beginning… but additional costs quickly accumulate: support, training,",
+        "p3": "custom development, adding users, special configurations… and more.",
+        "p4": "In the end, the actual cost becomes much higher than it initially appears."
+      }
+    },
+    "SECTION4": {
+      "TITLE": "What makes our cost model different?",
+      "SUBTITLE": "We provide a clear and transparent cost model that includes everything you need to run your business efficiently, with no hidden fees or unexpected add-ons:",
+      "ITEMS": {
+        "0": "Continuous technical support throughout the subscription period",
+        "1": "Add or remove any feature",
+        "2": "Modify access permissions",
+        "3": "Maintenance and technical solutions for any emergency issue",
+        "4": "Interface customization",
+        "5": "Interface customization"
+      }
+    },
+    "SECTION5": {
+      "TITLE": {
+        "Tar": "3- Support you can truly rely on",
+        "Ten": "- Real Lifetime Support"
+      },
+      "SUBTITLE": "In most market solutions, support is just a short first step… limited communication, inconsistent follow-up, and a real absence when you need it most. This leaves companies facing daily challenges alone—without backup or accompanying expertise.",
+      "DETAILS": "But our platform is built on real, continuous support throughout your journey:",
+      "LIST": {
+        "0": "A specialized human support team of accounting and technical experts.",
+        "1": "Instant issue tracking and follow-up, moment by moment.",
+        "2": "On-site or online visits based on your business needs.",
+        "3": "Full assistance with setup and launch (Onboarding).",
+        "4": "Effective support as you scale and grow your operations."
+      },
+      "FOOTER": {
+        "p1": "With our platform… you won’t be alone on the journey.",
+        "p2": "You’ll find a team that’s present, supportive, and a true partner in running your business."
+      }
+    },
+    "SECTION6": {
+      "TITLE": {
+        "Tar": "4- System Flexibility",
+        "Ten": ""
+      },
+      "SUBTITLE": {
+        "PART1": "True operational flexibility… a system that adapts to you at every stage. In most ERP systems, the platform is rigid and fixed, forcing companies to follow a single operating model—even when it does not fit their business or the way their teams work.",
+        "PART2": "Over time, the problem begins to surface:"
+      },
+      "POINTS": {
+        "0": "You need simple adjustments, only to discover they are impossible",
+        "1": "Processes change, but the system cannot accommodate that change",
+        "2": "As the company grows, you are forced to replace the entire system"
+      },
+      "FOOTER": "At Al-Motammem, flexibility is a core part of system design—not a side add-on, as proven by our experience with thousands of companies over 40 years."
+    },
+    "SECTION8": {
+      "TITLE": "How do we deliver real operational flexibility?",
+      "LIST": {
+        "ITEM1": {
+          "BOLD": "The system adapts to your growth stages:",
+          "TEXT": "Whether your company is just starting or already a large enterprise, the system scales with you—without needing to replace the entire solution."
+        },
+        "ITEM2": {
+          "BOLD": "Operational Flexibility in workflow design:",
+          "TEXT": "You can modify workflow steps, add stages, remove stages, or adjust the operating cycle to match the way your company works."
+        },
+        "ITEM3": {
+          "BOLD": "Flexible user management and permissions:",
+          "TEXT": "Full control over roles, teams, departments, and access scope—without complicated restrictions."
+        },
+        "ITEM4": {
+          "BOLD": "Integrates with any other system:",
+          "TEXT": "Flexible API integrations let you connect external solutions easily (accounting, banking, payment gateways, CRM, etc.)."
+        },
+        "ITEM5": {
+          "BOLD": "Supports different industries and business types:",
+          "TEXT": "Whether you operate in manufacturing, services, trade, distribution, or project-based work…"
+        }
+      },
+      "FOOTER": "The system is designed to support any business nature—without additional development.",
+      "CTA": "Request a setup tailored to your company"
     }
   },
   "privacy": {
@@ -448,21 +618,23 @@
     "footer": "These terms may change from time to time, so please check back periodically."
   },
   "FOOTER": {
+    "COMPANY_NAME": " Microtech Company:",
     "CONTACT_TITLE": "Contact us",
     "ADDRESS": "6 Mostafa El-Nahhas Street – Nasr City – Cairo",
     "QUICK_LINKS_TITLE": "Quick links",
     "LINK_HOME": "Home",
     "LINK_ABOUT": "About us",
     "LINK_SOLUTIONS": "Solutions and sectors",
-    "LINK_PRODUCTS": "Products and pricing",
+    "LINK_PRODUCTS": "Products",
     "LINK_KNOWLEDGE": "Knowledge base",
     "LINK_CONTACT": "Contact us",
     "TERMS_TITLE": "Terms of use",
     "PRIVACY_POLICY": "Privacy policy",
     "TERMS_POLICY": "Terms & conditions",
+    "FAQS": "FAQs",
     "LANGUAGES_TITLE": "Languages",
     "LANG_AR": "Arabic",
     "LANG_EN": "English",
-    "COPYRIGHT": "© All rights reserved Al-Motamem® — Powered by Microtech"
+    "COPYRIGHT": "© All rights reserved Al-Motammem® — Powered by Microtech"
   }
 }

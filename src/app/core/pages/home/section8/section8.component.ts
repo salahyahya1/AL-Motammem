@@ -317,7 +317,9 @@ export class Section8Component {
       tl.kill();
     };
   }
-
+  get isRtl() {
+    return this.language.currentLang === 'ar';
+  }
   ngOnDestroy() {
     // ✅ clean triggers
     this.mm?.revert();

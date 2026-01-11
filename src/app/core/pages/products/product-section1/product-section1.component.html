@@ -12,7 +12,7 @@
         </p>
 
         <div
-            class="cards relative flex flex-col md:flex-row justify-center items-center gap-6 lg:gap-8 w-full lg:w-[100%] xl:w-[90%] md:py-60  lg:py-50  mx-auto">
+            class="cards relative flex flex-col md:flex-row justify-center items-center gap-6 lg:gap-8 w-full lg:w-[100%] xl:w-[90%] md:py-60  lg:py-50 ltr:lg:py-55  mx-auto">
             <div
                 class="card card1 text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[32%] lg:w-[30%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:p-5 shadow-md">
                 <div class="relative text-start" style="width: 88%;" [dir]="isRtl ? 'rtl' : 'ltr'">
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <p
-                        class="card-text1 font-extrabold text-[0.95rem] md:pr-[16px] lg:pr-[0px] pt-[0.55rem] text-[#5198E9]">
+                        class="card-text1 font-extrabold text-[0.95rem] md:pr-[16px] lg:pr-[0px] pt-[0.55rem] text-[#5198E9] ltr:whitespace-nowrap">
                         {{ 'PRODUCTS.SECTION1.CARD1.TITLEp1' | translate }}
                         {{ 'PRODUCTS.SECTION1.CARD1.TITLEp2' | translate }}
                     </p>
@@ -58,7 +58,7 @@
                         {{ 'PRODUCTS.SECTION1.CARD1.FEATURES_TITLE' | translate }}
                     </h4>
                     <ul
-                        class="text-gray-800 text-[0.69rem] leading-relaxed space-y-1 mb-6 md:mb-11 lg:mb-6 xl:mb-4 rtl:pb-1 ltr:pb-0 md:pr-[16px] lg:pr-[0px]">
+                        class="bottom-ul-Mini text-gray-800 text-[0.69rem] leading-relaxed space-y-1 mb-6 md:mb-11 lg:mb-6 ltr:lg:mb-17 xl:mb-4 rtl:pb-1 rtl:xl:pb-0  rtl:2xl:pb-8 ltr:xl:mb-[58px] ltr:2xl:mb-[54px] ltr:xl:pb-0 md:pr-[16px] lg:pr-[0px]">
                         @for (item of [0,1,2,3,4,5]; track item) {
                         <li>
                             {{ ('PRODUCTS.SECTION1.CARD1.FEATURES.' + item) | translate }}
@@ -117,7 +117,7 @@
                     </h4>
 
                     <ul
-                        class="bottom-ul-2 text-gray-800 text-[0.69rem] leading-relaxed space-y-1 mb-0 pb-1 xl:pb-2 ltr:pb-0 md:pr-[16px] lg:pr-[0px]">
+                        class="bottom-ul-2 text-gray-800 text-[0.69rem] leading-relaxed space-y-1 mb-0 pb-1 rtl:xl:pb-1  ltr:pb-0 ltr:lg:pb-3 ltr:xl:pb-[18px] md:pr-[16px] lg:pr-[0px]">
                         @for (item of [0,1,2,3,4,5,6,7]; track item) {
                         <li>
                             {{ ('PRODUCTS.SECTION1.CARD2.FEATURES.' + item) | translate }}
@@ -163,15 +163,16 @@
                         </div>
                     </div>
 
-                    <p class="card-text2 font-extrabold text-[0.95rem] pt-[0.55rem] md:pr-[16px] lg:pr-[0px]">
+                    <p
+                        class="card-text2 font-extrabold text-[0.95rem] pt-[0.55rem] md:pr-[16px] lg:pr-[0px] ltr:whitespace-nowrap">
                         {{ 'PRODUCTS.SECTION1.CARD3.TITLEp1' | translate }}
                         {{ 'PRODUCTS.SECTION1.CARD3.TITLEp2' | translate }}
                     </p>
 
                     <ul
-                        class="text-gray-800 text-[0.69rem] leading-relaxed space-y-1 rtl:pb-6 ltr:pb-0 md:pr-[16px] lg:pr-[0px]">
+                        class="text-gray-800 text-[0.69rem] leading-relaxed space-y-1 rtl:pb-6 ltr:xl:pb-[3px] md:pr-[16px] lg:pr-[0px]">
                         @for (item of [1,2]; track item) {
-                        <li>
+                        <li class="min-[1024px]:max-w-[215.31px] min-[1280px]:max-w-full">
                             {{ ('PRODUCTS.SECTION1.CARD3.LIST.' + (item-1))| translate }}
                         </li>
                         }
@@ -182,9 +183,9 @@
                     </h4>
 
                     <ul
-                        class="bottom-ul-3 text-gray-800 text-[0.69rem] leading-relaxed space-y-1 md:mb-9 lg:mb-4 mb-4 md:pr-[16px] lg:pr-[0px]">
+                        class="bottom-ul-3 text-gray-800 text-[0.69rem] leading-relaxed space-y-1 md:mb-9 ltr:md:mb-5 ltr:lg:mb-9 lg:mb-3 mb-4 rtl:xl:mb-8 md:pr-[16px] lg:pr-[0px] ltr:xl:pb-[5px]">
                         @for (item of items; track item) {
-                        <li>
+                        <li class="ltr:min-[840px]:max-w-[166px] ltr:min-[844px]:max-w-full">
                             @if(item<2){ {{ ('PRODUCTS.SECTION1.CARD3.FEATURES.' + (item-1))| translate }} <br>
                                 {{ ('PRODUCTS.SECTION1.CARD3.FEATURES.' + (item)) | translate }}
                                 } @else{

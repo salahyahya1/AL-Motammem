@@ -88,6 +88,12 @@ export class AnimatedSequenceComponent implements OnInit, AfterViewInit, OnDestr
       this.renderer.setStyle(container, 'height', `${this.frameHeight}px`);
       this.renderer.setStyle(container, 'opacity', '0');
       this.renderer.setStyle(container, 'transition', 'opacity 0.5s ease-in-out');
+      const isLTR = document?.documentElement?.dir === 'ltr';
+      if (isLTR) {
+        this.renderer.setStyle(container, 'transform', 'scaleX(-1)');
+        this.renderer.setStyle(container, 'transform-origin', 'center');
+      }
+
     }
 
     this.precalculateFramePositions();

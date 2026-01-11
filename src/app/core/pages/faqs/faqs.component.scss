@@ -12,3 +12,66 @@
 .faq-pill:hover {
     box-shadow: 0 6px 18px rgba(36, 117, 234, 0.10);
 }
+
+
+/* Container shape like your accordion row */
+.acc-skel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 14px 18px;
+    border-radius: 16px;
+
+    background: #f3f3f3;
+    /* نفس الإحساس بتاع الرمادي الفاتح */
+}
+
+/* Base skeleton block */
+.skel {
+    position: relative;
+    overflow: hidden;
+    background: #e6e6e6;
+    border-radius: 10px;
+}
+
+/* Shimmer */
+.skel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.65),
+            transparent);
+    animation: shimmer 1.1s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Left icon placeholder (chevron spot) */
+.skel-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    /* دائرة زي مكان الأيقونة */
+}
+
+/* Title placeholder on the right */
+.skel-title {
+    height: 14px;
+    width: 38%;
+    border-radius: 999px;
+}
+
+/* Responsive: title width changes */
+@media (max-width: 768px) {
+    .skel-title {
+        width: 55%;
+    }
+}

@@ -20,35 +20,35 @@
             <div class="text-center" xmlns="http://www.w3.org/1999/xhtml">
                 <p id="solutionsSection2-TITLE"
                     class="text-[var(--primary)] text-[2rem] lg:text-[2rem] xl:text-[2rem] font-bold">
-                    قائمة الدورات الأساسية
+                    {{ 'SOLUTIONS.SECTION2.TITLE' | translate }}
                 </p>
             </div>
         </foreignObject>
     </svg>
 
 
-    <div id="solutionsSection2Bottom" #solutionsSection2Bottom class="erp-carousel">
+    <div id="solutionsSection2Bottom" #solutionsSection2Bottom class="erp-carousel" [dir]="isRtl ? 'rtl' : 'ltr'">
         <div class="controls">
             <button id="arrowRight2" class="arrow right" aria-label="التالي">
                 <svg width="23" height="26" viewBox="0 0 23 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22.5 12.9902L-1.2235e-06 25.9806L-8.78432e-08 -0.000147849L22.5 12.9902Z"
-                        fill="#D9D9D9" />
+                        fill="#989898" />
                 </svg>
             </button>
 
             <button id="arrowLeft2" class="arrow left" aria-label="السابق">
                 <svg width="23" height="26" viewBox="0 0 23 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6.55671e-07 12.9902L22.5 25.9806L22.5 -0.000147849L6.55671e-07 12.9902Z" fill="#D9D9D9" />
+                    <path d="M6.55671e-07 12.9902L22.5 25.9806L22.5 -0.000147849L6.55671e-07 12.9902Z" fill="#989898" />
                 </svg>
 
             </button>
         </div>
 
-        <div #swiperEl class="swiper" dir="rtl">
+        <div #swiperEl class="swiper" [dir]="isRtl ? 'rtl' : 'ltr'">
             <div class="swiper-wrapper ps-[1.18rem]">
                 <div class="swiper-slide" *ngFor="let c of courses">
                     <div class="card">
-                        <div class="text-content">
+                        <div class="text-start">
                             <h3>{{ c.titleKey |translate }}</h3>
                             <p>{{ c.textKey|translate }}</p>
                         </div>

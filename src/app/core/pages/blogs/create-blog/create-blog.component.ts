@@ -323,7 +323,7 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
 
 
     // لو السيرفر بيرجع "/uploads/.." وعايز تخليها absolute داخل editor preview
-    private readonly SERVER_ORIGIN = 'https://almotammem-server.onrender.com';
+    private readonly SERVER_ORIGIN = 'https://almotammem.com';
 
     constructor(
         private fb: FormBuilder,

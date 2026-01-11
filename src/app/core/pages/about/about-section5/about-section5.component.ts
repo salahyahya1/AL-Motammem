@@ -5,10 +5,11 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from "gsap/SplitText";
 import { RouterLink } from "@angular/router";
 import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
+import { TranslatePipe } from '@ngx-translate/core';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 @Component({
   selector: 'app-about-section5',
-  imports: [RouterLink, OpenFormDialogDirective],
+  imports: [RouterLink, OpenFormDialogDirective, TranslatePipe],
   templateUrl: './about-section5.component.html',
   styleUrl: './about-section5.component.scss'
 })

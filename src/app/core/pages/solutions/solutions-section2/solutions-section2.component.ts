@@ -12,6 +12,7 @@ import { Navigation, Pagination } from 'swiper/modules';
 
 import { TranslatePipe } from '@ngx-translate/core';
 import { RemiveRoleAriaService } from '../../../shared/services/removeRoleAria';
+import { LanguageService } from '../../../shared/services/language.service';
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 interface course {
   titleKey: string;
@@ -34,37 +35,38 @@ export class SolutionsSection2Component {
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
     private RemiveRoleAriaService: RemiveRoleAriaService,
+    private language: LanguageService
   ) {
   }
   @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
   courses: course[] = [
     {
-      titleKey: 'SOLUTIONS.COURSES.FINANCE.TITLE',
-      textKey: 'SOLUTIONS.COURSES.FINANCE.DESC',
+      titleKey: 'SOLUTIONS.SECTION2.COURSES.FINANCE.TITLE',
+      textKey: 'SOLUTIONS.SECTION2.COURSES.FINANCE.DESC',
     },
     {
-      titleKey: 'SOLUTIONS.COURSES.INVENTORY.TITLE',
-      textKey: 'SOLUTIONS.COURSES.INVENTORY.DESC',
+      titleKey: 'SOLUTIONS.SECTION2.COURSES.INVENTORY.TITLE',
+      textKey: 'SOLUTIONS.SECTION2.COURSES.INVENTORY.DESC',
     },
     {
-      titleKey: 'SOLUTIONS.COURSES.PURCHASING.TITLE',
-      textKey: 'SOLUTIONS.COURSES.PURCHASING.DESC',
+      titleKey: 'SOLUTIONS.SECTION2.COURSES.PURCHASING.TITLE',
+      textKey: 'SOLUTIONS.SECTION2.COURSES.PURCHASING.DESC',
     },
     {
-      titleKey: 'SOLUTIONS.COURSES.SALES.TITLE',
-      textKey: 'SOLUTIONS.COURSES.SALES.DESC',
+      titleKey: 'SOLUTIONS.SECTION2.COURSES.SALES.TITLE',
+      textKey: 'SOLUTIONS.SECTION2.COURSES.SALES.DESC',
     },
     {
-      titleKey: 'SOLUTIONS.COURSES.HR.TITLE',
-      textKey: 'SOLUTIONS.COURSES.HR.DESC',
+      titleKey: 'SOLUTIONS.SECTION2.COURSES.HR.TITLE',
+      textKey: 'SOLUTIONS.SECTION2.COURSES.HR.DESC',
     },
     {
-      titleKey: 'SOLUTIONS.COURSES.PROJECTS.TITLE',
-      textKey: 'SOLUTIONS.COURSES.PROJECTS.DESC',
+      titleKey: 'SOLUTIONS.SECTION2.COURSES.PROJECTS.TITLE',
+      textKey: 'SOLUTIONS.SECTION2.COURSES.PROJECTS.DESC',
     },
     {
-      titleKey: 'SOLUTIONS.COURSES.REPORTS.TITLE',
-      textKey: 'SOLUTIONS.COURSES.REPORTS.DESC',
+      titleKey: 'SOLUTIONS.SECTION2.COURSES.REPORTS.TITLE',
+      textKey: 'SOLUTIONS.SECTION2.COURSES.REPORTS.DESC',
     },
   ];
 
@@ -89,8 +91,10 @@ export class SolutionsSection2Component {
             loop: true,
             grabCursor: true,
             navigation: {
-              nextEl: '#arrowRight2',
-              prevEl: '#arrowLeft2',
+              // nextEl: '#arrowRight2',
+              // prevEl: '#arrowLeft2',
+              nextEl: this.isRtl ? '#arrowLeft2' : '#arrowRight2',
+              prevEl: this.isRtl ? '#arrowRight2' : '#arrowLeft2',
             },
             breakpoints: {
               0: { slidesPerView: 2, spaceBetween: 19 },
@@ -150,7 +154,7 @@ export class SolutionsSection2Component {
                   strokeDashoffset: 0,
                   opacity: 1,
                   visibility: "visible",
-                  duration: 0.5,
+                  duration: 0.1,
                   ease: "power2.inOut"
                 });
             }
@@ -169,7 +173,7 @@ export class SolutionsSection2Component {
                   opacity: 1,
                   y: 0,
                   filter: "blur(0px)",
-                  duration: 0.8,
+                  duration: 0.4,
                   stagger: 0.1
                 }
               );
@@ -186,7 +190,7 @@ export class SolutionsSection2Component {
                   rotateY: 0,
                   y: 0,
                   filter: "blur(0px)",
-                  duration: 1.2,
+                  duration: 0.7,
                   stagger: {
                     each: 0.25,
                     from: "start"
@@ -218,7 +222,7 @@ export class SolutionsSection2Component {
               },
               opacity: 0,
               y: mobile ? 40 : 60,
-              duration: 0.7,
+              duration: 0.6,
               stagger: 0.2,
               ease: 'power3.out',
             });
@@ -230,5 +234,8 @@ export class SolutionsSection2Component {
         }, 0);
       })
     })
+  }
+  get isRtl() {
+    return this.language.currentLang === 'ar';
   }
 }

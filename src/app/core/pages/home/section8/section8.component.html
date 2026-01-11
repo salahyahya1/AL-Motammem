@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="stack-wrap pb-[3.15rem] min-[560px]:mb-5 sm:mb-10 md:mb-0 md:pb-0">
-        <div class="w-[65%] md:w-full relative me-auto md:me-px ms-[1rem] md:ms-3">
+        <div class="w-[65%] md:w-full relative me-auto md:me-px ms-4 ltr:ms-32 rtl:md:ms-3 ltr:md:-ms-25">
             @for (i of [1,2,3,4,5,6]; track i) {
             <div class="hero-visuals stack-item stack-{{i}} ">
                 <div class="mix purchase">
@@ -36,7 +36,7 @@
                             class="w-full h-full" alt="" />
                     </picture>
                 </div>
-                <div class="portfolio-overlay ">
+                <div class="portfolio-overlay " [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div class="imageview">
                         <!-- <img src="/images/homepage/screens/screens-{{i}}.png" alt=""> -->
                         <picture class="block w-full h-full">

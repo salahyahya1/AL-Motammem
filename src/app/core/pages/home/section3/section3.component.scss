@@ -115,6 +115,15 @@
             line-height: 1.8;
         }
     }
+
+    &[dir="ltr"] h3 {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    &[dir="ltr"] p {
+        font-size: 0.8rem;
+    }
 }
 
 .separator {

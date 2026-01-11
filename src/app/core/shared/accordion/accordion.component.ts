@@ -2,10 +2,12 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   Inject,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
@@ -19,7 +21,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class AccordionComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input({ required: true }) title!: string;
-
+  @Output() deletefaq = new EventEmitter<number>();
   /** لو عندك أكتر من مجموعة Accordions في نفس الصفحة */
   @Input() groupId: string = 'default';
 
@@ -28,6 +30,7 @@ export class AccordionComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() startOpen = false;
   @Input() disabled = false;
   @Input() duration = 0.35;
+  @Input() isDeleteable = false;
 
   isOpen = false;
 
@@ -188,5 +191,10 @@ export class AccordionComponent implements OnInit, AfterViewInit, OnDestroy {
       inner.style.opacity = '1';
       // inner.style.transform = 'translateY(0px)';
     }
+  }
+  delete() {
+    this.deletefaq.emit();
+    // console.log(this.id);
+
   }
 }

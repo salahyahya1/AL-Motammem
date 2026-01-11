@@ -270,10 +270,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
    * - لو localStorage = en => بدّل النص بعد idle (عشان Lighthouse)
    */
   private setupMobileStaticHeroLanguage() {
-    const isMobile = window.matchMedia('(max-width: 699px)').matches;
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
     if (!isMobile) return;
 
     const saved = (localStorage.getItem('lang') || '').toLowerCase();
+    console.log(saved);
     if (saved !== 'en') return;
 
     const run = () => this.applyEnglishToMobileHero();
@@ -298,7 +299,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     if (subtitle) subtitle.textContent = 'Al Motammem ERP for enterprise resource management, backed by 40 years of experience in local and Gulf markets.';
     if (details) details.textContent = 'Financial management - inventory - HR and payroll - reporting - fixed assets management - cash and banks - letters of guarantee - letters of credit - tax integrations, plus many more features tailored to your business.';
     if (btn1) btn1.textContent = 'Book a free consultation';
-    if (btn2) btn2.textContent = 'Try Mini Motammem for individuals for free';
+    if (btn2) btn2.textContent = "Start chat Know";
 
     hero.setAttribute('dir', 'ltr');
     hero.classList.add('is-en');

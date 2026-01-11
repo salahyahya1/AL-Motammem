@@ -37,20 +37,20 @@ export class SolutionsSection5Component {
 
     Integrations: Integration[] = [
         {
-            titleKey: 'SOLUTIONS.INTEGRATIONS.ITEM1.TITLE',
-            textKey: 'SOLUTIONS.INTEGRATIONS.ITEM1.TEXT',
+            titleKey: 'SOLUTIONS.SECTION5.INTEGRATIONS.ITEM1.TITLE',
+            textKey: 'SOLUTIONS.SECTION5.INTEGRATIONS.ITEM1.TEXT',
         },
         {
-            titleKey: 'SOLUTIONS.INTEGRATIONS.ITEM2.TITLE',
-            textKey: 'SOLUTIONS.INTEGRATIONS.ITEM2.TEXT',
+            titleKey: 'SOLUTIONS.SECTION5.INTEGRATIONS.ITEM2.TITLE',
+            textKey: 'SOLUTIONS.SECTION5.INTEGRATIONS.ITEM2.TEXT',
         },
         {
-            titleKey: 'SOLUTIONS.INTEGRATIONS.ITEM3.TITLE',
-            textKey: 'SOLUTIONS.INTEGRATIONS.ITEM3.TEXT',
+            titleKey: 'SOLUTIONS.SECTION5.INTEGRATIONS.ITEM3.TITLE',
+            textKey: 'SOLUTIONS.SECTION5.INTEGRATIONS.ITEM3.TEXT',
         },
         {
-            titleKey: 'SOLUTIONS.INTEGRATIONS.ITEM4.TITLE',
-            textKey: 'SOLUTIONS.INTEGRATIONS.ITEM4.TEXT',
+            titleKey: 'SOLUTIONS.SECTION5.INTEGRATIONS.ITEM4.TITLE',
+            textKey: 'SOLUTIONS.SECTION5.INTEGRATIONS.ITEM4.TEXT',
         }
     ];
     groupedIntegrations: Integration[][] = [];

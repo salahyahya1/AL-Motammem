@@ -1,3 +1,3 @@
 export const environment = {
-    apiBaseUrl: 'https://almotammem-server.onrender.com',
+    apiBaseUrl: 'https://almotammem.com/',
 };

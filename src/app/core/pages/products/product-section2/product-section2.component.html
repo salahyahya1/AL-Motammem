@@ -5,25 +5,25 @@
         <div class="text-center md:text-start">
             <h1 id="customizationTitle1"
                 class="font-bold text-[1.2rem] md:text-[1.4rem] lg:text-[1.5rem] xl:text-[1.8rem] text-[var(--primary)] pb-[0.7rem]">
-                ما يميز خطط المتمم:
+                <!-- ما يميز باقات المتمم: -->
+                {{ 'PRODUCTS.SECTION7.MAINTITLE' | translate }}
             </h1>
             <h2 id="customizationTitle2"
                 class="font-bold text-[1.075rem] md:text-[1.275rem] lg:text-[1.375rem] xl:text-[1.6rem] text-[var(--primary)]">
-                <span>1-</span> التخصيص الفعلي
+                {{ 'PRODUCTS.SECTION2.TITLE1.Tar' | translate }}
                 <span class="text-[1.4rem] md:text-[1.6rem] lg:text-[1.7rem] xl:text-[1.8rem]">
-                    - Customization
+                    {{ 'PRODUCTS.SECTION2.TITLE1.Ten' | translate }}
                 </span>
             </h2>
 
             <p id="customizationSubTitle"
                 class="text-[0.9rem] md:text-[1rem] lg:text-[1.2rem] xl:[1.4rem] text-[var(--dark-gray)]">
-                حل واحد.. يتناسب تحديدًا مع احتياجات شركتك.
+                {{ 'PRODUCTS.SECTION2.SUBTITLE' | translate }}
             </p>
 
             <p id="customizationDesc"
                 class="text-[0.6rem] md:text-[0.7rem] lg:text-[0.88rem] xl:text-[1.1rem] text-[var(--dark-gray)]  max-w-4xl me-auto">
-                على عكس الخطط التقليدية المتوفرة في السوق، المنصّة لا تُجبرك على الالتزام بباقة جاهزة؛ بل تتيح لك
-                إمكانية تصميم النظام كما تراه مناسبًا، من خلال:
+                {{ 'PRODUCTS.SECTION2.DESC' | translate }}
             </p>
         </div>
 
@@ -88,11 +88,10 @@
                 </div>
                 <div
                     class="text-[0.55rem] lg:text-[0.87rem] xl:text-[1.1rem]  text-[var(--dark-gray)] font-bold leading-tight">
-                    <p>تخصيص مراحل العمل</p>
-                    <p class="font-bold">(Workflow)</p>
+                    <p>{{ 'PRODUCTS.SECTION2.LIST.0' | translate }}</p>
+                    <p class="font-bold">{{ 'PRODUCTS.SECTION2.LIST.1' | translate }}</p>
                 </div>
             </div>
-
 
 
             <div class="flex flex-col items-center gap-3">
@@ -117,7 +116,7 @@
 
                 </div>
                 <p class="text-[0.6rem] lg:text-[0.87rem] xl:text-[1.1rem] text-[var(--dark-gray)] font-bold">
-                    إضافة أو إزالة أي خاصية
+                    {{ 'PRODUCTS.SECTION2.LIST.2' | translate }}
                 </p>
             </div>
 
@@ -137,7 +136,7 @@
 
                 </div>
                 <p class="text-[0.6rem] lg:text-[0.87rem] xl:text-[1.1rem] text-[var(--dark-gray)] font-bold">
-                    تعديل الصلاحيات
+                    {{ 'PRODUCTS.SECTION2.LIST.3' | translate }}
                 </p>
             </div>
 
@@ -156,7 +155,7 @@
                     </svg>
                 </div>
                 <p class="text-[0.6rem] lg:text-[0.87rem] xl:text-[1.1rem] text-[var(--dark-gray)] font-bold">
-                    دمج حلول مختلفة
+                    {{ 'PRODUCTS.SECTION2.LIST.4' | translate }}
                 </p>
             </div>
 
@@ -184,7 +183,7 @@
                     </svg>
                 </div>
                 <p class="text-[0.6rem] lg:text-[0.87rem] xl:text-[1.1rem] text-[var(--dark-gray)] font-bold">
-                    تخصيص الواجهة
+                    {{ 'PRODUCTS.SECTION2.LIST.5' | translate }}
                 </p>
             </div>
         </div>
@@ -194,8 +193,9 @@
     <div class="bg-[var(--primary)] h-[40%] xl:h-[37%]">
         <div id="customization-bottom"
             class="max-w-6xl mx-auto px-4 md:px-8 lg:px-10 pt-8 pb-10 flex flex-col gap-6 xl:gap-0">
-            <div class="text-right">
-                <p class="text-white text-[0.6rem] lg:text-[0.87rem] xl:text-[1.1rem] font-bold">هذا يعني:</p>
+            <div class="text-start">
+                <p class="text-white text-[0.6rem] lg:text-[0.87rem] xl:text-[1.1rem] font-bold mb-[20px]">{{
+                    'PRODUCTS.SECTION2.BOTTOM.TITLE' | translate }}</p>
             </div>
 
             <div class="flex flex-col items-center gap-6 xl:gap-3">
@@ -221,32 +221,32 @@
                     class="w-full flex flex-col md:flex-row md:justify-center gap-4 md:gap-6 xl:gap-17 overflow-visible">
                     <div class="min-w-[230px] px-6 py-3 flex justify-center items-center rounded-full
            border border-[#F4B942] text-white text-center
-           text-[0.6rem] lg:text-[0.87rem] xl:text-[1.1rem] font-bold
+           text-[0.6rem] lg:text-[0.87rem] rtl:xl:text-[1.1rem] ltr:xl:text-[1.055rem] font-bold
            transition-transform duration-300 ease-out
            hover:scale-[1.04] hover:-translate-y-[2px] hover:shadow-xl
            focus-visible:scale-[1.04] focus-visible:-translate-y-[2px] focus-visible:shadow-xl">
-                        <span> النظام يتكيف مع نشاطك</span>
+                        <span>{{ 'PRODUCTS.SECTION2.BOTTOM.LIST.0' | translate }}</span>
                     </div>
 
                     <div class="min-w-[230px] px-6 py-3 flex justify-center items-center rounded-full
            border border-[#F4B942] text-white text-center
-           text-[0.6rem] lg:text-[0.87rem] xl:text-[1.1rem] font-bold
+           text-[0.6rem] lg:text-[0.87rem] rtl:xl:text-[1.1rem] ltr:xl:text-[1.055rem] font-bold
            transition-transform duration-300 ease-out
            hover:scale-[1.04] hover:-translate-y-[2px] hover:shadow-xl
            focus-visible:scale-[1.04] focus-visible:-translate-y-[2px] focus-visible:shadow-xl">
-                        <span> لا تدفع مقابل شيء لا تحتاجه</span>
+                        <span>{{ 'PRODUCTS.SECTION2.BOTTOM.LIST.1' | translate }}</span>
                     </div>
 
                     <div class="min-w-[230px] px-6 py-3 rounded-full
            border border-[#F4B942] text-white text-center
-           text-[0.6rem] lg:text-[0.87rem] xl:text-[1.1rem] font-bold
+           text-[0.6rem] lg:text-[0.87rem] rtl:xl:text-[1.1rem] ltr:xl:text-[1.055rem] font-bold
            transition-transform duration-300 ease-out 
            hover:scale-[1.04] hover:-translate-y-[2px] hover:shadow-xl
            focus-visible:scale-[1.04] focus-visible:-translate-y-[2px] focus-visible:shadow-xl"
                         style="line-height: normal">
-                        توسيع أعمالك بسهولة بدون
+                        {{ 'PRODUCTS.SECTION2.BOTTOM.LIST.2' | translate }}
                         <br class="hidden lg:block">
-                        تغيير النظام بالكامل
+                        {{ 'PRODUCTS.SECTION2.BOTTOM.LIST.3' | translate }}
                     </div>
                 </div>
                 <!-- زر CTA -->

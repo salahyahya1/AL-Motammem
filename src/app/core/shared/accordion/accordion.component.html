@@ -1,17 +1,33 @@
-<div class="acc" [class.is-open]="isOpen" [class.is-disabled]="disabled">
-    <button type="button" class="acc-head" (click)="toggle()" [disabled]="disabled" [attr.aria-expanded]="isOpen">
-        <span class="acc-title">{{ title }}</span>
+<div class="flex items-center">
+    <div class="acc grow" [class.is-open]="isOpen" [class.is-disabled]="disabled">
+        <button type="button" class="acc-head" (click)="toggle()" [disabled]="disabled" [attr.aria-expanded]="isOpen">
+            <span class="acc-title">{{ title }}</span>
 
-        <span class="acc-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-                <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+
+            <span class="acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </span>
+
+        </button>
+
+        <div class="acc-panel" #panel>
+            <div class="acc-inner text-[12px]" #inner>
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </div>
+    <div class="flex gap-2">
+        <span class="acc-icon opacity-0" aria-hidden="true" [class.is-Deleteable]="isDeleteable" (click)="delete()">
+            <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path d="M6 6L18 18M18 6L6 18" stroke="red" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                </g>
             </svg>
         </span>
-    </button>
-
-    <div class="acc-panel" #panel>
-        <div class="acc-inner text-[12px]" #inner>
-            <ng-content></ng-content>
-        </div>
     </div>
 </div>

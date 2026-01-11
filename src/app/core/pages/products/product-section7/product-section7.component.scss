@@ -15,7 +15,7 @@
 
 .capsule-products7-wrap {
     position: relative;
-    width: min(260px, 90vw);
+    // width: min(260px, 90vw);
     aspect-ratio: 362 / 92;
     margin: 0 auto;
     display: grid;
@@ -34,39 +34,39 @@
     z-index: 2;
     margin: 0;
     text-align: center;
-    direction: rtl;
+    // direction: rtl;
     line-height: 1.1;
     padding: 0 18px;
     max-width: 92%;
     color: var(--primary);
     font-weight: 800;
     pointer-events: none;
-    font-size: 1.55rem;
+    // font-size: 1.55rem;
     white-space: auto;
     /* زي القديم */
 }
 
-/* md */
-@media (min-width: 768px) {
-    .capsule-products7-wrap {
-        width: min(340px, 90vw);
-    }
+// /* md */
+// @media (min-width: 768px) {
+//     .capsule-products7-wrap {
+//         width: min(340px, 90vw);
+//     }
 
-    .capsule-products7-title {
-        font-size: 1.8rem;
-    }
-}
+//     .capsule-products7-title {
+//         font-size: 1.8rem;
+//     }
+// }
 
-/* lg */
-@media (min-width: 1024px) {
-    .capsule-products7-wrap {
-        width: min(400px, 90vw);
-    }
+// /* lg */
+// @media (min-width: 1024px) {
+//     .capsule-products7-wrap {
+//         width: min(400px, 90vw);
+//     }
 
-    .capsule-products7-title {
-        font-size: 2.25rem;
-    }
-}
+//     .capsule-products7-title {
+//         font-size: 2.25rem;
+//     }
+// }
 
 /* very small */
 @media (max-width: 420px) {

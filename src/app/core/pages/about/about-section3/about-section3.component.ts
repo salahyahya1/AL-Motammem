@@ -90,6 +90,188 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
+  // makeanimation() {
+  //   const finalTextScrollDuration = 1.5;
+
+  //   this.mm.add({
+  //     desktop: '(min-width: 768px)',
+  //     mobile: '(max-width: 767px)',
+  //   }, (context) => {
+  //     let { desktop, mobile } = context.conditions as any;
+
+  //     if (mobile) {
+  //       if (!document.querySelector('.scroll-bg-section-m')) return;
+
+  //       const tl = gsap.timeline({
+  //         id: 'AboutSection3TL-mobile',
+  //         scrollTrigger: {
+  //           id: 'AboutSection3Trigger-mobile',
+  //           trigger: '#AboutSection3',
+  //           start: 'top top',
+  //           end: '+=4000 bottom',
+  //           scrub: true,
+  //           pin: true,
+  //         }
+  //       });
+  //       this.AboutSection3Timeline = tl;
+
+  //       tl.fromTo('.scroll-bg-section-m', { autoAlpha: 0 }, {
+  //         autoAlpha: 1,
+  //         onStart: () => { this.show = 1; this.DivisionId = 1; },
+  //         onReverseComplete: () => { this.show = 0; }
+  //       }, '>-0.2');
+
+  //       // Lighter animation for mobile (reduced yPercent)
+  //       tl.fromTo('.scroll-bg-section-text-m', { yPercent: 50 }, { yPercent: -130 }, '<')
+  //         .fromTo('.scroll-bg-section-text-m', { yPercent: -130, opacity: 1 }, {
+  //           yPercent: -250, opacity: 0, duration: finalTextScrollDuration
+  //         }, '>+0.8');
+
+  //       tl.fromTo('.scroll-bg-section1-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
+  //         .fromTo('.scroll-bg-section-text1-m', { yPercent: 50 }, { yPercent: -130 }, '<')
+  //         .fromTo('.scroll-bg-section-text1-m', { yPercent: -130, opacity: 1 }, {
+  //           yPercent: -250, opacity: 0, duration: finalTextScrollDuration
+  //         }, '>+0.8');
+
+  //       tl.fromTo('.scroll-bg-section2-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
+  //         .fromTo('.scroll-bg-section-text2-m', { yPercent: 50 }, { yPercent: -130 }, '<')
+  //         .fromTo('.scroll-bg-section-text2-m', { yPercent: -130, opacity: 1 }, {
+  //           yPercent: -250, opacity: 0, duration: finalTextScrollDuration
+  //         }, '>+0.8');
+
+  //       return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-mobile')?.kill(); };
+  //     } else {
+  ////without snap
+  //       // if (!document.querySelector('.scroll-bg-section')) return;
+
+  //       // const tl = gsap.timeline({
+  //       //   id: 'AboutSection3TL-desktop',
+  //       //   scrollTrigger: {
+  //       //     id: 'AboutSection3Trigger-desktop',
+  //       //     trigger: '#AboutSection3',
+  //       //     start: 'top top',
+  //       //     end: '+=4000 bottom',
+  //       //     scrub: true,
+  //       //     pin: true,
+  //       //     // snap: 0.1
+  //       //   }
+  //       // });
+  //       // this.AboutSection3Timeline = tl;
+
+  //       // tl.fromTo('.scroll-bg-section', { autoAlpha: 0 }, {
+  //       //   autoAlpha: 1,
+  //       //   onStart: () => { this.show = 1; this.DivisionId = 1; },
+  //       //   onReverseComplete: () => { this.show = 0; }
+  //       // }, '>-0.2');
+
+  //       // tl.fromTo('.scroll-bg-section-text', { yPercent: 50 }, { yPercent: -190 }, '<')
+  //       //   .fromTo('.scroll-bg-section-text', { yPercent: -190, opacity: 1 }, {
+  //       //     yPercent: -350, opacity: 0, duration: finalTextScrollDuration
+  //       //   }, '>+0.8');
+
+  //       // tl.fromTo('.scroll-bg-section1', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
+  //       //   .fromTo('.scroll-bg-section-text1', { yPercent: 50 }, { yPercent: -190 }, '<')
+  //       //   .fromTo('.scroll-bg-section-text1', { yPercent: -190, opacity: 1 }, {
+  //       //     yPercent: -350, opacity: 0, duration: finalTextScrollDuration
+  //       //   }, '>+0.8');
+
+  //       // tl.fromTo('.scroll-bg-section2', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
+  //       //   .fromTo('.scroll-bg-section-text2', { yPercent: 50 }, { yPercent: -190 }, '<')
+  //       //   .fromTo('.scroll-bg-section-text2', { yPercent: -190, opacity: 1 }, {
+  //       //     yPercent: -350, opacity: 0, duration: finalTextScrollDuration
+  //       //   }, '>+0.8');
+
+  //       // return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-desktop')?.kill(); };
+  //       // ===================== DESKTOP =====================
+  //       if (!document.querySelector('.scroll-bg-section')) return;
+
+  //       gsap.set(
+  //         ['.scroll-bg-section-text', '.scroll-bg-section-text1', '.scroll-bg-section-text2'],
+  //         { autoAlpha: 0, yPercent: 50 }
+  //       );
+  //       gsap.set(
+  //         ['.scroll-bg-section', '.scroll-bg-section1', '.scroll-bg-section2'],
+  //         { autoAlpha: 0 }
+  //       );
+
+  //       let textAnchors: number[] = [];
+
+  //       const tl = gsap.timeline({
+  //         id: 'AboutSection3TL-desktop',
+  //         scrollTrigger: {
+  //           id: 'AboutSection3Trigger-desktop',
+  //           trigger: '#AboutSection3',
+  //           start: 'top top',
+  //           end: '+=4000 bottom',
+  //           scrub: 1,
+  //           pin: true,
+
+  //           snap: {
+  //             snapTo: (value: number) => textAnchors.length ? gsap.utils.snap(textAnchors, value) : value,
+  //             duration: { min: 0.18, max: 0.45 },
+  //             delay: 0.06,
+  //             ease: 'power3.out',
+  //           },
+  //         }
+  //       });
+
+  //       this.AboutSection3Timeline = tl;
+
+  //       const addScene = (
+  //         bgSel: string,
+  //         textSel: string,
+  //         stableLabel: string,
+  //         enterY = -190,
+  //         exitY = -350
+  //       ) => {
+  //         tl.to(bgSel, { autoAlpha: 1, duration: 0.35 }, '>')
+
+  //         const enterTween = tl.fromTo(
+  //           textSel,
+  //           { yPercent: 50, autoAlpha: 0 },
+  //           { yPercent: enterY, autoAlpha: 1, duration: 0.55, ease: 'power2.out' },
+  //           '<'
+  //         );
+
+  //         tl.addLabel(stableLabel, enterTween.endTime());
+
+  //         tl.to({}, { duration: 0.12 });
+
+  //         tl.to(
+  //           textSel,
+  //           { yPercent: exitY, autoAlpha: 0, duration: 1.5, ease: 'none' },
+  //           '>'
+  //         );
+  //       };
+
+  //       tl.fromTo('.scroll-bg-section', { autoAlpha: 0 }, {
+  //         autoAlpha: 1,
+  //         onStart: () => { this.show = 1; this.DivisionId = 1; },
+  //         onReverseComplete: () => { this.show = 0; }
+  //       }, 0);
+
+  //       addScene('.scroll-bg-section', '.scroll-bg-section-text', 't0_stable');
+
+  //       addScene('.scroll-bg-section1', '.scroll-bg-section-text1', 't1_stable');
+  //       addScene('.scroll-bg-section2', '.scroll-bg-section-text2', 't2_stable');
+
+  //       const dur = tl.duration() || 1;
+  //       textAnchors = Object.entries(tl.labels)
+  //         .filter(([name]) => name.endsWith('_stable'))
+  //         .map(([, time]) => time / dur)
+  //         .sort((a, b) => a - b);
+
+  //       return () => {
+  //         tl.kill();
+  //         ScrollTrigger.getById('AboutSection3Trigger-desktop')?.kill();
+  //       };
+
+  //     }
+  //   });
+  // }
+
+
+  //nice sol
   makeanimation() {
     const finalTextScrollDuration = 1.5;
 
@@ -99,6 +281,7 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
     }, (context) => {
       let { desktop, mobile } = context.conditions as any;
 
+      // ------------------ MOBILE (زي ما هو) ------------------
       if (mobile) {
         if (!document.querySelector('.scroll-bg-section-m')) return;
 
@@ -121,7 +304,6 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
           onReverseComplete: () => { this.show = 0; }
         }, '>-0.2');
 
-        // Lighter animation for mobile (reduced yPercent)
         tl.fromTo('.scroll-bg-section-text-m', { yPercent: 50 }, { yPercent: -130 }, '<')
           .fromTo('.scroll-bg-section-text-m', { yPercent: -130, opacity: 1 }, {
             yPercent: -250, opacity: 0, duration: finalTextScrollDuration
@@ -140,49 +322,104 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
           }, '>+0.8');
 
         return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-mobile')?.kill(); };
-      } else {
-        if (!document.querySelector('.scroll-bg-section')) return;
-
-        const tl = gsap.timeline({
-          id: 'AboutSection3TL-desktop',
-          scrollTrigger: {
-            id: 'AboutSection3Trigger-desktop',
-            trigger: '#AboutSection3',
-            start: 'top top',
-            end: '+=4000 bottom',
-            scrub: true,
-            pin: true,
-          }
-        });
-        this.AboutSection3Timeline = tl;
-
-        tl.fromTo('.scroll-bg-section', { autoAlpha: 0 }, {
-          autoAlpha: 1,
-          onStart: () => { this.show = 1; this.DivisionId = 1; },
-          onReverseComplete: () => { this.show = 0; }
-        }, '>-0.2');
-
-        tl.fromTo('.scroll-bg-section-text', { yPercent: 50 }, { yPercent: -190 }, '<')
-          .fromTo('.scroll-bg-section-text', { yPercent: -190, opacity: 1 }, {
-            yPercent: -350, opacity: 0, duration: finalTextScrollDuration
-          }, '>+0.8');
-
-        tl.fromTo('.scroll-bg-section1', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
-          .fromTo('.scroll-bg-section-text1', { yPercent: 50 }, { yPercent: -190 }, '<')
-          .fromTo('.scroll-bg-section-text1', { yPercent: -190, opacity: 1 }, {
-            yPercent: -350, opacity: 0, duration: finalTextScrollDuration
-          }, '>+0.8');
-
-        tl.fromTo('.scroll-bg-section2', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
-          .fromTo('.scroll-bg-section-text2', { yPercent: 50 }, { yPercent: -190 }, '<')
-          .fromTo('.scroll-bg-section-text2', { yPercent: -190, opacity: 1 }, {
-            yPercent: -350, opacity: 0, duration: finalTextScrollDuration
-          }, '>+0.8');
-
-        return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-desktop')?.kill(); };
       }
+
+      // ------------------ DESKTOP (المهم) ------------------
+      if (!document.querySelector('.scroll-bg-section')) return;
+
+      // ✅ امنعي flash قبل ما يبدأ الـ ScrollTrigger
+      gsap.set([
+        '.scroll-bg-section-text',
+        '.scroll-bg-section-text1',
+        '.scroll-bg-section-text2',
+      ], { opacity: 0, yPercent: 50 });
+
+      gsap.set([
+        '.scroll-bg-section',
+        '.scroll-bg-section1',
+        '.scroll-bg-section2',
+      ], { autoAlpha: 0 });
+
+      // ✅ Anchors: نقاط ثبات النص (progress 0..1)
+      let textAnchors: number[] = [];
+
+      const tl = gsap.timeline({
+        id: 'AboutSection3TL-desktop',
+        scrollTrigger: {
+          id: 'AboutSection3Trigger-desktop',
+          trigger: '#AboutSection3',
+          start: 'top top',
+          end: '+=4000 bottom',
+          scrub: 1,
+          pin: true,
+
+          // ✅ Snap لأقرب نص "ثابت 100%"
+          snap: {
+            snapTo: (value: number) => {
+              if (!textAnchors.length) return value;
+              return gsap.utils.snap(textAnchors, value);
+            },
+            duration: { min: 0.18, max: 0.45 },
+            delay: 0.06,
+            ease: 'power3.out',
+          },
+        }
+      });
+
+      this.AboutSection3Timeline = tl;
+
+      // Helper يبني (background + text scene) ويضيف anchor عند "النص ثابت"
+      const addScene = (opts: {
+        bg: string;
+        text: string;
+        sceneIndex: number;
+      }) => {
+        const { bg, text, sceneIndex } = opts;
+
+        // 1) background يظهر
+        tl.to(bg, { autoAlpha: 1, duration: 0.4 }, sceneIndex === 0 ? 0 : '>');
+        if (sceneIndex === 0) {
+          tl.add(() => { this.show = 1; this.DivisionId = 1; }, '<');
+        }
+
+        // 2) دخول النص: y + opacity (ده مهم عشان crossfade يبقى حقيقي)
+        const enterTween = tl.to(text, {
+          yPercent: -190,
+          opacity: 1,
+          duration: 0.55,
+          ease: 'power2.out'
+        }, '<');
+
+        // ✅ Anchor هنا: لحظة ما النص بقى في مكانه + opacity=1
+        tl.addLabel(`text${sceneIndex}_stable`, enterTween.endTime());
+
+        // 3) Hold بسيط (اختياري) يخلي النص ثابت لحظة قبل ما يبدأ يطلع
+        tl.to({}, { duration: 0.15 });
+
+        // 4) خروج النص: يبدأ يطلع ويختفي
+        tl.to(text, {
+          yPercent: -350,
+          opacity: 0,
+          duration: finalTextScrollDuration,
+          ease: 'none'
+        }, '>');
+      };
+
+      addScene({ bg: '.scroll-bg-section', text: '.scroll-bg-section-text', sceneIndex: 0 });
+      addScene({ bg: '.scroll-bg-section1', text: '.scroll-bg-section-text1', sceneIndex: 1 });
+      addScene({ bg: '.scroll-bg-section2', text: '.scroll-bg-section-text2', sceneIndex: 2 });
+
+      // ✅ بعد ما التايملاين اتبنى: نحسب anchors كنسبة progress
+      const dur = tl.duration() || 1;
+      textAnchors = Object.entries(tl.labels)
+        .filter(([name]) => name.includes('_stable'))
+        .map(([, time]) => time / dur)
+        .sort((a, b) => a - b);
+
+      return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-desktop')?.kill(); };
     });
   }
+
   get isRtl() {
     return this.language.currentLang === 'ar';
   }

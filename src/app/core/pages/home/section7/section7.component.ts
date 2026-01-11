@@ -271,7 +271,7 @@ export class Section7Component {
                 scrub: false,
                 anticipatePin: 1,
                 start: isMobile ? 'top 85%' : 'top top',
-                end: isMobile ? 'top bottom' : '150% bottom',
+                end: isMobile ? 'top bottom' : '160% bottom',
                 pinSpacing: isMobile ? true : true,
                 pinType: 'transform',
                 id: 'section7',
@@ -421,6 +421,7 @@ export class Section7Component {
                 },
                 '>-0.1'
               );
+              tl.fromTo("#Section7Btn", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'sine.out' }, '>-0.1');
 
               // ✅ مهم عشان الحسابات تتظبط بعد pin/end
               // ScrollTrigger.refresh();

@@ -100,13 +100,21 @@ img {
 
 @for $i from 1 through 6 {
     .hero-visuals.stack-#{$i}:hover .portfolio-overlay {
-        transform: translate3d((125% -($i *5)), 0, 0) scale(1);
+        // transform: translate3d((125% -($i *5)), 0, 0) scale(1);
+
+        &[dir="rtl"] {
+            transform: translate3d((125% -($i *5)), 0, 0) scale(1);
+        }
+
+        &[dir="ltr"] {
+            transform: translate3d((-37% -($i *5)), 0, 0) scale(0.94);
+        }
     }
 }
 
 
 @for $i from 1 through 6 {
-    .stack-#{$i} .portfolio-overlay {
+    .stack-wrap .hero-visuals.stack-#{$i} .portfolio-overlay {
         top: -160% - (-27% *$i);
     }
 }
@@ -119,18 +127,18 @@ img {
     }
 
     @for $i from 1 through 6 {
-        .stack-#{$i} {
+        .stack-wrap .hero-visuals.stack-#{$i} {
             z-index: 7 - $i;
             transform: translate3d(-#{($i - 1) * 1.5}rem, #{-($i - 1) * 2}rem, 0);
         }
     }
 
     @for $i from 1 through 6 {
-        .hero-visuals.stack-#{$i}:hover .portfolio-overlay {
+        .stack-wrap .hero-visuals.stack-#{$i}:hover .portfolio-overlay {
             transform: translate3d(#{($i) * 1.5}rem, #{-($i - 1) * 0.4}rem, 0) scale(1.5);
         }
 
-        .hero-visuals.stack-#{$i}:hover {
+        .stack-wrap .hero-visuals.stack-#{$i}:hover {
             z-index: 1000;
         }
 
@@ -138,15 +146,16 @@ img {
 
 
     @for $i from 1 through 6 {
-        .stack-#{$i} .portfolio-overlay {
+        .stack-wrap .hero-visuals.stack-#{$i} .portfolio-overlay {
             top: -100% - (-25% *($i)-1);
         }
     }
 }
+
 @media(max-width:400px) {
-.screens-hero {
-    min-height: 110vh;
-    gap: 2rem;
-}
+    .screens-hero {
+        min-height: 110vh;
+        gap: 2rem;
+    }
 
 }

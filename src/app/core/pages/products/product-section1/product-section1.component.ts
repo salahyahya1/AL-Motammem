@@ -44,7 +44,7 @@ export class ProductSection1Component implements AfterViewInit {
       requestAnimationFrame(() => {
         setTimeout(() => {
           // لو عربي خلي الليست 1..4 عشان الشرط بتاع أول عنصرين
-          this.items = this.isRtl ? [1, 2, 3, 4, 5] : [1, 2, 3];
+          this.items = this.isRtl ? [1, 2, 3, 4, 5] : [1, 2, 3, 4, 5];
 
           let mm = gsap.matchMedia();
 

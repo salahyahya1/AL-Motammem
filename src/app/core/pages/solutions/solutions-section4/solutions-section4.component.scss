@@ -27,7 +27,15 @@
 /* wrapper */
 .capsule-solutions-wrap {
     position: relative;
-    width: min(620px, 88vw);
+
+    &[dir="rtl"] {
+        width: min(620px, 88vw);
+    }
+
+    &[dir="ltr"] {
+        width: min(687px, 88vw);
+    }
+
     /* ✅ أصغر بكتير */
     aspect-ratio: 759 / 132;
     margin-top: 1.5rem;
@@ -49,11 +57,19 @@
     z-index: 2;
     margin: 0;
     text-align: center;
-    direction: rtl;
     line-height: 1.25;
+
     padding: 0 18px;
     /* عشان النص مايلمسش الحدود */
-    max-width: 92%;
+
+    &[dir="rtl"] {
+        max-width: 92%;
+    }
+
+    &[dir="ltr"] {
+        max-width: 100%;
+    }
+
     color: var(--primary);
     font-weight: 800;
     pointer-events: none;
@@ -76,7 +92,15 @@
 
 @media (max-width: 767px) {
     .capsule-solutions-wrap {
-        width: min(680px, 94vw);
+        // width: min(680px, 94vw);
+
+        &[dir="rtl"] {
+            width: min(680px, 94vw);
+        }
+
+        &[dir="ltr"] {
+            width: min(747px, 94vw);
+        }
     }
 
     .capsule-solutions-title {

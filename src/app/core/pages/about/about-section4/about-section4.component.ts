@@ -9,10 +9,12 @@ import SplitText from "gsap/SplitText";
 
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
+import { LanguageService } from '../../../shared/services/language.service';
+import { TranslatePipe } from '@ngx-translate/core';
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 @Component({
   selector: 'app-about-section4',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './about-section4.component.html',
   styleUrl: './about-section4.component.scss'
 })
@@ -25,6 +27,7 @@ export class AboutSection4Component {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
+    private language: LanguageService
   ) {
   }
   @ViewChild('swiperEl') swiperEl!: ElementRef<HTMLDivElement>;
@@ -32,30 +35,28 @@ export class AboutSection4Component {
 
   features = [
     {
-      title: 'الثقة:',
-      text:
-        'خلال أربعة عقود من العمل المتواصل استطاع المتمم أن يكتسب ثقة العديد والعديد من العملاء في مصر والشرق الاوسط وشمال افريقيا وكانت هذه الثقة منبعها الحرفية والمهنية العالية لدينا في كل مراحل العمل.',
+      title: 'ABOUT.SECTION4.VALUES.TRUST.TITLE',
+      text: 'ABOUT.SECTION4.VALUES.TRUST.TEXT',
     },
     {
-      title: 'الجودة:',
-      text:
-        'يسعى المتمم لتوفير حلول لأنظمة تخطيط موارد المؤسسات ERP System من خلال برامج عالية الجودة تضيف قيمة حقيقية لعملائها وتساهم في نمو أعمالهم.',
+      title: 'ABOUT.SECTION4.VALUES.QUALITY.TITLE',
+      text: 'ABOUT.SECTION4.VALUES.QUALITY.TEXT',
     },
     {
-      title: 'التطوير والابتكار:',
-      text: `یؤمن المتمم والقائمین علیه بأن التطویر والابتكار المستمر ھو الضامن لتقدیم حلول متطورة ومبتكرة توفر تجربة مستخدم مختلفة تمامًا. من خلال الدراسات والبحث المستمر ومتابعة جدید التشریعات والتكنولوجیا من خلال فرقنا ومھندسینا لنقدم حلول تكنولوجیة مبتكرة تساھم في تبسیط المھام والعملیات بما یتوافق مع القوانین واللوائح والتشریعات.`,
+      title: 'ABOUT.SECTION4.VALUES.INNOVATION.TITLE',
+      text: 'ABOUT.SECTION4.VALUES.INNOVATION.TEXT',
     },
     {
-      title: 'الكفاءة والفعالیة:',
-      text: `الكفاءة والفعالیة التي تتمتع بھا خدماتنا وفریق عملنا وفریق الدعم لدینا ھما ركیزتان أساسیتان في اكتساب ثقة عملائنا واعتمادھم على الحلول التي نقدمھا لتبسیط مھامھم ودفعھم نحو الازدھار والنمو.`,
+      title: 'ABOUT.SECTION4.VALUES.EFFICIENCY.TITLE',
+      text: 'ABOUT.SECTION4.VALUES.EFFICIENCY.TEXT',
     },
     {
-      title: 'الالتزام:',
-      text: `نحن ملتزمون بالدعم المستمر لأنظمتنا ولفرق العمل لدى عملائنا وتقدیم حلول SYSTEM ERP ذكیة وشاملة تساعد وتساھم في تحقیق أھداف عملائنا.`,
+      title: 'ABOUT.SECTION4.VALUES.COMMITMENT.TITLE',
+      text: 'ABOUT.SECTION4.VALUES.COMMITMENT.TEXT',
     },
     {
-      title: 'القوة والأخلاق:',
-      text: `یؤمن المتمم أن القوة تنبع من مبادئ مھنیة وقیم أخلاقیة وحضاریة، والالتزام بالمبادئ والقیم الخاصة بالمؤسسة وسیاستنا الأخلاقیة یجسدھا كل العاملین لدینا، لأن قیمنا الأخلاقیة ھي مبادئ شخصیة وأسلوب حیاة یتمتع بھ كل العاملین لدینا.`,
+      title: 'ABOUT.SECTION4.VALUES.INTEGRITY.TITLE',
+      text: 'ABOUT.SECTION4.VALUES.INTEGRITY.TEXT',
     },
   ];
 
@@ -81,8 +82,8 @@ export class AboutSection4Component {
             loop: true,
             grabCursor: true,
             navigation: {
-              nextEl: '#arrowRight2',
-              prevEl: '#arrowLeft2',
+              nextEl: this.isRtl ? '#arrowLeft2' : '#arrowRight2',
+              prevEl: this.isRtl ? '#arrowRight2' : '#arrowLeft2',
             },
             breakpoints: {
               0: { slidesPerView: 2, spaceBetween: 19 },
@@ -176,7 +177,7 @@ export class AboutSection4Component {
                   rotateY: 0,
                   y: 0,
                   filter: "blur(0px)",
-                  duration: 1.2,
+                  duration: 0.7,
                   stagger: {
                     each: 0.25,
                     from: "start"
@@ -186,8 +187,8 @@ export class AboutSection4Component {
             }
 
             tl.to("#capsuleAboutWrap", {
-              y: mobile ? 20 : -60, // Reduced movement on mobile
-              duration: 1,
+              y: mobile ? 20 : -40, // Reduced movement on mobile
+              duration: 0.6,
               ease: "power2.inOut",
             }, ">-0.4");
 
@@ -208,7 +209,7 @@ export class AboutSection4Component {
               },
               opacity: 0,
               y: mobile ? 40 : 60, // Reduced movement on mobile
-              duration: 0.7,
+              duration: 0.5,
               stagger: 0.2,
               ease: 'power3.out',
             });
@@ -221,5 +222,8 @@ export class AboutSection4Component {
         }, 500);
       });
     });
+  }
+  get isRtl() {
+    return this.language.currentLang === 'ar';
   }
 }

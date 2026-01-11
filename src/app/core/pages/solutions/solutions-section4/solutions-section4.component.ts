@@ -172,4 +172,7 @@ export class SolutionsSection4Component {
             });
         });
     }
+    get isRtl() {
+        return this.language.currentLang === 'ar';
+    }
 }

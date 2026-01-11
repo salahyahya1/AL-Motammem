@@ -6,14 +6,14 @@
         </h2>
 
         <p id="SubText7"
-            class="text-center text-sm md:text-base text-[0.8rem] lg:text-[1.3rem] max-w-3xl text-[#E3F2FD] mb-10 leading-relaxed">
+            class="text-center text-sm md:text-base text-[0.8rem] lg:text-[1.3rem] max-w-3xl text-[#E3F2FD] mb-5 leading-relaxed">
             {{ 'HOME.PLANS.SUB-TITLE' | translate }}
         </p>
 
         <div
             class="cards relative flex flex-col md:flex-row justify-center items-center gap-6 lg:gap-8 w-full lg:w-[85%] py-40  mx-auto">
             <div
-                class="card card1 text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[33%] lg:w-[33%] xl:w-[25%] text-(--dark-gray) flex flex-col items-center p-6 md:p-8 shadow-md">
+                class="card card1 text-start absolute opacity-0 rounded-[40px] w-[90%] md:w-[33%] lg:w-[33%] xl:w-[25%] text-(--dark-gray) flex flex-col items-center p-6 md:p-8 shadow-md">
                 <div class="relative text-start" style="width: 95%;" [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div dir="ltr" class="flex gap-x-2">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
@@ -43,7 +43,7 @@
 
                     </p>
                     <ul
-                        class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 rtl:pb-6 ltr:pb-0 md:pr-[16px] lg:pr-[0px]">
+                        class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 rtl:pb-6 ltr:pb-6 md:pr-[16px] lg:pr-0 ">
                         @for (item of [1,2,3,4]; track item) {
                         <li>
                             {{ ('HOME.PLANS.CARD1.LIST.' + (item-1)) | translate }}
@@ -60,7 +60,7 @@
                 </div>
             </div>
             <div
-                class="card card2 text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[33%] lg:w-[33%] xl:w-[25%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:pe-[17px] md:ps-[18px]  lg:p-5 xl:p-6 shadow-md">
+                class="card card2 text-start absolute opacity-0 rounded-[40px] w-[90%] md:w-[33%] lg:w-[33%] xl:w-[25%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:pe-[17px] md:ps-[18px]  lg:p-5 xl:p-6 shadow-md">
                 <div class="relative flex flex-col items-center w-[80%] lg:w-[97%]  xl:w-[99%]  text-start"
                     [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div dir="ltr" class="flex gap-x-2 justify-center items-center  w-full">
@@ -80,12 +80,12 @@
                             </div>
                         </div>
                     </div>
-                    <p class="card-text1 font-extrabold text-[1.1rem] text-right">
+                    <p class="card-text1 font-extrabold text-[1.1rem] text-start w-[86%]">
                         {{ 'HOME.PLANS.CARD2.TITLEp1' | translate }} <br>
                         {{ 'HOME.PLANS.CARD2.TITLEp2' | translate }}
                     </p>
                     <ul
-                        class="text-gray-800 text-sm leading-relaxed mb-4 md:pr-[16px] pb-5 md:pb-0 md:mb-3 lg:pb-5 lg:mb-4 lg:pr-[0px] lg:w-[85%]">
+                        class="text-gray-800 text-sm leading-relaxed mb-4 min-[768px]:pr-[16px] pb-5 min-[768px]:pb-0 min-[768px]:mb-3 min-[1024px]:pb-5 min-[1279px]:mb-3 min-[1279px]:pb-0 min-[1519px]:mb-4 min-[1519px]:pb-5 min-[1024px]:mb-4  min-[1024px]:pr-0 min-[1024px]:w-[85%] ltr:max-[2000px]:mb-4 ltr:max-[2000px]:pb-5">
                         @for (item of [1,2,3,4,5]; track item) {
                         <li>
                             {{ ('HOME.PLANS.CARD2.LIST.' + (item-1)) | translate }}
@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div
-                class=" card card3  text-right absolute opacity-0 rounded-[40px] w-[90%] md:w-[33%] lg:w-[33%] xl:w-[25%] text-[#0D47A1] flex flex-col items-center  p-6 md:p-8 shadow-md">
+                class=" card card3  text-start absolute opacity-0 rounded-[40px] w-[90%] md:w-[33%] lg:w-[33%] xl:w-[25%] text-[#0D47A1] flex flex-col items-center  p-6 md:p-8 shadow-md">
                 <div class="relative   text-start" style="width: 95%;" [dir]="isRtl ? 'rtl' : 'ltr'">
                     <div dir="ltr" class="flex gap-x-2">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
@@ -133,7 +133,7 @@
                         @for (i of [0,2,3,4]; track i) {
                         <li>
                             @if (i === 0) {
-                            {{ 'HOME.PLANS.CARD3.LIST.0' | translate }} <br>
+                            {{ 'HOME.PLANS.CARD3.LIST.0' | translate }} <br class="ltr:hidden">
                             {{ 'HOME.PLANS.CARD3.LIST.1' | translate }}
                             } @else {
                             {{ ('HOME.PLANS.CARD3.LIST.' + i) | translate }}
@@ -152,13 +152,12 @@
             </div>
         </div>
 
-        <p id="bottom-text" class="text-sm text-[1.3rem] text-white rtl:mt-13 lg:mt-13 ltr:mt-5">
+        <p id="bottom-text" class="text-sm text-[1.3rem] text-white rtl:mt-5 lg:mt-5 ltr:mt-5">
             {{ 'HOME.PLANS.DETAILS' | translate }}
         </p>
 
-        <div class="flex justify-center w-full pt-5">
-            <a id="button2home"
-                href="https://wa.me/201205999468?text=%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%AE%D8%AF%D9%85%D9%87"
+        <div class="flex justify-center w-full pt-5" id="Section7Btn">
+            <a href="https://wa.me/201205999468?text=%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%AE%D8%AF%D9%85%D9%87"
                 target="_blank" rel="noopener noreferrer"
                 class="bg-[var(--primary-light)] hover:bg-[var(--primary-dark)] text-white px-14 py-3 rounded-full text-sm font-semibold shadow-md transition mx-auto">
                 أبدأ المحادثة الآن

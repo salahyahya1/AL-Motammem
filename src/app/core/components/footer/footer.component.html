@@ -9,6 +9,7 @@
             </p>
 
             <address class="not-italic space-y-2 text-sm leading-relaxed text-[color:var(--blue-gray,#E9E9E9)]">
+                <span class="font-semibold text-base">{{ 'FOOTER.COMPANY_NAME' | translate }} </span>
                 <p>{{ 'FOOTER.ADDRESS' | translate }} </p>
                 <p class="flex flex-col">
                     <a href="tel:+20255896333" dir="ltr"
@@ -96,7 +97,7 @@
 
                 <li><a routerLink="/FAQS"
                         class="text-[color:var(--blue-gray,#E9E9E9)] underline underline-offset-4 decoration-transparent transition hover:text-[var(--secondary)] hover:decoration-[var(--secondary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--secondary)] rounded px-0.5">
-                        FAQS</a></li>
+                        {{ 'FOOTER.FAQS' | translate }}</a></li>
             </ul>
         </nav>
 
@@ -128,13 +129,11 @@
                 </p>
 
                 <ul class="space-y-2 text-sm">
-                    <li><a (click)="setLang('ar')"
-                        href=""
+                    <li><a (click)="setLang('ar')" href=""
                             class="text-[color:var(--blue-gray,#E9E9E9)] underline underline-offset-4 decoration-transparent transition hover:text-[var(--secondary)] hover:decoration-[var(--secondary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--secondary)] rounded px-0.5">{{
                             'FOOTER.LANG_AR' | translate }} </a>
                     </li>
-                    <li><a (click)="setLang('en')"
-                            href=""
+                    <li><a (click)="setLang('en')" href=""
                             class="text-[color:var(--blue-gray,#E9E9E9)] underline underline-offset-4 decoration-transparent transition hover:text-[var(--secondary)] hover:decoration-[var(--secondary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--secondary)] rounded px-0.5">{{
                             'FOOTER.LANG_EN' | translate }} </a>
                     </li>

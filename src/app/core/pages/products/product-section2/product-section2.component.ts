@@ -6,12 +6,13 @@ import InertiaPlugin from "gsap/InertiaPlugin";
 
 import SplitText from "gsap/SplitText";
 import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 gsap.registerPlugin(ScrollTrigger, SplitText, InertiaPlugin);
 @Component({
   selector: 'app-product-section2',
-  imports: [OpenFormDialogDirective],
+  imports: [OpenFormDialogDirective, TranslatePipe],
   templateUrl: './product-section2.component.html',
   styleUrl: './product-section2.component.scss'
 })

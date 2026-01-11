@@ -86,7 +86,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    direction: rtl;
+    // direction: rtl;
     position: relative;
 
     .controls {
@@ -141,10 +141,6 @@
         position: relative;
         transition: transform 0.4s ease;
 
-        .text-content {
-            direction: rtl;
-        }
-
         h3 {
             color: #0073ff;
             font-size: 1.2rem;
@@ -176,7 +172,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        direction: rtl;
         position: relative;
 
         .controls {
@@ -230,10 +225,6 @@
             width: 102.5%;
             position: relative;
             transition: transform 0.4s ease;
-
-            .text-content {
-                direction: rtl;
-            }
 
             h3 {
                 color: #0073ff;

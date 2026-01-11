@@ -1,23 +1,24 @@
-<section id="productSection6">
+<section id="productSection6" class="ltr:min-h-screen">
     <div
-        class=" h-screen pt-0 lg:pt-10 xl:pt-9 w-[80%] sm:max-w-md md:max-w-[39rem] lg:max-w-[49rem] mx-auto  grid grid-rows-6 grid-flow-col">
+        class=" h-screen pt-0 lg:pt-10 xl:pt-9 w-[80%] ltr:lg:pt-0 ltr:xl:pt-0 ltr:lg:pb-23 ltr:xl:pb-25   sm:max-w-md md:max-w-[39rem] lg:max-w-[49rem] mx-auto  grid grid-rows-6 grid-flow-col">
         <div class="gap-2 row-start-2 row-span-1">
             <div class="text-start">
                 <h1 id="productSection6Title1"
                     class="font-bold text-[1.2rem] md:text-[1.4rem] lg:text-[1.5rem] xl:text-[1.8rem] text-[var(--white)] pb-[1.4rem]">
-                    ما يميز خطط المتمم:
+                    <!-- ما يميز خطط المتمم: -->
+                    {{ 'PRODUCTS.SECTION7.MAINTITLE' | translate }}
                 </h1>
                 <h2 id="productSection6Title2"
                     class="font-bold text-[1.1rem] md:text-[1.3rem] lg:text-[1.4rem] xl:text-[1.7rem] text-[#F4B942] pb-4">
-                    4- مرونة النظام - <span dir="ltr">System Flexability</span>
+                    {{ 'PRODUCTS.SECTION6.TITLE.Tar' | translate }}
+                    <span dir="ltr">{{ 'PRODUCTS.SECTION6.TITLE.Ten' | translate }}</span>
                 </h2>
 
                 <p id="productSection6SubTitle"
                     class="text-[0.6rem] md:text-[0.8rem] lg:text-[1rem] xl:[1.2rem] text-[var(--white)]">
-                    مرونة تشغيل حقيقية… نظام يتكيّف معك في كل مرحلة في أغلب أنظمة الـERPs، يكون النظام جامد، ثابت،
-                    ويُجبر الشركات على طريقة تشغيل واحدة حتى وان كانت غير مناسبة لنشاطك أو لطريقة فريقك في العمل.
+                    {{ 'PRODUCTS.SECTION6.SUBTITLE.PART1' | translate }}
                     <br class="sm:block hidden" />
-                    ومع الوقت، تبدأ المشكلة في الظهور:
+                    {{ 'PRODUCTS.SECTION6.SUBTITLE.PART2' | translate }}
                 </p>
             </div>
 
@@ -42,26 +43,25 @@
                 <div>
                     <div
                         class="w-[90%] mb-3.5 sm:min-w-[462px] px-6 py-3 flex justify-center items-center rounded-full border border-[#F4B942] text-white text-center text-[0.6rem] md:text-[0.8rem] lg:text-[1rem] xl:[1.2rem] font-bold ">
-                        <span> تحتاج تعديلات بسيطة، فتكتشف أنها مستحيلة</span>
+                        <span> {{ 'PRODUCTS.SECTION6.POINTS.0' | translate }}</span>
                     </div>
                     <div
                         class="w-[90%] mb-3.5 sm:min-w-[462px] px-6 py-3 flex justify-center items-center rounded-full border border-[#F4B942] text-white text-center text-[0.6rem] md:text-[0.8rem] lg:text-[1rem] xl:[1.2rem] font-bold ">
-                        <span> تغيّر في الإجراءات فتجد النظام غير قادر على استيعاب ذلك التغيير</span>
+                        <span> {{ 'PRODUCTS.SECTION6.POINTS.1' | translate }}</span>
                     </div>
 
                     <div class="w-[90%] mb-3.5 sm:min-w-[462px] px-6 py-3 rounded-full border border-[#F4B942] text-white text-center text-[0.6rem] md:text-[0.8rem] lg:text-[1rem] xl:[1.2rem] font-bold "
                         style="line-height: normal">
                         <span>
-                            تكبر الشركة، فتضطر تغيير النظام بالكامل
+                            {{ 'PRODUCTS.SECTION6.POINTS.2' | translate }}
                         </span>
                     </div>
                 </div>
             </div>
             <p id="productSection6Footer"
                 class="text-[#F4B942] text-start text-[0.6rem] md:text-[0.8rem] lg:text-[1rem] xl:[1.2rem] font-bold w-[90%]">
-                أما
-                في المتمم، فالمرونة جزء أساسي من تصميم النظام وليس مجرد إضافة جانبية كما كنا مع الاف الشركات  على
-                مدار 40 عاما</p>
+                {{ 'PRODUCTS.SECTION6.FOOTER' | translate }}
+            </p>
         </div>
     </div>
     <video id="videoElement2" autoplay muted loop playsinline
