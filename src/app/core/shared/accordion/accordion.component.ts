@@ -22,6 +22,7 @@ import { isPlatformBrowser } from '@angular/common';
 export class AccordionComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input({ required: true }) title!: string;
   @Output() deletefaq = new EventEmitter<number>();
+  @Output() editfaq = new EventEmitter<number>();
   /** لو عندك أكتر من مجموعة Accordions في نفس الصفحة */
   @Input() groupId: string = 'default';
 
@@ -31,6 +32,7 @@ export class AccordionComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() disabled = false;
   @Input() duration = 0.35;
   @Input() isDeleteable = false;
+  @Input() isEditable = false;
 
   isOpen = false;
 
@@ -194,6 +196,11 @@ export class AccordionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   delete() {
     this.deletefaq.emit();
+    // console.log(this.id);
+
+  }
+  Edit() {
+    this.editfaq.emit();
     // console.log(this.id);
 
   }

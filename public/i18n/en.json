@@ -1,12 +1,12 @@
 {
   "NAVBAR": {
-    "MAIN": "HOME",
-    "ABOUT-US": "ABOUT US",
+    "MAIN": "Home",
+    "ABOUT-US": "About us",
     "SOLUTIONS": "Solutions and sectors",
     "PRODUCTS": "Products",
     "kNOWLEDGE": "Knowledge base",
-    "CONTACT": "Contact Us",
-    "SUPPORT": "FAQS"
+    "CONTACT": "Contact us",
+    "SUPPORT": "FAQs"
   },
   "HOME": {
     "INDECATORS": {
@@ -24,7 +24,7 @@
       "SUB-TITLE": "Al Motammem ERP for enterprise resource management, backed by 40 years of experience in local and Gulf markets.",
       "DETAILS": "Financial management - inventory - HR and payroll - reporting - fixed assets management - cash and banks - letters of guarantee - letters of credit - tax integrations, plus many more features tailored to your business.",
       "BTN1": "Book a free consultation",
-      "BTN2": "Start chat Know"
+      "BTN2": "Start chat now"
     },
     "STATUS": {
       "CARD1": "Active Clients",
@@ -110,7 +110,7 @@
       }
     },
     "INTEGRATIONS": {
-      "TITLE": "Integrations, detail, and performance that no other system offers with this level of ease of use",
+      "TITLE": "Integrations, and performance that no other system offers with this level of ease of use",
       "SUB-TITLE": "Al-Motammem is not just an ERP, and it doesn’t force you to start from scratch. It connects with your existing tools such as Google, Excel, payment gateways, complies with tax systems (ETA & ZATCA), and integrates with your bank accounts. Everything works together seamlessly, with no complexity and no extra development costs.",
       "DETAILS": "These ready-made integrations for importing and exporting data mean your team doesn’t waste time manually moving data or dealing with costly external interfaces."
     },
@@ -152,7 +152,8 @@
           "Extensive integrations."
         ],
         "CTA": "Book a free consultation"
-      }
+      },
+      "CTA": "Start chat now"
     },
     "CONTACT-US": {
       "TITLE": "Start your business transformation journey with Al-Motammem today",
@@ -617,10 +618,65 @@
     },
     "footer": "These terms may change from time to time, so please check back periodically."
   },
+  "BLOGS": {
+    "TITLE": "Al Motammem Knowledge Center",
+    "DESC": "Here you will find concise articles that help you understand Enterprise Resource Planning (ERP) systems, develop your business, and explore best practices in financial management, inventory, human resources, and more… backed by over 40 years of experience.",
+    "MOST_READ": "Most Read",
+    "DISCOVER_MORE": "Discover more",
+    "ADD": "Add New Article",
+    "LOADING": "Loading articles...",
+    "ALL_ARTICLES": "All Articles",
+    "SHOW_MORE": "Show more articles",
+    "CTA": {
+      "TITLE": "Try Al Motammem System Now",
+      "SUB1": "Simpler financial management, faster reports, and higher security.",
+      "SUB2": "Sign up now for a free trial!"
+    },
+    "DELETE_CONFIRM": {
+      "MESSAGE": "Do you want to delete this article?",
+      "NO": "No",
+      "YES": "Yes"
+    }
+  },
+  "BLOG_VIEW": {
+    "CTA": {
+      "BUTTON": "Try Al Motammem Now",
+      "LINE1": "Easier financial management, faster reports, and higher security.",
+      "LINE2": "Sign up now to get a free trial!"
+    }
+  },
+  "CONTACT": {
+    "INTRO": "Tell us what you need, and one of our experts will get in touch with you within 24 hours.",
+    "CTA": "Contact Us",
+    "ADDRESS_COMPANY_NAME": "Microtech Company : ",
+    "ADDRESS_COMPANY": "3 Mosaddeq Street, Dokki, Giza, 12311, Cairo, Egypt",
+    "FORM": {
+      "FULL_NAME": "Full Name",
+      "PHONE": "Phone Number",
+      "EMAIL": "Email Address",
+      "MESSAGE": "Message / Describe your needs (Optional)",
+      "SUBMIT": "Submit"
+    }
+  },
+  "FAQ": {
+    "BADGE": "Frequently Asked Questions",
+    "TITLE": "FAQs",
+    "DESC": "Getting started with a business management software system requires ensuring it fits your operational needs and activities. We encourage you to review the answers provided here, and feel free to contact us by phone if you have any additional questions. We will be happy to assist you or receive your inquiries through the \"Contact Us\" page.",
+    "FORM": {
+      "REMOVE": "Delete",
+      "QUESTION_AR": "Question (Arabic)",
+      "QUESTION_EN": "Question (English)",
+      "ANSWER_AR": "Answer (Arabic)",
+      "ANSWER_EN": "Answer (English)",
+      "ADD_NEW": "Add New Question",
+      "SUBMIT": "Add"
+    },
+    "LOADING": "Loading FAQs..."
+  },
   "FOOTER": {
     "COMPANY_NAME": " Microtech Company:",
     "CONTACT_TITLE": "Contact us",
-    "ADDRESS": "6 Mostafa El-Nahhas Street – Nasr City – Cairo",
+    "ADDRESS": "3 Mosaddeq Street, Dokki, 11321, Giza, Egypt",
     "QUICK_LINKS_TITLE": "Quick links",
     "LINK_HOME": "Home",
     "LINK_ABOUT": "About us",

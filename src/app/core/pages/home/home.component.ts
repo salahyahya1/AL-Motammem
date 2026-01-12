@@ -129,8 +129,6 @@ import { Section3Component } from './section3/section3.component';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
 import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
-// import { ScrollSnapService } from '../../shared/services/scroll-snap.service';
-
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 @Component({
@@ -166,7 +164,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private navTheme: NavbarThemeService,
     private sectionsRegistry: SectionsRegistryService,
-    // private snap: ScrollSnapService,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -212,30 +209,34 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       // ScrollTrigger.refresh();
 
     });
-    // this.ngZone.runOutsideAngular(() => {
-    //   setTimeout(() => {
-    //     this.snap.init({
-    //       panelSelector: '.panel',
-    //       navOffsetPx: 0,          // لو عندك navbar ثابتة حطي ارتفاعها
-    //       enableOnMobile: false,   // عشان الموبايل مايبقاش مزعج
-    //       // سيبيه فاضي: السرفس هيكتشف ScrollSmoother لو موجود
-    //     });
-    //   }, 150);
-    // });
   }
 
   // ✅ Desktop only
   private observeSections() {
     const sections = gsap.utils.toArray<HTMLElement>('.panel');
-    sections.forEach((section) => {
+    sections.forEach((section, index) => {
       const textColor = section.dataset['textcolor'] || 'var(--primary)';
+      const bgColor = section.dataset['bgcolor'] || 'var(--white)';
 
       ScrollTrigger.create({
         trigger: section,
         start: 'top 50%',
         end: 'bottom 50%',
-        onEnter: () => this.updateNavbarColors(textColor),
-        onEnterBack: () => this.updateNavbarColors(textColor),
+        onEnter: () => {
+          this.navTheme.setColor(textColor);   // ✅ سيبها زي ما هي
+          this.navTheme.setBg(bgColor);        // ✅ الجديد
+        },
+        onEnterBack: () => {
+          this.navTheme.setColor(textColor);
+          this.navTheme.setBg(bgColor);
+        },
+        onLeaveBack: () => {
+          if (index === 0) {
+            this.navTheme.setBg('var(--white)');
+            this.navTheme.setColor('var(--primary)');
+            return;
+          }
+        },
       });
     });
   }
@@ -316,7 +317,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     if (subtitle) subtitle.textContent = 'Al Motammem ERP for enterprise resource management, backed by 40 years of experience in local and Gulf markets.';
     if (details) details.textContent = 'Financial management - inventory - HR and payroll - reporting - fixed assets management - cash and banks - letters of guarantee - letters of credit - tax integrations, plus many more features tailored to your business.';
     if (btn1) btn1.textContent = 'Book a free consultation';
-    if (btn2) btn2.textContent = "Start chat Know";
+    if (btn2) btn2.textContent = "Start chat now";
 
     hero.setAttribute('dir', 'ltr');
     hero.classList.add('is-en');
@@ -325,7 +326,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
-    // this.snap.destroy();
     if (this.isBrowser) {
       try {
         window.removeEventListener('resize', this.onResize);

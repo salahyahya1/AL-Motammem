@@ -8,7 +8,7 @@ import InertiaPlugin from "gsap/InertiaPlugin";
 import SplitText from "gsap/SplitText";
 
 import Swiper from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 import { TranslatePipe } from '@ngx-translate/core';
 import { RemiveRoleAriaService } from '../../../shared/services/removeRoleAria';
@@ -82,9 +82,9 @@ export class SolutionsSection2Component {
           let solutionsSection2TITLESplit: SplitText;
 
           // Initialize Swiper (Common)
-          Swiper.use([Navigation, Pagination]);
+          Swiper.use([Navigation, Pagination, Autoplay]);
           const swiper = new Swiper(this.swiperEl.nativeElement, {
-            modules: [Navigation, Pagination],
+            modules: [Navigation, Pagination, Autoplay],
             direction: 'horizontal',
             slidesPerView: 3,
             spaceBetween: 30,
@@ -93,15 +93,25 @@ export class SolutionsSection2Component {
             navigation: {
               // nextEl: '#arrowRight2',
               // prevEl: '#arrowLeft2',
-              nextEl: this.isRtl ? '#arrowLeft2' : '#arrowRight2',
-              prevEl: this.isRtl ? '#arrowRight2' : '#arrowLeft2',
+              nextEl: this.isRtl ? '#arrowLeft2' : '#arrowLeft2',
+              prevEl: this.isRtl ? '#arrowRight2' : '#arrowRight2',
             },
             breakpoints: {
               0: { slidesPerView: 2, spaceBetween: 19 },
               768: { slidesPerView: 2, spaceBetween: 19, },
               1024: { slidesPerView: 3 },
             },
+            autoplay: {
+              delay: 2500,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+              reverseDirection: this.isRtl ? false : true, // بتعكس اتجاه حركه الكارسول
+            },
           });
+          const zone = document.getElementById('section50Bottom') as HTMLElement;
+
+          zone.addEventListener('pointerenter', () => swiper.autoplay?.stop());
+          zone.addEventListener('pointerleave', () => swiper.autoplay?.start());
 
           swiper.on('slideChangeTransitionStart', () => {
             const activeSlide = document.querySelector('.swiper-slide-active .card');

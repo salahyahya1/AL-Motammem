@@ -19,7 +19,7 @@ import InertiaPlugin from 'gsap/InertiaPlugin';
 import SplitText from 'gsap/SplitText';
 
 import Swiper from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
@@ -31,11 +31,13 @@ import { DialogButton, MessegeDialogComponent } from "../../shared/messege-dialo
 import { SafeHtml } from '@angular/platform-browser';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from '../../shared/services/language.service';
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
 @Component({
   selector: 'app-blogs',
-  imports: [CommonModule, RouterLink, OpenFormDialogDirective, MessegeDialogComponent, OverlayModule, PortalModule],
+  imports: [CommonModule, RouterLink, OpenFormDialogDirective, MessegeDialogComponent, OverlayModule, PortalModule, TranslatePipe],
   templateUrl: './blogs.component.html',
   styleUrl: './blogs.component.scss'
 })
@@ -53,6 +55,12 @@ export class BlogsComponent {
   loadingAllBlogs = true;
 
   private swiper2?: Swiper;
+  //
+  dialogVariant: 'success' | 'error' = 'success';
+  dialogTitle = '';
+  dialogMessage = '';
+  dialogButtons: DialogButton[] = [];
+  dialogOpen = false;
 
   // Flags to control init once
   viewReady = false;
@@ -80,7 +88,7 @@ export class BlogsComponent {
     private router: Router,
     private route: ActivatedRoute,
     private overlay: Overlay,
-    private vcr: ViewContainerRef,
+    private vcr: ViewContainerRef, private language: LanguageService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -103,6 +111,7 @@ export class BlogsComponent {
   ngOnInit(): void {
     if (!this.isBrowser) return;
     this.navTheme.setColor('var(--primary)');
+    this.navTheme.setBg('#F8F9FB');
     this.isAuthenticated = this.blogsService.isAuthenticated();
     this.role = localStorage.getItem('role')
     this.hasrole = this.role ? true : false;
@@ -226,7 +235,9 @@ export class BlogsComponent {
             );
             tl.fromTo('#Addbutton', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.2 });
             tl.fromTo('#btn1', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.2 });
-            tl.fromTo('#showMore', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.2 });
+            if (showMore) {
+              tl.fromTo('#showMore', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.2 });
+            }
 
             tl.fromTo('#blogs-bottom', { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.2 });
 
@@ -237,7 +248,7 @@ export class BlogsComponent {
             const canLoop = (this.articles?.length ?? 0) > 1;
 
             this.swiper2 = new Swiper(this._swiperEl2!.nativeElement, {
-              modules: [Navigation, Pagination],
+              modules: [Navigation, Pagination, Autoplay],
               direction: 'horizontal',
               slidesPerView: 1,
               spaceBetween: 30,
@@ -252,9 +263,25 @@ export class BlogsComponent {
                 0: { slidesPerView: 1, spaceBetween: 19 },
                 768: { slidesPerView: 1, spaceBetween: 19 },
                 1024: { slidesPerView: 1 }
-              }
+              },
+              autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+                reverseDirection: this.isRtl ? false : true, // بتعكس اتجاه حركه الكارسول
+              },
             });
+            const zone = document.getElementById('erp-carousel') as HTMLElement;
+            const zone2 = document.querySelector('.delete-popover-panel') as HTMLElement;
 
+            // zone.addEventListener('pointerenter', () => this.swiper2?.autoplay?.stop());
+            // zone.addEventListener('pointerleave', () => this.swiper2?.autoplay?.start());
+            // zone2.addEventListener('pointerenter', () => this.swiper2?.autoplay?.stop());
+            // zone2.addEventListener('pointerleave', () => this.swiper2?.autoplay?.start());
+            if (zone) {
+              zone.addEventListener('pointerenter', () => this.swiper2?.autoplay?.stop());
+              zone.addEventListener('pointerleave', () => this.swiper2?.autoplay?.start());
+            }
             gsap.from('.swiper-slide', {
               scrollTrigger: {
                 trigger: '.erp-carousel',
@@ -467,7 +494,7 @@ export class BlogsComponent {
     const origin = ev.currentTarget as HTMLElement;
     this.pendingDeleteId = id;
 
-    this.closeDeletePopover();
+    // this.closeDeletePopover();
 
     const positionStrategy = this.overlay.position()
       .flexibleConnectedTo(origin).withFlexibleDimensions(false)
@@ -489,6 +516,9 @@ export class BlogsComponent {
       panelClass: 'delete-popover-panel'
     });
 
+    const overlayEl = this.overlayRef.overlayElement;
+    overlayEl.addEventListener('pointerenter', () => this.swiper2?.autoplay?.stop());
+    overlayEl.addEventListener('pointerleave', () => this.swiper2?.autoplay?.start());
     this.overlayRef.backdropClick().subscribe(() => this.closeDeletePopover());
     this.overlayRef.keydownEvents().subscribe((e) => {
       if (e.key === 'Escape') this.closeDeletePopover();
@@ -514,12 +544,45 @@ export class BlogsComponent {
     this.blogsService.DeleteBlog(id).subscribe({
       next: () => {
         // ✅ Update UI بدون reload كامل
+        this.dialogVariant = 'success';
+        this.dialogTitle = 'Success';
+        this.dialogMessage = 'FAQ updated successfully';
+        this.dialogButtons = [{ id: 'cancel', text: 'OK', style: 'outline' }];
+        this.dialogOpen = true;
+
         this.allBlogs = this.allBlogs.filter(b => b.id !== id);
         this.articles = this.articles.filter(a => a.id !== id);
+
       },
-      error: (err) => console.log(err?.message)
+      error: (err) => {
+        this.dialogVariant = 'error';
+        this.dialogTitle = 'Error';
+        this.dialogMessage = err?.error?.message || 'Update failed';
+        this.dialogButtons = [
+          { id: 'cancel', text: 'Cancel', style: 'outline' },
+          { id: 'retry', text: 'Try again', style: 'danger' },
+        ];
+        this.dialogOpen = true;
+      }
     });
   }
 
+  get isRtl() {
+    return this.language.currentLang === 'ar';
+  }
 
+  onDialogAction(id: string) {
+    if (id === 'show all') {
+      this.dialogOpen = false;
+    }
+    if (id === 'show edited blog') {
+      this.dialogOpen = false;
+    }
+    if (id === 'retry') {
+      this.dialogOpen = false;
+    }
+    if (id === 'cancel') {
+      this.dialogOpen = false;
+    }
+  }
 }

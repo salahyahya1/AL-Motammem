@@ -1,7 +1,7 @@
 <div *ngIf="open" id="dialog-backdrop" (click)="onBackdropClick($event)"
     class="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] px-4">
 
-    <div class="fixed bottom-1/2 flex items-center justify-center w-full h-[64%]">
+    <div class="fixed bottom-1/2 flex items-center justify-center w-full" [ngClass]="isFaqsPage? '' :' h-[64%]'">
         <div [attr.dir]="dir" class="bg-white rounded-3xl shadow-xl w-full max-w-xl p-6 md:p-8 relative">
 
             <button *ngIf="showCloseX" type="button" (click)="close()" aria-label="إغلاق"

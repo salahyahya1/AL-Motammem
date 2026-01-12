@@ -15,7 +15,7 @@
             <div
                 class="card card1 text-start absolute opacity-0 rounded-[40px] w-[90%] md:w-[33%] lg:w-[33%] xl:w-[25%] text-(--dark-gray) flex flex-col items-center p-6 md:p-8 shadow-md">
                 <div class="relative text-start" style="width: 95%;" [dir]="isRtl ? 'rtl' : 'ltr'">
-                    <div dir="ltr" class="flex gap-x-2">
+                    <div dir="ltr" class="flex gap-x-2 md:gap-x-1 lg:gap-x-2  justify-center items-center  w-full">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -27,8 +27,8 @@
                         </svg>
                         <div class="text-[color:var(--dark-gray)] transition-colors duration-300  border-r-2 border-[var(--primary)]"
                             id="brand-text">
-                            <div class="flex flex-col items-end pe-2">
-                                <span class="text-xl font-medium whitespace-nowrap">Al-Motammem</span>
+                            <div class="flex flex-col items-end pe-1 lg:pe-2">
+                                <span class="text-base lg:text-xl font-medium whitespace-nowrap">Al-Motammem</span>
                                 <span class="text-xs font-light">40 years of ERP</span>
                             </div>
                         </div>
@@ -36,14 +36,14 @@
                             <p class="card-text card-text1 uppercase font-bold">mini</p>
                         </div>
                     </div>
-                    <p class="card-text1 font-extrabold text-[1.1rem] md:pr-[16px] lg:pr-[0px]">
+                    <p class="card-text1 font-extrabold  text-[1.1rem]  md:pr-[16px] lg:pr-[0px]">
 
                         {{ 'HOME.PLANS.CARD1.TITLEp1' | translate }} <br>
                         {{ 'HOME.PLANS.CARD1.TITLEp2' | translate }}
 
                     </p>
                     <ul
-                        class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 rtl:pb-6 ltr:pb-6 md:pr-[16px] lg:pr-0 ">
+                        class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 rtl:pb-6  ltr:min-[768px]:pb-0 ltr:max-[1024px]:pb-0 ltr:min-[1024px]:pb-6  ltr:pb-6  md:pr-[16px] lg:pr-0 ">
                         @for (item of [1,2,3,4]; track item) {
                         <li>
                             {{ ('HOME.PLANS.CARD1.LIST.' + (item-1)) | translate }}
@@ -61,11 +61,11 @@
             </div>
             <div
                 class="card card2 text-start absolute opacity-0 rounded-[40px] w-[90%] md:w-[33%] lg:w-[33%] xl:w-[25%] text-[var(--dark-gray)] flex flex-col items-center p-6 md:pe-[17px] md:ps-[18px]  lg:p-5 xl:p-6 shadow-md">
-                <div class="relative flex flex-col items-center w-[80%] lg:w-[97%]  xl:w-[99%]  text-start"
+                <div class="relative flex flex-col items-center w-[80%] ltr:sm:w-[90%] ltr:md:w-[80%] lg:w-[97%]  xl:w-[99%]  text-start"
                     [dir]="isRtl ? 'rtl' : 'ltr'">
-                    <div dir="ltr" class="flex gap-x-2 justify-center items-center  w-full">
-                        <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
-                            xmlns="http://www.w3.org/2000/svg">
+                    <div dir="ltr" class="flex gap-x-2 md:gap-x-1 lg:gap-x-2 justify-center items-center  w-full">
+                        <svg class="w-[30px] min-[700px]:w-[22px] min-[790px]:w-[30px]" height="38" viewBox="0 0 30 38"
+                            fill="var(--primary)" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
                                 d="M29.8651 21.1765C29.8651 21.0745 29.8651 20.9506 29.8579 20.8996C29.8073 19.3615 29.6266 17.1091 29.0482 14.3464C28.9831 13.9965 28.8096 13.3842 28.2963 12.8813C27.6891 12.2835 26.9155 12.1523 26.4094 12.1013C23.4237 11.766 19.5631 12.7646 16.2304 13.6539C15.7821 13.7706 15.399 13.8799 15.0953 13.9601C14.7917 13.8799 14.4013 13.7779 13.9603 13.6539C10.6275 12.7646 6.76698 11.766 3.78121 12.1013C3.28238 12.1596 2.5016 12.2835 1.89432 12.8813C1.38826 13.3842 1.21475 13.9965 1.14246 14.3464C0.556871 17.1018 0.383363 19.3615 0.332757 20.8996C0.332757 20.9506 0.332757 21.0745 0.325528 21.1765C0.325528 21.1765 0.15202 27.9046 1.07739 33.9402C1.07739 33.9548 1.07739 33.9694 1.07739 33.9694C1.35211 35.7188 1.88709 36.2582 1.88709 36.2582C1.98831 36.3603 2.08952 36.4404 2.1835 36.5061C2.1835 36.5061 2.3064 36.5862 2.44376 36.6591C3.05827 36.9653 3.91857 37.0673 3.91857 37.0673C5.10421 37.2058 5.41507 37.2131 5.41507 37.2131C7.38872 37.3881 10.3383 37.5849 15.0664 37.5849C15.0664 37.5849 15.0809 37.5849 15.0881 37.5849C15.0953 37.5849 15.1026 37.5849 15.1098 37.5849C19.8379 37.5849 22.7875 37.3881 24.7611 37.2131C24.7611 37.2131 25.072 37.2131 26.2576 37.0673C26.2576 37.0673 27.1179 36.9653 27.7324 36.6591C27.8698 36.5935 27.9927 36.5061 27.9927 36.5061C28.0867 36.4404 28.1879 36.3676 28.2891 36.2582C28.2891 36.2582 28.8241 35.7188 29.0988 33.9694C29.0988 33.9694 29.0988 33.9548 29.0988 33.9402C30.0242 27.9119 29.8507 21.1765 29.8507 21.1765H29.8651Z" />
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -74,18 +74,19 @@
                                 d="M22.2597 4.5787C17.3003 5.47529 15.0736 8.38374 14.6471 12.5678C14.7483 12.6116 14.8568 12.648 14.958 12.6845C19.7366 11.6421 21.4139 10.3373 22.2525 4.5787H22.2597Z" />
                         </svg>
                         <div class="text-[color:var(--dark-gray)] transition-colors duration-300" id="brand-text">
-                            <div class="flex flex-col items-end pe-2">
-                                <span class="text-xl font-medium whitespace-nowrap">Al-Motammem</span>
+                            <div class="flex flex-col items-end pe-1 lg:pe-2">
+                                <span class="text-base lg:text-xl font-medium whitespace-nowrap">Al-Motammem</span>
                                 <span class="text-xs font-light">40 years of ERP</span>
                             </div>
                         </div>
                     </div>
-                    <p class="card-text1 font-extrabold text-[1.1rem] text-start w-[86%]">
+                    <p
+                        class="card-text1 font-extrabold text-[1.1rem] ltr:text-[1rem] ltr:lg:text-[1.1rem] text-start ltr:w-full w-[86%]">
                         {{ 'HOME.PLANS.CARD2.TITLEp1' | translate }} <br>
                         {{ 'HOME.PLANS.CARD2.TITLEp2' | translate }}
                     </p>
                     <ul
-                        class="text-gray-800 text-sm leading-relaxed mb-4 min-[768px]:pr-[16px] pb-5 min-[768px]:pb-0 min-[768px]:mb-3 min-[1024px]:pb-5 min-[1279px]:mb-3 min-[1279px]:pb-0 min-[1519px]:mb-4 min-[1519px]:pb-5 min-[1024px]:mb-4  min-[1024px]:pr-0 min-[1024px]:w-[85%] ltr:max-[2000px]:mb-4 ltr:max-[2000px]:pb-5">
+                        class="text-gray-800 text-sm leading-relaxed mb-4 min-[768px]:pr-[16px] pb-5 min-[768px]:pb-0 min-[768px]:mb-3 min-[1024px]:pb-5 min-[1279px]:mb-3 min-[1279px]:pb-0 min-[1519px]:mb-4 min-[1519px]:pb-5 min-[1024px]:mb-4  min-[1024px]:pr-0 min-[1024px]:w-[85%] ltr:max-[2000px]:mb-4 ltr:max-[1024px]:pb-1 ltr:max-[2000px]:pb-5 ltr:w-full">
                         @for (item of [1,2,3,4,5]; track item) {
                         <li>
                             {{ ('HOME.PLANS.CARD2.LIST.' + (item-1)) | translate }}
@@ -104,7 +105,7 @@
             <div
                 class=" card card3  text-start absolute opacity-0 rounded-[40px] w-[90%] md:w-[33%] lg:w-[33%] xl:w-[25%] text-[#0D47A1] flex flex-col items-center  p-6 md:p-8 shadow-md">
                 <div class="relative   text-start" style="width: 95%;" [dir]="isRtl ? 'rtl' : 'ltr'">
-                    <div dir="ltr" class="flex gap-x-2">
+                    <div dir="ltr" class="flex gap-x-1 lg:gap-x-2  justify-center items-center  w-full">
                         <svg width="30" height="38" viewBox="0 0 30 38" fill="var(--primary)"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -116,8 +117,8 @@
                         </svg>
                         <div class="text-[color:var(--dark-gray)] transition-colors duration-300  border-r-2 border-[#7B3DD3]"
                             id="brand-text">
-                            <div class="flex flex-col items-end pe-2">
-                                <span class="text-xl font-medium whitespace-nowrap">Al-Motammem</span>
+                            <div class="flex flex-col items-end pe-1 lg:pe-2">
+                                <span class="text-base lg:text-xl font-medium whitespace-nowrap">Al-Motammem</span>
                                 <span class="text-xs font-light">40 years of ERP</span>
                             </div>
                         </div>
@@ -131,7 +132,7 @@
                     </p>
                     <ul class="text-gray-800 text-sm leading-relaxed space-y-1 mb-4 md:pr-[16px] lg:pr-[0px]">
                         @for (i of [0,2,3,4]; track i) {
-                        <li>
+                        <li class="ltr:min-[1163px]:w-[234px]">
                             @if (i === 0) {
                             {{ 'HOME.PLANS.CARD3.LIST.0' | translate }} <br class="ltr:hidden">
                             {{ 'HOME.PLANS.CARD3.LIST.1' | translate }}
@@ -160,7 +161,7 @@
             <a href="https://wa.me/201205999468?text=%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%AE%D8%AF%D9%85%D9%87"
                 target="_blank" rel="noopener noreferrer"
                 class="bg-[var(--primary-light)] hover:bg-[var(--primary-dark)] text-white px-14 py-3 rounded-full text-sm font-semibold shadow-md transition mx-auto">
-                أبدأ المحادثة الآن
+                {{ 'HOME.PLANS.CTA' | translate }}
             </a>
         </div>
     </div>

@@ -132,6 +132,24 @@
   --cursor-url-cur: url('/images/custom_cursor_fixed.cur') 16 16;
 }
 
+// @font-face {
+//   font-family: 'Acumin';
+//   font-style: normal;
+//   font-weight: 100 900; /* ✅ Variable font range */
+//   src: url('/fonts/Acumin-Variable-Concept.woff2') format('woff2');
+//   font-display: swap;
+// }
+// /* ✅ English */
+// html:lang(en),
+// body:lang(en) {
+//   font-family: 'Acumin', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+// }
+
+// /* ✅ Arabic (اختياري للتأكيد) */
+// html:lang(ar),
+// body:lang(ar) {
+//   font-family: 'Almarai', sans-serif;
+// }
 @font-face {
   font-family: 'Almarai';
   font-style: normal;
@@ -222,7 +240,8 @@ body,
 }
 
 /* ✅ Mobile/Touch: اقفل الكيرسور تمامًا */
-@media (hover: none), (pointer: coarse) {
+@media (hover: none),
+(pointer: coarse) {
   * {
     cursor: auto !important;
   }

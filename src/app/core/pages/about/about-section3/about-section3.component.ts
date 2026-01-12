@@ -24,7 +24,7 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
   DivisionId = 0;
   isMobile = false;
   show = 0;
-
+  lang: string = 'ar'
   private resizeHandler!: () => void;
 
   @ViewChild('DivisionsTrigger', { static: false }) DivisionsTrigger!: ElementRef;
@@ -58,12 +58,16 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-
+    let snapEnabled = false;
     this.cdr.detectChanges();
 
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
-        setTimeout(() => this.makeanimation(), 0);
+        setTimeout(async () => {
+          await document.fonts?.ready;
+          this.makeanimation();
+          ScrollTrigger.refresh();
+        }, 0);
       });
     });
 
@@ -82,9 +86,10 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
     this.cdr.detectChanges();
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
-        setTimeout(() => {
+        setTimeout(async () => {
+          await document.fonts?.ready;
           this.makeanimation();
-          ScrollTrigger.refresh();
+          ScrollTrigger.refresh(true);
         }, 0);
       });
     });
@@ -339,7 +344,7 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
         '.scroll-bg-section1',
         '.scroll-bg-section2',
       ], { autoAlpha: 0 });
-
+      let snapEnabled = false;
       // ✅ Anchors: نقاط ثبات النص (progress 0..1)
       let textAnchors: number[] = [];
 
@@ -352,21 +357,42 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
           end: '+=4000 bottom',
           scrub: 1,
           pin: true,
-
           // ✅ Snap لأقرب نص "ثابت 100%"
-          snap: {
-            snapTo: (value: number) => {
-              if (!textAnchors.length) return value;
-              return gsap.utils.snap(textAnchors, value);
-            },
-            duration: { min: 0.18, max: 0.45 },
-            delay: 0.06,
+          // snap: {
+          //   snapTo: (value) => textAnchors.length ? gsap.utils.snap(textAnchors, value) : value,
+          //   duration: { min: 0.25, max: 0.6 },
+          //   delay: 0.12,
+          //   ease: 'power3.out',
+          // },
+          snap: this.lang === 'ar' ? {
+            snapTo: (value) => textAnchors.length ? gsap.utils.snap(textAnchors, value) : value,
+            duration: { min: 0.25, max: 0.6 },
+            delay: 0.12,
             ease: 'power3.out',
+          } : {
+            snapTo: (v) => (!snapEnabled || !textAnchors.length) ? v : gsap.utils.snap(textAnchors, v),
+            duration: { min: 0.25, max: 0.6 },
+            delay: 0.12,
+            ease: 'power3.out'
           },
+          onRefresh: () => { snapEnabled = true; }
+
         }
       });
 
       this.AboutSection3Timeline = tl;
+
+      const getY = (sel: string) => {
+        const el = document.querySelector(sel) as HTMLElement | null;
+        if (!el) return { enter: -120, exit: -220 };
+
+        const h = el.getBoundingClientRect().height;     // ارتفاع النص الحقيقي (EN/AR)
+        return {
+          enter: -(h * 2.2),  // مكان “الثبات”
+          exit: -(h * 3.2),   // خروج
+        };
+      };
+
 
       // Helper يبني (background + text scene) ويضيف anchor عند "النص ثابت"
       const addScene = (opts: {
@@ -381,28 +407,47 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
         if (sceneIndex === 0) {
           tl.add(() => { this.show = 1; this.DivisionId = 1; }, '<');
         }
+        const { enter, exit } = getY(text);
 
-        // 2) دخول النص: y + opacity (ده مهم عشان crossfade يبقى حقيقي)
         const enterTween = tl.to(text, {
-          yPercent: -190,
+          y: enter,          // ✅ px مش percent
           opacity: 1,
           duration: 0.2,
           ease: 'power2.out'
         }, '<');
 
-        // ✅ Anchor هنا: لحظة ما النص بقى في مكانه + opacity=1
         tl.addLabel(`text${sceneIndex}_stable`, enterTween.endTime());
 
-        // 3) Hold بسيط (اختياري) يخلي النص ثابت لحظة قبل ما يبدأ يطلع
         tl.to({}, { duration: 0.15 });
 
-        // 4) خروج النص: يبدأ يطلع ويختفي
         tl.to(text, {
-          yPercent: -350,
+          y: exit,
           opacity: 0,
           duration: finalTextScrollDuration,
           ease: 'none'
         }, '>');
+
+        // 2) دخول النص: y + opacity (ده مهم عشان crossfade يبقى حقيقي)
+        // const enterTween = tl.to(text, {
+        //   yPercent: -190,
+        //   opacity: 1,
+        //   duration: 0.2,
+        //   ease: 'power2.out'
+        // }, '<');
+
+        // // ✅ Anchor هنا: لحظة ما النص بقى في مكانه + opacity=1
+        // tl.addLabel(`text${sceneIndex}_stable`, enterTween.endTime());
+
+        // // 3) Hold بسيط (اختياري) يخلي النص ثابت لحظة قبل ما يبدأ يطلع
+        // tl.to({}, { duration: 0.15 });
+
+        // // 4) خروج النص: يبدأ يطلع ويختفي
+        // tl.to(text, {
+        //   yPercent: -350,
+        //   opacity: 0,
+        //   duration: finalTextScrollDuration,
+        //   ease: 'none'
+        // }, '>');
       };
 
       addScene({ bg: '.scroll-bg-section', text: '.scroll-bg-section-text', sceneIndex: 0 });

@@ -80,14 +80,19 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
           const topEl = this.navSmallScreen?.nativeElement;
           if (topEl) topEl.style.backgroundColor = bg;
         } else {
-          // nav.style.backgroundColor = 'transparent';
-
-          // const menuEl = this.navbarMenu?.nativeElement;
-          // if (menuEl) menuEl.style.backgroundColor = 'transparent';
-
-          // const topEl = this.navSmallScreen?.nativeElement;
-          // if (topEl) topEl.style.backgroundColor = 'transparent';
+          // ✅ Desktop: نفس طريقة الموبايل بس للـ nav كله فقط
+          nav.style.backgroundColor = bg;
+          const navvv = this.navbar?.nativeElement;
+          if (navvv) navvv.style.backgroundColor = bg;
         }
+        // nav.style.backgroundColor = 'transparent';
+
+        // const menuEl = this.navbarMenu?.nativeElement;
+        // if (menuEl) menuEl.style.backgroundColor = 'transparent';
+
+        // const topEl = this.navSmallScreen?.nativeElement;
+        // if (topEl) topEl.style.backgroundColor = 'transparent';
+
       });
 
 
@@ -95,11 +100,14 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     // if (last) nav.style.color = last;
     const snap = this.theme.getSnapshot();
     nav.style.color = snap.text;
-
+    nav.style.backgroundColor = snap.bg;
     if (window.matchMedia('(max-width: 765px)').matches) {
-      nav.style.backgroundColor = snap.bg;
+
       this.navbarMenu?.nativeElement && (this.navbarMenu.nativeElement.style.backgroundColor = snap.bg);
       this.navSmallScreen?.nativeElement && (this.navSmallScreen.nativeElement.style.backgroundColor = snap.bg);
+    } else {
+
+      this.navbar?.nativeElement && (this.navbar.nativeElement.style.backgroundColor = snap.bg);
     }
 
 
@@ -145,11 +153,11 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     // ✅ قبل الفتح لازم يظهر عشان يتحسب -100% صح
     if (this.menuOpen) {
       el.style.display = 'flex'; // لأن عندك flex layout
-      gsap.set(el, { yPercent: -100, opacity: 0 });
+      gsap.set(el, { yPercent: -110, opacity: 0 });
 
       // ✅ 3) افتح بسلاسة
       gsap.to(el, {
-        yPercent: 0,
+        yPercent: 10,
         opacity: 1,
         duration: 0.45,
         ease: 'power2.out',
@@ -158,7 +166,7 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     }
     else {
       gsap.to(el, {
-        yPercent: -100,
+        yPercent: -110,
         opacity: 0,
         duration: 0.35,
         ease: 'power2.in',

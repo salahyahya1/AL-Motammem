@@ -12,11 +12,12 @@ import { BehaviorSubject } from 'rxjs';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { SectionsRegistryService } from "../../shared/services/sections-registry.service";
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
+import { TranslatePipe } from '@ngx-translate/core';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 @Component({
   selector: 'app-contact-us',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './contact-us.component.html',
   styleUrl: './contact-us.component.scss'
 })
@@ -48,6 +49,7 @@ export class ContactUsComponent {
       setTimeout(() => {
         this.ctx6 = gsap.context(() => {
           this.navTheme.setColor('var(--white)');
+          this.navTheme.setBg('#0c81ff');
           // window.addEventListener('resize', () => {
           //   this.ngZone.run(() => {
           //     this.cdr.detectChanges();

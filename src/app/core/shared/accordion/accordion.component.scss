@@ -67,6 +67,12 @@
     opacity: 1;
 }
 
+.is-editable {
+    cursor: pointer;
+    visibility: visible;
+    opacity: 1;
+}
+
 .is-disabled {
     opacity: 0.6;
 

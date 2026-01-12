@@ -1,20 +1,18 @@
-<section id="section8"
-    class=" screens-hero relative w-full min-h-screen flex flex-col md:flex-row items-center justify-start md:justify-between items-start md:gap-10 px-6 md:px-20 md:pt-10 pb-6">
+<!-- <section id="section8"
+    class=" screens-hero relative w-full min-h-screen flex flex-col md:flex-row items-center justify-start md:justify-between items-start md:gap-10 px-6 md:px-20 pt-20 md:pt-10 pb-6">
     <div
-        class="w-[90%] mx-auto md:w-[43%] text-center md:text-right flex md:sticky md:top-[40%]  self-start text-center md:text-right">
+        class="w-[90%] mx-auto md:w-[43%] text-center md:text-start flex md:sticky md:top-[40%]  self-start text-center md:text-right">
         <div>
             <div class="mb-2 text-[var(--dark-gray)] text-[0.8rem] lg:text-[1rem] xl:text-[1.3rem] font-bold">
-                الأسئلة
-                الشائعة</div>
+                {{"FAQ.BADGE" | translate}}
+            </div>
 
-            <h2 class="text-[var(--primary)] text-[1.3rem] lg:text-[1.5rem] xl:text-[1.8rem] font-bold">
-                أسئلة متكررة
+            <h2 class="text-[var(--primary)] text-[1.3rem] lg:text-[1.5rem] xl:text-[1.8rem] font-bold pb-2">
+                {{"FAQ.TITLE" | translate}}
             </h2>
 
             <p class=" text-[var(--dark-gray)] text-[0.7rem] lg:text-[0.9rem] xl:text-[1.2rem] ">
-                الشروع في استخدام نظام برامج لأعمالك يتطلب التأكد من صلاحيته لنظام عملك وأنشطتك المختلفة، نشجعك على
-                قراءة الاجابات المطروحة هنا والاتصال بنا هاتفياً الآن اذا كانت لديك أية استفسارات أخرى سوف يسعدنا الرد
-                عليهاأو تقديمها من خلال صفحة "الاتصال بنا"
+                {{"FAQ.DESC" | translate}}
             </p>
         </div>
     </div>
@@ -23,29 +21,30 @@
             <div formArrayName="faqs" class="space-y-6">
                 <div *ngFor="let faq of faqs.controls; let i=index" [formGroupName]="i"
                     class="relative rounded-lg border border-gray-100 bg-gray-50 p-4 pt-8">
-
                     <button (click)="removeFaq(i)"
-                        class="absolute left-4 top-4 text-red-500 text-xs hover:font-bold">حذف</button>
-
-                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        class="absolute left-4 top-4 text-red-500 text-xs hover:font-bold">{{"FAQ.FORM.REMOVE" |
+                        translate}}</button>
+                    <div class="grid grid-cols-2 gap-4 md:grid-cols-2">
                         <div>
-                            <label class="mb-1 block text-xs text-gray-900">السؤال (بالعربي)</label>
+                            <label class="mb-1 block text-xs text-gray-900">{{"FAQ.FORM.QUESTION_AR" |
+                                translate}}</label>
                             <input type="text" formControlName="question"
                                 class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500">
                         </div>
                         <div>
-                            <label class="mb-1 block text-xs text-gray-900 text-left" dir="ltr">Question
-                                (English)</label>
+                            <label class="mb-1 block text-xs text-gray-900 text-left" dir="ltr">
+                                {{"FAQ.FORM.QUESTION_EN" | translate}}</label>
                             <input type="text" dir="ltr" formControlName="englishQuestion"
                                 class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500">
                         </div>
                         <div>
-                            <label class="mb-1 block text-xs text-gray-900">الإجابة (بالعربي)</label>
+                            <label class="mb-1 block text-xs text-gray-900">{{"FAQ.FORM.ANSWER_AR" | translate}}</label>
                             <textarea formControlName="answer" rows="2"
                                 class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500"></textarea>
                         </div>
                         <div>
-                            <label class="mb-1 block text-xs text-gray-900 text-left" dir="ltr">Answer (English)</label>
+                            <label class="mb-1 block text-xs text-gray-900 text-left" dir="ltr">
+                                {{"FAQ.FORM.ANSWER_EN" | translate}}</label>
                             <textarea dir="ltr" formControlName="englishAnswer" rows="2"
                                 class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500"></textarea>
                         </div>
@@ -56,34 +55,25 @@
             <div>
                 <button type="button" (click)="addFaq()"
                     class="mt-4 w-full rounded-lg bg-[var(--primary)] px-5 py-2.5 text-center text-sm font-medium text-white hover:opacity-90">
-                    إضافة سؤال جديد
+                    {{"FAQ.FORM.ADD_NEW" | translate}}
                 </button>
                 <button type="submit"
                     class="mt-4 w-full rounded-lg bg-[var(--primary)] px-5 py-2.5 text-center text-sm font-medium text-white hover:opacity-90">
-                    إضافة
+                    {{"FAQ.FORM.SUBMIT" | translate}}
                 </button>
             </div>
         </form>
-        <!-- @for (FAQ of FAQS; track $index) {
-        <app-accordion [title]="FAQ.question" [isDeleteable]="true" (deletefaq)="onDeleteFaq($event)">
-            {{FAQ.answer}}
-        </app-accordion>
-        } -->
-        <!-- Skeleton state -->
         <div *ngIf="loadingFaqs" class="flex flex-col gap-4">
             <div *ngFor="let _ of [1,2,3,4,5]" class="acc-skel">
-                <!-- left chevron placeholder -->
                 <span class="skel skel-icon"></span>
-
-                <!-- right title placeholder -->
                 <span class="skel skel-title"></span>
             </div>
         </div>
 
-        <!-- Real content -->
         <div *ngIf="!loadingFaqs" class="flex flex-col gap-[0.7rem]">
             @for (FAQ of FAQS; track FAQ.id) {
-            <app-accordion [title]="FAQ.question" [isDeleteable]="true" (deletefaq)="onDeleteFaq(FAQ.id)">
+            <app-accordion [title]="FAQ.question" [isDeleteable]="true" (deletefaq)="onDeleteFaq(FAQ.id)"
+                [isEditable]="true" (editfaq)="onEditFaq(FAQ.id)">
                 {{ FAQ.answer }}
             </app-accordion>
             }
@@ -92,3 +82,169 @@
     </div>
 
 </section>
+<app-messege-dialog [open]="dialogOpen" [variant]="dialogVariant" [title]="dialogTitle" [message]="dialogMessage"
+    [buttons]="dialogButtons" (closed)="dialogOpen = false" (action)="onDialogAction($event)">
+</app-messege-dialog> -->
+<section id="section8"
+    class=" screens-hero relative w-full min-h-screen flex flex-col md:flex-row items-center justify-start md:justify-between items-start md:gap-10 px-6 md:px-20 pt-20 md:pt-10 pb-6">
+
+    <div
+        class="w-[90%] mx-auto md:w-[43%] text-center md:text-start flex md:sticky md:top-[40%]  self-start text-center md:text-right">
+        <div>
+            <div class="mb-2 text-[var(--dark-gray)] text-[0.8rem] lg:text-[1rem] xl:text-[1.3rem] font-bold">
+                {{"FAQ.BADGE" | translate}}
+            </div>
+
+            <h2 class="text-[var(--primary)] text-[1.3rem] lg:text-[1.5rem] xl:text-[1.8rem] font-bold pb-2">
+                {{"FAQ.TITLE" | translate}}
+            </h2>
+
+            <p class=" text-[var(--dark-gray)] text-[0.7rem] lg:text-[0.9rem] xl:text-[1.2rem] ">
+                {{"FAQ.DESC" | translate}}
+            </p>
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-[0.7rem] w-[90%] md:w-[50%] mx-auto pt-10 md:pt-30">
+
+        <!-- ✅ ADD FORM (زي ما هو) -->
+        <form [formGroup]="faqForm" class="mt-8" (ngSubmit)="onSubmit()">
+            <div formArrayName="faqs" class="space-y-6">
+                <div *ngFor="let faq of faqs.controls; let i=index" [formGroupName]="i"
+                    class="relative rounded-lg border border-gray-100 bg-gray-50 p-4 pt-8">
+
+                    <button (click)="removeFaq(i)" class="absolute left-4 top-4 text-red-500 text-xs hover:font-bold">
+                        {{"FAQ.FORM.REMOVE" | translate}}
+                    </button>
+
+                    <div class="grid grid-cols-2 gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="mb-1 block text-xs text-gray-900">
+                                {{"FAQ.FORM.QUESTION_AR" | translate}}
+                            </label>
+                            <input type="text" formControlName="question"
+                                class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500">
+                        </div>
+
+                        <div>
+                            <label class="mb-1 block text-xs text-gray-900 text-left" dir="ltr">
+                                {{"FAQ.FORM.QUESTION_EN" | translate}}
+                            </label>
+                            <input type="text" dir="ltr" formControlName="englishQuestion"
+                                class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500">
+                        </div>
+
+                        <div>
+                            <label class="mb-1 block text-xs text-gray-900">
+                                {{"FAQ.FORM.ANSWER_AR" | translate}}
+                            </label>
+                            <textarea formControlName="answer" rows="2"
+                                class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="mb-1 block text-xs text-gray-900 text-left" dir="ltr">
+                                {{"FAQ.FORM.ANSWER_EN" | translate}}
+                            </label>
+                            <textarea dir="ltr" formControlName="englishAnswer" rows="2"
+                                class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" (click)="addFaq()"
+                    class="mt-4 w-full rounded-lg bg-[var(--primary)] px-5 py-2.5 text-center text-sm font-medium text-white hover:opacity-90">
+                    {{"FAQ.FORM.ADD_NEW" | translate}}
+                </button>
+
+                <button type="submit"
+                    class="mt-4 w-full rounded-lg bg-[var(--primary)] px-5 py-2.5 text-center text-sm font-medium text-white hover:opacity-90">
+                    {{"FAQ.FORM.SUBMIT" | translate}}
+                </button>
+            </div>
+        </form>
+
+        <!-- Skeleton state -->
+        <div *ngIf="loadingFaqs" class="flex flex-col gap-4">
+            <div *ngFor="let _ of [1,2,3,4,5]" class="acc-skel">
+                <span class="skel skel-icon"></span>
+                <span class="skel skel-title"></span>
+            </div>
+        </div>
+
+        <!-- Real content -->
+        <div *ngIf="!loadingFaqs" class="flex flex-col gap-[0.7rem]">
+            @for (FAQ of FAQS; track FAQ.id) {
+
+            <!-- ✅ INLINE EDIT MODE -->
+            <div *ngIf="editingId === FAQ.id; else viewMode" [attr.id]="'faq-edit-' + FAQ.id"
+                class="relative rounded-lg border border-gray-100 bg-gray-50 p-4 pt-6">
+
+                <form [formGroup]="editForm" (ngSubmit)="saveEdit()" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="mb-1 block text-xs text-gray-900">
+                                {{"FAQ.FORM.QUESTION_AR" | translate}}
+                            </label>
+                            <input type="text" formControlName="question"
+                                class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500">
+                        </div>
+
+                        <div>
+                            <label class="mb-1 block text-xs text-gray-900 text-left" dir="ltr">
+                                {{"FAQ.FORM.QUESTION_EN" | translate}}
+                            </label>
+                            <input type="text" dir="ltr" formControlName="englishQuestion"
+                                class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500">
+                        </div>
+
+                        <div>
+                            <label class="mb-1 block text-xs text-gray-900">
+                                {{"FAQ.FORM.ANSWER_AR" | translate}}
+                            </label>
+                            <textarea formControlName="answer" rows="2"
+                                class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="mb-1 block text-xs text-gray-900 text-left" dir="ltr">
+                                {{"FAQ.FORM.ANSWER_EN" | translate}}
+                            </label>
+                            <textarea dir="ltr" formControlName="englishAnswer" rows="2"
+                                class="w-full rounded-md border-gray-200 p-2 text-sm focus:border-blue-500"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button type="submit"
+                            class="rounded-lg bg-[var(--primary)] px-5 py-2.5 text-sm font-medium text-white hover:opacity-90">
+                            Save
+                        </button>
+
+                        <button type="button" (click)="cancelEdit()"
+                            class="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ✅ VIEW MODE -->
+            <ng-template #viewMode>
+                <app-accordion [title]="FAQ.question" [isDeleteable]="true" (deletefaq)="onDeleteFaq(FAQ.id)"
+                    [isEditable]="true" (editfaq)="onEditFaq(FAQ.id)">
+                    {{ FAQ.answer }}
+                </app-accordion>
+            </ng-template>
+
+            }
+        </div>
+
+    </div>
+</section>
+
+<app-messege-dialog [open]="dialogOpen" [isFaqsPage]="true" [variant]="dialogVariant" [title]="dialogTitle"
+    [message]="dialogMessage" [buttons]="dialogButtons" (closed)="dialogOpen = false" (action)="onDialogAction($event)">
+</app-messege-dialog>

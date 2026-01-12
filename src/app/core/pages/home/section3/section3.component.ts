@@ -253,7 +253,7 @@ import InertiaPlugin from "gsap/InertiaPlugin";
 import SplitText from "gsap/SplitText";
 
 import Swiper from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
@@ -495,22 +495,34 @@ export class Section3Component {
           Swiper.use([Navigation, Pagination]);
 
           const swiper = new Swiper(this.swiperEl.nativeElement, {
-            modules: [Navigation, Pagination],
+            modules: [Navigation, Pagination, Autoplay],
             direction: 'horizontal',
             slidesPerView: 3,
             spaceBetween: 30,
             loop: true,
             grabCursor: true,
             navigation: {
-              nextEl: '#arrowRight',
-              prevEl: '#arrowLeft',
+              // nextEl: '#arrowRight',
+              // prevEl: '#arrowLeft',
+              nextEl: this.isRtl ? '#arrowLeft' : '#arrowLeft',
+              prevEl: this.isRtl ? '#arrowRight' : '#arrowRight',
             },
             breakpoints: {
               0: { slidesPerView: 2, spaceBetween: 19 },
               768: { slidesPerView: 2, spaceBetween: 19, },
               1024: { slidesPerView: 3 },
             },
+            autoplay: {
+              delay: 2500,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+              reverseDirection: this.isRtl ? false : true, // بتعكس اتجاه حركه الكارسول
+            },
           });
+          const zone = document.getElementById('section50Bottom') as HTMLElement;
+
+          zone.addEventListener('pointerenter', () => swiper.autoplay?.stop());
+          zone.addEventListener('pointerleave', () => swiper.autoplay?.start());
 
           gsap.from('.swiper-slide', {
             scrollTrigger: {

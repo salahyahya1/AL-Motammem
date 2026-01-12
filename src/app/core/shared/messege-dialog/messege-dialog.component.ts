@@ -26,6 +26,7 @@ export class MessegeDialogComponent {
   @Input() variant: DialogVariant = 'success';
   @Input() title = '';
   @Input() message = '';
+  @Input() isFaqsPage = false;
 
   // الأزرار (عددهم + محتواهم)
   @Input() buttons: DialogButton[] = [

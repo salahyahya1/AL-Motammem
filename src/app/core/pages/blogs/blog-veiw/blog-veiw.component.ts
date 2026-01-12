@@ -91,12 +91,13 @@ import { SectionsRegistryService } from '../../../shared/services/sections-regis
 import { BlogsService } from '../services/blogs-service';
 import { AccordionComponent } from "../../../shared/accordion/accordion.component";
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { TranslatePipe } from '@ngx-translate/core';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
 @Component({
   selector: 'app-blog-veiw',
-  imports: [CommonModule, AccordionComponent],
+  imports: [CommonModule, AccordionComponent, TranslatePipe],
   templateUrl: './blog-veiw.component.html',
   styleUrl: './blog-veiw.component.scss'
 })

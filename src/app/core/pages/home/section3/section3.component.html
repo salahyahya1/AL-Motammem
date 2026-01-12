@@ -15,7 +15,7 @@
             </div>
         </foreignObject>
     </svg> -->
-    <div id="capsule2Wrap" class="capsule-wrap ">
+    <!-- <div id="capsule2Wrap" class="capsule-wrap ">
         <svg id="capsule2" viewBox="0 0 759 132" xmlns="http://www.w3.org/2000/svg">
             <rect class="capsule-path2" x="1" y="1" width="755" height="129" rx="60" stroke="var(--dark-gray)"
                 stroke-width="3" fill="transparent" />
@@ -26,6 +26,33 @@
                 {{ 'HOME.SECTION3.TITLE' | translate }}
             </P>
             <p id="section50-details" class="text-[var(--dark-gray)] text-[0.6rem]  leading-relaxed font-normal">
+                {{ 'HOME.SECTION3.DETAILS' | translate }}
+            </p>
+        </div>
+    </div> -->
+    <div id="capsule2Wrap" class="relative mx-auto
+         w-[min(815px,92vw)]
+         rtl:aspect-[759/132]
+         ltr:aspect-[759/165] md:ltr:aspect-[759/150]">
+        <svg id="capsule2" class="absolute inset-0 h-full w-full" viewBox="0 0 759 132" preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect class="capsule-path2" x="1" y="1" width="755" height="129" rx="60" stroke="var(--dark-gray)"
+                stroke-width="3" fill="transparent" />
+        </svg>
+
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-5 sm:px-10"
+            [dir]="isRtl ? 'rtl' : 'ltr'">
+            <p id="section50-TITLE" class="text-[var(--primary)] font-bold leading-tight
+             rtl:text-[clamp(1.2rem,2.4vw,2rem)]
+             ltr:text-[clamp(1.05rem,2.1vw,1.85rem)]
+             max-w-[60ch]">
+                {{ 'HOME.SECTION3.TITLE' | translate }}
+            </p>
+
+            <p id="section50-details" class="mt-2 text-[var(--dark-gray)] font-normal leading-relaxed
+             rtl:text-[clamp(.65rem,1vw,.95rem)]
+             ltr:text-[clamp(.6rem,.95vw,.9rem)]
+             max-w-[72ch]">
                 {{ 'HOME.SECTION3.DETAILS' | translate }}
             </p>
         </div>

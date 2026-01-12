@@ -1,7 +1,7 @@
 <section id="knowledge-center" class="relative w-full bg-[#F8F9FB] py-10 md:py-16 pt-20 min-h-[150vh]">
     @if (showInitialLoader) {
     <div class="py-16 text-center text-[#6B7280]">
-        جاري تحميل المقالات...
+        {{"BLOGS.LOADING" | translate}}
     </div>
     }
     @else {
@@ -11,12 +11,11 @@
             <div class="flex-1 text-center">
                 <h2 id="title" class="text-[var(--primary,#1D4ED8)]
                    text-2xl md:text-3xl font-bold mb-3">
-                    مركز المعرفة من المتمم
+                    {{"BLOGS.TITLE" | translate}}
                 </h2>
 
                 <p id="Desc" class="text-[#6B7280] text-sm md:text-base leading-relaxed w-[80%] md:w-[75%] mx-auto">
-                    هنا تجد مقالات مختصرة تساعدك فى فهم انظمة ادارة موارد المؤسسة (ERP System)، وتطوير عملك، والتعرف على
-                    أفضل الممارسات في الإدارة المالية، المخزون، الموارد البشرية وغيرها… خبرة تمتد لأكثر من 40 عامًا.
+                    {{"BLOGS.DESC" | translate}}
                 </p>
             </div>
         </div>
@@ -25,30 +24,32 @@
             <a [routerLink]="['CreateBlog']" class="inline-flex items-center justify-center px-6 py-2 pt-3 rounded-full
                      bg-sky-600 text-white text-sm font-semibold shadow-sm
                      hover:bg-sky-500 transition cursor-pointer">
-                إضافة مقال جديد
+                {{"BLOGS.ADD" | translate}}
             </a>
         </div>
         }
         <div class="hidden md:flex justify-start gap-10 text-sm mb-3">
             <button id="btn1" class="text-[var(--light-gray)] hover:text-[var(--primary,#1D4ED8)]">
-                الأكثر قراءة
+                {{"BLOGS.MOST_READ" | translate}}
             </button>
         </div>
 
         <div class="border-t border-[#DDDDDD]"></div>
 
         <div class="pt-6 md:pt-8" id="blogs-bottom">
-            <div class="erp-carousel">
+            <div class="erp-carousel" id="erp-carousel">
                 <div class="controls">
                     <button id="arrowRight3" class="arrow right" aria-label="التالي">
-                        <svg width="23" height="26" viewBox="0 0 23 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="23" height="26" viewBox="0 0 23 26" fill="none" class="ltr:rotate-y-180"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path d="M22.5 12.9902L-1.2235e-06 25.9806L-8.78432e-08 -0.000147849L22.5 12.9902Z"
                                 fill="#989898" />
                         </svg>
                     </button>
 
                     <button id="arrowLeft3" class="arrow left" aria-label="السابق">
-                        <svg width="23" height="26" viewBox="0 0 23 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="23" height="26" viewBox="0 0 23 26" fill="none" class="ltr:-rotate-y-180"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path d="M6.55671e-07 12.9902L22.5 25.9806L22.5 -0.000147849L6.55671e-07 12.9902Z"
                                 fill="#989898" />
                         </svg>
@@ -82,7 +83,7 @@
                                             <a [routerLink]="['BlogVeiw', article.englishURL]" class="inline-flex items-center justify-center px-6 py-2 pt-3 rounded-full
                      bg-[#F4B942] text-[#58595B] text-sm font-semibold shadow-sm
                      hover:bg-[#f2a90c] transition cursor-pointer">
-                                                اكتشف المزيد
+                                                {{"BLOGS.DISCOVER_MORE" | translate}}
                                             </a>
                                             @if (isAuthenticated && hasrole) {
                                             <div>
@@ -146,7 +147,7 @@
 
             <div class="hidden md:flex justify-start mt-10 mb-3">
                 <span class="text-sm text-[var(--light-gray)] hover:text-[var(--primary,#1D4ED8)]">
-                    جميع المقالات
+                    {{"BLOGS.ALL_ARTICLES" | translate}}
                 </span>
             </div>
 
@@ -173,7 +174,7 @@
                                     <a [routerLink]="['BlogVeiw', blog.englishURL]" class="inline-flex items-center justify-center px-6 py-2 pt-3 rounded-full
                      bg-[#F4B942] text-[#58595B] text-sm font-semibold shadow-sm
                      hover:bg-[#f2a90c] transition cursor-pointer">
-                                        اكتشف المزيد
+                                        {{"BLOGS.DISCOVER_MORE" | translate}}
                                     </a>
                                     @if (isAuthenticated && hasrole) {
                                     <div>
@@ -235,7 +236,7 @@
                     <a (click)="showMoreBlogs()" class="inline-flex items-center justify-center 
                      text-sky-600  text-sm font-semibold shadow-sm
                      hover:text-sky-500 transition cursor-pointer">
-                        عرض المزيد من المقالات
+                        {{"BLOGS.SHOW_MORE" | translate}}
                     </a></div>
             }
         </div>
@@ -243,14 +244,14 @@
             <button id="btn2" appOpenFormDialog class="inline-flex items-center justify-center px-8 md:px-10 py-3 md:py-3.5 rounded-full
                bg-[#2563EB] text-white font-semibold text-sm md:text-base shadow-md
                hover:bg-[#1D4ED8] transition mb-3">
-                جرّب نظام المتمم الآن
+                {{"BLOGS.CTA.TITLE" | translate}}
             </button>
 
             <p class="text-[var(--dark-gray)] text-xs md:text-sm mb-1">
-                إدارة مالية أسهل، تقارير أسرع، وأمان أعلى.
+                {{"BLOGS.CTA.SUB1" | translate}}
             </p>
             <p class="text-[#2563EB] text-xs md:text-sm font-semibold">
-                سجّل الآن للحصول على نسخة تجريبية مجانية!
+                {{"BLOGS.CTA.SUB2" | translate}}
             </p>
         </div>
     </div>
@@ -258,29 +259,33 @@
     }
     @if (showOverlayLoader) {
     <div class="py-16 text-center text-[#6B7280]">
-        جاري تحميل المقالات...
+        {{"BLOGS.LOADING" | translate}}
     </div>
     }
 </section>
 <ng-template #deleteConfirmTpl>
-    <div dir="rtl" class="bg-white border border-gray-200 shadow-xl rounded-xl w-80 p-4">
+    <div dir="rtl" id="deleteConfirm" class="bg-white border border-gray-200 shadow-xl rounded-xl w-80 p-4">
         <div class="flex items-start gap-3">
             <span class="text-xl">ℹ️</span>
             <p class="text-sm text-gray-700 text-right flex-1">
-                هل تريد حذف هذا المقال؟
+                {{"BLOGS.DELETE_CONFIRM.MESSAGE" | translate}}
             </p>
         </div>
 
         <div class="flex justify-end gap-2 mt-4">
             <button class="h-9 px-4 rounded-lg border border-gray-300 text-sm hover:bg-gray-50"
                 (click)="closeDeletePopover()">
-                لا
+                {{"BLOGS.DELETE_CONFIRM.NO" | translate}}
             </button>
 
             <button class="h-9 px-4 rounded-lg bg-red-600 text-white text-sm hover:bg-red-500"
                 (click)="confirmDeletePopover()">
-                نعم
+                {{"BLOGS.DELETE_CONFIRM.YES" | translate}}
             </button>
         </div>
     </div>
 </ng-template>
+
+<app-messege-dialog [open]="dialogOpen" [isFaqsPage]="true" [variant]="dialogVariant" [title]="dialogTitle"
+    [message]="dialogMessage" [buttons]="dialogButtons" (closed)="dialogOpen = false" (action)="onDialogAction($event)">
+</app-messege-dialog>

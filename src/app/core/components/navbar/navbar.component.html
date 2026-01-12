@@ -41,7 +41,7 @@
         </nav>
         <div #navSmallScreen class="navSmallScreen w-full h-full">
             <div class="w-[90%] flex flex-row-reverse justify-between items-center mx-auto">
-                <div dir="ltr" class="flex gap-x-2 mt-1">
+                <div class="flex gap-x-2 mt-1 ltr:flex rtl:hidden">
                     <svg width="30" height="38" viewBox="0 0 30 38" fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -60,6 +60,37 @@
 
 
                 </div>
+                <div dir="rtl" class="flex mt-1 rtl:flex ltr:hidden items-center">
+
+
+                    <!-- Text block -->
+                    <div id="brand-text" class="text-[#6B6B6B] select-none">
+                        <!-- سطر 1: EN + divider + AR -->
+                        <div class="flex flex-row-reverse items-start leading-none">
+                            <span
+                                class="text-xl font-semibold tracking-wide whitespace-nowrap ps-0.5">Al-Motammem</span>
+                            <span class="inline-block w-[2px] h-7 bg-[#2F7BFF] rounded-sm"></span>
+
+                            <!-- Arabic + subtitle تحتها -->
+                            <div class="flex flex-col items-start">
+                                <span class="text-[25px] font-semibold whitespace-nowrap" dir="rtl">المُتمِّم</span>
+                                <span class="text-xs font-medium text-[#7A7A7A] pt-[3px]" dir="rtl">٤٠ عام من
+                                    الخبرة</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Logo (نفس المقاس اللي عندك 30x38) -->
+                    <svg class="shrink-0 text-[#2F7BFF]" width="50" height="55" viewBox="0 0 30 45" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M29.8651 21.1765C29.8651 21.0745 29.8651 20.9506 29.8579 20.8996C29.8073 19.3615 29.6266 17.1091 29.0482 14.3464C28.9831 13.9965 28.8096 13.3842 28.2963 12.8813C27.6891 12.2835 26.9155 12.1523 26.4094 12.1013C23.4237 11.766 19.5631 12.7646 16.2304 13.6539C15.7821 13.7706 15.399 13.8799 15.0953 13.9601C14.7917 13.8799 14.4013 13.7779 13.9603 13.6539C10.6275 12.7646 6.76698 11.766 3.78121 12.1013C3.28238 12.1596 2.5016 12.2835 1.89432 12.8813C1.38826 13.3842 1.21475 13.9965 1.14246 14.3464C0.556871 17.1018 0.383363 19.3615 0.332757 20.8996C0.332757 20.9506 0.332757 21.0745 0.325528 21.1765C0.325528 21.1765 0.15202 27.9046 1.07739 33.9402C1.07739 33.9548 1.07739 33.9694 1.07739 33.9694C1.35211 35.7188 1.88709 36.2582 1.88709 36.2582C1.98831 36.3603 2.08952 36.4404 2.1835 36.5061C2.1835 36.5061 2.3064 36.5862 2.44376 36.6591C3.05827 36.9653 3.91857 37.0673 3.91857 37.0673C5.10421 37.2058 5.41507 37.2131 5.41507 37.2131C7.38872 37.3881 10.3383 37.5849 15.0664 37.5849C15.0664 37.5849 15.0809 37.5849 15.0881 37.5849C15.0953 37.5849 15.1026 37.5849 15.1098 37.5849C19.8379 37.5849 22.7875 37.3881 24.7611 37.2131C24.7611 37.2131 25.072 37.2131 26.2576 37.0673C26.2576 37.0673 27.1179 36.9653 27.7324 36.6591C27.8698 36.5935 27.9927 36.5061 27.9927 36.5061C28.0867 36.4404 28.1879 36.3676 28.2891 36.2582C28.2891 36.2582 28.8241 35.7188 29.0988 33.9694C29.0988 33.9694 29.0988 33.9548 29.0988 33.9402C30.0242 27.9119 29.8507 21.1765 29.8507 21.1765H29.8651Z" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M14.958 12.6845C8.40807 11.7514 4.05593 8.11404 3.07996 0.32172C12.0445 2.12948 13.7506 4.87028 14.958 12.6845Z" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M22.2597 4.5787C17.3003 5.47529 15.0736 8.38374 14.6471 12.5678C14.7483 12.6116 14.8568 12.648 14.958 12.6845C19.7366 11.6421 21.4139 10.3373 22.2525 4.5787H22.2597Z" />
+                    </svg>
+                </div>
+
                 <button id="hamprgerButton" class="block focus:outline-none" (click)="toggleMenu()"
                     aria-label="Toggle menu">
                     <svg [ngClass]="menuOpen ? 'hidden' : 'block'" xmlns="http://www.w3.org/2000/svg" id="brand-text2"
