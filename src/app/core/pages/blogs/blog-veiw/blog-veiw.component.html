@@ -88,8 +88,8 @@
         </article>
         <section>
             @for (FAQ of (blog.faqs ?? []); track $index) {
-            <app-accordion [title]="FAQ.question">
-                {{FAQ.answer}}
+            <app-accordion [title]="isRtl ? FAQ.question : FAQ.englishQuestion">
+                {{isRtl ? FAQ.answer : FAQ.englishAnswer}}
             </app-accordion>
             }
         </section>

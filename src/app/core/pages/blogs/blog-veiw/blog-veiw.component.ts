@@ -92,6 +92,7 @@ import { BlogsService } from '../services/blogs-service';
 import { AccordionComponent } from "../../../shared/accordion/accordion.component";
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from '../../../shared/services/language.service';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
@@ -117,7 +118,8 @@ export class BlogVeiwComponent {
     private sectionsRegistry: SectionsRegistryService,
     private route: ActivatedRoute,
     private blogsService: BlogsService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private language: LanguageService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -165,6 +167,7 @@ export class BlogVeiwComponent {
         this.blog = res.data;
 
         const fixedBody = this.fixEditorJsBody(this.blog?.body);
+        console.log(this.blog.faqs);
         this.blogHtml = this.sanitizer.bypassSecurityTrustHtml(
           this.renderEditorJsBody(fixedBody)
         );
@@ -350,10 +353,15 @@ export class BlogVeiwComponent {
     this.blog = JSON.parse(raw);
 
     const fixedBody = this.fixEditorJsBody(this.blog.body);
+
+
     this.blogHtml = this.sanitizer.bypassSecurityTrustHtml(
       this.renderEditorJsBody(fixedBody)
     );
 
     this.loading = false;
+  }
+  get isRtl() {
+    return this.language.currentLang === 'ar';
   }
 }
