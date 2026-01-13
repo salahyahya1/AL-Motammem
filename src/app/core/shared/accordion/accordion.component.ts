@@ -11,13 +11,14 @@ import {
   PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-accordion',
   standalone: true,
   templateUrl: './accordion.component.html',
   styleUrl: './accordion.component.scss',
+  imports: [NgClass],
 })
 export class AccordionComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input({ required: true }) title!: string;

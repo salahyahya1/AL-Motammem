@@ -108,7 +108,7 @@
     <div class="flex flex-col gap-[0.7rem] w-[90%] md:w-[50%] mx-auto pt-10 md:pt-30">
 
         <!-- ✅ ADD FORM (زي ما هو) -->
-        <form [formGroup]="faqForm" class="mt-8" (ngSubmit)="onSubmit()">
+        <form [formGroup]="faqForm" class="mt-8" [ngClass]="enableActions ? 'block' : 'hidden'" (ngSubmit)="onSubmit()">
             <div formArrayName="faqs" class="space-y-6">
                 <div *ngFor="let faq of faqs.controls; let i=index" [formGroupName]="i"
                     class="relative rounded-lg border border-gray-100 bg-gray-50 p-4 pt-8">
@@ -233,8 +233,8 @@
 
             <!-- ✅ VIEW MODE -->
             <ng-template #viewMode>
-                <app-accordion [title]="FAQ.question" [isDeleteable]="true" (deletefaq)="onDeleteFaq(FAQ.id)"
-                    [isEditable]="true" (editfaq)="onEditFaq(FAQ.id)">
+                <app-accordion [title]="FAQ.question" [isDeleteable]="enableActions" (deletefaq)="onDeleteFaq(FAQ.id)"
+                    [isEditable]="enableActions" (editfaq)="onEditFaq(FAQ.id)">
                     {{ FAQ.answer }}
                 </app-accordion>
             </ng-template>

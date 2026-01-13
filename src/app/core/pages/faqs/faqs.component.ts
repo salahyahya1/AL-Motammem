@@ -339,7 +339,7 @@ export class FAQSComponent {
   // ✅ NEW: inline edit
   editingId: number | null = null;
   editForm: FormGroup;
-
+  enableActions: boolean = false
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
@@ -366,20 +366,24 @@ export class FAQSComponent {
     });
 
     this.lang = this.translate.currentLang || this.translate.defaultLang || 'ar';
+    if (!this.isBrowser) return;
+
+    this.isAuthenticated = this.faqsService.isAuthenticated();
+    this.role = localStorage.getItem('role');
+    this.hasrole = this.role ? true : false;
+    this.enableActions = this.hasrole && this.isAuthenticated
     this.loadFaqs();
   }
 
   ngOnInit(): void {
     if (!this.isBrowser) return;
 
-    this.isAuthenticated = this.faqsService.isAuthenticated();
-    this.role = localStorage.getItem('role');
-    this.hasrole = this.role ? true : false;
-
     this.ngZone.runOutsideAngular(() => {
       this.navTheme.setColor('var(--primary)');
       this.navTheme.setBg('var(--white)');
     });
+
+
   }
 
   ngOnDestroy(): void {

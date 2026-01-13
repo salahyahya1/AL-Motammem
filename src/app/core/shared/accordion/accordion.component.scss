@@ -63,14 +63,16 @@
 
 .is-Deleteable {
     cursor: pointer;
-    visibility: visible;
+    // visibility: visible;
     opacity: 1;
+    // display: none;
 }
 
 .is-editable {
     cursor: pointer;
-    visibility: visible;
+    // visibility: visible;
     opacity: 1;
+    // display: none;
 }
 
 .is-disabled {
