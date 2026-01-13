@@ -329,7 +329,7 @@ export class FAQSComponent {
   dialogOpen = false;
   blog: any;
   blogHtml: SafeHtml = '';
-  dialogVariant: 'success' | 'error' = 'success';
+  dialogVariant: 'success' | 'error' | 'warning' = 'success';
   dialogTitle = '';
   dialogMessage = '';
   dialogButtons: DialogButton[] = [];
@@ -338,6 +338,7 @@ export class FAQSComponent {
 
   // ✅ NEW: inline edit
   editingId: number | null = null;
+  deletingId!: number;
   editForm: FormGroup;
   enableActions: boolean = false
   constructor(
@@ -414,12 +415,31 @@ export class FAQSComponent {
   }
 
   onSubmit() {
-    console.log(this.faqForm.value.faqs[0]);
-    this.faqsService.AddFAQS(this.faqForm.value.faqs[0]).subscribe(() => {
-      this.loadFaqs();
-    });
+    console.log(this.faqForm.value);
+    if (this.faqForm.value.faqs.length === 0) return;
+    for (let index = 0; index < this.faqForm.value.faqs.length; index++) {
+      const element = this.faqForm.value.faqs[index];
+      this.faqsService.AddFAQS(element).subscribe(() => {
+        this.loadFaqs();
+      });
+    }
+    // لحد مالباك يحل مشكله الاراي او اوبكتس
+    // this.faqsService.AddFAQS(this.faqForm.value.faqs).subscribe(() => {
+    //   this.loadFaqs();
+    // });
   }
-
+  checkbeforeDelete(id: number) {
+    this.dialogVariant = 'warning';
+    this.dialogTitle = '';
+    this.dialogMessage = 'Are you sure you want to delete this FAQ?';
+    this.dialogButtons = [
+      { id: 'cancel', text: 'Cancel', style: 'outline' },
+      { id: 'show all', text: 'ok', style: 'primary' },
+    ];
+    this.dialogOpen = true;
+    this.deletingId = id;
+    // افتكر صلح مكان الدايلوج 
+  }
   onDeleteFaq(id: number) {
     this.faqsService.DeleteFAQ(id).subscribe({
       next: () => {
@@ -428,7 +448,7 @@ export class FAQSComponent {
         this.dialogMessage = 'FAQ deleted successfully';
         this.dialogButtons = [
           { id: 'cancel', text: 'Cancel', style: 'outline' },
-          { id: 'retry', text: 'Try again', style: 'danger' },
+          { id: 'sureOfDelete', text: 'ok', style: 'primary' },
         ];
         this.dialogOpen = true;
 
@@ -567,6 +587,10 @@ export class FAQSComponent {
     }
     if (id === 'cancel') {
       this.dialogOpen = false;
+    }
+    if (id === 'sureOfDelete') {
+      this.dialogOpen = false;
+      this.onDeleteFaq(this.deletingId);
     }
   }
 }

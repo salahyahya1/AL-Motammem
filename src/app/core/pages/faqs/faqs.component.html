@@ -233,8 +233,8 @@
 
             <!-- ✅ VIEW MODE -->
             <ng-template #viewMode>
-                <app-accordion [title]="FAQ.question" [isDeleteable]="enableActions" (deletefaq)="onDeleteFaq(FAQ.id)"
-                    [isEditable]="enableActions" (editfaq)="onEditFaq(FAQ.id)">
+                <app-accordion [title]="FAQ.question" [isDeleteable]="enableActions"
+                    (deletefaq)="checkbeforeDelete(FAQ.id)" [isEditable]="enableActions" (editfaq)="onEditFaq(FAQ.id)">
                     {{ FAQ.answer }}
                 </app-accordion>
             </ng-template>
