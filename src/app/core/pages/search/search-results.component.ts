@@ -10,7 +10,7 @@ import { SiteSearchService, SearchResult } from '../../services/site-search.serv
 @Component({
     selector: 'app-search-results',
     standalone: true,
-    imports: [CommonModule, RouterLink, TranslateModule, ReactiveFormsModule],
+    imports: [CommonModule, TranslateModule, ReactiveFormsModule],
     template: `
     <div class="container mx-auto px-4 py-8 min-h-[60vh] rtl:text-right ltr:text-left mt-20">
       <h1 class="text-3xl font-bold mb-6 text-[var(--primary)]">{{ 'SEARCH.RESULTS_TITLE' | translate }}</h1>
@@ -34,7 +34,7 @@ import { SiteSearchService, SearchResult } from '../../services/site-search.serv
 
       <div *ngIf="!loading && results.length > 0" class="flex flex-col gap-6">
         <div *ngFor="let result of results" class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-          <a [routerLink]="result.route" class="block group">
+          <a (click)="handleResultClick(result)" class="block group cursor-pointer">
             <div class="flex items-center gap-3 mb-2">
                 <h3 class="text-xl font-semibold text-[var(--dark-gray)] group-hover:text-[var(--primary)] transition-colors">
                 <!-- If title is a key, we might translate it, but here we indexed the actual text or a descriptive title -->
@@ -130,6 +130,13 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
                 if (q) this.performSearch(q);
             })
         );
+    }
+
+    handleResultClick(result: SearchResult) {
+        if (result.fragment) {
+            localStorage.setItem('scroll_to_section', result.fragment);
+        }
+        this.router.navigateByUrl(result.route);
     }
 
     async performSearch(query: string) {

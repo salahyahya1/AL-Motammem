@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, withInMemoryScrolling, withRouterConfig } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 
@@ -28,8 +28,9 @@ export const appConfig: ApplicationConfig = {
       // withPreloading(PreloadAllModules),
       withInMemoryScrolling({
         scrollPositionRestoration: 'enabled',
-        anchorScrolling: 'enabled',
-      })
+        anchorScrolling: 'disabled',
+      }),
+      withRouterConfig({ onSameUrlNavigation: 'reload' })
     ),
     // provideClientHydration(withEventReplay()),
     // provideClientHydration(),

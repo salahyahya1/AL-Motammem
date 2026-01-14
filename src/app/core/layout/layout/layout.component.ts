@@ -1,5 +1,7 @@
 import { ChangeDetectorRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
-import { RouterOutlet } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet, Scroll } from "@angular/router";
+import { filter, delay } from 'rxjs';
+
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 import gsap from 'gsap';
@@ -11,6 +13,7 @@ import { SectionIndicatorComponent } from "../../components/section-indicator/se
 import { SectionsRegistryService } from '../../shared/services/sections-registry.service';
 import { FormDialogComponent } from "../../shared/form-dialog/form-dialog.component";
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
 @Component({
   selector: 'app-layout',
   imports: [RouterOutlet, NavbarComponent, FooterComponent, SectionIndicatorComponent, AsyncPipe, FormDialogComponent],
@@ -22,18 +25,17 @@ export class LayoutComponent {
   private smoother!: any;
   sections$: any;
 
-
-
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private navTheme: NavbarThemeService,
     private sectionsRegistry: SectionsRegistryService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
-
 
   ngAfterViewInit(): void {
     this.sections$ = this.sectionsRegistry.sections$;
@@ -42,7 +44,99 @@ export class LayoutComponent {
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.initSmoothScroll();
+        this.setupFragmentScrolling();
       }, 0);
+    });
+  }
+
+  private setupFragmentScrolling() {
+    // Listen for Scroll events (this covers both page loads and fragment changes)
+    this.router.events.pipe(
+      filter((e): e is Scroll => e instanceof Scroll)
+    ).subscribe(e => {
+      // Check localStorage first
+      const storedFragment = localStorage.getItem('scroll_to_section');
+      if (storedFragment) {
+        this.scrollToFragment(storedFragment, true);
+      } else if (e.anchor) {
+        this.scrollToFragment(e.anchor);
+      }
+    });
+
+    // Handle initial fragment/storage on load
+    const storedFragment = localStorage.getItem('scroll_to_section');
+    const initialFragment = this.router.parseUrl(this.router.url).fragment;
+
+    if (storedFragment) {
+      this.scrollToFragment(storedFragment, true);
+    } else if (initialFragment) {
+      this.scrollToFragment(initialFragment);
+    }
+  }
+
+  private scrollToFragment(fragment: string, fromStorage = false) {
+    if (!this.smoother) return;
+
+    this.ngZone.runOutsideAngular(() => {
+      const getStableElement = () => document.getElementById(fragment);
+
+      let element = getStableElement();
+      if (!element) return;
+
+      let isMoving = true;
+      let lastTop = -1;
+      let stabilityCount = 0;
+      let checkCount = 0;
+      const maxChecks = 12; // ~4 seconds total monitoring
+
+      const performScroll = (forceRefresh = false) => {
+        if (forceRefresh) {
+          ScrollTrigger.refresh();
+          this.smoother.refresh();
+        }
+
+        const currentElement = getStableElement();
+        if (currentElement) {
+          this.smoother.scrollTo(currentElement, true);
+          const rect = currentElement.getBoundingClientRect();
+          return rect.top + (window.pageYOffset || document.documentElement.scrollTop);
+        }
+        return -1;
+      };
+
+      const monitor = () => {
+        if (!isMoving) return;
+
+        checkCount++;
+        const currentRect = getStableElement()?.getBoundingClientRect();
+        const currentTop = currentRect ? (currentRect.top + (window.pageYOffset || document.documentElement.scrollTop)) : -1;
+
+        // If the position changed significantly (> 10px), re-trigger scroll
+        if (Math.abs(currentTop - lastTop) > 10) {
+          lastTop = performScroll(checkCount % 3 === 0); // Refresh every 3rd check (~1s) instead of every check
+          stabilityCount = 0;
+        } else {
+          stabilityCount++;
+        }
+
+        // Stability check: if the element hasn't moved for 3 checks (~1s) and we are close enough to viewport top
+        if (stabilityCount >= 3 && Math.abs(currentRect?.top || 999) < 20) {
+          isMoving = false;
+          if (fromStorage) localStorage.removeItem('scroll_to_section');
+          return;
+        }
+
+        if (checkCount < maxChecks) {
+          setTimeout(monitor, 350);
+        } else {
+          isMoving = false;
+          if (fromStorage) localStorage.removeItem('scroll_to_section');
+        }
+      };
+
+      // Initial scroll
+      lastTop = performScroll(true);
+      setTimeout(monitor, 400);
     });
   }
 
