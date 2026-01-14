@@ -195,7 +195,7 @@ export class Section2Component implements AfterViewInit {
         setTimeout(() => {
           document.fonts.ready.then(() => {
             const section = document.querySelector('#stats-section') as HTMLElement;
-            const triggerEl = (document.querySelector('#section2') as HTMLElement) || section;
+            const triggerEl = (document.querySelector('#homeSection2') as HTMLElement) || section;
             const video = document.getElementById('section4Video') as HTMLVideoElement;
             const cta = section?.querySelector('button') as HTMLElement | null;
             const subtitle = section?.querySelector('p') as HTMLElement | null;

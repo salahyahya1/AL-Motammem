@@ -43,7 +43,7 @@ export class AboutSection2Component {
   private runGsapAnimation() {
     let playedOnce = false;
     document.fonts.ready.then(() => {
-      const section = document.querySelector('#About-Section2') as HTMLElement;
+      const section = document.querySelector('#AboutSection2') as HTMLElement;
       const video = document.getElementById('About-Section2-video') as HTMLVideoElement;
       const AboutSection2Title = document.querySelector('h1#About-Section2-title') as HTMLElement;
       const AboutSection2Subtitle = document.querySelector('#About-Section2-title2') as HTMLElement;
@@ -62,7 +62,7 @@ export class AboutSection2Component {
       }, (context) => {
         let { desktop, mobile } = context.conditions as any;
 
-        gsap.set("#About-Section2", { willChange: "transform, opacity" });
+        gsap.set("#AboutSection2", { willChange: "transform, opacity" });
 
         this.AboutSection2TitleSplit = new SplitText(AboutSection2Title, { type: "words" });
         this.AboutSection2SubtitleSplit = new SplitText(AboutSection2Subtitle, { type: "words" });

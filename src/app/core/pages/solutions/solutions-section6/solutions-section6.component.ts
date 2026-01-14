@@ -63,7 +63,7 @@ export class SolutionsSection6Component {
               const tl = gsap.timeline({
                 defaults: { ease: "power3.out" },
                 scrollTrigger: {
-                  trigger: "#consultation",
+                  trigger: "#solutionsSection6",
                   start: 'top top',
                   end: mobile ? 'top 95%' : '130% bottom',
                   pinType: 'transform',

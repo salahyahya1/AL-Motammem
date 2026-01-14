@@ -63,7 +63,7 @@ export class ProductSection2Component {
             this.CustomizationDescSplit = new SplitText(CustomizationDesc, { type: 'words' });
 
             ScrollTrigger.create({
-              trigger: '#customizationSection',
+              trigger: '#productsection2',
               start: 'top top',
               end: mobile ? 'top 95%' : "150% bottom",
               pin: true,
@@ -76,7 +76,7 @@ export class ProductSection2Component {
 
             const tl = gsap.timeline({
               defaults: { ease: "power3.out" }, scrollTrigger: {
-                trigger: "#customizationSection",
+                trigger: "#productsection2",
                 start: 'top top',
                 end: "bottom bottom",
               }

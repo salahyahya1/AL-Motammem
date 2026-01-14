@@ -266,7 +266,7 @@ export class Section7Component {
             const tl = gsap.timeline({
               defaults: { ease: 'power3.out' },
               scrollTrigger: {
-                trigger: '#section7',
+                trigger: '#homeSection7',
                 pin: true,
                 scrub: false,
                 anticipatePin: 1,

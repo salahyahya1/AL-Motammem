@@ -43,7 +43,7 @@
 //             const tl = gsap.timeline({
 //               defaults: { ease: "power3.out" },
 //               scrollTrigger: {
-//                 trigger: "#section4",
+//                 trigger: "#homeSection4",
 //                 start: 'top top',
 
 //                 // ✅ الديسكتوب زي ما هو
@@ -159,7 +159,7 @@ export class Section4Component {
               const tl = gsap.timeline({
                 defaults: { ease: "power3.out" },
                 scrollTrigger: {
-                  trigger: "#section4",
+                  trigger: "#homeSection4",
                   start: "top top",
                   end: "140% bottom",
                   pin: true,
@@ -211,7 +211,7 @@ export class Section4Component {
 
               // 2) Trigger بدري (بدون pin) عشان لو اليوزر سكرول سريع
               const earlyST = ScrollTrigger.create({
-                trigger: "#section4",
+                trigger: "#homeSection4",
                 start: "top 95%",     // بدري جدًا (قبل ما يدخل)
                 once: true,
                 onEnter: () => tl.play(),
@@ -221,7 +221,7 @@ export class Section4Component {
 
               // 3) Pin صغير + طبيعي (يبدأ من top top فقط عشان مفيش حركة/قفزة)
               const pinST = ScrollTrigger.create({
-                trigger: "#section4",
+                trigger: "#homeSection4",
                 start: "top top",
                 end: "+=220",          // pin صغير جدًا
                 pin: true,

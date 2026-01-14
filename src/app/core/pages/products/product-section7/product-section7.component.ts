@@ -214,7 +214,7 @@ export class ProductSection7Component {
             const tl = gsap.timeline({
               defaults: { ease: "power3.out" },
               scrollTrigger: {
-                trigger: "#productsSection7",
+                trigger: "#productSection7",
                 start: 'top top',
                 end: mobile ? 'bottom bottom' : "150% bottom",
                 pin: mobile ? false : true,
@@ -291,7 +291,7 @@ export class ProductSection7Component {
                 duration: 0.2,
                 ease: "power2.inOut",
                 onStart: () => {
-                  gsap.to('#productsSection7', {
+                  gsap.to('#productSection7', {
                     backgroundColor: '#ffffff',
                     duration: 0.8,
                     ease: "power2.inOut"

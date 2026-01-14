@@ -229,7 +229,7 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
         this.mm = gsap.matchMedia();
         this.mm.add('(min-width: 767px)', () => {
           const pin = ScrollTrigger.create({
-            trigger: '#hero',
+            trigger: '#homeSection1',
             start: 'top top',
             end: '150% bottom',
             pin: true,

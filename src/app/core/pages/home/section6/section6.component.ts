@@ -172,7 +172,7 @@ export class Section6Component {
           const tl = gsap.timeline({
             defaults: { ease: "power3.out" },
             scrollTrigger: {
-              trigger: "#section6",
+              trigger: "#homeSection6",
               start: mobile ? 'top 85%' : 'top top',
               end: desktop ? "150% bottom" : 'bottom 95%',
               pin: desktop ? true : false,

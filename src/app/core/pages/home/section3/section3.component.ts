@@ -346,7 +346,7 @@ export class Section3Component {
 
               if (desktop) {
                 pinST = ScrollTrigger.create({
-                  trigger: '#section50',
+                  trigger: '#homeSection3',
                   start: 'top top',
                   end: "150% bottom",
                   pin: true,
@@ -366,7 +366,7 @@ export class Section3Component {
               if (mobile) {
                 // ✅ بدون pin: بس شغل الفيديو لما يدخل القسم في viewport
                 playST = ScrollTrigger.create({
-                  trigger: '#section50',
+                  trigger: '#homeSection3',
                   start: 'top 80%',
                   end: 'top 95%',
                   pin: true,
@@ -470,7 +470,7 @@ export class Section3Component {
             duration: 0.2,
             ease: "power2.inOut",
             onStart: () => {
-              gsap.to('#section50', {
+              gsap.to('#homeSection3', {
                 backgroundColor: '#ffffff',
                 duration: 0.2,
                 ease: "power2.inOut"
