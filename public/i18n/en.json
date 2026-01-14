@@ -6,7 +6,19 @@
     "PRODUCTS": "Products",
     "kNOWLEDGE": "Knowledge base",
     "CONTACT": "Contact us",
-    "SUPPORT": "FAQs"
+    "SUPPORT": "FAQs",
+    "SEARCH": "Search..."
+  },
+  "SEARCH": {
+    "RESULTS_TITLE": "Search Results",
+    "PLACEHOLDER": "Search for anything...",
+    "NO_RESULTS": "No results found matching your query.",
+    "READ_MORE": "Read more",
+    "VIEW_ALL": "View all results",
+    "LOADING": "Searching...",
+    "BADGE_BLOG": "Blog",
+    "BADGE_FAQ": "FAQ",
+    "BADGE_SITE": "Page"
   },
   "HOME": {
     "INDECATORS": {

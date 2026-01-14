@@ -6,7 +6,19 @@
     "PRODUCTS": "المنتجات ",
     "kNOWLEDGE": "قاعدة المعرفة",
     "CONTACT": "تواصل معنا",
-    "SUPPORT": "الأسئلة الشائعة"
+    "SUPPORT": "الأسئلة الشائعة",
+    "SEARCH": "بحث..."
+  },
+  "SEARCH": {
+    "RESULTS_TITLE": "نتائج البحث",
+    "PLACEHOLDER": "ابحث عن أي شيء...",
+    "NO_RESULTS": "لا توجد نتائج مطابقة لبحثك.",
+    "READ_MORE": "اقرأ المزيد",
+    "VIEW_ALL": "عرض جميع النتائج",
+    "LOADING": "جاري البحث...",
+    "BADGE_BLOG": "مدونة",
+    "BADGE_FAQ": "سؤال",
+    "BADGE_SITE": "صفحة"
   },
   "HOME": {
     "INDECATORS": {

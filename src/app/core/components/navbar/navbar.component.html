@@ -1,28 +1,122 @@
 <header #navbar class="navbar fixed top-0 left-0 right-0 w-full z-50">
     <div
-        class=" mx-auto flex flex-col-reverse justify-center md:gap-x-2 lg:gap-x-4 items-center md:flex-row md:items-center md:justify-between md:py-4 min-[800px]:px-2 min-[1000px]:px-6">
+        class=" mx-auto flex flex-col-reverse justify-center md:gap-x-2 lg:gap-x-4 items-center md:flex-row md:items-center md:justify-between md:py-0 min-[800px]:px-2 min-[1000px]:px-6">
         <nav #navbarMenu
-            class=" flex md:space-x-4 flex-col gap-y-2 pt-2 md:pt-0 md:gap-y-0 justify-center items-center md:flex-row md:justify-start md:items-center text-md font-medium w-full">
-            <div class="bg-[var(--light-light-gray)] w-9 h-9 rounded-full flex items-center justify-center md:mr-4">
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 30 30">
-                    <path
-                        d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"
-                        fill="var(--primary)">
-                    </path>
-                </svg>
+            class=" flex md:space-x-4 flex-col gap-y-2 pt-2 md:pt-0 md:gap-y-0 justify-center items-center md:flex-row md:justify-between md:items-center text-md font-medium w-full">
+            <!-- Search Bar -->
+            <div #searchContainer class="relative group md:mr-4 flex items-center">
+                <!-- Single Search Container with Smooth Transition -->
+                <div class="relative flex items-center bg-[var(--light-light-gray)] rounded-full transition-all duration-300 ease-in-out cursor-pointer overflow-hidden shadow-sm"
+                    [class.w-9]="!isSearchOpen" [class.h-9]="!isSearchOpen" [class.w-[215px]]="isSearchOpen"
+                    [class.lg:w-[250px]]="isSearchOpen" [class.h-9]="isSearchOpen" [class.cursor-default]="isSearchOpen"
+                    (click)="openSearch(); $event.stopPropagation()">
+
+                    <!-- Search Icon (Acting as trigger when closed) -->
+                    <div class="shrink-0 w-9 h-9 flex items-center justify-center text-gray-500 z-10">
+                        <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+
+                    <!-- Input (Hidden when closed) -->
+                    <input #searchInput [formControl]="searchControl" (focus)="onSearchFocus()"
+                        (keyup.enter)="onSearchSubmit()" type="text"
+                        class="bg-transparent border-none outline-none text-sm h-full absolute inset-0 ltr:pl-10 rtl:pr-10 ltr:pr-8 rtl:pl-8 w-full transition-opacity duration-300 ease-in-out placeholder-gray-500 text-[var(--dark-gray)]"
+                        [class.opacity-0]="!isSearchOpen" [class.pointer-events-none]="!isSearchOpen"
+                        [class.opacity-100]="isSearchOpen" [class.pointer-events-auto]="isSearchOpen"
+                        [placeholder]="'NAVBAR.SEARCH' | translate" (click)="$event.stopPropagation()">
+
+                    <!-- Close Button (Hidden when closed) -->
+                    <button (click)="closeSearch(); $event.stopPropagation()" type="button"
+                        class="absolute ltr:right-1 rtl:left-1 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-200 focus:outline-none transition-all duration-300 z-20"
+                        [class.opacity-0]="!isSearchOpen" [class.scale-0]="!isSearchOpen"
+                        [class.pointer-events-none]="!isSearchOpen" [class.opacity-100]="isSearchOpen"
+                        [class.scale-100]="isSearchOpen">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Dropdown Results (Only shows if open) -->
+                <div *ngIf="isSearchOpen && showResults && (searchControl.value?.length || 0) >= 2"
+                    class="absolute top-[calc(100%+0.5rem)] w-[300px] md:w-[400px] bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden z-[60] ltr:left-0 rtl:right-0 ltr:origin-top-left rtl:origin-top-right">
+
+                    <!-- Loading State -->
+                    <div *ngIf="searchLoading"
+                        class="p-4 text-center text-gray-500 text-sm flex items-center justify-center gap-2">
+                        <svg class="animate-spin h-5 w-5 text-[var(--primary)]" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        <span>{{ 'SEARCH.LOADING' | translate }}</span>
+                    </div>
+
+                    <!-- No Results -->
+                    <div *ngIf="!searchLoading && searchResults.length === 0"
+                        class="p-4 text-center text-gray-500 text-sm">
+                        {{ 'SEARCH.NO_RESULTS' | translate }}
+                    </div>
+
+                    <!-- Results List -->
+                    <div *ngIf="!searchLoading && searchResults.length > 0" class="max-h-[60vh] overflow-y-auto">
+                        <div *ngFor="let result of searchResults" (click)="navigateToResult(result)"
+                            class="p-3 border-b border-gray-50 hover:bg-gray-50 cursor-pointer transition-colors block group/item">
+                            <div class="flex justify-between items-start gap-2 mb-1">
+                                <h4
+                                    class="text-sm font-semibold text-[var(--dark-gray)] group-hover/item:text-[var(--primary)] transition-colors">
+                                    {{ result.title.includes('.') ? (result.title | translate) : result.title }}
+                                </h4>
+                                <span *ngIf="result.source === 'blog'"
+                                    class="shrink-0 px-2 py-0.5 text-[0.6rem] font-medium bg-blue-50 text-blue-600 rounded-full border border-blue-100">
+                                    {{ 'SEARCH.BADGE_BLOG' | translate }}
+                                </span>
+                                <span *ngIf="result.source === 'faq'"
+                                    class="shrink-0 px-2 py-0.5 text-[0.6rem] font-medium bg-orange-50 text-orange-600 rounded-full border border-orange-100">
+                                    {{ 'SEARCH.BADGE_FAQ' | translate }}
+                                </span>
+                                <span *ngIf="result.source === 'site'"
+                                    class="shrink-0 px-2 py-0.5 text-[0.6rem] font-medium bg-gray-100 text-gray-500 rounded-full border border-gray-200">
+                                    {{ 'SEARCH.BADGE_SITE' | translate }}
+                                </span>
+                            </div>
+                            <p class="text-xs text-gray-500 line-clamp-2">
+                                {{ result.snippet }}
+                            </p>
+                        </div>
+                        <div class="p-2 bg-gray-50 text-center">
+                            <button (click)="onSearchSubmit()"
+                                class="text-xs text-[var(--primary)] font-medium hover:underline">
+                                {{ 'SEARCH.VIEW_ALL' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <a routerLink="" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.MAIN' | translate }} </a>
-            <a routerLink="/about" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.ABOUT-US' | translate }} </a>
-            <a routerLink="/solutions" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.SOLUTIONS' | translate }}
-            </a>
-            <a routerLink="/products" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.PRODUCTS' | translate
-                }}</a>
-            <a routerLink="/blogs" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.kNOWLEDGE' | translate
-                }}</a>
-            <a routerLink="/ContactUs" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.CONTACT' | translate
-                }}</a>
-            <a routerLink="/FAQS" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.SUPPORT' | translate
-                }}</a>
+            <div
+                class="contents md:relative md:flex md:space-x-4 flex-col gap-y-2 md:pt-0 md:gap-y-0 justify-center items-center md:flex-row md:justify-start md:items-center">
+                <a routerLink="" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.MAIN' | translate }} </a>
+                <a routerLink="/about" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.ABOUT-US' | translate }}
+                </a>
+                <a routerLink="/solutions" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.SOLUTIONS' |
+                    translate }}
+                </a>
+                <a routerLink="/products" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.PRODUCTS' | translate
+                    }}</a>
+                <a routerLink="/blogs" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.kNOWLEDGE' | translate
+                    }}</a>
+                <a routerLink="/ContactUs" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.CONTACT' | translate
+                    }}</a>
+                <a routerLink="/FAQS" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.SUPPORT' | translate
+                    }}</a>
+            </div>
             <!-- <div class="inline-flex items-center rounded-full bg-[var(--light-light-gray)] p-1 text-xs font-medium">
                 <button type="button" class="px-3 py-1 rounded-full transition-colors whitespace-nowrap" [ngClass]="currentLang === 'ar'
       ? 'bg-[var(--primary)] text-white'
@@ -39,7 +133,7 @@
 
 
         </nav>
-        <div #navSmallScreen class="navSmallScreen w-full h-full">
+        <div #navSmallScreen class="navSmallScreen w-full h-full md:w-[40%]">
             <div class="w-[90%] flex flex-row-reverse justify-between items-center mx-auto">
                 <div class="gap-x-2 mt-1 ltr:flex rtl:hidden">
                     <svg width="30" height="38" viewBox="0 0 30 38" fill="currentColor"
@@ -51,7 +145,8 @@
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M22.2597 4.5787C17.3003 5.47529 15.0736 8.38374 14.6471 12.5678C14.7483 12.6116 14.8568 12.648 14.958 12.6845C19.7366 11.6421 21.4139 10.3373 22.2525 4.5787H22.2597Z" />
                     </svg>
-                    <div class="text-[color:var(--dark-gray)] transition-colors duration-300" id="brand-text">
+                    <div class="text-[color:var(--dark-gray)] transition-colors duration-300 brand-text"
+                        id="brand-text">
                         <div class="flex flex-col items-end">
                             <span class="text-xl font-medium whitespace-nowrap">Al-Motammem</span>
                             <span class="text-xs font-light">40 years of ERP</span>
@@ -64,24 +159,25 @@
 
 
                     <!-- Text block -->
-                    <div id="brand-text" class="text-[#6B6B6B] select-none">
+                    <div id="brand-text"
+                        class="brand-text text-[color:var(--dark-gray)] transition-colors duration-300 select-none">
                         <!-- سطر 1: EN + divider + AR -->
                         <div class="flex flex-row-reverse items-start leading-none">
                             <span
-                                class="text-xl font-semibold tracking-wide whitespace-nowrap ps-0.5">Al-Motammem</span>
-                            <span class="inline-block w-[2px] h-7 bg-[#2F7BFF] rounded-sm"></span>
+                                class="text-lg font-semibold tracking-wide whitespace-nowrap ps-0.5">Al-Motammem</span>
+                            <span class="inline-block w-[2px] h-7 bg-current rounded-sm" id="navbar-seprator"></span>
 
                             <!-- Arabic + subtitle تحتها -->
                             <div class="flex flex-col items-start">
-                                <span class="text-[25px] font-semibold whitespace-nowrap" dir="rtl">المُتمِّم</span>
-                                <span class="text-xs font-medium text-[#7A7A7A] pt-[3px]" dir="rtl">٤٠ عام من
+                                <span class="text-[23px] font-semibold whitespace-nowrap" dir="rtl">المُتَمِّم</span>
+                                <span class="text-xs font-medium pt-[5px]" dir="rtl">٤٠ عام من
                                     الخبرة</span>
                             </div>
                         </div>
                     </div>
-                    <!-- Logo (نفس المقاس اللي عندك 30x38) -->
-                    <svg class="shrink-0 text-[#2F7BFF]" width="50" height="55" viewBox="0 0 30 45" fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+                    <svg class="shrink-0" width="50" height="55" viewBox="0 0 30 45" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M29.8651 21.1765C29.8651 21.0745 29.8651 20.9506 29.8579 20.8996C29.8073 19.3615 29.6266 17.1091 29.0482 14.3464C28.9831 13.9965 28.8096 13.3842 28.2963 12.8813C27.6891 12.2835 26.9155 12.1523 26.4094 12.1013C23.4237 11.766 19.5631 12.7646 16.2304 13.6539C15.7821 13.7706 15.399 13.8799 15.0953 13.9601C14.7917 13.8799 14.4013 13.7779 13.9603 13.6539C10.6275 12.7646 6.76698 11.766 3.78121 12.1013C3.28238 12.1596 2.5016 12.2835 1.89432 12.8813C1.38826 13.3842 1.21475 13.9965 1.14246 14.3464C0.556871 17.1018 0.383363 19.3615 0.332757 20.8996C0.332757 20.9506 0.332757 21.0745 0.325528 21.1765C0.325528 21.1765 0.15202 27.9046 1.07739 33.9402C1.07739 33.9548 1.07739 33.9694 1.07739 33.9694C1.35211 35.7188 1.88709 36.2582 1.88709 36.2582C1.98831 36.3603 2.08952 36.4404 2.1835 36.5061C2.1835 36.5061 2.3064 36.5862 2.44376 36.6591C3.05827 36.9653 3.91857 37.0673 3.91857 37.0673C5.10421 37.2058 5.41507 37.2131 5.41507 37.2131C7.38872 37.3881 10.3383 37.5849 15.0664 37.5849C15.0664 37.5849 15.0809 37.5849 15.0881 37.5849C15.0953 37.5849 15.1026 37.5849 15.1098 37.5849C19.8379 37.5849 22.7875 37.3881 24.7611 37.2131C24.7611 37.2131 25.072 37.2131 26.2576 37.0673C26.2576 37.0673 27.1179 36.9653 27.7324 36.6591C27.8698 36.5935 27.9927 36.5061 27.9927 36.5061C28.0867 36.4404 28.1879 36.3676 28.2891 36.2582C28.2891 36.2582 28.8241 35.7188 29.0988 33.9694C29.0988 33.9694 29.0988 33.9548 29.0988 33.9402C30.0242 27.9119 29.8507 21.1765 29.8507 21.1765H29.8651Z" />
                         <path fill-rule="evenodd" clip-rule="evenodd"

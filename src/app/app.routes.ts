@@ -129,6 +129,12 @@ export const routes: Routes = [
                 data: { seo: { robots: 'noindex, nofollow' } }
             },
             {
+                path: 'search',
+                loadComponent: () => import('./core/pages/search/search-results.component')
+                    .then(m => m.SearchResultsComponent),
+                title: 'Search Results'
+            },
+            {
                 path: 'login',
                 loadComponent: () => import('./core/auth/login/login.component')
                     .then(m => m.LoginComponent),
