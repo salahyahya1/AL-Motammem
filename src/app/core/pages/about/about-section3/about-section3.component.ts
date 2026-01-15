@@ -329,24 +329,16 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
         return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-mobile')?.kill(); };
       }
 
-      // ------------------ DESKTOP (المهم) ------------------
+      // ------------------ DESKTOP (Optimized Snapping) ------------------
       if (!document.querySelector('.scroll-bg-section')) return;
 
-      // ✅ امنعي flash قبل ما يبدأ الـ ScrollTrigger
-      gsap.set([
-        '.scroll-bg-section-text',
-        '.scroll-bg-section-text1',
-        '.scroll-bg-section-text2',
-      ], { opacity: 0, yPercent: 50 });
+      // Reset initial states to avoid flashes
+      gsap.set(['.scroll-bg-section-text', '.scroll-bg-section-text1', '.scroll-bg-section-text2'], { opacity: 0, yPercent: 50 });
+      gsap.set(['.scroll-bg-section', '.scroll-bg-section1', '.scroll-bg-section2'], { autoAlpha: 0 });
 
-      gsap.set([
-        '.scroll-bg-section',
-        '.scroll-bg-section1',
-        '.scroll-bg-section2',
-      ], { autoAlpha: 0 });
-      let snapEnabled = false;
-      // ✅ Anchors: نقاط ثبات النص (progress 0..1)
       let textAnchors: number[] = [];
+      const transitionDuration = 0.2;
+      const holdDuration = 1.0; // Increased hold time relative to transitions
 
       const tl = gsap.timeline({
         id: 'AboutSection3TL-desktop',
@@ -354,29 +346,15 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
           id: 'AboutSection3Trigger-desktop',
           trigger: '#AboutSection3',
           start: 'top top',
-          end: '+=4000 bottom',
-          scrub: 1,
+          end: '+=4500 bottom', // Slightly longer to accommodate more "hold" space
+          scrub: 0.5, // Faster response to scroll
           pin: true,
-          // ✅ Snap لأقرب نص "ثابت 100%"
-          // snap: {
-          //   snapTo: (value) => textAnchors.length ? gsap.utils.snap(textAnchors, value) : value,
-          //   duration: { min: 0.25, max: 0.6 },
-          //   delay: 0.12,
-          //   ease: 'power3.out',
-          // },
-          snap: this.lang === 'ar' ? {
+          snap: {
             snapTo: (value) => textAnchors.length ? gsap.utils.snap(textAnchors, value) : value,
-            duration: { min: 0.25, max: 0.6 },
-            delay: 0.12,
-            ease: 'power3.out',
-          } : {
-            snapTo: (v) => (!snapEnabled || !textAnchors.length) ? v : gsap.utils.snap(textAnchors, v),
-            duration: { min: 0.25, max: 0.6 },
-            delay: 0.12,
-            ease: 'power3.out'
-          },
-          onRefresh: () => { snapEnabled = true; }
-
+            duration: { min: 0.2, max: 0.5 },
+            delay: 0.05,
+            ease: 'power2.out',
+          }
         }
       });
 
@@ -384,84 +362,67 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
 
       const getY = (sel: string) => {
         const el = document.querySelector(sel) as HTMLElement | null;
-        if (!el) return { enter: -120, exit: -220 };
-
-        const h = el.getBoundingClientRect().height;     // ارتفاع النص الحقيقي (EN/AR)
+        if (!el) return { enter: -140, exit: -260 };
+        const h = el.getBoundingClientRect().height || 100;
         return {
-          enter: -(h * 2.2),  // مكان “الثبات”
-          exit: -(h * 3.2),   // خروج
+          enter: -(h * 2.1), // Target position to stay visible
+          exit: -(h * 3.1),  // Exit position
         };
       };
 
-
-      // Helper يبني (background + text scene) ويضيف anchor عند "النص ثابت"
-      const addScene = (opts: {
-        bg: string;
-        text: string;
-        sceneIndex: number;
-      }) => {
-        const { bg, text, sceneIndex } = opts;
-
-        // 1) background يظهر
-        tl.to(bg, { autoAlpha: 1, duration: 0.2 }, sceneIndex === 0 ? 0 : '>');
-        if (sceneIndex === 0) {
-          tl.add(() => { this.show = 1; this.DivisionId = 1; }, '<');
-        }
+      const addScene = (opts: { bg: string; text: string; index: number; }) => {
+        const { bg, text, index } = opts;
         const { enter, exit } = getY(text);
 
+        // 1. Scene Entrance (Background fades in + Text moves to focus)
+        tl.to(bg, { autoAlpha: 1, duration: transitionDuration }, index === 0 ? 0 : '>');
+        if (index === 0) {
+          tl.add(() => {
+            this.show = 1;
+            this.DivisionId = index + 1;
+          }, 0);
+        } else {
+          tl.add(() => { this.DivisionId = index + 1; }, '>');
+        }
+
         const enterTween = tl.to(text, {
-          y: enter,          // ✅ px مش percent
+          y: enter,
           opacity: 1,
-          duration: 0.2,
+          duration: transitionDuration,
           ease: 'power2.out'
         }, '<');
 
-        tl.addLabel(`text${sceneIndex}_stable`, enterTween.endTime());
+        // 2. STABLE ZONE / HOLD (This is where we snap)
+        // We put the label in the MIDDLE of the hold for best snapping accuracy
+        const holdStartTime = tl.duration();
+        tl.to({}, { duration: holdDuration });
+        const midHoldTime = holdStartTime + (holdDuration / 2);
+        tl.addLabel(`scene_${index}_stable`, midHoldTime);
 
-        tl.to({}, { duration: 0.15 });
-
+        // 3. Scene Exit (Text moves up and out)
         tl.to(text, {
           y: exit,
           opacity: 0,
-          duration: finalTextScrollDuration,
-          ease: 'none'
+          duration: transitionDuration,
+          ease: 'power2.in'
         }, '>');
-
-        // 2) دخول النص: y + opacity (ده مهم عشان crossfade يبقى حقيقي)
-        // const enterTween = tl.to(text, {
-        //   yPercent: -190,
-        //   opacity: 1,
-        //   duration: 0.2,
-        //   ease: 'power2.out'
-        // }, '<');
-
-        // // ✅ Anchor هنا: لحظة ما النص بقى في مكانه + opacity=1
-        // tl.addLabel(`text${sceneIndex}_stable`, enterTween.endTime());
-
-        // // 3) Hold بسيط (اختياري) يخلي النص ثابت لحظة قبل ما يبدأ يطلع
-        // tl.to({}, { duration: 0.15 });
-
-        // // 4) خروج النص: يبدأ يطلع ويختفي
-        // tl.to(text, {
-        //   yPercent: -350,
-        //   opacity: 0,
-        //   duration: finalTextScrollDuration,
-        //   ease: 'none'
-        // }, '>');
       };
 
-      addScene({ bg: '.scroll-bg-section', text: '.scroll-bg-section-text', sceneIndex: 0 });
-      addScene({ bg: '.scroll-bg-section1', text: '.scroll-bg-section-text1', sceneIndex: 1 });
-      addScene({ bg: '.scroll-bg-section2', text: '.scroll-bg-section-text2', sceneIndex: 2 });
+      addScene({ bg: '.scroll-bg-section', text: '.scroll-bg-section-text', index: 0 });
+      addScene({ bg: '.scroll-bg-section1', text: '.scroll-bg-section-text1', index: 1 });
+      addScene({ bg: '.scroll-bg-section2', text: '.scroll-bg-section-text2', index: 2 });
 
-      // ✅ بعد ما التايملاين اتبنى: نحسب anchors كنسبة progress
-      const dur = tl.duration() || 1;
+      // Calculate anchor points from labels
+      const totalDuration = tl.duration() || 1;
       textAnchors = Object.entries(tl.labels)
         .filter(([name]) => name.includes('_stable'))
-        .map(([, time]) => time / dur)
+        .map(([, time]) => time / totalDuration)
         .sort((a, b) => a - b);
 
-      return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-desktop')?.kill(); };
+      return () => {
+        tl.kill();
+        ScrollTrigger.getById('AboutSection3Trigger-desktop')?.kill();
+      };
     });
   }
 

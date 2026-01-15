@@ -97,7 +97,14 @@ export class LayoutComponent {
 
         const currentElement = getStableElement();
         if (currentElement) {
-          this.smoother.scrollTo(currentElement, true);
+          // If it's the very first section of home, don't offset. Otherwise, overshoot 80px.
+          const isHero = currentElement.id === 'homeSection1' || currentElement.id === 'section1-home';
+          const position = isHero ? "top top" : "top 80px";
+          // Note: "top 80px" puts the top of the element 80px FROM the top of the viewport.
+          // To OVER-scroll (skip start), we want "top -80px" which puts the top 80px ABOVE the viewport edge.
+          const skipOffset = isHero ? "top top" : "top -80px";
+
+          this.smoother.scrollTo(currentElement, true, skipOffset);
           const rect = currentElement.getBoundingClientRect();
           return rect.top + (window.pageYOffset || document.documentElement.scrollTop);
         }
