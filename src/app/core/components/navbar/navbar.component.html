@@ -1,8 +1,8 @@
 <header #navbar class="navbar fixed top-0 left-0 right-0 w-full z-50">
     <div
-        class=" mx-auto flex flex-col-reverse justify-center md:gap-x-2 lg:gap-x-4 items-center md:flex-row md:items-center md:justify-between md:py-0 min-[800px]:px-2 min-[1000px]:px-6">
+        class=" mx-auto flex flex-col-reverse justify-center md:gap-x-2 lg:gap-x-4 items-center md:flex-row ltr:md:flex-row-reverse md:items-center md:justify-between md:py-0 min-[800px]:px-2 min-[1000px]:px-6">
         <nav #navbarMenu
-            class=" flex md:space-x-4 flex-col gap-y-2 pt-2 md:pt-0 md:gap-y-0 justify-center items-center md:flex-row md:justify-between md:items-center text-md font-medium w-full">
+            class=" flex md:space-x-4 flex-col gap-y-2 pt-2 md:pt-0 md:gap-y-0 justify-center items-center md:flex-row ltr:flex-row-reverse md:justify-between md:items-center text-md font-medium w-full">
             <!-- Search Bar -->
             <div #searchContainer class="relative group md:mr-4 flex items-center">
                 <!-- Single Search Container with Smooth Transition -->
@@ -112,11 +112,10 @@
                     }}</a>
                 <a routerLink="/blogs" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.kNOWLEDGE' | translate
                     }}</a>
-                                    <a routerLink="/FAQS" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.SUPPORT' | translate
+                <a routerLink="/FAQS" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.SUPPORT' | translate
                     }}</a>
                 <a routerLink="/ContactUs" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.CONTACT' | translate
                     }}</a>
-
             </div>
             <!-- <div class="inline-flex items-center rounded-full bg-[var(--light-light-gray)] p-1 text-xs font-medium">
                 <button type="button" class="px-3 py-1 rounded-full transition-colors whitespace-nowrap" [ngClass]="currentLang === 'ar'
@@ -135,7 +134,7 @@
 
         </nav>
         <div #navSmallScreen class="navSmallScreen w-full h-full md:w-[40%]">
-            <div class="w-[90%] flex flex-row-reverse justify-between items-center mx-auto">
+            <div class="w-[90%] flex flex-row-reverse ltr:md:flex-row justify-between items-center mx-auto">
                 <div class="gap-x-2 mt-1 ltr:flex rtl:hidden">
                     <svg width="30" height="38" viewBox="0 0 30 38" fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg">

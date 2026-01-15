@@ -325,6 +325,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   navigateToResult(result: SearchResult) {
     this.closeSearch();
+
+    if (result.fragment) {
+      localStorage.setItem('scroll_to_section', result.fragment);
+    }
+
     this.router.navigateByUrl(result.route);
   }
 

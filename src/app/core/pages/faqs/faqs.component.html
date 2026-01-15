@@ -179,7 +179,7 @@
             @for (FAQ of FAQS; track FAQ.id) {
 
             <!-- ✅ INLINE EDIT MODE -->
-            <div *ngIf="editingId === FAQ.id; else viewMode" [attr.id]="'faq-edit-' + FAQ.id"
+            <div *ngIf="editingId === FAQ.id; else viewMode" [attr.id]="'faq-' + FAQ.id"
                 class="relative rounded-lg border border-gray-100 bg-gray-50 p-4 pt-6">
 
                 <form [formGroup]="editForm" (ngSubmit)="saveEdit()" class="space-y-4">
@@ -233,10 +233,13 @@
 
             <!-- ✅ VIEW MODE -->
             <ng-template #viewMode>
-                <app-accordion [title]="FAQ.question" [isDeleteable]="enableActions"
-                    (deletefaq)="checkbeforeDelete(FAQ.id)" [isEditable]="enableActions" (editfaq)="onEditFaq(FAQ.id)">
-                    {{ FAQ.answer }}
-                </app-accordion>
+                <div [attr.id]="'faq-' + FAQ.id">
+                    <app-accordion [title]="FAQ.question" [isDeleteable]="enableActions"
+                        (deletefaq)="checkbeforeDelete(FAQ.id)" [isEditable]="enableActions"
+                        (editfaq)="onEditFaq(FAQ.id)">
+                        {{ FAQ.answer }}
+                    </app-accordion>
+                </div>
             </ng-template>
 
             }

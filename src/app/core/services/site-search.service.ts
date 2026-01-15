@@ -14,6 +14,7 @@ export interface SearchResult {
     key?: string; // for i18n
     title: string;
     route: string;
+    fragment?: string;
     text: string;
     snippet?: string;
     source: 'site' | 'blog' | 'faq';
@@ -101,6 +102,10 @@ export class SiteSearchService {
                 .map(d => ({ ...d, source: 'site' }));
 
             for (const doc of langDocs) {
+                // Determine fragment based on key
+                if (doc.key) {
+                    doc.fragment = this.getFragmentForKey(doc.key);
+                }
                 this.i18nIndex.add(doc);
             }
             this.isI18nLoaded = true;
@@ -112,10 +117,49 @@ export class SiteSearchService {
         }
     }
 
+    private getFragmentForKey(key: string): string | undefined {
+        // Home
+        if (key.includes('HOME.HERO') || key.includes('HOME.INDECATORS')) return 'section1-home';
+        if (key.includes('HOME.STATUS')) return 'section2-home';
+        if (key.includes('HOME.SECTION3')) return 'section3-home';
+        if (key.includes('HOME.APPLICATIONS')) return 'section4-home';
+        if (key.includes('HOME.TESTIMONIALS')) return 'section5-home';
+        if (key.includes('HOME.INTEGRATIONS')) return 'section6-home';
+        if (key.includes('HOME.PLANS')) return 'section7-home';
+        if (key.includes('HOME.CONTACT-US')) return 'section8-home';
+
+        // About
+        if (key.includes('ABOUT.HERO')) return 'AboutSection1';
+        if (key.includes('ABOUT.SECTION2')) return 'AboutSection2';
+        if (key.includes('ABOUT.SECTION3')) return 'AboutSection3';
+        if (key.includes('ABOUT.SECTION4')) return 'AboutSection4';
+        if (key.includes('ABOUT.SECTION5')) return 'AboutSection5';
+
+        // Solutions
+        if (key.includes('SOLUTIONS.HERO')) return 'solutionsSection1';
+        if (key.includes('SOLUTIONS.SECTION2')) return 'solutionsSection2';
+        if (key.includes('SOLUTIONS.SECTION3')) return 'solutionsSection3';
+        if (key.includes('SOLUTIONS.SECTION4')) return 'solutionsSection4';
+        if (key.includes('SOLUTIONS.SECTION5')) return 'solutionsSection5';
+        if (key.includes('SOLUTIONS.CONSULTATION')) return 'solutionsSection6';
+
+        // Products
+        if (key.includes('PRODUCTS.SECTION1')) return 'productSection1';
+        if (key.includes('PRODUCTS.SECTION2')) return 'productSection2';
+        if (key.includes('PRODUCTS.SECTION3')) return 'productSection3';
+        if (key.includes('PRODUCTS.SECTION4')) return 'productSection4';
+        if (key.includes('PRODUCTS.SECTION5')) return 'productSection5';
+        if (key.includes('PRODUCTS.SECTION6')) return 'productSection6';
+        if (key.includes('PRODUCTS.SECTION7')) return 'productSection7';
+        if (key.includes('PRODUCTS.SECTION8')) return 'productSection8';
+
+        return undefined;
+    }
+
     private async loadContentIndex(lang: string): Promise<void> {
         this.isContentLoading = true;
         try {
-            const cacheKey = `content_search_cache_v2_${lang}`;
+            const cacheKey = `content_search_cache_v3_${lang}`; // Bumped version
             const cached = localStorage.getItem(cacheKey);
 
             let docs: SearchResult[] = [];
@@ -163,7 +207,8 @@ export class SiteSearchService {
                         id: `faq-${f.id}`,
                         lang,
                         title: q,
-                        route: `/FAQS#faq-${f.id}`,
+                        route: `/FAQS`,
+                        fragment: `faq-${f.id}`,
                         text: `${q} ${a}`,
                         source: 'faq'
                     };
