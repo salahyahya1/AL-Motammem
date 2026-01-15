@@ -28,7 +28,7 @@
       "APPS": "التطبيقات",
       "TESTIMONIALS": "شهادات العملاء",
       "INTEGRATIONS": "التكاملات",
-      "PLANS": "الخطط",
+      "PLANS": "المنتجات",
       "CONTACT": "تواصل معنا"
     },
     "HERO": {
@@ -764,7 +764,7 @@
     "TERMS_POLICY": "سياسة الشروط",
     "LANGUAGES_TITLE": "اللغات",
     "LANG_AR": "العربية",
-    "LANG_EN": "الانجليزية",
+    "LANG_EN": "English",
     "COPYRIGHT": "© جميع الحقوق محفوظة Al-Motammem® — Powered by Microtech"
   }
 }

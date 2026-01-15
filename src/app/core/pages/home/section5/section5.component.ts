@@ -281,7 +281,7 @@ export class Section5Component {
                   end: desktop ? "100% bottom" : '50% bottom',
                   pin: desktop ? true : false,
                   anticipatePin: 1,
-                  // markers: true,
+                  markers: true,
                   scrub: mobile ? 0.2 : false,
                   pinType: 'transform',
                   invalidateOnRefresh: true,
@@ -301,7 +301,7 @@ export class Section5Component {
               });
 
               // 1) العنوان
-              tl.to("#Text5", { opacity: 1, y: 0, duration: 0.2, ease: 'power2.inOut' });
+              tl.to("#Text5", { opacity: 1, y: 0, duration: 0.1, ease: 'power2.inOut' });
 
               // 2) الكونتينر اللي شايل الصور يظهر
               if (container) {

@@ -163,7 +163,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private navTheme: NavbarThemeService,
-    private sectionsRegistry: SectionsRegistryService,
+    public sectionsRegistry: SectionsRegistryService,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }

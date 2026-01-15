@@ -373,9 +373,16 @@
   <!-- ✅ SECTION 3 (Batch 1 on mobile / same as you had on desktop) -->
   <section id="section3-home" class="panel min-h-screen" data-bgcolor="var(--white)" data-textcolor="var(--primary)">
 
-    @defer (on viewport(section2Trigger); prefetch on idle) {
+    @defer (
+    when sectionsRegistry.forceLoadIds().has('section3-home');
+    on viewport(section2Trigger);
+    prefetch on idle
+    ) {
     <app-section3></app-section3>
-    } @placeholder { <div class="w-full h-[60vh]"></div> }
+    } @placeholder {
+    <div class="w-full min-h-screen">
+    </div>
+    }
 
   </section>
 
@@ -386,14 +393,28 @@
 
     @if (isMobile) {
     <!-- Batch 1: load with section2 -->
-    @defer (on viewport(section2Trigger); prefetch on idle) {
+    @defer (
+    when sectionsRegistry.forceLoadIds().has('section4-home');
+    on viewport(section2Trigger);
+    prefetch on idle
+    ) {
     <app-section4></app-section4>
-    } @placeholder { <div class="w-full h-[60vh]"></div> }
+    } @placeholder {
+    <div class="w-full min-h-svh">
+    </div>
+    }
     } @else {
     <!-- Desktop: original -->
-    @defer (on viewport(section2Trigger); prefetch on idle) {
+    @defer (
+    when sectionsRegistry.forceLoadIds().has('section4-home');
+    on viewport(section2Trigger);
+    prefetch on idle
+    ) {
     <app-section4></app-section4>
-    } @placeholder { <div class="w-full h-[60vh]"></div> }
+    } @placeholder {
+    <div class="w-full min-h-screen">
+    </div>
+    }
     }
   </section>
 
@@ -404,14 +425,28 @@
 
     @if (isMobile) {
     <!-- Batch 2: load with section4 -->
-    @defer (on viewport(section4Trigger); prefetch on idle) {
+    @defer (
+    when sectionsRegistry.forceLoadIds().has('section5-home');
+    on viewport(section4Trigger);
+    prefetch on idle
+    ) {
     <app-section5></app-section5>
-    } @placeholder { <div class="w-full h-[60vh]"></div> }
+    } @placeholder {
+    <div class="w-full min-h-[60vh]">
+    </div>
+    }
     } @else {
     <!-- Desktop: original -->
-    @defer (on viewport(section4Trigger); prefetch on idle) {
+    @defer (
+    when sectionsRegistry.forceLoadIds().has('section5-home');
+    on viewport(section4Trigger);
+    prefetch on idle
+    ) {
     <app-section5></app-section5>
-    } @placeholder { <div class="w-full h-[60vh]"></div> }
+    } @placeholder {
+    <div class="w-full min-h-[180vh]">
+    </div>
+    }
     }
   </section>
 
@@ -422,14 +457,28 @@
 
     @if (isMobile) {
     <!-- Batch 2: load with section4 -->
-    @defer (on viewport(section4Trigger); prefetch on idle) {
+    @defer (
+    when sectionsRegistry.forceLoadIds().has('section6-home');
+    on viewport(section4Trigger);
+    prefetch on idle
+    ) {
     <app-section6></app-section6>
-    } @placeholder { <div class="w-full h-[60vh]"></div> }
+    } @placeholder {
+    <div class="w-full min-h-[60vh]">
+    </div>
+    }
     } @else {
     <!-- Desktop: original -->
-    @defer (on viewport(section5Trigger); prefetch on idle) {
+    @defer (
+    when sectionsRegistry.forceLoadIds().has('section6-home');
+    on viewport(section5Trigger);
+    prefetch on idle
+    ) {
     <app-section6></app-section6>
-    } @placeholder { <div class="w-full h-[60vh]"></div> }
+    } @placeholder {
+    <div class="w-full min-h-screen">
+    </div>
+    }
     }
   </section>
 
@@ -440,14 +489,28 @@
 
     @if (isMobile) {
     <!-- Batch 3: load with section6 -->
-    @defer (on viewport(section5Trigger); prefetch on idle) {
+    @defer (
+    when sectionsRegistry.forceLoadIds().has('section7-home');
+    on viewport(section5Trigger);
+    prefetch on idle
+    ) {
     <app-section7></app-section7>
-    } @placeholder { <div class="w-full h-[60vh]"></div> }
+    } @placeholder {
+    <div class="w-full min-h-[60vh]">
+    </div>
+    }
     } @else {
     <!-- Desktop: original -->
-    @defer (on viewport(section5Trigger); prefetch on idle) {
+    @defer (
+    when sectionsRegistry.forceLoadIds().has('section7-home');
+    on viewport(section5Trigger);
+    prefetch on idle
+    ) {
     <app-section7></app-section7>
-    } @placeholder { <div class="w-full h-[60vh]"></div> }
+    } @placeholder {
+    <div class="w-full min-h-screen">
+    </div>
+    }
     }
   </section>
 
@@ -457,14 +520,28 @@
 
     @if (isMobile) {
     <!-- Batch 3: load with section6 -->
-    @defer (on viewport(section7Trigger); prefetch on idle) {
+    @defer (
+    when sectionsRegistry.forceLoadIds().has('section8-home');
+    on viewport(section7Trigger);
+    prefetch on idle
+    ) {
     <app-section8></app-section8>
-    } @placeholder { <div class="w-full h-[60vh]"></div> }
+    } @placeholder {
+    <div class="w-full min-h-[60vh]">
+    </div>
+    }
     } @else {
     <!-- Desktop: FIX correct trigger -->
-    @defer (on viewport(section7Trigger); prefetch on idle) {
+    @defer (
+    when sectionsRegistry.forceLoadIds().has('section8-home');
+    on viewport(section7Trigger);
+    prefetch on idle
+    ) {
     <app-section8></app-section8>
-    } @placeholder { <div class="w-full h-[60vh]"></div> }
+    } @placeholder {
+    <div class="w-full min-h-[60vh]">
+    </div>
+    }
     }
   </section>
 
