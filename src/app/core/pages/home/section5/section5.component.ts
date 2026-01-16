@@ -281,7 +281,7 @@ export class Section5Component {
                   end: desktop ? "100% bottom" : '50% bottom',
                   pin: desktop ? true : false,
                   anticipatePin: 1,
-                  markers: true,
+                  // markers: true,
                   scrub: mobile ? 0.2 : false,
                   pinType: 'transform',
                   invalidateOnRefresh: true,
