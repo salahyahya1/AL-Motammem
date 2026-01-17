@@ -81,7 +81,7 @@ export class ProductSection1Component implements AfterViewInit {
               const splitedSub = SplitText.create(sectionSub, { type: 'words' });
               const splitedbottom = SplitText.create(sectionbottom, { type: 'words' });
 
-              gsap.set(['.card1', '.card2', '.card3'], {
+              gsap.set(['.card1', '.card2', '.card3', "#productSection1Btn"], {
                 opacity: 0,
                 visibility: 'hidden',
               });
@@ -166,6 +166,7 @@ export class ProductSection1Component implements AfterViewInit {
                 },
                 '>-0.1'
               );
+              tl.fromTo("#productSection1Btn", { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.2, ease: 'sine.out' }, '>-0.1');
             });
 
             return () => {

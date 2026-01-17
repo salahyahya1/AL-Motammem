@@ -1,6 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, ElementRef, Inject, Input, PLATFORM_ID, ViewChild, AfterViewInit, OnDestroy, inject, HostListener, OnInit, ChangeDetectorRef } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import { Subject, from, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, takeUntil, map, tap, catchError } from 'rxjs/operators';
 import gsap from 'gsap';
@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslatePipe, ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, TranslatePipe, ReactiveFormsModule, RouterLinkActive],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
@@ -54,6 +54,17 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.currentLang = saved;
     }
   }
+
+  isLangOpen = false;
+
+  toggleLangDropdown() {
+    this.isLangOpen = !this.isLangOpen;
+  }
+
+  closeLangDropdown() {
+    this.isLangOpen = false;
+  }
+
 
   ngOnInit(): void {
     // RxJS Pipeline for Search Input
@@ -342,12 +353,17 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     // Also existing logic for results dropdown safety? same logic covers it.
+    // ✅ close lang dropdown on outside click
+    this.isLangOpen = false;
   }
 
   @HostListener('document:keydown.escape', ['$event'])
   onEscape(event: Event) {
     if (this.isSearchOpen) {
       this.closeSearch();
+    }
+    if (this.isLangOpen) {
+      this.isLangOpen = false;
     }
   }
 

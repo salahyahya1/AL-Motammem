@@ -58,7 +58,7 @@
                         {{ 'PRODUCTS.SECTION1.CARD1.FEATURES_TITLE' | translate }}
                     </h4>
                     <ul
-                        class="bottom-ul-Mini text-gray-800 text-[0.69rem] leading-relaxed space-y-1 mb-6 md:mb-11 lg:mb-6 ltr:lg:mb-17 xl:mb-4 rtl:pb-1 rtl:xl:pb-0  rtl:2xl:pb-8 ltr:xl:mb-[58px] ltr:2xl:mb-[54px] ltr:xl:pb-0 md:pr-[16px] lg:pr-[0px]">
+                        class="bottom-ul-Mini text-gray-800 text-[0.69rem] leading-relaxed space-y-1 mb-6 min-[768px]:mb-11 min-[1024px]:mb-6 ltr:min-[1024px]:mb-17 min-[1280px]:mb-4 rtl:pb-1 rtl:min-[1280px]:pb-0  rtl:min-[1536px]:pb-8 ltr:min-[1280px]:mb-[58px] ltr:min-[1536px]:mb-[54px] ltr:min-[1280px]:pb-0 min-[768px]:pr-[16px] min-[1024px]:pr-[0px] rtl:min-[1423px]:pb-4">
                         @for (item of [0,1,2,3,4,5]; track item) {
                         <li>
                             {{ ('PRODUCTS.SECTION1.CARD1.FEATURES.' + item) | translate }}
@@ -117,7 +117,7 @@
                     </h4>
 
                     <ul
-                        class="bottom-ul-2 text-gray-800 text-[0.69rem] leading-relaxed space-y-1 mb-0 pb-1 rtl:xl:pb-1  ltr:pb-0 ltr:lg:pb-3 ltr:xl:pb-[18px] md:pr-[16px] lg:pr-[0px]">
+                        class="bottom-ul-2 text-gray-800 text-[0.69rem] leading-relaxed space-y-1 mb-0 pb-1 rtl:min-[1280px]:pb-1  ltr:pb-0 ltr:min-[1024px]:pb-3 ltr:min-[1280px]:pb-[18px] min-[768px]:pr-[16px] min-[1024px]:pr-[0px] rtl:min-[1044px]:pb-5 rtl:min-[1168px]:pb-9  rtl:min-[1192px]:pb-4 rtl:min-[1289px]:pb-6 rtl:min-[1314px]:pb-3 ">
                         @for (item of [0,1,2,3,4,5,6,7]; track item) {
                         <li>
                             {{ ('PRODUCTS.SECTION1.CARD2.FEATURES.' + item) | translate }}
@@ -183,7 +183,7 @@
                     </h4>
 
                     <ul
-                        class="bottom-ul-3 text-gray-800 text-[0.69rem] leading-relaxed space-y-1 md:mb-9 ltr:md:mb-5 ltr:lg:mb-9 lg:mb-3 mb-4 rtl:xl:mb-8 md:pr-[16px] lg:pr-[0px] ltr:xl:pb-[5px]">
+                        class="bottom-ul-3 text-gray-800 text-[0.69rem] leading-relaxed space-y-1 min-[768px]:mb-9 ltr:min-[768px]:mb-5 ltr:min-[1024px]:mb-9 rtl:min-[1024px]:mb-7 mb-4 rtl:min-[1280px]:mb-8 min-[768px]:pr-[16px] min-[1024px]:pr-[0px] ltr:min-[1280px]:pb-[5px]">
                         @for (item of items; track item) {
                         <li class="ltr:min-[840px]:max-w-[166px] ltr:min-[844px]:max-w-full">
                             @if(item<2){ {{ ('PRODUCTS.SECTION1.CARD3.FEATURES.' + (item-1))| translate }} <br>
@@ -209,6 +209,14 @@
         <p id="productbottom-text" class="text-sm text-[1rem] text-white rtl:mt-3 lg:mt-3 ltr:mt-5">
             {{ 'PRODUCTS.SECTION1.DETAILS' | translate }}
         </p>
+
+        <div class="flex justify-center w-full pt-5" id="productSection1Btn">
+            <a href="https://wa.me/201205999468?text=%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%AE%D8%AF%D9%85%D9%87"
+                target="_blank" rel="noopener noreferrer"
+                class="bg-[var(--primary-light)] hover:bg-[var(--primary-dark)] text-white px-14 py-3 rounded-full text-sm font-semibold shadow-md transition mx-auto">
+                {{ 'HOME.PLANS.CTA' | translate }}
+            </a>
+        </div>
     </div>
 
     <video id="videoElement" autoplay muted loop playsinline

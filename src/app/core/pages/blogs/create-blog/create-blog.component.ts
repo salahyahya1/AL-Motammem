@@ -283,22 +283,22 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
 
     openSuccess() {
         this.dialogVariant = 'success';
-        this.dialogTitle = 'تم حفظ التعديلات علي المقال بنجاح ';
+        this.dialogTitle = 'تم اضافه المقال بنجاح ';
         this.dialogMessage = '';
         this.dialogButtons = [
             { id: 'show all', text: 'عرض كل المقالات', style: 'primary' },
-            { id: 'show edited blog', text: 'عرض المقاله بعد التعديل', style: 'outline' }
+            { id: 'show edited blog', text: 'عرض المقال ', style: 'outline' }
         ];
         this.dialogOpen = true;
     }
 
     openFail() {
         this.dialogVariant = 'error';
-        this.dialogTitle = 'تعذر حفظ التعديلات';
+        this.dialogTitle = 'تعذر اضافه المقال';
         this.dialogMessage = 'حاول مرة أخرى أو تواصل مع الدعم.';
         this.dialogButtons = [
-            { id: 'cancel', text: 'Cancel', style: 'outline' },
-            { id: 'retry', text: 'Try again', style: 'danger' },
+            { id: 'cancel', text: 'الغاء', style: 'outline' },
+            { id: 'retry', text: 'حاول مرة أخرى', style: 'danger' },
         ];
         this.dialogOpen = true;
     }
@@ -631,5 +631,11 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
             this.editor.destroy();
             this.editor = null;
         }
+    }
+    closeDialog() {
+        // console.log("shsndjsndk");
+
+        // this.router.navigate(['/blogs']);
+        this.dialogOpen = false;
     }
 }

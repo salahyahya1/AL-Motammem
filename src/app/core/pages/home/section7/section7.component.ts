@@ -301,11 +301,10 @@ export class Section7Component {
               splitSub = SplitText.create(sectionSub, { type: 'words' });
               splitBottom = SplitText.create(sectionbottom, { type: 'words' });
 
-              gsap.set(['.card1', '.card2', '.card3'], {
+              gsap.set(['.card1', '.card2', '.card3', "#Section7Btn"], {
                 opacity: 0,
                 visibility: 'hidden',
               });
-
               tl.fromTo(
                 splitHead.words,
                 { opacity: 0, visibility: 'visible' },
@@ -421,7 +420,7 @@ export class Section7Component {
                 },
                 '>-0.1'
               );
-              tl.fromTo("#Section7Btn", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'sine.out' }, '>-0.1');
+              tl.fromTo("#Section7Btn", { opacity: 0, visibility: 'hidden' }, { opacity: 1, visibility: 'visible', duration: 0.2, ease: 'sine.out' }, '>-0.1');
 
               // ✅ مهم عشان الحسابات تتظبط بعد pin/end
               // ScrollTrigger.refresh();

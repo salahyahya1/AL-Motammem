@@ -132,7 +132,5 @@
   </div>
 </div>
 <app-messege-dialog [open]="dialogOpen" [variant]="dialogVariant" [title]="dialogTitle" [message]="dialogMessage"
-  [buttons]="dialogButtons" (closed)="dialogOpen = false" (action)="onDialogAction($event)">
-  <!-- اختياري: أي محتوى إضافي جوّه الديالوج -->
-  <!-- <div class="mt-2 text-sm text-gray-500">أي تفاصيل...</div> -->
+  [buttons]="dialogButtons" (closed)="closeDialog()" (action)="onDialogAction($event)">
 </app-messege-dialog>

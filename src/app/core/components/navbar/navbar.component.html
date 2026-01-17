@@ -1,6 +1,6 @@
 <header #navbar class="navbar fixed top-0 left-0 right-0 w-full z-50">
     <div
-        class=" mx-auto flex flex-col-reverse justify-center md:gap-x-2 lg:gap-x-4 items-center md:flex-row ltr:md:flex-row-reverse md:items-center md:justify-between md:py-0 min-[800px]:px-2 min-[1000px]:px-6">
+        class=" mx-auto flex flex-col-reverse justify-center md:gap-x-2 lg:gap-x-4 items-center md:flex-row ltr:md:flex-row-reverse md:items-center md:justify-between md:py-0 min-[800px]:px-2 min-[1100px]:px-4">
         <nav #navbarMenu
             class=" flex md:space-x-4 flex-col gap-y-2 pt-2 md:pt-0 md:gap-y-0 justify-center items-center md:flex-row ltr:flex-row-reverse md:justify-between md:items-center text-md font-medium w-full">
             <!-- Search Bar -->
@@ -101,22 +101,69 @@
                 </div>
             </div>
             <div
-                class="contents md:relative md:flex md:space-x-4 flex-col gap-y-2 md:pt-0 md:gap-y-0 justify-center items-center md:flex-row md:justify-start md:items-center">
-                <a routerLink="" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.MAIN' | translate }} </a>
-                <a routerLink="/about" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.ABOUT-US' | translate }}
+                class="contents md:relative md:flex md:space-x-4 flex-col gap-y-2 md:pt-0 md:gap-y-0 justify-center items-center md:flex-row md:justify-start md:items-center flex-wrap">
+                <a [routerLink]="['']" routerLinkActive="nav-active" [routerLinkActiveOptions]="{ exact: true }"
+                    class="hover:text-primary whitespace-nowrap">{{
+                    'NAVBAR.MAIN' | translate }} </a>
+                <a routerLink="/about" routerLinkActive="nav-active" class="hover:text-primary whitespace-nowrap">{{
+                    'NAVBAR.ABOUT-US' | translate }}
                 </a>
-                <a routerLink="/solutions" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.SOLUTIONS' |
+                <a routerLink="/solutions" routerLinkActive="nav-active" class="hover:text-primary whitespace-nowrap">{{
+                    'NAVBAR.SOLUTIONS' |
                     translate }}
                 </a>
-                <a routerLink="/products" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.PRODUCTS' | translate
+                <a routerLink="/products" routerLinkActive="nav-active" class="hover:text-primary whitespace-nowrap">{{
+                    'NAVBAR.PRODUCTS' | translate
                     }}</a>
-                <a routerLink="/blogs" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.kNOWLEDGE' | translate
+                <a routerLink="/blogs" routerLinkActive="nav-active" class="hover:text-primary whitespace-nowrap">{{
+                    'NAVBAR.kNOWLEDGE' | translate
                     }}</a>
-                <a routerLink="/FAQS" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.SUPPORT' | translate
+                <a routerLink="/FAQS" routerLinkActive="nav-active" class="hover:text-primary whitespace-nowrap">{{
+                    'NAVBAR.SUPPORT' | translate
                     }}</a>
-                <a routerLink="/ContactUs" class="hover:text-primary whitespace-nowrap">{{ 'NAVBAR.CONTACT' | translate
+                <a routerLink="/ContactUs" routerLinkActive="nav-active" class="hover:text-primary whitespace-nowrap">{{
+                    'NAVBAR.CONTACT' | translate
                     }}</a>
+                <!-- Language Dropdown -->
+                <div class="relative inline-block" (click)="$event.stopPropagation()" #langContainer>
+                    <!-- Trigger -->
+                    <button type="button" (click)="toggleLangDropdown()" class="inline-flex items-center gap-2 rounded-full bg-[var(--light-light-gray)] px-3 py-2 text-xs font-semibold
+           text-[color:var(--dark-gray)] hover:bg-gray-200 transition select-none" aria-haspopup="listbox"
+                        [attr.aria-expanded]="isLangOpen">
+                        <span class="uppercase">{{ currentLang }}</span>
+
+                        <!-- chevron -->
+                        <svg class="w-4 h-4 opacity-70 transition-transform" [class.rotate-180]="isLangOpen"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+
+                    <!-- Menu -->
+                    <div *ngIf="isLangOpen" class="absolute z-[80] mt-2 w-28 rounded-xl bg-white shadow-xl border border-gray-100 overflow-hidden
+         rtl:right-0 ltr:left-0
+         text-[color:var(--dark-gray)]" role="listbox">
+                        <button type="button" (click)="setLang('en'); closeLangDropdown()" class="w-full px-3 py-2 text-sm text-left hover:bg-gray-50 transition flex items-center justify-between
+           text-[color:var(--dark-gray)]"
+                            [ngClass]="currentLang === 'en' ? 'font-semibold text-[color:var(--primary)]' : ''">
+                            EN
+                            <span *ngIf="currentLang === 'en'" class="text-[color:var(--primary)]">✓</span>
+                        </button>
+
+                        <button type="button" (click)="setLang('ar'); closeLangDropdown()" class="w-full px-3 py-2 text-sm text-left hover:bg-gray-50 transition flex items-center justify-between
+           text-[color:var(--dark-gray)]"
+                            [ngClass]="currentLang === 'ar' ? 'font-semibold text-[color:var(--primary)]' : ''">
+                            AR
+                            <span *ngIf="currentLang === 'ar'" class="text-[color:var(--primary)]">✓</span>
+                        </button>
+                    </div>
+
+                </div>
             </div>
+
+
             <!-- <div class="inline-flex items-center rounded-full bg-[var(--light-light-gray)] p-1 text-xs font-medium">
                 <button type="button" class="px-3 py-1 rounded-full transition-colors whitespace-nowrap" [ngClass]="currentLang === 'ar'
       ? 'bg-[var(--primary)] text-white'
@@ -133,7 +180,7 @@
 
 
         </nav>
-        <div #navSmallScreen class="navSmallScreen w-full h-full md:w-[40%]">
+        <div #navSmallScreen class="navSmallScreen w-full h-full md:w-[30%]">
             <div class="w-[90%] flex flex-row-reverse ltr:md:flex-row justify-between items-center mx-auto">
                 <div class="gap-x-2 mt-1 ltr:flex rtl:hidden">
                     <svg width="30" height="38" viewBox="0 0 30 38" fill="currentColor"
@@ -170,7 +217,7 @@
                             <!-- Arabic + subtitle تحتها -->
                             <div class="flex flex-col items-start">
                                 <span class="text-[23px] font-semibold whitespace-nowrap" dir="rtl">المُتَمِّم</span>
-                                <span class="text-xs font-medium pt-[5px]" dir="rtl">٤٠ عام من
+                                <span class="text-xs font-medium pt-[5px] whitespace-nowrap" dir="rtl">٤٠ عام من
                                     الخبرة</span>
                             </div>
                         </div>

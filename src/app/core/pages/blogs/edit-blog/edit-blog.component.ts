@@ -884,4 +884,16 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mainImageObjectUrl = null;
     }
   }
+  BackToSource() {
+    if (!this.isBrowser) return;
+    const source = sessionStorage.getItem('source');
+    if (source === 'blogs') {
+      sessionStorage.removeItem('source');
+      this.router.navigate(['/blogs']);
+    }
+    if (source === 'ViewBlog') {
+      sessionStorage.removeItem('source');
+      this.router.navigate(['/blogs/BlogVeiw', this.routeUrlParam]);
+    }
+  }
 }

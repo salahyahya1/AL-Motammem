@@ -661,6 +661,7 @@
     "INTRO": "Tell us what you need, and one of our experts will get in touch with you within 24 hours.",
     "CTA": "Contact Us",
     "ADDRESS_COMPANY_NAME": "Microtech Company : ",
+    "WHATSAPP": "Connect via WhatsApp",
     "ADDRESS_COMPANY": "3 Mosaddeq Street, Dokki, Giza, 12311, Cairo, Egypt",
     "FORM": {
       "FULL_NAME": "Full Name",
@@ -701,7 +702,7 @@
     "TERMS_POLICY": "Terms & conditions",
     "FAQS": "FAQs",
     "LANGUAGES_TITLE": "Languages",
-    "LANG_AR": "Arabic",
+    "LANG_AR": "العربية",
     "LANG_EN": "English",
     "COPYRIGHT": "© All rights reserved Al-Motammem® — Powered by Microtech"
   }

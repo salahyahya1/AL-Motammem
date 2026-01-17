@@ -88,7 +88,8 @@
                                             @if (isAuthenticated && hasrole) {
                                             <div>
                                                 @if (role === 'SuperAdmin'|| role === 'Admin' ) {
-                                                <a [routerLink]="['EditBlog', article.englishURL]"
+                                                <a [routerLink]="['/blogs/EditBlog', article.englishURL]"
+                                                    (click)="StoreSource()"
                                                     class="inline-flex items-center justify-center  px-0 py-1.5 rounded-full cursor-pointer">
                                                     <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -179,7 +180,7 @@
                                     @if (isAuthenticated && hasrole) {
                                     <div>
                                         @if (role === 'SuperAdmin'|| role === 'Admin' ) {
-                                        <a [routerLink]="['EditBlog', blog.englishURL]"
+                                        <a [routerLink]="['/blogs/EditBlog', blog.englishURL]" (click)="StoreSource()"
                                             class="inline-flex items-center justify-center  px-0 py-1.5 rounded-full cursor-pointer">
                                             <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">

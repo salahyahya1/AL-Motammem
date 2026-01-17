@@ -7,9 +7,33 @@
     <div class="py-16 text-center text-red-600">
         {{ errorMsg }}
     </div>
-    } @else if (blog) { <nav class="sticky top-0 z-50 flex items-center justify-between bg-white px-8 py-4 shadow-sm">
-        <h1 class="text-xl font-bold text-slate-800">تعديل المقال</h1>
+    } @else if (blog) {
+    <nav class="sticky top-0 z-50 flex items-center justify-between bg-white px-8 py-4 shadow-sm">
 
+        <div class="flex items-center gap-2">
+            <button class="shrink-0 w-9 h-9 flex items-center justify-center z-10 cursor-pointer pt-1"
+                (click)="BackToSource()">
+                <svg height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"
+                    fill="#000000">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path style="fill:#E9E9E9;"
+                            d="M256,0C114.608,0,0,114.608,0,256c0,141.376,114.608,256,256,256s256-114.624,256-256 C512,114.608,397.392,0,256,0z">
+                        </path>
+                        <g style="opacity:0.2;">
+                            <polygon
+                                points="221.2,167.12 294.224,238.368 117.984,238.368 117.984,304.816 294.224,304.816 221.2,376.048 267.712,423.472 423.424,271.584 267.712,119.696 ">
+                            </polygon>
+                        </g>
+                        <polygon style="fill:oklch(55.096% 0.02679 264.351 / 0.793);"
+                            points="205.2,151.12 278.224,222.368 101.984,222.368 101.984,288.816 278.224,288.816 205.2,360.048 251.712,407.472 407.424,255.584 251.712,103.696 ">
+                        </polygon>
+                    </g>
+                </svg></button>
+            <h1 class="text-xl font-bold text-slate-800">تعديل المقال</h1>
+        </div>
         <button (click)="onSubmit()"
             class="rounded-lg bg-blue-700 px-6 py-2.5 font-semibold text-white transition hover:bg-blue-800 shadow-md">
             حفظ التعديلات
@@ -22,10 +46,10 @@
             <div class="lg:col-span-8">
                 <!-- ✅ شيلت التكرار بتاع title -->
                 <input type="text" formControlName="title" placeholder="عنوان المقال..."
-                    class="mb-6 w-full border-none bg-transparent text-4xl font-black outline-none placeholder:text-gray-300 focus:ring-0">
-                <input type="text" formControlName="metaDescription" placeholder="وصف المقال..."
-                    class="mb-6 w-full border-none bg-transparent text-2xl font-black outline-none placeholder:text-gray-300 focus:ring-0">
-
+                    class="mb-6 w-full rounded-xl border border-gray-100 bg-white p-2 shadow-sm text-4xl font-black outline-none placeholder:text-gray-300 focus:ring-0">
+                <textarea type="text" formControlName="metaDescription" placeholder="وصف المقال..."
+                    class="mb-6 w-full rounded-xl border border-gray-100 bg-white p-2 shadow-sm text-2xl font-black outline-none placeholder:text-gray-300 focus:ring-0">
+                </textarea>
                 <div class="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
                     <div id="editorjs-container" class="editor-scroll"></div>
                 </div>

@@ -79,13 +79,13 @@
 //   }
 // }
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, Inject, NgZone, PLATFORM_ID, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { Draggable } from "gsap/all";
 import InertiaPlugin from "gsap/InertiaPlugin";
 import SplitText from "gsap/SplitText";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NavbarThemeService } from '../../../components/navbar/navbar-theme.service';
 import { SectionsRegistryService } from '../../../shared/services/sections-registry.service';
 import { BlogsService } from '../services/blogs-service';
@@ -93,23 +93,36 @@ import { AccordionComponent } from "../../../shared/accordion/accordion.componen
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
+import { DialogButton, MessegeDialogComponent } from "../../../shared/messege-dialog/messege-dialog.component";
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
 @Component({
   selector: 'app-blog-veiw',
-  imports: [CommonModule, AccordionComponent, TranslatePipe],
+  imports: [CommonModule, AccordionComponent, TranslatePipe, RouterLink, MessegeDialogComponent],
   templateUrl: './blog-veiw.component.html',
   styleUrl: './blog-veiw.component.scss'
 })
 export class BlogVeiwComponent {
   isBrowser = false;
-
+  @ViewChild('deleteConfirmTpl2') deleteConfirmTpl2!: TemplateRef<any>;
   blog: any;
   blogHtml: SafeHtml = '';
   loading = true;
   errorMsg = '';
-
+  isAuthenticated = false;
+  hasrole = false;
+  role: any;
+  //
+  dialogVariant: 'success' | 'error' = 'success';
+  dialogTitle = '';
+  dialogMessage = '';
+  dialogButtons: DialogButton[] = [];
+  dialogOpen = false;
+  private overlayRef?: OverlayRef;
+  private pendingDeleteId: number | null = null;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
@@ -119,7 +132,9 @@ export class BlogVeiwComponent {
     private route: ActivatedRoute,
     private blogsService: BlogsService,
     private sanitizer: DomSanitizer,
-    private language: LanguageService
+    private overlay: Overlay,
+    private router: Router,
+    private vcr: ViewContainerRef, private language: LanguageService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -132,6 +147,10 @@ export class BlogVeiwComponent {
       this.errorMsg = 'الرابط غير صحيح';
       return;
     }
+    if (!this.isBrowser) return;
+    this.isAuthenticated = this.blogsService.isAuthenticated();
+    this.role = localStorage.getItem('role')
+    this.hasrole = this.role ? true : false;
 
     // ✅ يقبل /BlogVeiw/ERP أو /BlogVeiw/blog:draft:ERP
     // const url = rawParam.startsWith('blog:draft:')
@@ -363,5 +382,106 @@ export class BlogVeiwComponent {
   }
   get isRtl() {
     return this.language.currentLang === 'ar';
+  }
+  DeleteBlog(id: number) {
+
+  }
+  openDeletePopover(ev: MouseEvent, id: number) {
+    ev.stopPropagation();
+
+    const origin = ev.currentTarget as HTMLElement;
+    this.pendingDeleteId = id;
+
+    // this.closeDeletePopover();
+
+    const positionStrategy = this.overlay.position()
+      .flexibleConnectedTo(origin).withFlexibleDimensions(false)
+      .withGrowAfterOpen(false)
+      .withPush(false)
+      .withPositions([
+        { originX: 'end', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 8, offsetX: 8 },
+        { originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -8, offsetX: 8 },
+        { originX: 'start', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: 8, offsetX: -8 },
+      ])
+      .withPush(true);
+
+
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: true,
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+      panelClass: 'delete-popover-panel'
+    });
+
+    const overlayEl = this.overlayRef.overlayElement;
+    this.overlayRef.backdropClick().subscribe(() => this.closeDeletePopover());
+    this.overlayRef.keydownEvents().subscribe((e) => {
+      if (e.key === 'Escape') this.closeDeletePopover();
+    });
+
+    const portal = new TemplatePortal(this.deleteConfirmTpl2, this.vcr);
+    this.overlayRef.attach(portal);
+  }
+
+  closeDeletePopover() {
+    this.overlayRef?.detach();
+    this.overlayRef?.dispose();
+    this.overlayRef = undefined;
+    this.pendingDeleteId = null;
+  }
+
+  confirmDeletePopover() {
+    if (!this.pendingDeleteId) return;
+    const id = this.pendingDeleteId;
+
+    this.closeDeletePopover();
+
+    this.blogsService.DeleteBlog(id).subscribe({
+      next: () => {
+        // ✅ Update UI بدون reload كامل
+        this.dialogVariant = 'success';
+        this.dialogTitle = 'تم حذف المقال بنجاح';
+        this.dialogMessage = '';
+        this.dialogButtons = [{ id: 'show all', text: 'عرض كل المقالات', style: 'outline' }];
+        this.dialogOpen = true;
+      },
+      error: (err) => {
+        this.dialogVariant = 'error';
+        this.dialogTitle = 'تعذر حذف المقال';
+        this.dialogMessage = err?.error?.message || '';
+        this.dialogButtons = [
+          { id: 'cancel', text: 'الغاء', style: 'outline' },
+          { id: 'retry', text: 'حاول مرة أخرى', style: 'danger' },
+        ];
+        this.dialogOpen = true;
+      }
+    });
+  }
+
+  onDialogAction(id: string) {
+    if (id === 'show all') {
+      this.dialogOpen = false;
+      //خليه يرجع لصفحه البلوجز
+      this.router.navigate(['/blogs']);
+    }
+    if (id === 'show edited blog') {
+      this.dialogOpen = false;
+    }
+    if (id === 'retry') {
+      this.dialogOpen = false;
+    }
+    if (id === 'cancel') {
+      this.dialogOpen = false;
+    }
+  }
+  StoreSource() {
+    if (!this.isBrowser) return;
+    sessionStorage.setItem('source', 'ViewBlog');
+  }
+
+  closeDialog() {
+    this.router.navigate(['/blogs']);
+    this.dialogOpen = false;
   }
 }

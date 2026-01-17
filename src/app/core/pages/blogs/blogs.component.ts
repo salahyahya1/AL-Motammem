@@ -585,4 +585,8 @@ export class BlogsComponent {
       this.dialogOpen = false;
     }
   }
+  StoreSource() {
+    if (!this.isBrowser) return;
+    sessionStorage.setItem('source', 'blogs');
+  }
 }

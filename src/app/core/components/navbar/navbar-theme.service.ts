@@ -20,7 +20,6 @@ export class NavbarThemeService {
         text: 'var(--primary)',
         bg: 'var(--white)',
     });
-
     theme$ = this._theme$.asObservable();
 
     // ✅ compatibility (لو صفحات قديمة بتستدعي setColor)
