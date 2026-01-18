@@ -37,7 +37,7 @@ export const routes: Routes = [
                     seo: {
                         description: 'ERP عربي بخبرة 40 سنة…',
                         image: '/assets/og/about.webp',
-                        canonical: 'https://example.com/'
+                        canonical: 'https://www.almotammem.com/about'
                     }
                 }
             },
@@ -49,7 +49,7 @@ export const routes: Routes = [
                     seo: {
                         description: 'ERP عربي بخبرة 40 سنة…',
                         image: '/assets/og/about.webp',
-                        canonical: 'https://example.com/'
+                        canonical: 'https://www.almotammem.com/solutions'
                     }
                 }
             },
@@ -61,7 +61,7 @@ export const routes: Routes = [
                     seo: {
                         description: 'ERP عربي بخبرة 40 سنة…',
                         image: '/assets/og/about.webp',
-                        canonical: 'https://example.com/'
+                        canonical: 'https://www.almotammem.com/products'
                     }
                 }
             },
@@ -72,7 +72,7 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'خطط وأسعار مرنة…',
-                        canonical: 'https://example.com/plans'
+                        canonical: 'https://www.almotammem.com/plans'
                     }
                 }
             },
@@ -86,13 +86,27 @@ export const routes: Routes = [
                         path: '',
                         loadComponent: () => import('./core/pages/blogs/blogs.component')
                             .then(m => m.BlogsComponent),
-                        title: 'المدونات'
+                        title: 'المدونات',
+                        data: {
+                            seo: {
+                                description: 'المدونات',
+                                image: '/assets/og/about.webp',
+                                canonical: 'https://www.almotammem.com/blogs'
+                            }
+                        }
                     },
                     {
                         path: 'BlogVeiw/:url',
                         loadComponent: () => import('./core/pages/blogs/blog-veiw/blog-veiw.component')
                             .then(m => m.BlogVeiwComponent),
-                        title: `مدونه`
+                        title: `مدونه`,
+                        data: {
+                            seo: {
+                                description: 'مدونه',
+                                image: '/assets/og/about.webp',
+                                canonical: 'https://www.almotammem.com/blogs/BlogVeiw/:url'
+                            }
+                        }
                     },
                     { path: 'CreateBlog', component: CreateBlogComponent, title: 'انشاء مدونة جديدة', data: { seo: { robots: 'noindex, nofollow' } } },
                     { path: 'EditBlog/:url', component: EditBlogComponent, title: 'تعديل مدونة', data: { seo: { robots: 'noindex, nofollow' } } }
@@ -102,25 +116,53 @@ export const routes: Routes = [
                 path: 'FAQS',
                 loadComponent: () => import('./core/pages/faqs/faqs.component')
                     .then(m => m.FAQSComponent),
-                title: `FAQS`
+                title: `FAQS`,
+                data: {
+                    seo: {
+                        description: 'FAQS',
+                        image: '/assets/og/about.webp',
+                        canonical: 'https://www.almotammem.com/FAQS'
+                    }
+                }
             },
             {
                 path: 'ContactUs',
                 loadComponent: () => import('./core/pages/contact-us/contact-us.component')
                     .then(m => m.ContactUsComponent),
-                title: `تواصل معنا`
+                title: `تواصل معنا`,
+                data: {
+                    seo: {
+                        description: 'تواصل معنا',
+                        image: '/assets/og/about.webp',
+                        canonical: 'https://www.almotammem.com/ContactUs'
+                    }
+                }
             },
             {
                 path: 'TermsPlicy',
                 loadComponent: () => import('./core/pages/terms-plicy/terms-plicy.component')
                     .then(m => m.TermsPlicyComponent),
-                title: `تواصل معنا`
+                title: `الشروط والاحكام`,
+                data: {
+                    seo: {
+                        description: 'الشروط والاحكام',
+                        image: '/assets/og/about.webp',
+                        canonical: 'https://www.almotammem.com/TermsPlicy'
+                    }
+                }
             },
             {
                 path: 'PrivacyPlicy',
                 loadComponent: () => import('./core/pages/privacy-plicy/privacy-plicy.component')
                     .then(m => m.PrivacyPlicyComponent),
-                title: `تواصل معنا`
+                title: `سياسة الخصوصية`,
+                data: {
+                    seo: {
+                        description: 'سياسة الخصوصية',
+                        image: '/assets/og/about.webp',
+                        canonical: 'https://www.almotammem.com/PrivacyPlicy'
+                    }
+                }
             },
             {
                 path: 'coming-soon',
@@ -133,7 +175,8 @@ export const routes: Routes = [
                 path: 'search',
                 loadComponent: () => import('./core/pages/search/search-results.component')
                     .then(m => m.SearchResultsComponent),
-                title: 'Search Results'
+                title: 'Search Results',
+                data: { seo: { robots: 'noindex, nofollow' } }
             },
             {
                 path: 'login',
