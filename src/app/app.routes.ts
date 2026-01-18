@@ -14,11 +14,13 @@ export const routes: Routes = [
                 path: '',
                 loadComponent: () => import('./core/pages/home/home.component').then(m => m.HomeComponent),
                 title: 'الصفحة الرئيسية',
+
                 data: {
                     seo: {
-                        description: 'ERP عربي بخبرة 40 سنة…',
-                        image: '/assets/og/home.webp',
-                        canonical: 'https://example.com/'
+                        title: 'المُتَمِّم | نظام ERP لإدارة موارد المؤسسة',
+                        description: 'المتمم ERP بخبرة 40 سنة لإدارة المالية والمخزون والموارد البشرية… احجز استشارة مجانية الآن.',
+                        canonical: 'https://www.almotammem.com/',
+                        image: '/images/Icon.webp'
                     }
                 },
                 // children: [
