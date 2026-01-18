@@ -179,7 +179,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     if (this.isMobile) {
       setTimeout(() => {
-        this.observeSectionsMobile();
+        this.ngZone.runOutsideAngular(() => {
+          this.ctx = gsap.context(() => {
+            this.observeSectionsMobile();
+            // this.initScrollSnapping();
+          });
+        });
       }, 7500);
       return;
     };
@@ -202,13 +207,57 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
           this.sectionsRegistry.enable();
 
           this.observeSections();
+          this.initScrollSnapping();
 
           window.addEventListener('resize', this.onResize);
         });
       }, 150);
-      // ScrollTrigger.refresh();
-
     });
+  }
+
+  private initScrollSnapping() {
+    const panels = gsap.utils.toArray<HTMLElement>('.panel');
+    const heroMobile = document.getElementById('hero-mobile');
+
+    // Combine elements to snap to: hero-mobile (if it exists) and all panels
+    const snapElements = heroMobile ? [heroMobile, ...panels] : panels;
+
+    let snapPoints: number[] = [];
+
+    const updateSnapPoints = () => {
+      const maxScroll = ScrollTrigger.maxScroll(window);
+      if (maxScroll <= 0) return;
+
+      const points = snapElements.map((el) => {
+        // Calculate the scroll position where the top of the element hits the top of the viewport
+        const st = ScrollTrigger.create({ trigger: el, start: 'top top' });
+        const start = st.start;
+        st.kill();
+        return start / maxScroll;
+      });
+
+      // Add the final scroll position (bottom of the page)
+      points.push(1);
+
+      // Filter and sort unique points
+      snapPoints = [...new Set(points)].sort((a, b) => a - b);
+    };
+
+    // Create the global snap ScrollTrigger
+    ScrollTrigger.create({
+      trigger: document.documentElement,
+      start: 0,
+      end: 'max',
+      snap: {
+        snapTo: (value) => gsap.utils.snap(snapPoints, value),
+        duration: { min: 0.2, max: 0.6 },
+        delay: 0.1,
+        ease: 'power1.inOut',
+      },
+    });
+
+    ScrollTrigger.addEventListener('refresh', updateSnapPoints);
+    updateSnapPoints();
   }
 
   // ✅ Desktop only
