@@ -20,7 +20,7 @@ export const routes: Routes = [
                         title: 'المُتَمِّم | نظام ERP لإدارة موارد المؤسسة',
                         description: 'المتمم ERP بخبرة 40 سنة لإدارة المالية والمخزون والموارد البشرية… احجز استشارة مجانية الآن.',
                         canonical: 'https://www.almotammem.com/',
-                        image: '/images/Icon.webp'
+                        image: 'https://www.almotammem.com/images/Icon.webp'
                     }
                 },
                 // children: [
