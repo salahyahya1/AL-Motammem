@@ -14,7 +14,6 @@ export const routes: Routes = [
                 path: '',
                 loadComponent: () => import('./core/pages/home/home.component').then(m => m.HomeComponent),
                 title: 'الصفحة الرئيسية',
-
                 data: {
                     seo: {
                         title: 'المُتَمِّم | نظام ERP لإدارة موارد المؤسسة',
