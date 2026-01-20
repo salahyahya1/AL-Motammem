@@ -237,6 +237,10 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
             id: 'hero-pin',
             anticipatePin: 1,
           });
+          ScrollTrigger.refresh();
+          setTimeout(() => window.dispatchEvent(new Event('pin-ready')), 0);
+
+
           return () => pin?.kill?.();
         });
       } catch (e) {

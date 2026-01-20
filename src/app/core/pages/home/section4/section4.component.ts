@@ -170,6 +170,10 @@ export class Section4Component {
                   // markers: true,
                 },
               });
+              ScrollTrigger.refresh();
+              setTimeout(() => window.dispatchEvent(new Event('pin-ready')), 0);
+
+
 
               // 👇 أنيميشن الديسكتوب (سيبه زي ما عندك)
               tl.to("#Text1", { opacity: 1, y: 0, duration: 0.2 });

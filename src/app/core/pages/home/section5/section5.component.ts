@@ -299,6 +299,9 @@ export class Section5Component {
                   },
                 }
               });
+              ScrollTrigger.refresh();
+              setTimeout(() => window.dispatchEvent(new Event('pin-ready')), 0);
+
 
               // 1) العنوان
               tl.to("#Text5", { opacity: 1, y: 0, duration: 0.2, ease: 'power2.inOut' });

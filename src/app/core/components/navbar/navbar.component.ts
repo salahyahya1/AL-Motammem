@@ -235,7 +235,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     // SSR
     if (!this.isBrowser) {
       el.style.display = this.menuOpen ? 'flex' : 'none';
-      el.style.transform = `translateY(${this.menuOpen ? '0%' : '-100%'})`;
+      el.style.transform = `translateY(${this.menuOpen ? '101%' : '-101%'})`;
       el.style.opacity = this.menuOpen ? '1' : '0';
       return;
     }
@@ -243,11 +243,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     // ✅ قبل الفتح لازم يظهر عشان يتحسب -100% صح
     if (this.menuOpen) {
       el.style.display = 'flex'; // لأن عندك flex layout
-      gsap.set(el, { yPercent: -110, opacity: 0 });
+      gsap.set(el, { opacity: 1 });
 
       // ✅ 3) افتح بسلاسة
       gsap.to(el, {
-        yPercent: 10,
+        yPercent: 101,
         opacity: 1,
         duration: 0.45,
         ease: 'power2.out',
@@ -256,7 +256,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     else {
       gsap.to(el, {
-        yPercent: -110,
+        yPercent: -101,
         opacity: 0,
         duration: 0.35,
         ease: 'power2.in',

@@ -361,6 +361,10 @@ export class Section3Component {
                     }
                   },
                 });
+                ScrollTrigger.refresh();
+                setTimeout(() => window.dispatchEvent(new Event('pin-ready')), 0);
+
+
               }
 
               if (mobile) {

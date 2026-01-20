@@ -265,6 +265,9 @@ export class Section8Component {
         // markers: true,
       },
     });
+    ScrollTrigger.refresh();
+    setTimeout(() => window.dispatchEvent(new Event('pin-ready')), 0);
+
 
     tl.fromTo(
       this.section8TitleSplit.words,

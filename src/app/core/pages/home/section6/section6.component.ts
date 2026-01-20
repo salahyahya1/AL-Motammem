@@ -186,6 +186,9 @@ export class Section6Component {
               onLeaveBack: () => { if (mobile) tl.progress(0); },
             }
           });
+          ScrollTrigger.refresh();
+          setTimeout(() => window.dispatchEvent(new Event('pin-ready')), 0);
+
 
           tl.fromTo(
             titleSplit.words,

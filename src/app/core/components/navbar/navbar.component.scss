@@ -26,13 +26,18 @@
         overflow: visible;
     }
 
+    // .navbar>div {
+    //     position: relative;
+    // }
+
     nav {
         // transform: translateY(-150px);
-        transform: translateY(-100%);
-        position: absolute;
+        transform: translateY(-101%);
+        // position: absolute;
+        position: relative;
         background-color: var(--white);
         z-index: 40;
-        top: 590%;
+        // top: 570%;
         display: none;
         visibility: visible;
         transition: height 0.25s ease;

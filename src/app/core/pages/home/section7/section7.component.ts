@@ -281,6 +281,9 @@ export class Section7Component {
                 onLeaveBack: () => { if (isMobile) tl.progress(0); },
               },
             });
+            ScrollTrigger.refresh();
+            setTimeout(() => window.dispatchEvent(new Event('pin-ready')), 0);
+
 
             let mmCards: ReturnType<typeof gsap.matchMedia> | null = null;
             let splitHead: any = null;

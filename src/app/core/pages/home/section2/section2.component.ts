@@ -314,6 +314,9 @@ export class Section2Component implements AfterViewInit {
                   once: mobile ? true : false,
                   onEnter: play,
                 });
+                ScrollTrigger.refresh();
+                setTimeout(() => window.dispatchEvent(new Event('pin-ready')), 0);
+
 
 
                 return () => {
