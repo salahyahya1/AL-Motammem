@@ -337,8 +337,9 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
       gsap.set(['.scroll-bg-section', '.scroll-bg-section1', '.scroll-bg-section2'], { autoAlpha: 0 });
 
       let textAnchors: number[] = [];
-      const transitionDuration = 0.2;
-      const holdDuration = 1.0; // Increased hold time relative to transitions
+      const transitionDuration = 0.5; // Slower transitions for elegance
+      const holdDuration = 1.5;       // Longer hold time for better readability
+      const scrubFactor = 1.5;        // Heavier scrub for smoother "liquid" feeling
 
       const tl = gsap.timeline({
         id: 'AboutSection3TL-desktop',
@@ -346,13 +347,13 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
           id: 'AboutSection3Trigger-desktop',
           trigger: '#AboutSection3',
           start: 'top top',
-          end: '+=4500 bottom', // Slightly longer to accommodate more "hold" space
-          scrub: 0.5, // Faster response to scroll
+          end: '+=4500 bottom', // Extra space for a slower feel
+          scrub: scrubFactor,
           pin: true,
           snap: {
             snapTo: (value) => textAnchors.length ? gsap.utils.snap(textAnchors, value) : value,
-            duration: { min: 0.2, max: 0.5 },
-            delay: 0.05,
+            duration: { min: 0.3, max: 0.8 }, // Slower snap
+            delay: 0.1,
             ease: 'power2.out',
           }
         }
@@ -365,8 +366,8 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
         if (!el) return { enter: -140, exit: -260 };
         const h = el.getBoundingClientRect().height || 100;
         return {
-          enter: -(h * 2.1), // Target position to stay visible
-          exit: -(h * 3.1),  // Exit position
+          enter: -(h * 2.1),
+          exit: -(h * 3.1),
         };
       };
 
@@ -374,7 +375,6 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
         const { bg, text, index } = opts;
         const { enter, exit } = getY(text);
 
-        // 1. Scene Entrance (Background fades in + Text moves to focus)
         tl.to(bg, { autoAlpha: 1, duration: transitionDuration }, index === 0 ? 0 : '>');
         if (index === 0) {
           tl.add(() => {
@@ -392,14 +392,11 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
           ease: 'power2.out'
         }, '<');
 
-        // 2. STABLE ZONE / HOLD (This is where we snap)
-        // We put the label in the MIDDLE of the hold for best snapping accuracy
         const holdStartTime = tl.duration();
         tl.to({}, { duration: holdDuration });
         const midHoldTime = holdStartTime + (holdDuration / 2);
         tl.addLabel(`scene_${index}_stable`, midHoldTime);
 
-        // 3. Scene Exit (Text moves up and out)
         tl.to(text, {
           y: exit,
           opacity: 0,
@@ -412,7 +409,6 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
       addScene({ bg: '.scroll-bg-section1', text: '.scroll-bg-section-text1', index: 1 });
       addScene({ bg: '.scroll-bg-section2', text: '.scroll-bg-section-text2', index: 2 });
 
-      // Calculate anchor points from labels
       const totalDuration = tl.duration() || 1;
       textAnchors = Object.entries(tl.labels)
         .filter(([name]) => name.includes('_stable'))

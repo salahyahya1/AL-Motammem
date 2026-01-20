@@ -3049,7 +3049,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private navTheme: NavbarThemeService,
-    private sectionsRegistry: SectionsRegistryService
+    public sectionsRegistry: SectionsRegistryService,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -3121,12 +3121,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
       start: 0,
       end: () => '+=' + (ScrollTrigger.maxScroll(scroller) || 1),
       invalidateOnRefresh: true,
-      markers: {
-        startColor: 'red',
-        endColor: 'red',
-        fontSize: '12px',
-        indent: 10,
-      },
+      // markers: {
+      //   startColor: 'red',
+      //   endColor: 'red',
+      //   fontSize: '12px',
+      //   indent: 10,
+      // },
     });
 
     // 5) ✅ idle detector (بديل onUpdate/tick)
@@ -3583,12 +3583,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
         start: 'top top',
         end: 'bottom bottom',
         invalidateOnRefresh: true,
-        markers: {
-          startColor: 'green',
-          endColor: 'green',
-          fontSize: '10px',
-          indent: 55,
-        },
+        // markers: {
+        //   startColor: 'green',
+        //   endColor: 'green',
+        //   fontSize: '10px',
+        //   indent: 55,
+        // },
       });
       this.snapTriggers.push(t);
     });
