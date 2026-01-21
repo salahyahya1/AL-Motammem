@@ -75,12 +75,32 @@ export class LayoutComponent {
   }
 
   private scrollToFragment(fragment: string, fromStorage = false) {
-    if (!this.smoother) return;
-
     this.ngZone.runOutsideAngular(() => {
       const getStableElement = () => document.getElementById(fragment);
 
       let element = getStableElement();
+      // If we don't have smoother (Mobile), use native scroll
+      if (!this.smoother) {
+        if (element) {
+          // Basic native scroll with some delay to ensure rendering
+          setTimeout(() => {
+            element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (fromStorage) localStorage.removeItem('scroll_to_section');
+          }, 300);
+        } else {
+          // If element not found yet, try once more
+          setTimeout(() => {
+            const el = document.getElementById(fragment);
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              if (fromStorage) localStorage.removeItem('scroll_to_section');
+            }
+          }, 1000);
+        }
+        return;
+      }
+
+      // Existing Smoother Logic
       if (!element) return;
 
       let isMoving = true;
@@ -148,19 +168,30 @@ export class LayoutComponent {
   }
 
   private initSmoothScroll() {
+    // Check for mobile state
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+    // If mobile, DO NOT initialize ScrollSmoother
+    // This reverts to native scrolling, which solves the "heaviness" issue on Blogs page
+    if (isMobile) {
+      return;
+    }
+
     if ((window as any).ScrollSmoother?.get?.()) {
       this.smoother = (window as any).ScrollSmoother.get();
       return;
     }
+
     this.smoother = ScrollSmoother.create({
       wrapper: '#smooth-wrapper',
       content: '#smooth-content',
       smooth: 1.2,
-      normalizeScroll: true,
+      normalizeScroll: true, // This was likely causing the heaviness on mobile
       effects: false,
       ignoreMobileResize: true,
-      smoothTouch: 0.1,
+      // smoothTouch: 0.1, // Removed or irrelevant since we filter isMobile
     });
+
     ScrollTrigger.defaults({ scroller: this.smoother.wrapper() });
     requestAnimationFrame(() => ScrollTrigger.refresh());
     ScrollTrigger.config({ ignoreMobileResize: true });
