@@ -78,7 +78,7 @@
 //     });
 //   }
 //   private observeSections() {
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 //     sections.forEach((section) => {
 //       const bgColor = section.dataset['bgcolor'] || 'var(--white)';
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -212,7 +212,7 @@
 
 //   // ✅ Desktop only
 //   private observeSections() {
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 //     sections.forEach((section, index) => {
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
 //       const bgColor = section.dataset['bgcolor'] || 'var(--white)';
@@ -241,7 +241,7 @@
 //   }
 //   //mobile only
 //   private observeSectionsMobile() {
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 //     sections.forEach((section, index) => {
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
 //       const bgColor = section.dataset['bgcolor'] || 'var(--white)';
@@ -537,7 +537,7 @@
 
 //   // ✅ Desktop Navbar Color Observer
 //   private observeSections(scroller: HTMLElement) {
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     sections.forEach((section, index) => {
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -568,7 +568,7 @@
 
 //   // ✅ Mobile Navbar Color Observer
 //   private observeSectionsMobile() {
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     sections.forEach((section, index) => {
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -693,6 +693,7 @@ import { BehaviorSubject } from 'rxjs';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
 import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
+import { Router } from '@angular/router';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -883,7 +884,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 //   // ✅ Desktop Navbar Color Observer
 //   private observeSections(scroller: HTMLElement) {
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     sections.forEach((section, index) => {
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -914,7 +915,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 //   // ✅ Mobile Navbar Color Observer
 //   private observeSectionsMobile() {
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     sections.forEach((section, index) => {
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -955,7 +956,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 //   private buildSnapPoints(smoother: any) {
 //     const scroller = smoother.wrapper();
-//     const panels = gsap.utils.toArray<HTMLElement>('.panel');
+//     const panels = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     const vh = scroller?.clientHeight || window.innerHeight;
 //     const max = ScrollTrigger.maxScroll(scroller) || 1;
@@ -1140,7 +1141,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 //         this.ctx = gsap.context(() => {
 //           this.initDesktop(smoother);
 
-//           const s = gsap.utils.toArray<HTMLElement>('.panel');
+//           const s = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //           // ScrollTrigger.create({
 //           //   trigger: '#home',
@@ -1322,7 +1323,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 //   // ✅ Desktop Navbar Color Observer
 //   private observeSections(scroller: HTMLElement) {
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     sections.forEach((section, index) => {
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -1349,7 +1350,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 //   // ✅ Mobile Navbar Color Observer
 //   private observeSectionsMobile() {
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     sections.forEach((section, index) => {
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -1414,7 +1415,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 //   private buildSnapPoints(smoother: any) {
 //     const scroller = smoother.wrapper();
-//     const panels = gsap.utils.toArray<HTMLElement>('.panel');
+//     const panels = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     const vh = scroller?.clientHeight || window.innerHeight;
 //     const max = ScrollTrigger.maxScroll(scroller) || 1;
@@ -1920,7 +1921,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 //     this.colorTriggers.forEach(t => t.kill());
 //     this.colorTriggers = [];
 
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     sections.forEach((section, index) => {
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -1954,7 +1955,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 //   }
 
 //   private observeSectionsMobile() {
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     sections.forEach((section, index) => {
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -1996,7 +1997,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 //     this.snapTriggers.forEach(t => t.kill());
 //     this.snapTriggers = [];
 
-//     const panels = gsap.utils.toArray<HTMLElement>('.panel');
+//     const panels = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     panels.forEach((panel, i) => {
 //       const t = ScrollTrigger.create({
@@ -2705,7 +2706,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 //     this.colorTriggers.forEach(t => t.kill());
 //     this.colorTriggers = [];
 
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     sections.forEach((section, index) => {
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -2739,7 +2740,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 //   }
 
 //   private observeSectionsMobile() {
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     sections.forEach((section, index) => {
 //       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -2781,7 +2782,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 //     this.snapTriggers.forEach(t => t.kill());
 //     this.snapTriggers = [];
 
-//     const panels = gsap.utils.toArray<HTMLElement>('.panel');
+//     const panels = gsap.utils.toArray<HTMLElement>('#home .panel');
 
 //     panels.forEach((panel, i) => {
 //       const t = ScrollTrigger.create({
@@ -3050,6 +3051,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     private cdr: ChangeDetectorRef,
     private navTheme: NavbarThemeService,
     public sectionsRegistry: SectionsRegistryService,
+    private router: Router,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -3058,10 +3060,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     if (!this.isBrowser) return;
     this.isMobile = window.matchMedia('(max-width: 768px)').matches;
   }
+  private isHomeRoute() {
+    const url = this.router.url.split('?')[0].split('#')[0];
+    return url === '/' || url === '/home';
+  }
 
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
-
+    if (!this.isHomeRoute()) return;
     this.setupMobileStaticHeroLanguage();
 
     // ✅ Mobile: بدون Snap
@@ -3497,7 +3503,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     this.colorTriggers.forEach(t => t.kill());
     this.colorTriggers = [];
 
-    const sections = gsap.utils.toArray<HTMLElement>('.panel');
+    const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
     sections.forEach((section, index) => {
       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -3531,7 +3537,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   private observeSectionsMobile() {
-    const sections = gsap.utils.toArray<HTMLElement>('.panel');
+    const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
     sections.forEach((section, index) => {
       const textColor = section.dataset['textcolor'] || 'var(--primary)';
@@ -3573,7 +3579,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     this.snapTriggers.forEach(t => t.kill());
     this.snapTriggers = [];
 
-    const panels = gsap.utils.toArray<HTMLElement>('.panel');
+    const panels = gsap.utils.toArray<HTMLElement>('#home .panel');
 
     panels.forEach((panel, i) => {
       const t = ScrollTrigger.create({
