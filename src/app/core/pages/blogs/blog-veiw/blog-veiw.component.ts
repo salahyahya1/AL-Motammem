@@ -79,7 +79,7 @@
 //   }
 // }
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ChangeDetectorRef, Component, HostListener, Inject, NgZone, PLATFORM_ID, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, Inject, NgZone, PLATFORM_ID, TemplateRef, makeStateKey, TransferState, ViewChild, ViewContainerRef } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { Draggable } from "gsap/all";
@@ -96,6 +96,11 @@ import { LanguageService } from '../../../shared/services/language.service';
 import { DialogButton, MessegeDialogComponent } from "../../../shared/messege-dialog/messege-dialog.component";
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { Title, Meta } from '@angular/platform-browser';
+import { SeoLinkService } from '../../../services/seo-link.service';
+
+
+const BLOG_KEY = (slug: string) => makeStateKey<any>(`blog_${slug}`);
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
@@ -134,7 +139,11 @@ export class BlogVeiwComponent {
     private sanitizer: DomSanitizer,
     private overlay: Overlay,
     private router: Router,
-    private vcr: ViewContainerRef, private language: LanguageService
+    private vcr: ViewContainerRef, private language: LanguageService,
+    private transfer: TransferState,
+    private title: Title,
+    private meta: Meta,
+    private seoLinks: SeoLinkService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -147,10 +156,11 @@ export class BlogVeiwComponent {
       this.errorMsg = 'الرابط غير صحيح';
       return;
     }
-    if (!this.isBrowser) return;
-    this.isAuthenticated = this.blogsService.isAuthenticated();
-    this.role = localStorage.getItem('role')
-    this.hasrole = this.role ? true : false;
+    if (this.isBrowser) {
+      this.isAuthenticated = this.blogsService.isAuthenticated();
+      this.role = localStorage.getItem('role')
+      this.hasrole = this.role ? true : false;
+    }
 
     // ✅ يقبل /BlogVeiw/ERP أو /BlogVeiw/blog:draft:ERP
     // const url = rawParam.startsWith('blog:draft:')
@@ -179,25 +189,80 @@ export class BlogVeiwComponent {
     //     }
     //   }
     // }
-
+    const cached = this.transfer.get(BLOG_KEY(rawParam), null as any);
+    if (cached) {
+      this.applyBlog(cached);
+      this.transfer.remove(BLOG_KEY(rawParam));
+      return;
+    }
     // ✅ 2) Fallback API
     this.blogsService.getBlogByName(rawParam).subscribe({
       next: (res: any) => {
         this.blog = res.data;
+        if (!this.isBrowser) this.transfer.set(BLOG_KEY(rawParam), this.blog);
+        this.applyBlog(this.blog);
+        // const fixedBody = this.fixEditorJsBody(this.blog?.body);
+        // console.log(this.blog.faqs);
+        // this.blogHtml = this.sanitizer.bypassSecurityTrustHtml(
+        //   this.renderEditorJsBody(fixedBody)
+        // );
 
-        const fixedBody = this.fixEditorJsBody(this.blog?.body);
-        console.log(this.blog.faqs);
-        this.blogHtml = this.sanitizer.bypassSecurityTrustHtml(
-          this.renderEditorJsBody(fixedBody)
-        );
-
-        this.loading = false;
+        // this.loading = false;
       },
       error: () => {
         this.loading = false;
         this.errorMsg = 'تعذر تحميل المقال';
       }
     });
+
+  }
+  private applyBlog(data: any) {
+    this.blog = data;
+    this.setSeoForBlog(this.blog);
+    const fixedBody = this.fixEditorJsBody(this.blog?.body);
+    this.blogHtml = this.sanitizer.bypassSecurityTrustHtml(
+      this.renderEditorJsBody(fixedBody)
+    );
+    this.loading = false;
+  }
+  private setSeoForBlog(blog: any) {
+    const siteName = 'Al-Motammem';
+    const pageTitle = blog?.metaTitle || blog?.title || 'مدونه';
+    const desc = blog?.metaDescription || '';
+    const image = blog?.mainImage || 'https://www.almotammem.com/images/Icon.webp';
+
+    // ✅ URL الحالي (على السيرفر والعميل)
+    const url =
+      (typeof window !== 'undefined' && window.location?.href)
+        ? window.location.href
+        : `https://almotammem.com/blogs/BlogVeiw/${blog?.englishURL || blog?.url}`;
+
+    // ---- Title + Description
+    this.title.setTitle(pageTitle);
+    this.meta.updateTag({ name: 'description', content: desc });
+
+    // ---- Robots (اختياري)
+    this.meta.updateTag({ name: 'robots', content: 'index, follow' });
+
+    // ---- OpenGraph
+    this.meta.updateTag({ property: 'og:type', content: 'article' });
+    this.meta.updateTag({ property: 'og:site_name', content: siteName });
+    this.meta.updateTag({ property: 'og:title', content: pageTitle });
+    this.meta.updateTag({ property: 'og:description', content: desc });
+    this.meta.updateTag({ property: 'og:url', content: url });
+    this.meta.updateTag({ property: 'og:image', content: image });
+
+    // ---- Twitter
+    this.meta.updateTag({ name: 'twitter:url', content: url });
+    this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.meta.updateTag({ name: 'twitter:title', content: pageTitle });
+    this.meta.updateTag({ name: 'twitter:description', content: desc });
+    this.meta.updateTag({ name: 'twitter:image', content: image });
+    if (blog?.createdAt) this.meta.updateTag({ property: 'article:published_time', content: blog.createdAt });
+    if (blog?.updatedAt) this.meta.updateTag({ property: 'article:modified_time', content: blog.updatedAt });
+
+    this.seoLinks.setCanonical(url);
+
   }
 
   ngAfterViewInit(): void {

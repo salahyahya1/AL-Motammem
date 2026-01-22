@@ -694,6 +694,7 @@ import { NavbarThemeService } from '../../components/navbar/navbar-theme.service
 import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
 import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
 import { Router } from '@angular/router';
+import { SeoLinkService } from '../../services/seo-link.service';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -3052,11 +3053,23 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     private navTheme: NavbarThemeService,
     public sectionsRegistry: SectionsRegistryService,
     private router: Router,
+    private seoLinks: SeoLinkService,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   ngOnInit() {
+    const siteName = 'Al-Motammem';
+    const pageTitle = "Al-Motammem ERP | نظام المتمم لإدارة المؤسسات";
+    const desc = "نظام ERP متكامل لتطوير الشركات منذ 40 عامًا - المتمم.";
+    const image = 'https://www.almotammem.com/images/Icon.webp';
+
+    const url =
+      (typeof window !== 'undefined' && window.location?.href)
+        ? window.location.href
+        : `https://almotammem.com/`;
+    this.seoLinks.setSocialMeta({ title: pageTitle, desc, image, url, type: 'website' });
+    this.seoLinks.setCanonical(url);
     if (!this.isBrowser) return;
     this.isMobile = window.matchMedia('(max-width: 768px)').matches;
   }

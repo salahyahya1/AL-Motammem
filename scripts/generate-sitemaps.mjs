@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 
 const SITE = "https://almotammem.com";
-const API_BASE = "https://almotammem-server.onrender.com/api/articles/allblogs";
+const API_BASE = "https://almotammem.com/api/articles/allblogs";
 
 const OUT_DIR = "./dist/al-motammem";
 const OUT_INDEX = `${OUT_DIR}/sitemap.xml`;
@@ -90,6 +90,12 @@ async function fetchAllBlogs() {
 
         totalPages = json?.pagination?.totalPages ?? totalPages;
         page++;
+
+
+        console.log("page", page, "keys:", Object.keys(json));
+        console.log("dataType:", Array.isArray(json?.data), "len:", json?.data?.length);
+        console.log("pagination:", json?.pagination);
+
     }
 
     return all;

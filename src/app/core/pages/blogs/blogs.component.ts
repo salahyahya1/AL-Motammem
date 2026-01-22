@@ -337,8 +337,17 @@ export class BlogsComponent {
       this.loadingMostRead = false;
       this.initialMostReadLoaded = true;
       this.transfer.remove(MOST_READ_KEY);
+
+      if (this.isBrowser) {
+        queueMicrotask(() => {
+          this.cdr.detectChanges();
+          this.tryInitUI();
+          this.updateSwiperAfterData();
+        });
+      }
       return;
     }
+
     // ✅ set loading BEFORE request
     this.loadingMostRead = true;
 
@@ -361,10 +370,10 @@ export class BlogsComponent {
             this.updateSwiperAfterData();
           }
           // update DOM first
-          // this.cdr.detectChanges();
+          this.cdr.detectChanges();
 
           // init UI once after view is ready
-          // this.tryInitUI();
+          this.tryInitUI();
 
           // update swiper after data
           // this.updateSwiperAfterData();
@@ -407,6 +416,8 @@ export class BlogsComponent {
 
           // ما نعملش refresh هنا كل مرة — بس batch refresh واحدة
           // this.scheduleScrollRefresh();
+          if (this.isBrowser) queueMicrotask(() => this.cdr.detectChanges());
+
         },
         error: (err: any) => {
           console.log(err?.message);

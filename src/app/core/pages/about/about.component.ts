@@ -19,6 +19,7 @@ import { AboutSection2Component } from "./about-section2/about-section2.componen
 import { AboutSection3Component } from "./about-section3/about-section3.component";
 import { AboutSection4Component } from "./about-section4/about-section4.component";
 import { AboutSection5Component } from "./about-section5/about-section5.component";
+import { SeoLinkService } from '../../services/seo-link.service';
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 @Component({
@@ -43,7 +44,8 @@ export class AboutComponent {
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private navTheme: NavbarThemeService,
-    private sectionsRegistry: SectionsRegistryService
+    private sectionsRegistry: SectionsRegistryService,
+    private seoLinks: SeoLinkService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -52,6 +54,20 @@ export class AboutComponent {
   private onResizeCD = () => {
     this.ngZone.run(() => this.cdr.detectChanges());
   };
+  //ظبط التاجات لل seo
+  //   ngOnInit() {
+  //   const siteName = 'Al-Motammem';
+  //   const pageTitle = "Al-Motammem ERP | نظام المتمم لإدارة المؤسسات";
+  //   const desc = "نظام ERP متكامل لتطوير الشركات منذ 40 عامًا - المتمم.";
+  //   const image = 'https://www.almotammem.com/images/Icon.webp';
+
+  //   const url =
+  //     (typeof window !== 'undefined' && window.location?.href)
+  //       ? window.location.href
+  //       : `https://almotammem.com/`;
+  //   this.seoLinks.setSocialMeta({ title: pageTitle, desc, image, url, type: 'website' });
+  //   this.seoLinks.setCanonical(url);
+  // }
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
 
