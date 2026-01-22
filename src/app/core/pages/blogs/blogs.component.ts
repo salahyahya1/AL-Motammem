@@ -34,6 +34,10 @@ import { PortalModule } from '@angular/cdk/portal';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../shared/services/language.service';
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
+import { TransferState, makeStateKey } from '@angular/core';
+
+const MOST_READ_KEY = makeStateKey<any>('mostReadBlogs');
+const ALL_BLOGS_KEY = makeStateKey<any>('allBlogs_page1');
 
 @Component({
   selector: 'app-blogs',
@@ -88,7 +92,8 @@ export class BlogsComponent {
     private router: Router,
     private route: ActivatedRoute,
     private overlay: Overlay,
-    private vcr: ViewContainerRef, private language: LanguageService
+    private vcr: ViewContainerRef, private language: LanguageService,
+    private transfer: TransferState
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -109,19 +114,15 @@ export class BlogsComponent {
   articles: any[] = [];
 
   ngOnInit(): void {
-    if (!this.isBrowser) return;
-    this.navTheme.setColor('var(--primary)');
-    this.navTheme.setBg('#F8F9FB');
-    this.isAuthenticated = this.blogsService.isAuthenticated();
-    this.role = localStorage.getItem('role')
-    this.hasrole = this.role ? true : false;
-    console.log(this.isAuthenticated);
-    console.log(this.role);
-    console.log(this.hasrole);
-
     this.loadMostRead();
     this.loadAllBlogs(this.page);
-
+    if (this.isBrowser) {
+      this.navTheme.setColor('var(--primary)');
+      this.navTheme.setBg('#F8F9FB');
+      this.isAuthenticated = this.blogsService.isAuthenticated();
+      this.role = localStorage.getItem('role')
+      this.hasrole = this.role ? true : false;
+    }
   }
   private uiCtx?: gsap.Context;
   private onResizeCD = () => {
@@ -329,6 +330,15 @@ export class BlogsComponent {
   }
 
   loadMostRead() {
+    const cached = this.transfer.get(MOST_READ_KEY, null as any);
+    if (cached) {
+      this.mostReadArticles = cached?.data ?? [];
+      this.articles = this.mostReadArticles;
+      this.loadingMostRead = false;
+      this.initialMostReadLoaded = true;
+      this.transfer.remove(MOST_READ_KEY);
+      return;
+    }
     // ✅ set loading BEFORE request
     this.loadingMostRead = true;
 
@@ -343,16 +353,22 @@ export class BlogsComponent {
           this.mostReadArticles = res?.data ?? [];
           this.articles = this.mostReadArticles;
 
+          if (!this.isBrowser) this.transfer.set(MOST_READ_KEY, res);
+
+          if (this.isBrowser) {
+            this.cdr.detectChanges();
+            this.tryInitUI();
+            this.updateSwiperAfterData();
+          }
           // update DOM first
-          this.cdr.detectChanges();
+          // this.cdr.detectChanges();
 
           // init UI once after view is ready
-          this.tryInitUI();
+          // this.tryInitUI();
 
           // update swiper after data
-          this.updateSwiperAfterData();
+          // this.updateSwiperAfterData();
 
-          console.log(this.mostReadArticles);
         },
         error: (err: any) => {
           console.log(err?.message);
@@ -361,6 +377,17 @@ export class BlogsComponent {
   }
 
   loadAllBlogs(page: number) {
+    if (page === 1) {
+      const cached = this.transfer.get(ALL_BLOGS_KEY, null as any);
+      if (cached) {
+        this.totalPages = cached?.pagination?.totalPages ?? 1;
+        this.allBlogs = cached?.data ?? [];
+        this.loadingAllBlogs = false;
+        this.initialAllBlogsLoaded = true;
+        this.transfer.remove(ALL_BLOGS_KEY);
+        return;
+      }
+    }
     // ✅ set loading BEFORE request
     this.loadingAllBlogs = true;
 
@@ -373,10 +400,10 @@ export class BlogsComponent {
       .subscribe({
         next: (res: any) => {
           this.totalPages = res.pagination.totalPages;
-          console.log(res.data);
-          console.log(res.data.length);
-          this.allBlogs.push(...res?.data);
-          console.log(this.allBlogs);
+          if (page === 1) this.allBlogs = res?.data ?? [];
+          else this.allBlogs.push(...(res?.data ?? []));
+
+          if (!this.isBrowser && page === 1) this.transfer.set(ALL_BLOGS_KEY, res);
 
           // ما نعملش refresh هنا كل مرة — بس batch refresh واحدة
           // this.scheduleScrollRefresh();

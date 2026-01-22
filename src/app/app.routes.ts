@@ -36,7 +36,7 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'ERP عربي بخبرة 40 سنة…',
-                        image: '/assets/og/about.webp',
+                        image: 'https://www.almotammem.com/images/Icon.webp',
                         canonical: 'https://www.almotammem.com/about'
                     }
                 }
@@ -48,7 +48,7 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'ERP عربي بخبرة 40 سنة…',
-                        image: '/assets/og/about.webp',
+                        image: 'https://www.almotammem.com/images/Icon.webp',
                         canonical: 'https://www.almotammem.com/solutions'
                     }
                 }
@@ -60,7 +60,7 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'ERP عربي بخبرة 40 سنة…',
-                        image: '/assets/og/about.webp',
+                        image: 'https://www.almotammem.com/images/Icon.webp',
                         canonical: 'https://www.almotammem.com/products'
                     }
                 }
@@ -90,7 +90,7 @@ export const routes: Routes = [
                         data: {
                             seo: {
                                 description: 'المدونات',
-                                image: '/assets/og/about.webp',
+                                image: 'https://www.almotammem.com/images/Icon.webp',
                                 canonical: 'https://www.almotammem.com/blogs'
                             }
                         }
@@ -103,7 +103,7 @@ export const routes: Routes = [
                         data: {
                             seo: {
                                 description: 'مدونه',
-                                image: '/assets/og/about.webp',
+                                image: 'https://www.almotammem.com/images/Icon.webp',
                                 canonical: 'https://www.almotammem.com/blogs/BlogVeiw/:url'
                             }
                         }
@@ -120,7 +120,7 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'FAQS',
-                        image: '/assets/og/about.webp',
+                        image: 'https://www.almotammem.com/images/Icon.webp',
                         canonical: 'https://www.almotammem.com/FAQS'
                     }
                 }
@@ -133,7 +133,7 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'تواصل معنا',
-                        image: '/assets/og/about.webp',
+                        image: 'https://www.almotammem.com/images/Icon.webp',
                         canonical: 'https://www.almotammem.com/ContactUs'
                     }
                 }
@@ -146,7 +146,7 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'الشروط والاحكام',
-                        image: '/assets/og/about.webp',
+                        image: 'https://www.almotammem.com/images/Icon.webp',
                         canonical: 'https://www.almotammem.com/TermsPlicy'
                     }
                 }
@@ -159,7 +159,7 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'سياسة الخصوصية',
-                        image: '/assets/og/about.webp',
+                        image: 'https://www.almotammem.com/images/Icon.webp',
                         canonical: 'https://www.almotammem.com/PrivacyPlicy'
                     }
                 }
