@@ -14,7 +14,6 @@ export class SchemaService {
         script.type = 'application/ld+json';
         script.id = id;
         script.text = JSON.stringify(json).replace(/<\/script>/g, '<\\/script>');
-
         this.doc.head.appendChild(script);
     }
 
