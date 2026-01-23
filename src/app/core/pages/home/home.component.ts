@@ -665,57 +665,7 @@
 //     }
 //   }
 // }
-import {
-  Component,
-  Inject,
-  PLATFORM_ID,
-  AfterViewInit,
-  NgZone,
-  ChangeDetectorRef,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
-import ScrollSmoother from 'gsap/ScrollSmoother';
 
-import { Section1Component } from './section1/section1.component';
-import { Section2Component } from './section2/section2.component';
-import { Section3Component } from './section3/section3.component';
-import { Section4Component } from './section4/section4.component';
-import { Section5Component } from './section5/section5.component';
-import { Section6Component } from './section6/section6.component';
-import { Section7Component } from './section7/section7.component';
-import { Section8Component } from './section8/section8.component';
-
-import { BehaviorSubject } from 'rxjs';
-import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
-import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
-import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
-import { Router } from '@angular/router';
-import { SeoLinkService } from '../../services/seo-link.service';
-
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
-@Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    CommonModule,
-    Section1Component,
-    Section2Component,
-    Section3Component,
-    Section4Component,
-    Section5Component,
-    Section6Component,
-    Section7Component,
-    Section8Component,
-    OpenFormDialogDirective,
-  ],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-})
 // export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
 //   private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
 //   visibility$ = this.visibilitySubject.asObservable();
@@ -2983,7 +2933,170 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 //     }
 //   }
 // }
+
+import {
+  Component,
+  Inject,
+  PLATFORM_ID,
+  AfterViewInit,
+  NgZone,
+  ChangeDetectorRef,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import ScrollSmoother from 'gsap/ScrollSmoother';
+
+import { Section1Component } from './section1/section1.component';
+import { Section2Component } from './section2/section2.component';
+import { Section3Component } from './section3/section3.component';
+import { Section4Component } from './section4/section4.component';
+import { Section5Component } from './section5/section5.component';
+import { Section6Component } from './section6/section6.component';
+import { Section7Component } from './section7/section7.component';
+import { Section8Component } from './section8/section8.component';
+
+import { BehaviorSubject } from 'rxjs';
+import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
+import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
+import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
+import { Router } from '@angular/router';
+import { SeoLinkService } from '../../services/seo-link.service';
+import { NavigationStart } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [
+    CommonModule,
+    Section1Component,
+    Section2Component,
+    Section3Component,
+    Section4Component,
+    Section5Component,
+    Section6Component,
+    Section7Component,
+    Section8Component,
+    OpenFormDialogDirective,
+  ],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+})
 export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
+  private routerSub?: Subscription;
+
+  private teardownHomeSnap() {
+    // 1) وقف أي snapping حالياً
+    this.snapTween?.kill();
+    this.snapTween = undefined;
+    this.isSnapping = false;
+
+    // 2) وقف idle detector (RAF + scroll listener)
+    this.idleCleanup?.();
+    this.idleCleanup = undefined;
+
+    // safety: لو فيه RAF متسجل
+    if (this.idleRaf) cancelAnimationFrame(this.idleRaf);
+    this.idleRaf = undefined;
+
+    // 3) شيل killSnap listeners (wheel/touch/pointer)
+    (this as any)._killSnapCleanup?.();
+    (this as any)._killSnapCleanup = undefined;
+
+    // 4) شيل window listeners
+    try { window.removeEventListener('resize', this.onResize); } catch { }
+    window.removeEventListener('pin-ready', this.onPinReady as any);
+
+    // 5) Kill ScrollTriggers الخاصة بالهوم فقط (بالـ ids / arrays)
+    this.colorTriggers.forEach(t => t.kill());
+    this.colorTriggers = [];
+
+    this.snapTriggers.forEach(t => t.kill());
+    this.snapTriggers = [];
+
+    this.homeSnapST?.kill();
+    this.homeSnapST = undefined;
+
+    // 6) شيل refresh listeners اللي انتِ ضيفاها
+    const rebuild = (this as any)._snapRebuild;
+    if (rebuild) {
+      ScrollTrigger.removeEventListener('refreshInit', rebuild);
+      ScrollTrigger.removeEventListener('refresh', rebuild);
+    }
+
+    // 7) اقفلي observers
+    this.cleanupLoadListener?.(); this.cleanupLoadListener = undefined;
+    this.cleanupFontsListener?.(); this.cleanupFontsListener = undefined;
+
+    this.resizeObs?.disconnect(); this.resizeObs = undefined;
+    this.observer?.disconnect(); this.observer = undefined;
+
+    clearTimeout(this.refreshTimer);
+    clearTimeout(this.mediaRefreshTimer);
+
+    // 8) ✅ أهم سطرين في حالتك (عشان السناب مايكملش على صفحات تانية)
+    this.snapY = [];
+    this.snapListenersAttached = false;
+
+    // 9) Context revert (لو فيه animations/triggers اتعملت داخل ctx)
+    this.ctx?.revert();
+    this.ctx = undefined;
+
+    // 10) تحديث GSAP state
+    try { ScrollTrigger.refresh(true); } catch { }
+  }
+  private exposeGlobalCleanup() {
+    (window as any).__HOME_SNAP_CLEANUP__ = () => {
+      try {
+        // نفس اللي بتعمليه في ngOnDestroy بس مركّز على السناب
+        this.snapTween?.kill();
+        this.snapTween = undefined;
+        this.isSnapping = false;
+
+        this.idleCleanup?.();
+        this.idleCleanup = undefined;
+
+        if (this.idleRaf) cancelAnimationFrame(this.idleRaf);
+        this.idleRaf = undefined;
+
+        (this as any)._killSnapCleanup?.();
+        (this as any)._killSnapCleanup = undefined;
+
+        // kill triggers اللي انتي عاملاها في الهوم فقط
+        this.colorTriggers.forEach(t => t.kill());
+        this.colorTriggers = [];
+
+        this.snapTriggers.forEach(t => t.kill());
+        this.snapTriggers = [];
+
+        this.homeSnapST?.kill();
+        this.homeSnapST = undefined;
+
+        // remove refresh listeners
+        const rebuild = (this as any)._snapRebuild;
+        if (rebuild) {
+          ScrollTrigger.removeEventListener('refreshInit', rebuild);
+          ScrollTrigger.removeEventListener('refresh', rebuild);
+        }
+
+        // صفري نقاط السناب
+        this.snapY = [];
+        this.snapListenersAttached = false;
+
+        // مهم: ctx revert (لو فيه حاجات جوّاه)
+        this.ctx?.revert();
+        this.ctx = undefined;
+
+        // Update
+        ScrollTrigger.update();
+      } catch { }
+    };
+  }
+
   private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
   visibility$ = this.visibilitySubject.asObservable();
   visibilityState: 'visible' | 'invisible' = 'visible';
@@ -3081,6 +3194,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
     if (!this.isHomeRoute()) return;
+    this.routerSub?.unsubscribe();
+    this.routerSub = this.router.events
+      .pipe(filter(e => e instanceof NavigationStart))
+      .subscribe((e: any) => {
+        // لو خارج من الهوم لأي route تاني
+        const nextUrl = (e.url || '').split('?')[0].split('#')[0];
+        if (this.isHomeRoute() && nextUrl !== '/' && nextUrl !== '/home') {
+          this.teardownHomeSnap();
+        }
+      });
+
     this.setupMobileStaticHeroLanguage();
 
     // ✅ Mobile: بدون Snap
@@ -3093,6 +3217,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
       this.waitForSmoother((smoother) => {
         this.ctx = gsap.context(() => {
           this.initDesktop(smoother);
+          this.exposeGlobalCleanup();
+
         });
       });
     });
@@ -3733,9 +3859,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
+    this.routerSub?.unsubscribe();
+    this.routerSub = undefined;
+
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
 
+    if (this.isBrowser) {
+      this.teardownHomeSnap();
+    }
     if (this.isBrowser) {
       try {
         window.removeEventListener('resize', this.onResize);

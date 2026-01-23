@@ -34,6 +34,7 @@ export const appConfig: ApplicationConfig = {
     ),
     // provideClientHydration(withEventReplay()),
     // provideClientHydration(),
+    // provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),
     provideTranslateService({
       loader: provideTranslateHttpLoader({

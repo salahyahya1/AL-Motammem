@@ -64,7 +64,7 @@
 //     }
 //     if (id === 'show edited blog') {
 //       this.dialogOpen = false;
-//       this.router.navigate(['/blogs/BlogVeiw', this.routeUrlParam]);
+//       this.router.navigate(['/blogs/blog', this.routeUrlParam]);
 //     }
 //     if (id === 'retry') {
 //       this.dialogOpen = false;
@@ -864,7 +864,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     if (id === 'show edited blog') {
       this.dialogOpen = false;
 
-      this.router.navigate(['/blogs/BlogVeiw', this.routeUrlParam]);
+      this.router.navigate(['/blogs/blog', this.routeUrlParam]);
     }
     if (id === 'retry') {
       this.dialogOpen = false;
@@ -893,7 +893,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (source === 'ViewBlog') {
       sessionStorage.removeItem('source');
-      this.router.navigate(['/blogs/BlogVeiw', this.routeUrlParam]);
+      this.router.navigate(['/blogs/blog', this.routeUrlParam]);
     }
   }
 }

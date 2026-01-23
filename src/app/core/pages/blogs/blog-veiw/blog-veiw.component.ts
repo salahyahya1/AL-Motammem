@@ -98,6 +98,8 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Title, Meta } from '@angular/platform-browser';
 import { SeoLinkService } from '../../../services/seo-link.service';
+import { SchemaService } from '../../../services/schema.service';
+import { SeoService } from '../../../seo/seo.service';
 
 
 const BLOG_KEY = (slug: string) => makeStateKey<any>(`blog_${slug}`);
@@ -143,79 +145,49 @@ export class BlogVeiwComponent {
     private transfer: TransferState,
     private title: Title,
     private meta: Meta,
-    private seoLinks: SeoLinkService
+    private seoLinks: SeoLinkService,
+    private schemaService: SchemaService,
+    private seoService: SeoService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
+  // ngOnInit(): void {
+  //   // 1) Use Resolved Data (Ensures SSR Content)
+  //   const resolvedBlog = this.route.snapshot.data['blog'];
+  //   if (resolvedBlog) {
+  //     this.applyBlog(resolvedBlog);
+  //   } else {
+  //     this.loading = false;
+  //     this.errorMsg = 'تعذر تحميل المقال';
+  //   }
+
+  //   if (this.isBrowser) {
+  //     this.isAuthenticated = this.blogsService.isAuthenticated();
+  //     this.role = localStorage.getItem('role');
+  //     this.hasrole = !!this.role;
+  //   }
+  // }
+
   ngOnInit(): void {
-    const rawParam = this.route.snapshot.paramMap.get('url');
-
-    if (!rawParam) {
-      this.loading = false;
-      this.errorMsg = 'الرابط غير صحيح';
-      return;
-    }
-    if (this.isBrowser) {
-      this.isAuthenticated = this.blogsService.isAuthenticated();
-      this.role = localStorage.getItem('role')
-      this.hasrole = this.role ? true : false;
-    }
-
-    // ✅ يقبل /BlogVeiw/ERP أو /BlogVeiw/blog:draft:ERP
-    // const url = rawParam.startsWith('blog:draft:')
-    //   ? rawParam.replace('blog:draft:', '')
-    //   : rawParam;
-
-    // ✅ 1) LocalStorage First
-    // if (this.isBrowser) {
-    //   const key = `blog:draft:${url}`;
-    //   const raw = localStorage.getItem(key);
-
-    //   if (raw) {
-    //     try {
-    //       this.blog = JSON.parse(raw);
-
-    //       // ✅ Fix any old body shape (list items objects) before render
-    //       const fixedBody = this.fixEditorJsBody(this.blog.body);
-    //       this.blogHtml = this.sanitizer.bypassSecurityTrustHtml(
-    //         this.renderEditorJsBody(fixedBody)
-    //       );
-
-    //       this.loading = false;
-    //       return;
-    //     } catch {
-    //       // ignore and fallback
-    //     }
-    //   }
-    // }
-    const cached = this.transfer.get(BLOG_KEY(rawParam), null as any);
-    if (cached) {
-      this.applyBlog(cached);
-      this.transfer.remove(BLOG_KEY(rawParam));
-      return;
-    }
-    // ✅ 2) Fallback API
-    this.blogsService.getBlogByName(rawParam).subscribe({
-      next: (res: any) => {
-        this.blog = res.data;
-        if (!this.isBrowser) this.transfer.set(BLOG_KEY(rawParam), this.blog);
-        this.applyBlog(this.blog);
-        // const fixedBody = this.fixEditorJsBody(this.blog?.body);
-        // console.log(this.blog.faqs);
-        // this.blogHtml = this.sanitizer.bypassSecurityTrustHtml(
-        //   this.renderEditorJsBody(fixedBody)
-        // );
-
-        // this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-        this.errorMsg = 'تعذر تحميل المقال';
+    this.route.data.subscribe({
+      next: (data) => {
+        const resolvedBlog = data['blog'];
+        if (resolvedBlog) this.applyBlog(resolvedBlog);
+        else {
+          this.loading = false;
+          this.errorMsg = 'تعذر تحميل المقال';
+        }
       }
     });
 
+    if (this.isBrowser) {
+      this.isAuthenticated = this.blogsService.isAuthenticated();
+      this.role = localStorage.getItem('role');
+      this.hasrole = !!this.role;
+    }
   }
+
   private applyBlog(data: any) {
     this.blog = data;
     this.setSeoForBlog(this.blog);
@@ -229,40 +201,39 @@ export class BlogVeiwComponent {
     const siteName = 'Al-Motammem';
     const pageTitle = blog?.metaTitle || blog?.title || 'مدونه';
     const desc = blog?.metaDescription || '';
-    const image = blog?.mainImage || 'https://www.almotammem.com/images/Icon.webp';
+    const image = blog?.mainImage || 'https://almotammem.com/images/Icon.webp';
 
-    // ✅ URL الحالي (على السيرفر والعميل)
-    const url =
-      (typeof window !== 'undefined' && window.location?.href)
-        ? window.location.href
-        : `https://almotammem.com/blogs/BlogVeiw/${blog?.englishURL || blog?.url}`;
+    // ✅ Generate URL (SSR Safe)
+    const path = this.router.url.split('?')[0].split('#')[0];
+    const url = `https://almotammem.com${path}`;
 
-    // ---- Title + Description
-    this.title.setTitle(pageTitle);
-    this.meta.updateTag({ name: 'description', content: desc });
+    // ✅ Use SeoService for unified set (fixes race condition & SSR)
+    this.seoService.set({
+      title: pageTitle,
+      description: desc,
+      image: image,
+      canonical: url,
+      robots: 'index, follow',
+      jsonld: {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "mainEntityOfPage": { "@type": "WebPage", "@id": url },
+        "headline": blog?.title || pageTitle,
+        "description": desc,
+        "image": image ? [image] : undefined,
+        "author": { "@type": "Organization", "name": siteName },
+        "publisher": {
+          "@type": "Organization",
+          "name": siteName,
+          "logo": { "@type": "ImageObject", "url": "https://almotammem.com/images/Icon.webp" }
+        },
+        "datePublished": blog?.createdAt,
+        "dateModified": blog?.updatedAt || blog?.createdAt
+      }
+    });
 
-    // ---- Robots (اختياري)
-    this.meta.updateTag({ name: 'robots', content: 'index, follow' });
-
-    // ---- OpenGraph
-    this.meta.updateTag({ property: 'og:type', content: 'article' });
-    this.meta.updateTag({ property: 'og:site_name', content: siteName });
-    this.meta.updateTag({ property: 'og:title', content: pageTitle });
-    this.meta.updateTag({ property: 'og:description', content: desc });
-    this.meta.updateTag({ property: 'og:url', content: url });
-    this.meta.updateTag({ property: 'og:image', content: image });
-
-    // ---- Twitter
-    this.meta.updateTag({ name: 'twitter:url', content: url });
-    this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
-    this.meta.updateTag({ name: 'twitter:title', content: pageTitle });
-    this.meta.updateTag({ name: 'twitter:description', content: desc });
-    this.meta.updateTag({ name: 'twitter:image', content: image });
     if (blog?.createdAt) this.meta.updateTag({ property: 'article:published_time', content: blog.createdAt });
     if (blog?.updatedAt) this.meta.updateTag({ property: 'article:modified_time', content: blog.updatedAt });
-
-    this.seoLinks.setCanonical(url);
-
   }
 
   ngAfterViewInit(): void {
@@ -341,7 +312,8 @@ export class BlogVeiwComponent {
       case 'header': {
         const level = Number(block?.data?.level) || 2;
         const text = block?.data?.text ?? '';
-        const tag = `h${Math.min(Math.max(level, 1), 6)}`;
+        // ✅ Heading Safety: Body headings must start from H2
+        const tag = `h${Math.min(Math.max(level, 2), 6)}`;
         return `<${tag}>${text}</${tag}>`;
       }
 

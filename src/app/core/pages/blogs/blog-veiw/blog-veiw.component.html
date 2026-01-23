@@ -69,7 +69,8 @@
 
             <div
                 class="w-full h-48 md:h-60 lg:h-64 rounded-3xl bg-[#E5E7EB] flex items-center justify-center mb-8 md:mb-10 overflow-hidden">
-                <img src="{{blog.mainImage}}" alt="{{blog.title}}" class="w-full h-full object-cover">
+                <img src="{{blog.mainImage}}" alt="{{blog.title}}" loading="eager" fetchpriority="high"
+                    class="w-full h-full object-cover">
             </div>
 
             <article

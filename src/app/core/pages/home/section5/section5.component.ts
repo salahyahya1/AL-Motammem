@@ -453,7 +453,7 @@ export class Section5Component {
   }
 
   get videoUrl() {
-    return 'https://www.youtube.com/embed/inlofWRsKxU?autoplay=1&controls=1';
+    return 'https://www.youtube.com/embed/N-o9jYbBdyM?si=x11IbITJyoYWMZIl';
   }
 
   ngOnDestroy() {

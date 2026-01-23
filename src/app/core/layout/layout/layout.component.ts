@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet, Scroll } from "@angular/router";
-import { filter, delay } from 'rxjs';
+import { filter, delay, auditTime } from 'rxjs';
 
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { FooterComponent } from "../../components/footer/footer.component";
@@ -38,6 +38,7 @@ export class LayoutComponent {
   }
 
   ngAfterViewInit(): void {
+    this.sections$ = this.sectionsRegistry.sections$.pipe(auditTime(0));
     this.sections$ = this.sectionsRegistry.sections$;
     if (!this.isBrowser) return;
 

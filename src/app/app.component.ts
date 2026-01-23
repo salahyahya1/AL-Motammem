@@ -40,9 +40,7 @@ export class AppComponent {
       )
       .subscribe((seoData: any) => {
         // ✅ canonical auto (حتى لو مش متحدد)
-        const path = isPlatformBrowser(this.pid)
-          ? this.router.url.split('?')[0]
-          : '/';
+        const path = this.router.url.split('?')[0].split('#')[0];
 
         const canonical = seoData.canonical ?? `${this.siteOrigin}${path}`;
 

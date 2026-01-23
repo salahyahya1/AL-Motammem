@@ -8,7 +8,7 @@ const OUT_INDEX = `${OUT_DIR}/sitemap.xml`;
 const OUT_STATIC = `${OUT_DIR}/sitemap-static.xml`;
 const OUT_BLOGS = `${OUT_DIR}/sitemap-blogs.xml`;
 
-const BLOG_VIEW_PREFIX = `${SITE}/blogs/BlogVeiw/`;
+const BLOG_VIEW_PREFIX = `${SITE}/blogs/blog/`;
 
 const staticUrls = [
     { loc: `${SITE}/`, changefreq: "weekly", priority: "1.0" },

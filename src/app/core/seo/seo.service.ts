@@ -51,13 +51,13 @@ export class SeoService {
             this.meta.updateTag({ name: 'robots', content: 'index, follow' });
         }
 
-        // ✅ Canonical (في البراوزر فقط)
-        if (cfg.canonical && isPlatformBrowser(this.pid)) {
+        // ✅ Canonical
+        if (cfg.canonical) {
             this.setCanonical(cfg.canonical);
         }
 
         // ✅ JSON-LD
-        if (cfg.jsonld && isPlatformBrowser(this.pid)) {
+        if (cfg.jsonld) {
             this.setJsonLd(cfg.jsonld);
         }
     }

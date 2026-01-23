@@ -3,6 +3,7 @@ import { ComingSoonComponent } from './core/shared/coming-soon/coming-soon.compo
 import { BlogVeiwComponent } from './core/pages/blogs/blog-veiw/blog-veiw.component';
 import { CreateBlogComponent } from './core/pages/blogs/create-blog/create-blog.component';
 import { EditBlogComponent } from './core/pages/blogs/edit-blog/edit-blog.component';
+import { blogResolver } from './core/services/blog.resolver';
 
 export const routes: Routes = [
     {
@@ -96,15 +97,15 @@ export const routes: Routes = [
                         }
                     },
                     {
-                        path: 'BlogVeiw/:url',
+                        path: 'blog/:url',
                         loadComponent: () => import('./core/pages/blogs/blog-veiw/blog-veiw.component')
                             .then(m => m.BlogVeiwComponent),
                         title: `مدونه`,
+                        resolve: { blog: blogResolver },
                         data: {
                             seo: {
-                                description: 'مدونه',
-                                image: 'https://www.almotammem.com/images/Icon.webp',
-                                canonical: 'https://www.almotammem.com/blogs/BlogVeiw/:url'
+                                image: 'https://almotammem.com/images/Icon.webp',
+                                canonical: 'https://almotammem.com/blogs/blog/:url'
                             }
                         }
                     },

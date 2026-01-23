@@ -310,7 +310,7 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
         }
         if (id === 'show edited blog') {
             this.dialogOpen = false;
-            this.router.navigate(['/blogs/BlogVeiw', this.blogsService.spacesToHyphen(this.blogForm.value.englishUrl ?? '')]);
+            this.router.navigate(['/blogs/blog', this.blogsService.spacesToHyphen(this.blogForm.value.englishUrl ?? '')]);
         }
         if (id === 'retry') {
             this.dialogOpen = false;

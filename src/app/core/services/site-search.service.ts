@@ -192,8 +192,8 @@ export class SiteSearchService {
                     id: `blog-${b.id}`,
                     lang,
                     title: b.title,
-                    // Use 'url' as slug. Route: /blogs/BlogVeiw/:url
-                    route: `/blogs/BlogVeiw/${b.url}`,
+                    // Use 'url' as slug. Route: /blogs/blog/:url
+                    route: `/blogs/blog/${b.url}`,
                     text: `${b.title} ${b.metaDescription || ''} ${b.category || ''}`,
                     source: 'blog'
                 }));
