@@ -213,6 +213,7 @@ export class BlogVeiwComponent {
       description: desc,
       image: image,
       canonical: url,
+      type: 'article',
       robots: 'index, follow',
       jsonld: {
         "@context": "https://schema.org",
@@ -234,6 +235,67 @@ export class BlogVeiwComponent {
 
     if (blog?.createdAt) this.meta.updateTag({ property: 'article:published_time', content: blog.createdAt });
     if (blog?.updatedAt) this.meta.updateTag({ property: 'article:modified_time', content: blog.updatedAt });
+
+    // =========================================================
+    // ✅ FAQ Schema (only if FAQs exist)
+    // =========================================================
+    const faqs = Array.isArray(blog?.faqs) ? blog.faqs : [];
+
+    const faqEntities = faqs
+      .map((f: any) => {
+        const q = (this.isRtl ? f?.question : f?.englishQuestion) || '';
+        const a = (this.isRtl ? f?.answer : f?.englishAnswer) || '';
+        if (!q || !a) return null;
+
+        return {
+          "@type": "Question",
+          "name": q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": a
+          }
+        };
+      })
+      .filter(Boolean);
+
+    if (faqEntities.length) {
+      this.schemaService.setJsonLd('blog-faq-schema', {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": faqEntities
+      });
+    } else {
+      this.schemaService.removeJsonLd?.('blog-faq-schema'); // هنضيفها تحت
+    }
+
+    // =========================================================
+    // ✅ Breadcrumb Schema
+    // =========================================================
+    this.schemaService.setJsonLd('blog-breadcrumb-schema', {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://almotammem.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blogs",
+          "item": "https://almotammem.com/blogs"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": pageTitle,
+          "item": url
+        }
+      ]
+    });
+
   }
 
   ngAfterViewInit(): void {

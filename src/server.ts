@@ -15,6 +15,11 @@ const app = express();
 const commonEngine = new CommonEngine();
 
 app.use(compression());
+// ✅ Legacy Redirects (301) - لازم قبل static و SSR
+app.get(/^\/blogs\/BlogVeiw\/(.+)$/i, (req, res) => {
+  const slug = req.params[0];
+  res.redirect(301, `/blogs/blog/${slug}`);
+});
 
 app.use(
   express.static(browserDistFolder, {
@@ -24,6 +29,11 @@ app.use(
       else if (/\.css$/i.test(filePath)) res.type('text/css');
       else if (/\.json$/i.test(filePath)) res.type('application/json');
       else if (/\.html$/i.test(filePath)) res.type('text/html');
+      else if (/\.xml$/i.test(filePath)) res.type('application/xml');
+      else if (/\.txt$/i.test(filePath)) res.type('text/plain');
+      if (filePath.endsWith('.xml') || filePath.endsWith('.txt')) {
+        res.setHeader('Cache-Control', 'no-cache, must-revalidate');
+      }
 
       // تفعيل الكاش القوي للملفات الثابتة
       if (/\.(?:js|css|mjs|map|webp|avif|png|jpg|jpeg|svg|gif|ico|woff2|woff|ttf)$/i.test(filePath)) {
@@ -49,8 +59,9 @@ app.use(
 //   })
 // );
 
+
 // ✅ 2. تأكد أن أي طلب للـ JS/CSS يتعامل كسيرفر ستاتيك مش SSR
-app.get(/\.(js|mjs|css|ico|png|jpg|jpeg|webp|svg|gif|woff2|woff|ttf)$/i, (req, res, next) => {
+app.get(/\.(js|mjs|css|ico|png|jpg|jpeg|webp|svg|gif|woff2|woff|ttf|xml|txt)$/i, (req, res, next) => {
   const filePath = join(browserDistFolder, req.path);
   res.sendFile(filePath, (err) => {
     if (err) next();

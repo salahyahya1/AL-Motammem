@@ -7,8 +7,9 @@ type SeoConfig = {
     description?: string;
     image?: string;
     canonical?: string;
-    robots?: string;     // ✅ جديد
+    robots?: string;
     jsonld?: any;
+    type?: string; // e.g., 'website', 'article'
 };
 
 @Injectable({ providedIn: 'root' })
@@ -24,8 +25,6 @@ export class SeoService {
         // ✅ Title
         if (cfg.title) {
             this.title.setTitle(cfg.title);
-
-            // OG / Twitter title
             this.meta.updateTag({ property: 'og:title', content: cfg.title });
             this.meta.updateTag({ name: 'twitter:title', content: cfg.title });
         }
@@ -43,17 +42,18 @@ export class SeoService {
             this.meta.updateTag({ name: 'twitter:image', content: cfg.image });
         }
 
-        // ✅ Robots (noindex / nofollow)
-        if (cfg.robots) {
-            this.meta.updateTag({ name: 'robots', content: cfg.robots });
-        } else {
-            // افتراضي: index, follow (اختياري)
-            this.meta.updateTag({ name: 'robots', content: 'index, follow' });
-        }
+        // ✅ Type
+        const pageType = cfg.type || 'website';
+        this.meta.updateTag({ property: 'og:type', content: pageType });
 
-        // ✅ Canonical
+        // ✅ Robots
+        this.meta.updateTag({ name: 'robots', content: cfg.robots || 'index, follow' });
+
+        // ✅ Canonical + OG/Twitter URL
         if (cfg.canonical) {
             this.setCanonical(cfg.canonical);
+            this.meta.updateTag({ property: 'og:url', content: cfg.canonical });
+            this.meta.updateTag({ name: 'twitter:url', content: cfg.canonical });
         }
 
         // ✅ JSON-LD

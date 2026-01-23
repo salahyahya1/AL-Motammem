@@ -105,7 +105,7 @@ export const routes: Routes = [
                         data: {
                             seo: {
                                 image: 'https://almotammem.com/images/Icon.webp',
-                                canonical: 'https://almotammem.com/blogs/blog/:url'
+                                // canonical: 'https://almotammem.com/blogs/blog/:url'
                             }
                         }
                     },

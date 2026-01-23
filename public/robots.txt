@@ -9,4 +9,4 @@ Disallow: /blogs/EditBlog/
 Disallow: /blogs/CreateBlog/
 
 
-Sitemap: https://www.almotammem.com/sitemap.xml
+Sitemap: https://almotammem.com/sitemap.xml

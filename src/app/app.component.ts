@@ -53,6 +53,7 @@ export class AppComponent {
           description: seoData.description,
           image: seoData.image,
           canonical,
+          type: seoData.type ?? 'website',
           jsonld: seoData.jsonld,
           robots: seoData.robots ?? 'index, follow'
         });
