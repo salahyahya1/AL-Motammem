@@ -299,6 +299,9 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
             end: '+=4000 bottom',
             scrub: true,
             pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onLeave: () => { if (mobile) tl.progress(1); },
           }
         });
         this.AboutSection3Timeline = tl;
@@ -314,13 +317,13 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
             yPercent: -250, opacity: 0, duration: finalTextScrollDuration
           }, '>+0.8');
 
-        tl.fromTo('.scroll-bg-section1-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
+        tl.fromTo('.scroll-bg-section1-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>')
           .fromTo('.scroll-bg-section-text1-m', { yPercent: 50 }, { yPercent: -130 }, '<')
           .fromTo('.scroll-bg-section-text1-m', { yPercent: -130, opacity: 1 }, {
             yPercent: -250, opacity: 0, duration: finalTextScrollDuration
           }, '>+0.8');
 
-        tl.fromTo('.scroll-bg-section2-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>-0.67')
+        tl.fromTo('.scroll-bg-section2-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>')
           .fromTo('.scroll-bg-section-text2-m', { yPercent: 50 }, { yPercent: -130 }, '<')
           .fromTo('.scroll-bg-section-text2-m', { yPercent: -130, opacity: 1 }, {
             yPercent: -250, opacity: 0, duration: finalTextScrollDuration

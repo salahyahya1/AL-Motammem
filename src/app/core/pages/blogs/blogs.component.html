@@ -20,7 +20,7 @@
             </div>
         </div>
         @if (isAuthenticated && hasrole) {
-        <div id="Addbutton" class="w-full flex justify-center items-center">
+        <div id="Addbutton" class="w-full flex justify-center items-center pb-5 md:pb-0">
             <a [routerLink]="['CreateBlog']" class="inline-flex items-center justify-center px-6 py-2 pt-3 rounded-full
                      bg-sky-600 text-white text-sm font-semibold shadow-sm
                      hover:bg-sky-500 transition cursor-pointer">
@@ -65,7 +65,7 @@
                                         <div
                                             class="w-[95%] mx-auto md:w-full h-44 md:h-52 lg:h-56 rounded-3xl bg-[#FFFFFF] overflow-hidden">
                                             <img *ngIf="article.mainImage" [src]="article.mainImage"
-                                                alt="{{ article.altText }}" class="w-full h-full object-cover" />
+                                                [alt]="article.altText" class="w-full h-full object-cover" />
                                         </div>
 
                                     </div>

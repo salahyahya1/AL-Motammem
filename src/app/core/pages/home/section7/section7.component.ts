@@ -278,7 +278,7 @@ export class Section7Component {
                 invalidateOnRefresh: true,
                 markers: false,
                 onLeave: () => { if (isMobile) tl.progress(1); },
-                onLeaveBack: () => { if (isMobile) tl.progress(0); },
+                // onLeaveBack: () => { if (isMobile) tl.progress(0); },
               },
             });
             ScrollTrigger.refresh();

@@ -130,7 +130,7 @@ export class AboutSection4Component {
               pinType: 'transform',
               id: 'pinsection',
               anticipatePin: 1,
-              onLeave: () => { if (mobile) tl.progress(0.5); },
+              onLeave: () => { if (mobile) tl.progress(1); },
               // onEnterBack: () => { if (mobile) tl.progress(0); },
             });
 

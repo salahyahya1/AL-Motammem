@@ -1,3 +1,4 @@
+<div *ngIf="menuOpen && isMobile" class="fixed inset-0 z-40 bg-black/30" (click)="closeMenu()"></div>
 <header #navbar class="navbar fixed top-0 left-0 right-0 w-full z-50">
     <div
         class=" mx-auto flex flex-col-reverse justify-center md:gap-x-2 lg:gap-x-4 items-center md:flex-row ltr:md:flex-row-reverse md:items-center md:justify-between md:py-0 min-[800px]:px-2 min-[1100px]:px-4">
@@ -102,26 +103,32 @@
             </div>
             <div
                 class="contents md:relative md:flex md:space-x-4 flex-col gap-y-2 md:pt-0 md:gap-y-0 justify-center items-center md:flex-row md:justify-start md:items-center flex-wrap">
-                <a [routerLink]="['']" routerLinkActive="nav-active" [routerLinkActiveOptions]="{ exact: true }"
-                    class="hover:text-primary whitespace-nowrap">{{
+                <a [routerLink]="['']" (click)="closeMenuOnMobile()" routerLinkActive="nav-active"
+                    [routerLinkActiveOptions]="{ exact: true }" class="hover:text-primary whitespace-nowrap">{{
                     'NAVBAR.MAIN' | translate }} </a>
-                <a routerLink="/about" routerLinkActive="nav-active" class="hover:text-primary whitespace-nowrap">{{
+                <a routerLink="/about" (click)="closeMenuOnMobile()" routerLinkActive="nav-active"
+                    class="hover:text-primary whitespace-nowrap">{{
                     'NAVBAR.ABOUT-US' | translate }}
                 </a>
-                <a routerLink="/solutions" routerLinkActive="nav-active" class="hover:text-primary whitespace-nowrap">{{
+                <a routerLink="/solutions" (click)="closeMenuOnMobile()" routerLinkActive="nav-active"
+                    class="hover:text-primary whitespace-nowrap">{{
                     'NAVBAR.SOLUTIONS' |
                     translate }}
                 </a>
-                <a routerLink="/products" routerLinkActive="nav-active" class="hover:text-primary whitespace-nowrap">{{
+                <a routerLink="/products" (click)="closeMenuOnMobile()" routerLinkActive="nav-active"
+                    class="hover:text-primary whitespace-nowrap">{{
                     'NAVBAR.PRODUCTS' | translate
                     }}</a>
-                <a routerLink="/blogs" routerLinkActive="nav-active" class="hover:text-primary whitespace-nowrap">{{
+                <a routerLink="/blogs" (click)="closeMenuOnMobile()" routerLinkActive="nav-active"
+                    class="hover:text-primary whitespace-nowrap">{{
                     'NAVBAR.kNOWLEDGE' | translate
                     }}</a>
-                <a routerLink="/FAQS" routerLinkActive="nav-active" class="hover:text-primary whitespace-nowrap">{{
+                <a routerLink="/FAQS" (click)="closeMenuOnMobile()" routerLinkActive="nav-active"
+                    class="hover:text-primary whitespace-nowrap">{{
                     'NAVBAR.SUPPORT' | translate
                     }}</a>
-                <a routerLink="/ContactUs" routerLinkActive="nav-active" class="hover:text-primary whitespace-nowrap">{{
+                <a routerLink="/ContactUs" (click)="closeMenuOnMobile()" routerLinkActive="nav-active"
+                    class="hover:text-primary whitespace-nowrap">{{
                     'NAVBAR.CONTACT' | translate
                     }}</a>
                 <!-- Language Dropdown -->

@@ -294,9 +294,9 @@ export class Section5Component {
                       if (this.flipTimer) clearTimeout(this.flipTimer);
                     }
                   },
-                  onLeaveBack: () => {
-                    if (mobile) tl.totalProgress(0, false);
-                  },
+                  // onLeaveBack: () => {
+                  //   if (mobile) tl.totalProgress(0, false);
+                  // },
                 }
               });
               ScrollTrigger.refresh();

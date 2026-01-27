@@ -4,6 +4,8 @@ import {
   PLATFORM_ID,
   NgZone,
   ChangeDetectorRef,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import gsap from 'gsap';
@@ -25,7 +27,7 @@ export class ContactUsComponent {
   private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
   visibility$ = this.visibilitySubject.asObservable();
   visibilityState: 'visible' | 'invisible' = 'visible';
-
+  @ViewChild('bgVideo') bgVideo!: ElementRef<HTMLVideoElement>;
   menuOpen = false;
   isBrowser: boolean;
 
@@ -45,6 +47,17 @@ export class ContactUsComponent {
     if (!this.isBrowser) return;
 
 
+    const v = this.bgVideo?.nativeElement;
+    if (!v) return;
+
+    v.muted = true;          // مهم
+    v.playsInline = true;    // مهم للموبايل
+    v.autoplay = true;
+
+    v.load();
+    v.play().catch(() => {
+      // لو اتمنع autoplay على جهاز معين
+    });
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.ctx6 = gsap.context(() => {
@@ -55,6 +68,7 @@ export class ContactUsComponent {
           //     this.cdr.detectChanges();
           //   });
           // });
+
         });
         window.addEventListener('resize', this.onResize);
         ScrollTrigger.refresh();

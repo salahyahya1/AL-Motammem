@@ -30,6 +30,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
   currentLang: 'ar' | 'en' = 'ar';
 
+  isMobile = false;
 
   // Search related
   searchControl = new FormControl('');
@@ -121,13 +122,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
   }
-
+  private onBp!: () => void;
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
     const nav = this.navbar?.nativeElement;
     if (!nav) return;
 
-    gsap.set(nav, { yPercent: -100, opacity: 0 });
+    gsap.set(nav, { yPercent: -31, opacity: 0 });
     gsap.to(nav, {
       yPercent: 0,
       opacity: 1,
@@ -200,12 +201,26 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.navbar?.nativeElement && (this.navbar.nativeElement.style.backgroundColor = snap.bg);
     }
 
+    this.mq = window.matchMedia('(min-width: 768px)');
+
+    this.onBp = () => {
+      this.isMobile = !this.mq!.matches;
+      this.applyThemeForViewport();
+      this.resetMenuForBreakpoint();
+    };
+
+    this.mq.addEventListener('change', this.onBp);
+
+    // نفّذ مرة أول ما الصفحة تفتح
+    this.onBp();
 
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.mq?.removeEventListener('change', this.onBp as any);
+
   }
 
   // toggleMenu() {
@@ -228,14 +243,14 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   toggleMenu() {
     const el = this.navbarMenu?.nativeElement;
     if (!el) return;
-
+    if (window.matchMedia('(min-width: 768px)').matches) return;
     // ✅ toggle الأول (كان ناقص)
     this.menuOpen = !this.menuOpen;
 
     // SSR
     if (!this.isBrowser) {
       el.style.display = this.menuOpen ? 'flex' : 'none';
-      el.style.transform = `translateY(${this.menuOpen ? '101%' : '-101%'})`;
+      el.style.transform = `translateY(${this.menuOpen ? '31%' : '-31%'})`;
       el.style.opacity = this.menuOpen ? '1' : '0';
       return;
     }
@@ -247,7 +262,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // ✅ 3) افتح بسلاسة
       gsap.to(el, {
-        yPercent: 101,
+        yPercent: 31,
         opacity: 1,
         duration: 0.45,
         ease: 'power2.out',
@@ -256,12 +271,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     else {
       gsap.to(el, {
-        yPercent: -101,
+        yPercent: -31,
         opacity: 0,
         duration: 0.35,
         ease: 'power2.in',
         overwrite: 'auto',
         onComplete: () => {
+          // gsap.set(".navbar", { yPercent: -31, color: "transparent", duration: 0.2 });
           el.style.display = 'none';
         },
       })
@@ -366,5 +382,50 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isLangOpen = false;
     }
   }
+  private mq?: MediaQueryList;
 
+  private applyThemeForViewport() {
+    const nav = this.navbar?.nativeElement;
+    if (!nav) return;
+
+    const snap = this.theme.getSnapshot();
+    if (!snap) return;
+
+    nav.style.color = snap.text;
+    nav.style.backgroundColor = snap.bg;
+
+    // مهم: طبّقي على التلاتة دايمًا عشان مايبقاش في ستايل stale بعد resize
+    const menuEl = this.navbarMenu?.nativeElement;
+    const topEl = this.navSmallScreen?.nativeElement;
+    if (menuEl) menuEl.style.backgroundColor = snap.bg;
+    if (topEl) topEl.style.backgroundColor = snap.bg;
+  }
+
+  private resetMenuForBreakpoint() {
+    const el = this.navbarMenu?.nativeElement;
+    if (!el || !this.mq) return;
+
+    if (this.mq.matches) {
+      // Desktop (>=768px): لازم المنيو تبقى ظاهرة ومش متحوّلة
+      this.menuOpen = false;
+      el.style.display = 'flex';
+      gsap.set(el, { clearProps: 'transform,opacity' });
+    } else {
+      // Mobile: ارجعي لحالة menuOpen الحالية
+      if (!this.menuOpen) {
+        el.style.display = 'none';
+        gsap.set(el, { yPercent: -31, opacity: 0 });
+      } else {
+        el.style.display = 'flex';
+        gsap.set(el, { yPercent: 31, opacity: 1 });
+      }
+    }
+  }
+  closeMenuOnMobile() {
+    if (this.mq?.matches) return; // desktop
+    this.closeMenu();
+  }
+  closeMenu() {
+    this.toggleMenu();
+  }
 }

@@ -113,7 +113,7 @@ export class AboutSection5Component {
             gsap.to(image, { opacity: "1", duration: 0.2, ease: "sine.out" });
           },
           onLeave: () => { if (mobile) tl.progress(1); },
-          onLeaveBack: () => { if (mobile) tl.progress(0); },
+          // onLeaveBack: () => { if (mobile) tl.progress(0); },
         });
 
         this.timeline = tl;

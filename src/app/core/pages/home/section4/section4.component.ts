@@ -236,7 +236,7 @@ export class Section4Component {
                 invalidateOnRefresh: true,
                 // markers: true,
                 onLeave: () => tl.progress(1),
-                onLeaveBack: () => tl.progress(0),
+                // onLeaveBack: () => tl.progress(0),
               });
 
               ScrollTrigger.refresh();

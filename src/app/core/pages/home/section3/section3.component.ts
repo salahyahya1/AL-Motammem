@@ -406,7 +406,7 @@ export class Section3Component {
 
               // ✅ لو اليوزر ساب بسرعة على الموبايل: خلص الانميشن فورًا
               onLeave: () => { if (isMobileNow) tl.progress(1); },
-              onLeaveBack: () => { if (isMobileNow) tl.progress(0); },
+              // onLeaveBack: () => { if (isMobileNow) tl.progress(0); },
             }
           });
           let triggered = false;

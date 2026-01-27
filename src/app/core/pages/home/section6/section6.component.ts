@@ -183,7 +183,7 @@ export class Section6Component {
               pinSpacing: mobile ? false : true,
               invalidateOnRefresh: true,
               onLeave: () => { if (mobile) tl.progress(1); },
-              onLeaveBack: () => { if (mobile) tl.progress(0); },
+              // onLeaveBack: () => { if (mobile) tl.progress(0); },
             }
           });
           ScrollTrigger.refresh();

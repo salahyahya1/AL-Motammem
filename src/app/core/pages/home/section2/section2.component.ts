@@ -335,7 +335,7 @@ export class Section2Component implements AfterViewInit {
                   end: isMobile ? 'bottom 25%' : '+=400',
                   // ✅ لو اليوزر ساب السكشن بسرعة على الموبايل: خلّص الأنيميشين فورًا
                   onLeave: () => { if (isMobile) tl.progress(1); },
-                  onLeaveBack: () => { if (isMobile) tl.progress(0); },
+                  // onLeaveBack: () => { if (isMobile) tl.progress(0); },
                 },
               });
 

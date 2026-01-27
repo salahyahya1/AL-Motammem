@@ -124,7 +124,7 @@ export class AboutSection2Component {
             }
           },
           onLeave: () => { if (mobile) tl.progress(1); },
-          onLeaveBack: () => { if (mobile) tl.progress(0); },
+          // onLeaveBack: () => { if (mobile) tl.progress(0); },
         });
 
         this.timeline = tl;

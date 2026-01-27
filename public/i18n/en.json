@@ -660,7 +660,7 @@
   "CONTACT": {
     "INTRO": "Tell us what you need, and one of our experts will get in touch with you within 24 hours.",
     "CTA": "Contact Us",
-    "ADDRESS_COMPANY_NAME": "Microtech Company : ",
+    "ADDRESS_COMPANY_NAME": "Microtech : ",
     "WHATSAPP": "Connect via WhatsApp",
     "ADDRESS_COMPANY": "3 Mosaddeq Street, Dokki, Giza, 12311, Cairo, Egypt",
     "FORM": {
@@ -687,7 +687,7 @@
     "LOADING": "Loading FAQs..."
   },
   "FOOTER": {
-    "COMPANY_NAME": " Microtech Company:",
+    "COMPANY_NAME": " Microtech:",
     "CONTACT_TITLE": "Contact us",
     "ADDRESS": "3 Mosaddeq Street, Dokki, 11321, Giza, Egypt",
     "QUICK_LINKS_TITLE": "Quick links",

@@ -258,9 +258,9 @@ export class Section8Component {
         onLeave: () => {
           if (isMobile) tl.progress(1);
         },
-        onLeaveBack: () => {
-          if (isMobile) tl.progress(0);
-        },
+        // onLeaveBack: () => {
+        //   if (isMobile) tl.progress(0);
+        // },
 
         // markers: true,
       },
