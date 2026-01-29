@@ -206,7 +206,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onBp = () => {
       this.isMobile = !this.mq!.matches;
       // this.applyThemeForViewport();
-      // this.resetMenuForBreakpoint();
+      this.resetMenuForBreakpoint();
     };
 
     this.mq.addEventListener('change', this.onBp);
@@ -401,26 +401,26 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   //   if (topEl) topEl.style.backgroundColor = snap.bg;
   // }
 
-  // private resetMenuForBreakpoint() {
-  //   const el = this.navbarMenu?.nativeElement;
-  //   if (!el || !this.mq) return;
+  private resetMenuForBreakpoint() {
+    const el = this.navbarMenu?.nativeElement;
+    if (!el || !this.mq) return;
 
-  //   if (this.mq.matches) {
-  //     // Desktop (>=768px): لازم المنيو تبقى ظاهرة ومش متحوّلة
-  //     this.menuOpen = false;
-  //     el.style.display = 'flex';
-  //     gsap.set(el, { clearProps: 'transform,opacity' });
-  //   } else {
-  //     // Mobile: ارجعي لحالة menuOpen الحالية
-  //     if (!this.menuOpen) {
-  //       el.style.display = 'none';
-  //       gsap.set(el, { yPercent: -31, opacity: 0 });
-  //     } else {
-  //       el.style.display = 'flex';
-  //       gsap.set(el, { yPercent: 31, opacity: 1 });
-  //     }
-  //   }
-  // }
+    if (this.mq.matches) {
+      // Desktop (>=768px): لازم المنيو تبقى ظاهرة ومش متحوّلة
+      this.menuOpen = false;
+      el.style.display = 'flex';
+      gsap.set(el, { clearProps: 'transform,opacity' });
+    } else {
+      // Mobile: ارجعي لحالة menuOpen الحالية
+      if (!this.menuOpen) {
+        el.style.display = 'none';
+        gsap.set(el, { yPercent: -31, opacity: 0 });
+      } else {
+        el.style.display = 'flex';
+        gsap.set(el, { yPercent: 31, opacity: 1 });
+      }
+    }
+  }
   closeMenuOnMobile() {
     if (this.mq?.matches) return; // desktop
     this.closeMenu();
