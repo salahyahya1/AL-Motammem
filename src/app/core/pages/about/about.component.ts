@@ -1,4 +1,3 @@
-
 import {
   Component,
   Inject,
@@ -9,6 +8,7 @@ import {
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import ScrollSmoother from 'gsap/ScrollSmoother';
 import { BehaviorSubject } from 'rxjs';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { SectionsRegistryService } from "../../shared/services/sections-registry.service";
@@ -20,7 +20,8 @@ import { AboutSection3Component } from "./about-section3/about-section3.componen
 import { AboutSection4Component } from "./about-section4/about-section4.component";
 import { AboutSection5Component } from "./about-section5/about-section5.component";
 import { SeoLinkService } from '../../services/seo-link.service';
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
 
 @Component({
   selector: 'app-about',
@@ -29,15 +30,21 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
   styleUrl: './about.component.scss'
 })
 export class AboutComponent {
-
   private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
   visibility$ = this.visibilitySubject.asObservable();
   visibilityState: 'visible' | 'invisible' = 'visible';
 
-
-
   menuOpen = false;
   isBrowser: boolean;
+  isMobile!: boolean;
+
+  private ctx?: gsap.Context;
+
+  // Snap properties
+  private snapObserver?: any;
+  private snapPositions: number[] = [];
+  private smoother: any;
+  private smootherST: any;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -49,53 +56,177 @@ export class AboutComponent {
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
-  private ctx3?: gsap.Context;
-  private onResizeRefresh = () => ScrollTrigger.refresh();
-  private onResizeCD = () => {
-    this.ngZone.run(() => this.cdr.detectChanges());
-  };
-  //ظبط التاجات لل seo
-  //   ngOnInit() {
-  //   const siteName = 'Al-Motammem';
-  //   const pageTitle = "Al-Motammem ERP | نظام المتمم لإدارة المؤسسات";
-  //   const desc = "نظام ERP متكامل لتطوير الشركات منذ 40 عامًا - المتمم.";
-  //   const image = 'https://www.almotammem.com/images/Icon.webp';
 
-  //   const url =
-  //     (typeof window !== 'undefined' && window.location?.href)
-  //       ? window.location.href
-  //       : `https://almotammem.com/`;
-  //   this.seoLinks.setSocialMeta({ title: pageTitle, desc, image, url, type: 'website' });
-  //   this.seoLinks.setCanonical(url);
-  // }
+  ngOnInit() {
+    if (!this.isBrowser) return;
+    this.isMobile = window.matchMedia('(max-width: 767px)').matches;
+  }
+
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
 
-    this.ngZone.runOutsideAngular(() => {
-      setTimeout(() => {
-        this.ctx3 = gsap.context(() => {
-          this.observeSections();
-          window.addEventListener('resize', this.onResizeCD);
-          window.addEventListener('resize', this.onResizeRefresh);
+    // Mobile: just observe sections for navbar colors
+    if (this.isMobile) {
+      setTimeout(() => this.observeSectionsMobile(), 750);
+      return;
+    }
 
-          ScrollTrigger.refresh();
+    // Desktop: wait for smoother and set up
+    this.ngZone.runOutsideAngular(() => {
+      this.waitForSmoother((smoother) => {
+        this.smoother = smoother;
+        this.smootherST = smoother.scrollTrigger;
+        this.ctx = gsap.context(() => {
+          this.initDesktop(smoother);
         });
-      }, 150);
+      });
     });
   }
-  private observeSections() {
+
+  private waitForSmoother(cb: (s: any) => void) {
+    const start = performance.now();
+    const tick = () => {
+      const s = ScrollSmoother.get() as any;
+      if (s) return cb(s);
+      if (performance.now() - start < 3000) requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
+  private initDesktop(smoother: any) {
+    const scroller = smoother.wrapper();
+
+    // Navbar colors triggers
+    this.observeSections(scroller);
+
+    // Resize handler
+    window.addEventListener('resize', this.onResize);
+
+    // Build snap positions and setup observer after everything is ready
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+      this.buildSnapPositions(smoother);
+      this.initSnapObserver(smoother);
+    }, 600);
+  }
+
+  private buildSnapPositions(smoother: any) {
+    const scroller = smoother.wrapper();
+    const panels = gsap.utils.toArray<HTMLElement>('.panel');
+
+    this.snapPositions = [];
+
+    panels.forEach((panel, index) => {
+      const st = ScrollTrigger.create({
+        trigger: panel,
+        scroller,
+        start: "top top",
+        refreshPriority: -1,
+      });
+
+      // Add section START position
+      this.snapPositions.push(st.start);
+
+      // For Section 3 (index 2) which is very long, also add the END
+      // This allows snapping to the end of Section 3 (start of Section 4)
+      if (index === 2) {
+        this.snapPositions.push(st.end);
+      }
+
+      console.log(`📌 Section ${index}: start=${st.start.toFixed(0)}, end=${st.end.toFixed(0)}`);
+
+      st.kill();
+    });
+
+    // Sort and remove duplicates
+    this.snapPositions = Array.from(new Set(this.snapPositions)).sort((a, b) => a - b);
+    console.log('✅ Final snap positions:', this.snapPositions.map(p => p.toFixed(0)));
+  }
+
+  private initSnapObserver(smoother: any) {
+    if (this.snapObserver) {
+      this.snapObserver.kill();
+    }
+
+    const scroller = smoother.wrapper();
+
+    this.snapObserver = ScrollTrigger.observe({
+      target: scroller,
+      onStop: () => {
+        this.doSnap();
+      },
+      onStopDelay: 0.4
+    });
+  }
+
+  private doSnap() {
+    if (!this.smootherST || !this.smoother) return;
+    if (this.snapPositions.length === 0) return;
+
+    const currentScroll = this.smootherST.scroll();
+
+    // Find nearest snap position
+    let nearest = this.snapPositions[0];
+    let minDistance = Math.abs(currentScroll - nearest);
+
+    for (const pos of this.snapPositions) {
+      const distance = Math.abs(currentScroll - pos);
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearest = pos;
+      }
+    }
+
+    // Section 3 is at index 2, its END is at index 3
+    const section3Start = this.snapPositions[2] || 0;
+    const section3End = this.snapPositions[3] || 0;
+    const viewportHeight = window.innerHeight;
+
+    // Only skip global snap when DEEP inside Section 3
+    // Allow snap near the start (within 1 viewport) and near the end (within 1 viewport)
+    const deepInsideSection3 =
+      currentScroll > section3Start + viewportHeight &&
+      currentScroll < section3End - viewportHeight;
+
+    if (deepInsideSection3) {
+      console.log('🚫 Deep inside Section 3, skipping global snap');
+      return;
+    }
+
+    // Only snap if we're not already at the position
+    if (minDistance > 10) {
+      // Add small offset to trigger animations inside the section
+      // Only add offset when snapping to section START (not end of Section 3)
+      const SNAP_OFFSET = 50; // pixels to scroll into section
+      let targetPosition = nearest;
+
+      // Check if this is a section START (not section3End)
+      // Section 3 End is index 3, so we don't add offset for that
+      const isSection3End = nearest === section3End;
+      if (!isSection3End && nearest > 0) {
+        targetPosition = nearest + SNAP_OFFSET;
+      }
+
+      console.log(`✅ Snapping: ${currentScroll.toFixed(0)} → ${targetPosition.toFixed(0)} (distance: ${minDistance.toFixed(0)})`);
+      this.smoother.scrollTo(targetPosition, true);
+    } else {
+      console.log(`📍 Already at snap point: ${currentScroll.toFixed(0)}`);
+    }
+  }
+
+  // Desktop Navbar Color Observer
+  private observeSections(scroller: HTMLElement) {
     const sections = gsap.utils.toArray<HTMLElement>('.panel');
 
     sections.forEach((section) => {
-      const bgColor = section.dataset['bgcolor'] || 'var(--white)';
       const textColor = section.dataset['textcolor'] || 'var(--primary)';
+      const bgColor = section.dataset['bgcolor'] || 'var(--white)';
 
       ScrollTrigger.create({
         trigger: section,
+        scroller,
         start: 'top 50%',
         end: 'bottom 50%',
-        // onEnter: () => this.updateNavbarColors(textColor),
-        // onEnterBack: () => this.updateNavbarColors(textColor),
         onEnter: () => {
           this.navTheme.setColor(textColor);
           this.navTheme.setBg(bgColor);
@@ -108,260 +239,52 @@ export class AboutComponent {
     });
   }
 
-  private updateNavbarColors(textColor: string) {
-    this.navTheme.setColor(textColor);
+  // Mobile Navbar Color Observer
+  private observeSectionsMobile() {
+    const sections = gsap.utils.toArray<HTMLElement>('.panel');
+
+    sections.forEach((section) => {
+      const textColor = section.dataset['textcolor'] || 'var(--primary)';
+      const bgColor = section.dataset['bgcolor'] || 'var(--white)';
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 10%',
+        end: 'bottom 50%',
+        onEnter: () => {
+          this.navTheme.setColor(textColor);
+          this.navTheme.setBg(bgColor);
+        },
+        onEnterBack: () => {
+          this.navTheme.setColor(textColor);
+          this.navTheme.setBg(bgColor);
+        },
+      });
+    });
   }
+
+  private onResize = () => {
+    ScrollTrigger.refresh();
+    if (this.smoother) {
+      setTimeout(() => this.buildSnapPositions(this.smoother), 100);
+    }
+    this.ngZone.run(() => {
+      this.cdr.detectChanges();
+    });
+  };
+
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
-    this.ctx3?.revert();
 
     if (this.isBrowser) {
-      window.removeEventListener('resize', this.onResizeCD);
-      window.removeEventListener('resize', this.onResizeRefresh);
+      try {
+        window.removeEventListener('resize', this.onResize);
+      } catch { }
+
+      try { this.snapObserver?.kill?.(); } catch { }
+
+      this.ctx?.revert();
     }
   }
 }
-
-// import {
-//   Component,
-//   Inject,
-//   PLATFORM_ID,
-//   NgZone,
-//   ChangeDetectorRef,
-// } from '@angular/core';
-// import { CommonModule, isPlatformBrowser } from '@angular/common';
-// import gsap from 'gsap';
-// import ScrollTrigger from 'gsap/ScrollTrigger';
-// import ScrollSmoother from 'gsap/ScrollSmoother';
-// import { BehaviorSubject } from 'rxjs';
-// import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
-// import { SectionsRegistryService } from "../../shared/services/sections-registry.service";
-// import ScrollToPlugin from 'gsap/ScrollToPlugin';
-
-// import { AboutSection1Component } from "./about-section1/about-section1.component";
-// import { AboutSection2Component } from "./about-section2/about-section2.component";
-// import { AboutSection3Component } from "./about-section3/about-section3.component";
-// import { AboutSection4Component } from "./about-section4/about-section4.component";
-// import { AboutSection5Component } from "./about-section5/about-section5.component";
-// import { SeoLinkService } from '../../services/seo-link.service';
-// gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
-
-// @Component({
-//   selector: 'app-about',
-//   imports: [AboutSection1Component, AboutSection2Component, AboutSection3Component, CommonModule, AboutSection4Component, AboutSection5Component],
-//   templateUrl: './about.component.html',
-//   styleUrl: './about.component.scss'
-// })
-// export class AboutComponent {
-
-//   private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
-//   visibility$ = this.visibilitySubject.asObservable();
-//   visibilityState: 'visible' | 'invisible' = 'visible';
-
-
-
-//   menuOpen = false;
-//   isBrowser: boolean;
-
-//   constructor(
-//     @Inject(PLATFORM_ID) private platformId: Object,
-//     private ngZone: NgZone,
-//     private cdr: ChangeDetectorRef,
-//     private navTheme: NavbarThemeService,
-//     private sectionsRegistry: SectionsRegistryService,
-//     private seoLinks: SeoLinkService
-//   ) {
-//     this.isBrowser = isPlatformBrowser(this.platformId);
-//   }
-//   private ctx3?: gsap.Context;
-//   private onResizeRefresh = () => ScrollTrigger.refresh();
-//   private onResizeCD = () => {
-//     this.ngZone.run(() => this.cdr.detectChanges());
-//   };
-
-//   // Snap scroll properties
-//   private smoother: any;
-//   private sectionsPositions: number[] = [];
-//   private snap: ((value: number, direction?: number) => number) | null = null;
-//   private snapTriggers: ScrollTrigger[] = [];
-//   private observer: any;
-//   //ظبط التاجات لل seo
-//   //   ngOnInit() {
-//   //   const siteName = 'Al-Motammem';
-//   //   const pageTitle = "Al-Motammem ERP | نظام المتمم لإدارة المؤسسات";
-//   //   const desc = "نظام ERP متكامل لتطوير الشركات منذ 40 عامًا - المتمم.";
-//   //   const image = 'https://www.almotammem.com/images/Icon.webp';
-
-//   //   const url =
-//   //     (typeof window !== 'undefined' && window.location?.href)
-//   //       ? window.location.href
-//   //       : `https://almotammem.com/`;
-//   //   this.seoLinks.setSocialMeta({ title: pageTitle, desc, image, url, type: 'website' });
-//   //   this.seoLinks.setCanonical(url);
-//   // }
-//   ngAfterViewInit(): void {
-//     if (!this.isBrowser) return;
-
-//     this.ngZone.runOutsideAngular(() => {
-//       setTimeout(() => {
-//         this.ctx3 = gsap.context(() => {
-//           this.observeSections();
-//           this.setupSnap();
-//           window.addEventListener('resize', this.onResizeCD);
-//           window.addEventListener('resize', this.onResizeRefresh);
-
-//           ScrollTrigger.refresh();
-//         });
-//       }, 150);
-//     });
-//   }
-//   private observeSections() {
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
-
-//     sections.forEach((section) => {
-//       const bgColor = section.dataset['bgcolor'] || 'var(--white)';
-//       const textColor = section.dataset['textcolor'] || 'var(--primary)';
-
-//       ScrollTrigger.create({
-//         trigger: section,
-//         start: 'top 50%',
-//         end: 'bottom 50%',
-//         // onEnter: () => this.updateNavbarColors(textColor),
-//         // onEnterBack: () => this.updateNavbarColors(textColor),
-//         onEnter: () => {
-//           this.navTheme.setColor(textColor);
-//           this.navTheme.setBg(bgColor);
-//         },
-//         onEnterBack: () => {
-//           this.navTheme.setColor(textColor);
-//           this.navTheme.setBg(bgColor);
-//         },
-//       });
-//     });
-//   }
-
-//   private updateNavbarColors(textColor: string) {
-//     this.navTheme.setColor(textColor);
-//   }
-
-//   private setupSnap(): void {
-//     // Get the ScrollSmoother instance from window
-//     this.smoother = (window as any).ScrollSmoother?.get?.();
-
-//     // If no smoother exists (mobile), don't setup snap
-//     if (!this.smoother) return;
-
-//     const smootherST = this.smoother.scrollTrigger;
-//     const sections = gsap.utils.toArray<HTMLElement>('.panel');
-
-//     // Reset arrays
-//     this.sectionsPositions = [];
-//     this.snapTriggers = [];
-
-//     // Create ScrollTrigger for overall snap area
-//     const mainTrigger = ScrollTrigger.create({
-//       start: "top top",
-//       end: "max",
-//     });
-//     this.snapTriggers.push(mainTrigger);
-
-//     // Create observer that snaps when scrolling stops
-//     this.observer = ScrollTrigger.observe({
-//       onStop: () => {
-//         if (this.snap && smootherST) {
-//           this.smoother.scrollTo(this.snap(smootherST.scroll()), true);
-//         }
-//       },
-//       onStopDelay: 0.5
-//     });
-
-//     // Collect section positions
-//     const positionsSet: number[] = [];
-//     sections.forEach((section) => {
-//       const tween = ScrollTrigger.create({
-//         trigger: section,
-//         start: "top top",
-//         refreshPriority: -1
-//       });
-//       positionsSet.push(tween.start, tween.end);
-//       this.snapTriggers.push(tween);
-//     });
-
-//     // Remove duplicates and sort
-//     this.sectionsPositions = [...new Set(positionsSet)];
-
-//     // Create snap function
-//     this.snap = this.getDirectionalSnapFunc(this.sectionsPositions);
-//   }
-
-//   private getDirectionalSnapFunc(snapIncrementOrArray: number[] | number): (value: number, direction?: number) => number {
-//     const snapFn = gsap.utils.snap(snapIncrementOrArray);
-//     const a = Array.isArray(snapIncrementOrArray)
-//       ? snapIncrementOrArray.slice(0).sort((x, y) => x - y)
-//       : null;
-
-//     return a
-//       ? (value: number, direction?: number): number => {
-//         let i: number;
-//         if (!direction) {
-//           return snapFn(value);
-//         }
-//         if (direction > 0) {
-//           value -= 1e-4; // to avoid rounding errors
-//           for (i = 0; i < a.length; i++) {
-//             if (a[i] >= value) {
-//               return a[i];
-//             }
-//           }
-//           return a[i - 1];
-//         } else {
-//           i = a.length;
-//           value += 1e-4;
-//           while (i--) {
-//             if (a[i] <= value) {
-//               return a[i];
-//             }
-//           }
-//         }
-//         return a[0];
-//       }
-//       : (value: number, direction?: number): number => {
-//         const snapped = snapFn(value);
-//         const increment = snapIncrementOrArray as number;
-//         return !direction ||
-//           Math.abs(snapped - value) < 0.001 ||
-//           (snapped - value < 0) === (direction < 0)
-//           ? snapped
-//           : snapFn(direction < 0 ? value - increment : value + increment);
-//       };
-//   }
-
-//   private cleanupSnap(): void {
-//     // Kill the observer
-//     if (this.observer) {
-//       this.observer.kill();
-//       this.observer = null;
-//     }
-
-//     // Kill all snap triggers
-//     this.snapTriggers.forEach(trigger => trigger.kill());
-//     this.snapTriggers = [];
-
-//     // Reset snap function
-//     this.snap = null;
-//     this.sectionsPositions = [];
-//   }
-
-//   ngOnDestroy(): void {
-//     this.sectionsRegistry.clear();
-//     this.sectionsRegistry.disable();
-//     this.ctx3?.revert();
-//     this.cleanupSnap();
-
-//     if (this.isBrowser) {
-//       window.removeEventListener('resize', this.onResizeCD);
-//       window.removeEventListener('resize', this.onResizeRefresh);
-//     }
-//   }
-// }
