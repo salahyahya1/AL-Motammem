@@ -331,31 +331,161 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
 
       //   return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-mobile')?.kill(); };
       // }
-      if (mobile) {
-        if (!document.querySelector('.scroll-bg-section-m')) return;
+      // if (mobile) {
+      //   if (!document.querySelector('.scroll-bg-section-m')) return;
 
-        // ✅ helper: lock/unlock global snap from AboutComponent
+      //   // ✅ helper: lock/unlock global snap from AboutComponent
+      //   const dispatchLock = (locked: boolean, cooldownMs = 0) => {
+      //     window.dispatchEvent(
+      //       new CustomEvent('S3_SNAP_LOCK', { detail: { locked, cooldownMs } })
+      //     );
+      //   };
+
+      //   // ✅ reset states
+      //   gsap.set(
+      //     ['.scroll-bg-section-m', '.scroll-bg-section1-m', '.scroll-bg-section2-m'],
+      //     { autoAlpha: 0 }
+      //   );
+      //   gsap.set(
+      //     ['.scroll-bg-section-text-m', '.scroll-bg-section-text1-m', '.scroll-bg-section-text2-m'],
+      //     { autoAlpha: 0, yPercent: 50 }
+      //   );
+
+      //   let anchors: number[] = [];
+
+      //   const transition = 0.45;
+      //   const hold = 1.0;
+      //   const exit = 0.35;
+
+      //   const tl = gsap.timeline({
+      //     id: 'AboutSection3TL-mobile',
+      //     scrollTrigger: {
+      //       id: 'AboutSection3Trigger-mobile',
+      //       trigger: '#AboutSection3',
+      //       start: 'top top',
+      //       end: '+=4000 bottom',
+      //       scrub: 1,
+      //       pin: true,
+      //       anticipatePin: 1,
+      //       invalidateOnRefresh: true,
+      //       onEnter: () => dispatchLock(true),
+      //       onEnterBack: () => dispatchLock(true),
+      //       onLeave: () => dispatchLock(false, 350),
+      //       onLeaveBack: () => dispatchLock(false, 350),
+
+      //       // ✅ Snap داخلي داخل السكشن فقط (مش للصفحة)
+      //       snap: {
+      //         snapTo: (v: number) => (anchors.length ? gsap.utils.snap(anchors, v) : v),
+      //         duration: { min: 0.2, max: 0.6 },
+      //         delay: 0.08,
+      //         ease: 'power2.out',
+      //       },
+      //     }
+      //   });
+
+      //   this.AboutSection3Timeline = tl;
+
+      //   // ✅ خلي أول جملة ظاهرة مباشرة عند بداية السكشن
+      //   tl.set('.scroll-bg-section-m', { autoAlpha: 1 }, 0);
+      //   tl.set('.scroll-bg-section-text-m', { autoAlpha: 1, yPercent: -130 }, 0);
+      //   tl.add(() => { this.show = 1; this.DivisionId = 1; }, 0);
+      //   tl.addLabel('scene_0_stable', 0); // ✅ anchor عند بداية السكشن
+
+      //   // scene0 exit (بعد hold)
+      //   tl.to({}, { duration: hold });
+      //   tl.to('.scroll-bg-section-text-m', { yPercent: -250, autoAlpha: 0, duration: exit, ease: 'power2.in' });
+
+      //   // scene1
+      //   tl.to('.scroll-bg-section1-m', { autoAlpha: 1, duration: 0.35 }, '>');
+      //   tl.add(() => { this.DivisionId = 2; }, '<');
+      //   tl.fromTo('.scroll-bg-section-text1-m',
+      //     { yPercent: 50, autoAlpha: 0 },
+      //     { yPercent: -150, autoAlpha: 1, duration: transition, ease: 'power2.out' },
+      //     '<'
+      //   );
+      //   const s1HoldStart = tl.duration();
+      //   tl.to({}, { duration: hold });
+      //   tl.addLabel('scene_1_stable', s1HoldStart + hold / 2);
+      //   tl.to('.scroll-bg-section-text1-m', { yPercent: -250, autoAlpha: 0, duration: exit, ease: 'power2.in' });
+
+      //   // scene2
+      //   tl.to('.scroll-bg-section2-m', { autoAlpha: 1, duration: 0.35 }, '>');
+      //   tl.add(() => { this.DivisionId = 3; }, '<');
+      //   tl.fromTo('.scroll-bg-section-text2-m',
+      //     { yPercent: 50, autoAlpha: 0 },
+      //     { yPercent: -150, autoAlpha: 1, duration: transition, ease: 'power2.out' },
+      //     '<'
+      //   );
+      //   const s2HoldStart = tl.duration();
+      //   tl.to({}, { duration: hold });
+      //   tl.addLabel('scene_2_stable', s2HoldStart + hold / 2);
+      //   tl.to('.scroll-bg-section-text2-m', { yPercent: -250, autoAlpha: 0, duration: exit, ease: 'power2.in' });
+
+      //   // ✅ build anchors from labels (progress 0..1)
+      //   const total = tl.duration() || 1;
+      //   anchors = Object.entries(tl.labels)
+      //     .filter(([name]) => name.includes('_stable'))
+      //     .map(([, t]) => t / total)
+      //     .sort((a, b) => a - b);
+
+      //   return () => {
+      //     // unlock just in case
+      //     dispatchLock(false, 0);
+      //     tl.kill();
+      //     ScrollTrigger.getById('AboutSection3Trigger-mobile')?.kill();
+      //   };
+      // }
+      if (mobile) {
+        const root = document.querySelector('#AboutSection3');
+        if (!root || !document.querySelector('.scroll-bg-section-m')) return;
+
+        // ✅ lock/unlock global snap from AboutComponent
         const dispatchLock = (locked: boolean, cooldownMs = 0) => {
-          window.dispatchEvent(
-            new CustomEvent('S3_SNAP_LOCK', { detail: { locked, cooldownMs } })
-          );
+          window.dispatchEvent(new CustomEvent('S3_SNAP_LOCK', { detail: { locked, cooldownMs } }));
         };
 
-        // ✅ reset states
-        gsap.set(
-          ['.scroll-bg-section-m', '.scroll-bg-section1-m', '.scroll-bg-section2-m'],
-          { autoAlpha: 0 }
-        );
-        gsap.set(
-          ['.scroll-bg-section-text-m', '.scroll-bg-section-text1-m', '.scroll-bg-section-text2-m'],
-          { autoAlpha: 0, yPercent: 50 }
-        );
+        // ✅ IMPORTANT: لا تخبي أول سلايد نهائيًا (ده سبب الفلاش)
+        // خلي أول سلايد ظاهر "ستاتيك" من CSS/HTML، وإحنا بس نجهّز الباقي
+        gsap.set(['.scroll-bg-section-m'], { autoAlpha: 1 });
+        gsap.set(['.scroll-bg-section-text-m'], { autoAlpha: 1, yPercent: -130 });
+
+        // باقي السلايدز مخفية
+        gsap.set(['.scroll-bg-section1-m', '.scroll-bg-section2-m'], { autoAlpha: 0 });
+        gsap.set(['.scroll-bg-section-text1-m', '.scroll-bg-section-text2-m'], { autoAlpha: 0, yPercent: 60 });
+
+        // state
+        this.show = 1;
+        this.DivisionId = 1;
 
         let anchors: number[] = [];
 
-        const transition = 0.45;
-        const hold = 1.0;
-        const exit = 0.35;
+        // ✅ directional snap: سوايب لتحت = يروح للـ anchor اللي بعدها حتى لو لسه “قريب” من الحالية
+        const pickDirectionalAnchor = (value: number, st: any) => {
+          if (!anchors.length) return value;
+
+          // current index = آخر anchor <= value
+          let idx = 0;
+          for (let i = 0; i < anchors.length; i++) {
+            if (anchors[i] <= value + 1e-6) idx = i;
+          }
+
+          const dir = st?.direction || 1;         // 1 down, -1 up
+          const TH = 0.045;                       // threshold (4.5% of section progress)
+
+          if (dir > 0) {
+            // لو نازل وعدّى شوية من الحالية → روح للي بعدها
+            if (idx < anchors.length - 1 && value > anchors[idx] + TH) return anchors[idx + 1];
+            return anchors[idx];
+          } else {
+            // لو طالع ونزل تحت الحالية شوية → روح للي قبلها
+            if (idx > 0 && value < anchors[idx] - TH) return anchors[idx - 1];
+            return anchors[idx];
+          }
+        };
+
+        const transition = 0.42;
+        const hold = 0.85;
+        const exit = 0.30;
 
         const tl = gsap.timeline({
           id: 'AboutSection3TL-mobile',
@@ -364,28 +494,24 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
             trigger: '#AboutSection3',
             start: 'top top',
 
-            // ✅ بدل 4000 (بيخلي “لازم سكرول جامد”)
-            // 3 مشاهد: جرّبي 3.4 .. 3.9 حسب الإحساس
-            end: () => '+=' + Math.round(window.innerHeight * 3.6),
+            // ✅ أقل مقاومة على الموبايل من 4000
+            end: () => '+=' + Math.round(window.innerHeight * 3.2),
 
-            scrub: 1,
+            scrub: 0.55,
             pin: true,
+            pinType: 'fixed',
             anticipatePin: 1,
             invalidateOnRefresh: true,
 
-            // ✅ اقفل global snap طول ما سكشن 3 active
             onEnter: () => dispatchLock(true),
             onEnterBack: () => dispatchLock(true),
+            onLeave: () => dispatchLock(false, 450),
+            onLeaveBack: () => dispatchLock(false, 450),
 
-            // ✅ أول ما يسيب الـ pin: فك القفل لكن اطلب cooldown
-            onLeave: () => dispatchLock(false, 350),
-            onLeaveBack: () => dispatchLock(false, 350),
-
-            // ✅ Snap داخلي داخل السكشن فقط (مش للصفحة)
             snap: {
-              snapTo: (v: number) => (anchors.length ? gsap.utils.snap(anchors, v) : v),
-              duration: { min: 0.2, max: 0.6 },
-              delay: 0.08,
+              snapTo: (v: number, st: any) => (anchors.length ? pickDirectionalAnchor(v, st) : v),
+              duration: { min: 0.18, max: 0.45 },
+              delay: 0.10,
               ease: 'power2.out',
             },
           }
@@ -393,51 +519,51 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
 
         this.AboutSection3Timeline = tl;
 
-        // ✅ خلي أول جملة ظاهرة مباشرة عند بداية السكشن
-        tl.set('.scroll-bg-section-m', { autoAlpha: 1 }, 0);
-        tl.set('.scroll-bg-section-text-m', { autoAlpha: 1, yPercent: -130 }, 0);
-        tl.add(() => { this.show = 1; this.DivisionId = 1; }, 0);
-        tl.addLabel('scene_0_stable', 0); // ✅ anchor عند بداية السكشن
-
-        // scene0 exit (بعد hold)
-        tl.to({}, { duration: hold });
+        // ===== scene 0 (أول جملة) =====
+        tl.addLabel('snap_0', 0);  // ✅ anchor حقيقي لأول جملة
+        tl.to({}, { duration: hold }); // hold
         tl.to('.scroll-bg-section-text-m', { yPercent: -250, autoAlpha: 0, duration: exit, ease: 'power2.in' });
 
-        // scene1
-        tl.to('.scroll-bg-section1-m', { autoAlpha: 1, duration: 0.35 }, '>');
+        // ===== scene 1 =====
+        tl.to('.scroll-bg-section1-m', { autoAlpha: 1, duration: 0.25 }, '>');
         tl.add(() => { this.DivisionId = 2; }, '<');
-        tl.fromTo('.scroll-bg-section-text1-m',
-          { yPercent: 50, autoAlpha: 0 },
-          { yPercent: -130, autoAlpha: 1, duration: transition, ease: 'power2.out' },
+
+        tl.fromTo(
+          '.scroll-bg-section-text1-m',
+          { yPercent: 60, autoAlpha: 0 },
+          { yPercent: -130, autoAlpha: 1, duration: transition, ease: 'power2.out', immediateRender: false },
           '<'
         );
+
         const s1HoldStart = tl.duration();
         tl.to({}, { duration: hold });
-        tl.addLabel('scene_1_stable', s1HoldStart + hold / 2);
+        tl.addLabel('snap_1', s1HoldStart + hold / 2);
         tl.to('.scroll-bg-section-text1-m', { yPercent: -250, autoAlpha: 0, duration: exit, ease: 'power2.in' });
 
-        // scene2
-        tl.to('.scroll-bg-section2-m', { autoAlpha: 1, duration: 0.35 }, '>');
+        // ===== scene 2 =====
+        tl.to('.scroll-bg-section2-m', { autoAlpha: 1, duration: 0.25 }, '>');
         tl.add(() => { this.DivisionId = 3; }, '<');
-        tl.fromTo('.scroll-bg-section-text2-m',
-          { yPercent: 50, autoAlpha: 0 },
-          { yPercent: -130, autoAlpha: 1, duration: transition, ease: 'power2.out' },
+
+        tl.fromTo(
+          '.scroll-bg-section-text2-m',
+          { yPercent: 60, autoAlpha: 0 },
+          { yPercent: -130, autoAlpha: 1, duration: transition, ease: 'power2.out', immediateRender: false },
           '<'
         );
+
         const s2HoldStart = tl.duration();
         tl.to({}, { duration: hold });
-        tl.addLabel('scene_2_stable', s2HoldStart + hold / 2);
+        tl.addLabel('snap_2', s2HoldStart + hold / 2);
         tl.to('.scroll-bg-section-text2-m', { yPercent: -250, autoAlpha: 0, duration: exit, ease: 'power2.in' });
 
-        // ✅ build anchors from labels (progress 0..1)
+        // ✅ anchors من labels
         const total = tl.duration() || 1;
         anchors = Object.entries(tl.labels)
-          .filter(([name]) => name.includes('_stable'))
+          .filter(([n]) => n.startsWith('snap_'))
           .map(([, t]) => t / total)
           .sort((a, b) => a - b);
 
         return () => {
-          // unlock just in case
           dispatchLock(false, 0);
           tl.kill();
           ScrollTrigger.getById('AboutSection3Trigger-mobile')?.kill();
@@ -445,7 +571,7 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
       }
 
       // ------------------ DESKTOP (Optimized Snapping) ------------------
-      if (!document.querySelector('.scroll-bg-section')) return;
+      // if (!document.querySelector('.scroll-bg-section')) return;
 
       // Reset initial states to avoid flashes
       gsap.set(['.scroll-bg-section-text', '.scroll-bg-section-text1', '.scroll-bg-section-text2'], { opacity: 0, yPercent: 50 });
