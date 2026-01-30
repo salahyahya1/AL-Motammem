@@ -111,11 +111,9 @@ export class AboutComponent {
     }, 600);
   }
 
-  // =================== MOBILE SNAP (ROBUST) ===================
-
+  // =================== MOBILE SNAP (FIXED) ===================
   private scrollEl!: HTMLElement;
 
-  // private snapPositions: number[] = [];
   private panelStartsMobile = new Set<number>();
 
   private mobileRAF = 0;
@@ -136,7 +134,6 @@ export class AboutComponent {
   private lastVVH = 0;
   private mobileResizeT: any = null;
 
-
   // from Section3 (pin/snap internal) to lock/unlock global snap
   private onS3Lock = (e: Event) => {
     const ce = e as CustomEvent<{ locked?: boolean; cooldownMs?: number }>;
@@ -149,7 +146,7 @@ export class AboutComponent {
       const until = performance.now() + cooldownMs;
       this.globalSnapLockUntil = Math.max(this.globalSnapLockUntil, until);
 
-      // ✅ بعد ما Section3 يطلع من pin (pinSpacing بيغير layout)
+      // ✅ after Section3 exits pin, rebuild positions (pinSpacing changes layout)
       window.setTimeout(() => {
         ScrollTrigger.refresh(true);
         this.buildSnapPositionsMobile();
@@ -185,11 +182,10 @@ export class AboutComponent {
     window.addEventListener('scroll', this.onScrollMobile, { passive: true });
     window.addEventListener('resize', this.onResizeMobile);
 
-    // ✅ resize فقط (ممنوع scroll) عشان ما يعيدش build وانت بتطلعي لفوق
+    // ✅ visualViewport resize فقط (ممنوع scroll) عشان الطلوع لفوق ما يبوظش الحساب
     this.lastVVH = (window.visualViewport?.height || window.innerHeight);
     window.visualViewport?.addEventListener('resize', this.onResizeMobile);
   }
-
 
   private buildSnapPositionsMobile() {
     const panels = gsap.utils.toArray<HTMLElement>('.panel');
@@ -197,10 +193,21 @@ export class AboutComponent {
     this.snapPositions = [];
     this.panelStartsMobile.clear();
 
+    // ✅ use ScrollTrigger to compute true starts (respects pinSpacing/layout)
     for (const panel of panels) {
-      const top = Math.round(panel.offsetTop); // ✅ ثابت على الموبايل الحقيقي
-      this.snapPositions.push(top);
-      this.panelStartsMobile.add(top);
+      const st = ScrollTrigger.create({
+        trigger: panel,
+        start: 'top top',
+        end: '+=1',
+        refreshPriority: -1,
+        invalidateOnRefresh: true,
+      });
+
+      const start = Math.round(st.start);
+      this.snapPositions.push(start);
+      this.panelStartsMobile.add(start);
+
+      st.kill();
     }
 
     this.snapPositions = Array.from(new Set(this.snapPositions)).sort((a, b) => a - b);
@@ -208,19 +215,20 @@ export class AboutComponent {
     // ✅ Footer top (لو موجود)
     const footer =
       (document.querySelector('footer, app-footer, #footer, .footer') as HTMLElement | null);
-
-    this.footerTopMobile = footer ? Math.round(footer.offsetTop) : Number.POSITIVE_INFINITY;
+    this.footerTopMobile = footer ? Math.round(footer.getBoundingClientRect().top + this.scrollEl.scrollTop) : Number.POSITIVE_INFINITY;
 
     // console.log('✅ Mobile snap starts:', this.snapPositions, 'footerTop:', this.footerTopMobile);
   }
 
-
   private onScrollMobile = () => {
+    // ✅ ignore scroll events while snapping (prevents wrong direction/targets)
+    if (this.isSnappingMobile || gsap.isTweening(this.scrollEl)) return;
+
     const y = this.scrollEl.scrollTop;
 
-    // track direction
+    // track direction (bigger threshold to ignore address-bar jitter)
     const d = y - this.lastScrollMobile;
-    if (Math.abs(d) > 2) this.lastDirMobile = d > 0 ? 1 : -1;
+    if (Math.abs(d) > 6) this.lastDirMobile = d > 0 ? 1 : -1;
     this.lastScrollMobile = y;
 
     // global snap OFF while Section3 active or cooldown
@@ -248,7 +256,7 @@ export class AboutComponent {
         return;
       }
 
-      if (this.isTouchingMobile) {
+      if (this.isTouchingMobile || this.isSnappingMobile || gsap.isTweening(this.scrollEl)) {
         this.stableFrames = 0;
         this.lastStopY = this.scrollEl.scrollTop;
         return;
@@ -263,8 +271,8 @@ export class AboutComponent {
         this.lastStopY = nowY;
       }
 
-      // ✅ 8 stable frames = actual stop (أفضل من debounce على الموبايل الحقيقي)
-      if (this.stableFrames >= 8) {
+      // ✅ 9 stable frames = stop (أفضل للموبايل الحقيقي)
+      if (this.stableFrames >= 9) {
         this.cancelStopCheck();
         this.doSnapMobile();
       }
@@ -290,18 +298,13 @@ export class AboutComponent {
     const current = this.scrollEl.scrollTop;
     const vh = (window.visualViewport?.height || window.innerHeight);
 
-    // ✅ 1) Footer zone: لو نازلة للـ footer — ممنوع snap (عشان مايشدّكيش لسكشن 5/حتت غريبة)
-    const footerZoneStart = this.footerTopMobile - vh * 0.25; // قبل الفوتر بربع شاشة
-    const inFooterZone = current >= footerZoneStart;
+    // ✅ footer zone: لو نازلة للفوتر سيبيها (ممنوع snap)
+    const footerZoneStart = this.footerTopMobile - vh * 0.25;
+    if (current >= footerZoneStart && this.lastDirMobile > 0) return;
 
-    if (inFooterZone && this.lastDirMobile > 0) {
-      return; // نازلة لتحت → سيبيها تنزل للفوتر بدون snap
-    }
-
-    // ✅ 2) بعد آخر سكشن بكتير (حتى لو مفيش footer tag) — اقف
+    // ✅ deep after last section (زيادة أمان)
     const lastStart = this.snapPositions[this.snapPositions.length - 1];
-    const deepAfterLast = current > lastStart + vh * 0.85;
-    if (deepAfterLast && this.lastDirMobile > 0) return;
+    if (current > lastStart + vh * 0.9 && this.lastDirMobile > 0) return;
 
     const arr = this.snapPositions;
 
@@ -313,30 +316,26 @@ export class AboutComponent {
       else hi = mid;
     }
 
-    // candidates
     const next = arr[lo];
     const prev = lo > 0 ? arr[lo - 1] : arr[0];
 
-    // ✅ 3) nearest الحقيقي
+    // ✅ nearest الحقيقي
     const dPrev = Math.abs(current - prev);
     const dNext = Math.abs(next - current);
     let target = dPrev <= dNext ? prev : next;
 
-    // ✅ direction bias صغير فقط لو واقفة حوالين النص (عشان الإحساس الطبيعي)
-    if (lo > 0 && lo < arr.length) {
-      const midPoint = (prev + next) / 2;
-      const biasZone = vh * 0.08; // 8% من الشاشة
-      if (Math.abs(current - midPoint) <= biasZone) {
-        target = this.lastDirMobile > 0 ? next : prev;
-      }
-    }
-
     const dist = Math.abs(target - current);
+
+    // ✅ امنع القفزات البعيدة (سبب "بيروح حتت غريبة")
+    const MAX_JUMP = vh * 0.7;
+    if (dist > MAX_JUMP) return;
+
     if (dist <= 12) return;
 
-    // ✅ Offset في النزول فقط (بيمنع لخبطة الطلوع لفوق)
-    const DOWN_OFFSET = 10;
-    const offset = this.lastDirMobile > 0 ? DOWN_OFFSET : 0;
+    // ✅ offset في النزول فقط (الطلوع لفوق خليه 0 عشان ما يبوظش)
+    const NAV_OFFSET = 0; // لو عندك navbar ثابت اديه قيمته (مثلاً 60)
+    const DOWN_OFFSET = 10 + NAV_OFFSET;
+    const offset = this.lastDirMobile > 0 ? DOWN_OFFSET : NAV_OFFSET;
 
     const targetPos =
       this.panelStartsMobile.has(target) && target > 0
@@ -355,11 +354,10 @@ export class AboutComponent {
     });
   }
 
-
   private onResizeMobile = () => {
     const h = (window.visualViewport?.height || window.innerHeight);
 
-    // ✅ تجاهل تغييرات صغيرة جدًا (address bar jitter)
+    // ✅ تجاهل jitter بسيط (address bar)
     if (Math.abs(h - this.lastVVH) < 18) return;
     this.lastVVH = h;
 
@@ -369,9 +367,8 @@ export class AboutComponent {
       this.buildSnapPositionsMobile();
     }, 180);
   };
-
-
   // =================== END MOBILE SNAP ===================
+
 
   // ✅ مهم: نضيف cleanup في ngOnDestroy
   // في ngOnDestroy بتاع AboutComponent زوّدي دول:
