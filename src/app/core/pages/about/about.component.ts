@@ -155,7 +155,7 @@ export class AboutComponent {
       onStop: () => {
         this.doSnap();
       },
-      onStopDelay: 0.4
+      onStopDelay: 0.7 // Increased delay as requested
     });
   }
 
@@ -164,6 +164,17 @@ export class AboutComponent {
     if (this.snapPositions.length === 0) return;
 
     const currentScroll = this.smootherST.scroll();
+
+    // Check if we are past the last section (viewing footer)
+    // The last snap position is the start of the last section.
+    // If we scrolled significantly past it, assume we are heading to footer.
+    const lastSnapPoint = this.snapPositions[this.snapPositions.length - 1];
+    const footerThreshold = 200; // Buffer to allow "leaving" the last section
+
+    if (currentScroll > lastSnapPoint + footerThreshold) {
+      console.log('🦶 Viewing footer, skipping global snap');
+      return;
+    }
 
     // Find nearest snap position
     let nearest = this.snapPositions[0];
