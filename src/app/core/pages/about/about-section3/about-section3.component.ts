@@ -287,8 +287,75 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
       let { desktop, mobile } = context.conditions as any;
 
       // ------------------ MOBILE (زي ما هو) ------------------
+      // if (mobile) {
+      //   if (!document.querySelector('.scroll-bg-section-m')) return;
+
+      //   const tl = gsap.timeline({
+      //     id: 'AboutSection3TL-mobile',
+      //     scrollTrigger: {
+      //       id: 'AboutSection3Trigger-mobile',
+      //       trigger: '#AboutSection3',
+      //       start: 'top top',
+      //       end: '+=4000 bottom',
+      //       scrub: 1,
+      //       pin: true,
+      //       anticipatePin: 1,
+      //       invalidateOnRefresh: true,
+      //       // onLeave: () => { if (mobile) tl.progress(1); },
+      //     }
+      //   });
+      //   this.AboutSection3Timeline = tl;
+      //   let textAnchors: number[] = [];
+      //   tl.fromTo('.scroll-bg-section-m', { autoAlpha: 0 }, {
+      //     autoAlpha: 1,
+      //     onStart: () => { this.show = 1; this.DivisionId = 1; },
+      //     onReverseComplete: () => { this.show = 0; }
+      //   }, '>-0.2');
+
+      //   tl.fromTo('.scroll-bg-section-text-m', { yPercent: 50 }, { yPercent: -130 }, '<')
+      //     .fromTo('.scroll-bg-section-text-m', { yPercent: -130, opacity: 1 }, {
+      //       yPercent: -250, opacity: 0, duration: finalTextScrollDuration
+      //     }, '>+0.8');
+
+      //   tl.fromTo('.scroll-bg-section1-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>')
+      //     .fromTo('.scroll-bg-section-text1-m', { yPercent: 50 }, { yPercent: -130 }, '<')
+      //     .fromTo('.scroll-bg-section-text1-m', { yPercent: -130, opacity: 1 }, {
+      //       yPercent: -250, opacity: 0, duration: finalTextScrollDuration
+      //     }, '>+0.8');
+
+      //   tl.fromTo('.scroll-bg-section2-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>')
+      //     .fromTo('.scroll-bg-section-text2-m', { yPercent: 50 }, { yPercent: -130 }, '<')
+      //     .fromTo('.scroll-bg-section-text2-m', { yPercent: -130, opacity: 1 }, {
+      //       yPercent: -250, opacity: 0, duration: finalTextScrollDuration
+      //     }, '>+0.8');
+
+      //   return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-mobile')?.kill(); };
+      // }
       if (mobile) {
         if (!document.querySelector('.scroll-bg-section-m')) return;
+
+        // ✅ helper: lock/unlock global snap from AboutComponent
+        const dispatchLock = (locked: boolean, cooldownMs = 0) => {
+          window.dispatchEvent(
+            new CustomEvent('S3_SNAP_LOCK', { detail: { locked, cooldownMs } })
+          );
+        };
+
+        // ✅ reset states
+        gsap.set(
+          ['.scroll-bg-section-m', '.scroll-bg-section1-m', '.scroll-bg-section2-m'],
+          { autoAlpha: 0 }
+        );
+        gsap.set(
+          ['.scroll-bg-section-text-m', '.scroll-bg-section-text1-m', '.scroll-bg-section-text2-m'],
+          { autoAlpha: 0, yPercent: 50 }
+        );
+
+        let anchors: number[] = [];
+
+        const transition = 0.45;
+        const hold = 1.0;
+        const exit = 0.35;
 
         const tl = gsap.timeline({
           id: 'AboutSection3TL-mobile',
@@ -296,40 +363,85 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
             id: 'AboutSection3Trigger-mobile',
             trigger: '#AboutSection3',
             start: 'top top',
-            end: '+=4000 bottom',
-            scrub: true,
+
+            // ✅ بدل 4000 (بيخلي “لازم سكرول جامد”)
+            // 3 مشاهد: جرّبي 3.4 .. 3.9 حسب الإحساس
+            end: () => '+=' + Math.round(window.innerHeight * 3.6),
+
+            scrub: 1,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            onLeave: () => { if (mobile) tl.progress(1); },
+
+            // ✅ اقفل global snap طول ما سكشن 3 active
+            onEnter: () => dispatchLock(true),
+            onEnterBack: () => dispatchLock(true),
+
+            // ✅ أول ما يسيب الـ pin: فك القفل لكن اطلب cooldown
+            onLeave: () => dispatchLock(false, 350),
+            onLeaveBack: () => dispatchLock(false, 350),
+
+            // ✅ Snap داخلي داخل السكشن فقط (مش للصفحة)
+            snap: {
+              snapTo: (v: number) => (anchors.length ? gsap.utils.snap(anchors, v) : v),
+              duration: { min: 0.2, max: 0.6 },
+              delay: 0.08,
+              ease: 'power2.out',
+            },
           }
         });
+
         this.AboutSection3Timeline = tl;
 
-        tl.fromTo('.scroll-bg-section-m', { autoAlpha: 0 }, {
-          autoAlpha: 1,
-          onStart: () => { this.show = 1; this.DivisionId = 1; },
-          onReverseComplete: () => { this.show = 0; }
-        }, '>-0.2');
+        // ✅ خلي أول جملة ظاهرة مباشرة عند بداية السكشن
+        tl.set('.scroll-bg-section-m', { autoAlpha: 1 }, 0);
+        tl.set('.scroll-bg-section-text-m', { autoAlpha: 1, yPercent: -130 }, 0);
+        tl.add(() => { this.show = 1; this.DivisionId = 1; }, 0);
+        tl.addLabel('scene_0_stable', 0); // ✅ anchor عند بداية السكشن
 
-        tl.fromTo('.scroll-bg-section-text-m', { yPercent: 50 }, { yPercent: -130 }, '<')
-          .fromTo('.scroll-bg-section-text-m', { yPercent: -130, opacity: 1 }, {
-            yPercent: -250, opacity: 0, duration: finalTextScrollDuration
-          }, '>+0.8');
+        // scene0 exit (بعد hold)
+        tl.to({}, { duration: hold });
+        tl.to('.scroll-bg-section-text-m', { yPercent: -250, autoAlpha: 0, duration: exit, ease: 'power2.in' });
 
-        tl.fromTo('.scroll-bg-section1-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>')
-          .fromTo('.scroll-bg-section-text1-m', { yPercent: 50 }, { yPercent: -130 }, '<')
-          .fromTo('.scroll-bg-section-text1-m', { yPercent: -130, opacity: 1 }, {
-            yPercent: -250, opacity: 0, duration: finalTextScrollDuration
-          }, '>+0.8');
+        // scene1
+        tl.to('.scroll-bg-section1-m', { autoAlpha: 1, duration: 0.35 }, '>');
+        tl.add(() => { this.DivisionId = 2; }, '<');
+        tl.fromTo('.scroll-bg-section-text1-m',
+          { yPercent: 50, autoAlpha: 0 },
+          { yPercent: -130, autoAlpha: 1, duration: transition, ease: 'power2.out' },
+          '<'
+        );
+        const s1HoldStart = tl.duration();
+        tl.to({}, { duration: hold });
+        tl.addLabel('scene_1_stable', s1HoldStart + hold / 2);
+        tl.to('.scroll-bg-section-text1-m', { yPercent: -250, autoAlpha: 0, duration: exit, ease: 'power2.in' });
 
-        tl.fromTo('.scroll-bg-section2-m', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, '>')
-          .fromTo('.scroll-bg-section-text2-m', { yPercent: 50 }, { yPercent: -130 }, '<')
-          .fromTo('.scroll-bg-section-text2-m', { yPercent: -130, opacity: 1 }, {
-            yPercent: -250, opacity: 0, duration: finalTextScrollDuration
-          }, '>+0.8');
+        // scene2
+        tl.to('.scroll-bg-section2-m', { autoAlpha: 1, duration: 0.35 }, '>');
+        tl.add(() => { this.DivisionId = 3; }, '<');
+        tl.fromTo('.scroll-bg-section-text2-m',
+          { yPercent: 50, autoAlpha: 0 },
+          { yPercent: -130, autoAlpha: 1, duration: transition, ease: 'power2.out' },
+          '<'
+        );
+        const s2HoldStart = tl.duration();
+        tl.to({}, { duration: hold });
+        tl.addLabel('scene_2_stable', s2HoldStart + hold / 2);
+        tl.to('.scroll-bg-section-text2-m', { yPercent: -250, autoAlpha: 0, duration: exit, ease: 'power2.in' });
 
-        return () => { tl.kill(); ScrollTrigger.getById('AboutSection3Trigger-mobile')?.kill(); };
+        // ✅ build anchors from labels (progress 0..1)
+        const total = tl.duration() || 1;
+        anchors = Object.entries(tl.labels)
+          .filter(([name]) => name.includes('_stable'))
+          .map(([, t]) => t / total)
+          .sort((a, b) => a - b);
+
+        return () => {
+          // unlock just in case
+          dispatchLock(false, 0);
+          tl.kill();
+          ScrollTrigger.getById('AboutSection3Trigger-mobile')?.kill();
+        };
       }
 
       // ------------------ DESKTOP (Optimized Snapping) ------------------
