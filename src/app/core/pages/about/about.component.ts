@@ -112,111 +112,174 @@ export class AboutComponent {
   }
 
   // --- Mobile Implementation (No Smoother) ---
-  // =================== MOBILE SNAP (FULL) ===================
-  private globalSnapLocked = false;
-  private globalSnapLockUntil = 0;
+  // =================== MOBILE SNAP (ROBUST) ===================
+  private scrollEl!: HTMLElement;
 
+  // private snapPositions: number[] = [];
   private panelStartsMobile = new Set<number>();
+
+  private mobileRAF = 0;
+  private stableFrames = 0;
+  private lastStopY = 0;
 
   private lastScrollMobile = 0;
   private lastDirMobile: 1 | -1 = 1;
 
   private isSnappingMobile = false;
-  private mobileScrollTimeout: any;
+  private isTouchingMobile = false;
 
-  // Listen from Section3 (pin/snap internal) to lock/unlock global snap
+  private globalSnapLocked = false;
+  private globalSnapLockUntil = 0;
+
+  // from Section3 (pin/snap internal) to lock/unlock global snap
   private onS3Lock = (e: Event) => {
     const ce = e as CustomEvent<{ locked?: boolean; cooldownMs?: number }>;
     const locked = !!ce.detail?.locked;
     const cooldownMs = ce.detail?.cooldownMs ?? 0;
 
     this.globalSnapLocked = locked;
-    if (cooldownMs > 0) {
-      this.globalSnapLockUntil = Math.max(
-        this.globalSnapLockUntil,
-        performance.now() + cooldownMs
-      );
+
+    if (!locked) {
+      const until = performance.now() + cooldownMs;
+      this.globalSnapLockUntil = Math.max(this.globalSnapLockUntil, until);
+
+      // ✅ after Section3 exits pin, rebuild positions (pinSpacing changes layout)
+      window.setTimeout(() => {
+        ScrollTrigger.refresh(true);
+        this.buildSnapPositionsMobile();
+      }, cooldownMs + 60);
     }
   };
 
+  private onTouchStartMobile = () => {
+    this.isTouchingMobile = true;
+    this.cancelStopCheck();
+  };
+
+  private onTouchEndMobile = () => {
+    this.isTouchingMobile = false;
+    this.queueStopCheck();
+  };
+  // =================== MOBILE SNAP (FULL) ===================
+
   private initMobileSnap() {
-    // 1) Navbar triggers on mobile
+    // real scrolling element on mobile
+    this.scrollEl = (document.scrollingElement || document.documentElement) as HTMLElement;
+
+    // navbar triggers
     this.observeSectionsMobile();
 
-    // 2) Listen to Section3 lock/unlock events
+    // listen lock/unlock from Section3
     window.addEventListener('S3_SNAP_LOCK', this.onS3Lock as any);
 
-    // 3) Build snap positions (panel starts only)
+    // touch guards: don't snap while user is still dragging
+    window.addEventListener('touchstart', this.onTouchStartMobile, { passive: true });
+    window.addEventListener('touchend', this.onTouchEndMobile, { passive: true });
+
     ScrollTrigger.refresh(true);
     this.buildSnapPositionsMobile();
 
-    // baseline for direction calc
-    this.lastScrollMobile = window.scrollY || document.documentElement.scrollTop;
+    this.lastScrollMobile = this.scrollEl.scrollTop;
 
-    // 4) Listeners
     window.addEventListener('scroll', this.onScrollMobile, { passive: true });
     window.addEventListener('resize', this.onResizeMobile);
+    window.visualViewport?.addEventListener('resize', this.onResizeMobile);
   }
 
   private buildSnapPositionsMobile() {
     const panels = gsap.utils.toArray<HTMLElement>('.panel');
+    const current = this.scrollEl.scrollTop;
 
     this.snapPositions = [];
     this.panelStartsMobile.clear();
 
-    panels.forEach((panel) => {
-      const st = ScrollTrigger.create({
-        trigger: panel,
-        start: 'top top',
-        refreshPriority: -1,
-      });
+    for (const panel of panels) {
+      const top = Math.round(panel.getBoundingClientRect().top + current);
+      this.snapPositions.push(top);
+      this.panelStartsMobile.add(top);
+    }
 
-      this.snapPositions.push(st.start);
-      this.panelStartsMobile.add(st.start);
-
-      st.kill();
-    });
-
-    // unique + sort
     this.snapPositions = Array.from(new Set(this.snapPositions)).sort((a, b) => a - b);
     console.log('✅ Mobile snap starts:', this.snapPositions.map(v => Math.round(v)));
   }
 
   private onScrollMobile = () => {
-    const y = window.scrollY || document.documentElement.scrollTop;
+    const y = this.scrollEl.scrollTop;
 
-    // direction tracking
+    // track direction
     const d = y - this.lastScrollMobile;
     if (Math.abs(d) > 2) this.lastDirMobile = d > 0 ? 1 : -1;
     this.lastScrollMobile = y;
 
-    // ✅ Global snap OFF while Section3 is active or cooldown active
+    // global snap OFF while Section3 active or cooldown
     if (this.globalSnapLocked) return;
     if (performance.now() < this.globalSnapLockUntil) return;
 
-    // ✅ avoid re-entry
-    if (this.isSnappingMobile) return;
-    if (gsap.isTweening(window)) return;
+    // don't snap while user is touching
+    if (this.isTouchingMobile) return;
 
-    if (this.mobileScrollTimeout) clearTimeout(this.mobileScrollTimeout);
-    this.mobileScrollTimeout = setTimeout(() => this.doSnapMobile(), 220);
+    this.queueStopCheck();
   };
 
-  private doSnapMobile() {
-    if (this.snapPositions.length === 0) return;
+  private queueStopCheck() {
+    if (this.mobileRAF) return;
 
-    // ✅ Global snap OFF while locked/cooldown
+    this.lastStopY = this.scrollEl.scrollTop;
+    this.stableFrames = 0;
+
+    const tick = () => {
+      this.mobileRAF = requestAnimationFrame(tick);
+
+      if (this.globalSnapLocked || performance.now() < this.globalSnapLockUntil) {
+        this.stableFrames = 0;
+        this.lastStopY = this.scrollEl.scrollTop;
+        return;
+      }
+
+      if (this.isTouchingMobile) {
+        this.stableFrames = 0;
+        this.lastStopY = this.scrollEl.scrollTop;
+        return;
+      }
+
+      const nowY = this.scrollEl.scrollTop;
+      const moved = Math.abs(nowY - this.lastStopY);
+
+      if (moved <= 1) this.stableFrames++;
+      else {
+        this.stableFrames = 0;
+        this.lastStopY = nowY;
+      }
+
+      // ✅ 8 stable frames = actual stop (better than debounce on real mobiles)
+      if (this.stableFrames >= 8) {
+        this.cancelStopCheck();
+        this.doSnapMobile();
+      }
+    };
+
+    this.mobileRAF = requestAnimationFrame(tick);
+  }
+
+  private cancelStopCheck() {
+    if (this.mobileRAF) cancelAnimationFrame(this.mobileRAF);
+    this.mobileRAF = 0;
+  }
+
+  private doSnapMobile() {
+    if (!this.snapPositions.length) return;
+
     if (this.globalSnapLocked) return;
     if (performance.now() < this.globalSnapLockUntil) return;
 
     if (this.isSnappingMobile) return;
-    if (gsap.isTweening(window)) return;
+    if (gsap.isTweening(this.scrollEl)) return;
 
-    const current = window.scrollY || document.documentElement.scrollTop;
+    const current = this.scrollEl.scrollTop;
 
-    // Footer guard
+    // footer guard
     const last = this.snapPositions[this.snapPositions.length - 1];
-    if (current > last + 200) return;
+    if (current > last + 250) return;
 
     const arr = this.snapPositions;
 
@@ -230,23 +293,19 @@ export class AboutComponent {
 
     let target = arr[lo];
 
-    // choose prev/next by midpoint + direction
+    // choose prev/next based on midpoint + direction
     if (lo > 0 && arr[lo] !== current) {
       const prev = arr[lo - 1];
       const next = arr[lo];
       const midPoint = (prev + next) / 2;
 
-      if (this.lastDirMobile > 0) {
-        target = current >= midPoint ? next : prev;
-      } else {
-        target = current <= midPoint ? prev : next;
-      }
+      if (this.lastDirMobile > 0) target = current >= midPoint ? next : prev;
+      else target = current <= midPoint ? prev : next;
     }
 
     const dist = Math.abs(target - current);
-    if (dist <= 10) return;
+    if (dist <= 12) return;
 
-    // small offset only for section STARTs
     const SNAP_OFFSET = 8;
     const targetPos =
       this.panelStartsMobile.has(target) && target > 0
@@ -255,17 +314,13 @@ export class AboutComponent {
 
     this.isSnappingMobile = true;
 
-    gsap.to(window, {
+    gsap.to(this.scrollEl, {
       scrollTo: targetPos,
-      duration: 0.8,
+      duration: 0.75,
       ease: 'power3.out',
       overwrite: true,
-      onComplete: () => {
-        this.isSnappingMobile = false;
-      },
-      onInterrupt: () => {
-        this.isSnappingMobile = false;
-      },
+      onComplete: () => { this.isSnappingMobile = false; },
+      onInterrupt: () => { this.isSnappingMobile = false; },
     });
   }
 
@@ -274,13 +329,8 @@ export class AboutComponent {
     setTimeout(() => this.buildSnapPositionsMobile(), 120);
   };
 
+  // =================== END MOBILE SNAP ===================
 
-
-
-
-
-
-  // --- End Mobile Implementation ---
 
 
   // --- Desktop Implementation (Smoother) ---
@@ -471,7 +521,19 @@ export class AboutComponent {
       } catch { }
 
       try { this.snapObserver?.kill?.(); } catch { }
-      if (this.mobileScrollTimeout) clearTimeout(this.mobileScrollTimeout);
+      try {
+        window.removeEventListener('scroll', this.onScrollMobile);
+        window.removeEventListener('resize', this.onResizeMobile);
+        window.visualViewport?.removeEventListener('resize', this.onResizeMobile);
+
+        window.removeEventListener('touchstart', this.onTouchStartMobile as any);
+        window.removeEventListener('touchend', this.onTouchEndMobile as any);
+
+        window.removeEventListener('S3_SNAP_LOCK', this.onS3Lock as any);
+      } catch { }
+
+      this.cancelStopCheck();
+
 
       this.ctx?.revert();
     }
