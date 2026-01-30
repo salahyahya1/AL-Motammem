@@ -111,8 +111,8 @@ export class AboutComponent {
     }, 600);
   }
 
-  // --- Mobile Implementation (No Smoother) ---
   // =================== MOBILE SNAP (ROBUST) ===================
+
   private scrollEl!: HTMLElement;
 
   // private snapPositions: number[] = [];
@@ -143,11 +143,11 @@ export class AboutComponent {
       const until = performance.now() + cooldownMs;
       this.globalSnapLockUntil = Math.max(this.globalSnapLockUntil, until);
 
-      // ✅ after Section3 exits pin, rebuild positions (pinSpacing changes layout)
+      // ✅ بعد ما Section3 يطلع من pin (pinSpacing بيغير layout)
       window.setTimeout(() => {
         ScrollTrigger.refresh(true);
         this.buildSnapPositionsMobile();
-      }, cooldownMs + 60);
+      }, cooldownMs + 80);
     }
   };
 
@@ -160,7 +160,6 @@ export class AboutComponent {
     this.isTouchingMobile = false;
     this.queueStopCheck();
   };
-  // =================== MOBILE SNAP (FULL) ===================
 
   private initMobileSnap() {
     // real scrolling element on mobile
@@ -176,6 +175,7 @@ export class AboutComponent {
     window.addEventListener('touchstart', this.onTouchStartMobile, { passive: true });
     window.addEventListener('touchend', this.onTouchEndMobile, { passive: true });
 
+    // build positions
     ScrollTrigger.refresh(true);
     this.buildSnapPositionsMobile();
 
@@ -183,24 +183,27 @@ export class AboutComponent {
 
     window.addEventListener('scroll', this.onScrollMobile, { passive: true });
     window.addEventListener('resize', this.onResizeMobile);
+
+    // ✅ مهم جدًا للموبايلات (address bar / visual viewport)
     window.visualViewport?.addEventListener('resize', this.onResizeMobile);
+    window.visualViewport?.addEventListener('scroll', this.onResizeMobile);
   }
 
   private buildSnapPositionsMobile() {
     const panels = gsap.utils.toArray<HTMLElement>('.panel');
-    const current = this.scrollEl.scrollTop;
 
     this.snapPositions = [];
     this.panelStartsMobile.clear();
 
+    // ✅ offsetTop ثابت (أفضل من getBoundingClientRect على الموبايل الحقيقي)
     for (const panel of panels) {
-      const top = Math.round(panel.getBoundingClientRect().top + current);
+      const top = Math.round(panel.offsetTop);
       this.snapPositions.push(top);
       this.panelStartsMobile.add(top);
     }
 
     this.snapPositions = Array.from(new Set(this.snapPositions)).sort((a, b) => a - b);
-    console.log('✅ Mobile snap starts:', this.snapPositions.map(v => Math.round(v)));
+    // console.log('✅ Mobile snap starts:', this.snapPositions);
   }
 
   private onScrollMobile = () => {
@@ -251,7 +254,7 @@ export class AboutComponent {
         this.lastStopY = nowY;
       }
 
-      // ✅ 8 stable frames = actual stop (better than debounce on real mobiles)
+      // ✅ 8 stable frames = actual stop (أفضل من debounce على الموبايل الحقيقي)
       if (this.stableFrames >= 8) {
         this.cancelStopCheck();
         this.doSnapMobile();
@@ -306,10 +309,13 @@ export class AboutComponent {
     const dist = Math.abs(target - current);
     if (dist <= 12) return;
 
-    const SNAP_OFFSET = 8;
+    // ✅ Offset في النزول فقط (يحل مشكلة الطلوع لفوق)
+    const DOWN_OFFSET = 10;
+    const offset = this.lastDirMobile > 0 ? DOWN_OFFSET : 0;
+
     const targetPos =
       this.panelStartsMobile.has(target) && target > 0
-        ? target + SNAP_OFFSET
+        ? target + offset
         : target;
 
     this.isSnappingMobile = true;
@@ -325,13 +331,31 @@ export class AboutComponent {
   }
 
   private onResizeMobile = () => {
+    // ✅ لو انتِ عايزة تقللي refresh، خليها debounce خفيفة
     ScrollTrigger.refresh(true);
-    setTimeout(() => this.buildSnapPositionsMobile(), 120);
+    window.setTimeout(() => this.buildSnapPositionsMobile(), 120);
   };
 
   // =================== END MOBILE SNAP ===================
 
+  // ✅ مهم: نضيف cleanup في ngOnDestroy
+  // في ngOnDestroy بتاع AboutComponent زوّدي دول:
+  private destroyMobileSnap() {
+    try {
+      window.removeEventListener('S3_SNAP_LOCK', this.onS3Lock as any);
+      window.removeEventListener('touchstart', this.onTouchStartMobile);
+      window.removeEventListener('touchend', this.onTouchEndMobile);
+      window.removeEventListener('scroll', this.onScrollMobile);
+      window.removeEventListener('resize', this.onResizeMobile);
 
+      window.visualViewport?.removeEventListener('resize', this.onResizeMobile);
+      window.visualViewport?.removeEventListener('scroll', this.onResizeMobile);
+    } catch { }
+
+    this.cancelStopCheck();
+    try { gsap.killTweensOf(this.scrollEl); } catch { }
+    this.isSnappingMobile = false;
+  }
 
   // --- Desktop Implementation (Smoother) ---
 
@@ -531,6 +555,9 @@ export class AboutComponent {
 
         window.removeEventListener('S3_SNAP_LOCK', this.onS3Lock as any);
       } catch { }
+      if (this.isMobile) {
+        this.destroyMobileSnap();
+      }
 
       this.cancelStopCheck();
 
