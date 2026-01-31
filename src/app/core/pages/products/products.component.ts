@@ -316,10 +316,39 @@ export class ProductsComponent {
     const footerZoneStart = this.footerTopMobile - vh * 0.25;
     if (current >= footerZoneStart && this.lastDirMobile > 0) return;
 
-    // Nearest Search
     const arr = this.snapPositions;
-    let lo = 0, hi = arr.length - 1;
 
+    // ✅ BRANCH 1: Section 1 Logic (Reading Mode & Transition to Sec 2)
+    // Only applies if we have at least 2 sections and we are above the start of Sec 2
+    if (arr.length > 1 && current < arr[1] - 5) {
+      const s2Top = arr[1];
+      const overlap = (current + vh) - s2Top;
+
+      // Case A: Deep inside Section 1 (Section 2 not yet visible or just barely)
+      // Allow FREE SCROLL. Do not snap.
+      if (overlap < 10) {
+        return;
+      }
+
+      // Case B: Transition Zone (Section 2 is entering)
+      const ratio = overlap / vh;
+      let target = -1;
+
+      if (ratio < 0.45) {
+        // Snap Back: "End of Section 1 touches end of screen"
+        target = Math.max(0, s2Top - vh);
+      } else {
+        // Snap Forward: To Start of Section 2
+        target = s2Top;
+      }
+
+      this.performSnap(target, current);
+      return;
+    }
+
+    // ✅ BRANCH 2: Standard Logic for Section 2 and beyond
+    // Standard Nearest Neighbor Search
+    let lo = 0, hi = arr.length - 1;
     while (lo < hi) {
       const mid = (lo + hi) >> 1;
       if (arr[mid] < current) lo = mid + 1;
@@ -329,27 +358,21 @@ export class ProductsComponent {
     const next = arr[lo];
     const prev = lo > 0 ? arr[lo - 1] : arr[0];
 
+    // Standard Nearest Target
     const dPrev = Math.abs(current - prev);
     const dNext = Math.abs(next - current);
-    let target = dPrev <= dNext ? prev : next;
+    const target = dPrev <= dNext ? prev : next;
 
+    this.performSnap(target, current);
+  }
+
+  private performSnap(target: number, current: number) {
     const dist = Math.abs(target - current);
     if (dist <= 12) return;
 
-    // Apply Offsets
-    const NAV_OFFSET = 0;
-    const DOWN_OFFSET = 10;
-    const offset = this.lastDirMobile > 0 ? (DOWN_OFFSET + NAV_OFFSET) : NAV_OFFSET;
-
-    const targetPos =
-      this.panelStartsMobile.has(target) && target > 0
-        ? target + offset
-        : target;
-
     this.isSnappingMobile = true;
-
     gsap.to(this.scrollEl, {
-      scrollTo: targetPos,
+      scrollTo: target,
       duration: 0.75,
       ease: 'power3.out',
       overwrite: true,
