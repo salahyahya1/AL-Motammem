@@ -304,6 +304,7 @@ export class ProductsComponent {
     console.log('✅ Mobile Snap positions:', this.snapPositions);
   }
 
+
   private doSnapMobile() {
     if (!this.snapPositions.length) return;
     if (this.isSnappingMobile) return;
@@ -312,11 +313,16 @@ export class ProductsComponent {
     const current = this.scrollEl.scrollTop;
     const vh = (window.visualViewport?.height || window.innerHeight);
 
-    // Footer Guard
-    const footerZoneStart = this.footerTopMobile - vh * 0.25;
-    if (current >= footerZoneStart && this.lastDirMobile > 0) return;
-
+    // ✅ footer zone: لو نازل للفوتر سيبه (مايعملش snap)
+    // const footerZoneStart = this.footerTopMobile - vh * 0.25;
+    // if (current >= footerZoneStart && this.lastDirMobile > 0) return;
+    // const footerZoneStart = this.footerTopMobile - vh * 0.35; // زوّدها شوية عشان يمنع الرجوع بدري
+    // console.log(footerZoneStart);
+    // if (current >= footerZoneStart) return; // ✅ no snap near footer مهما كان الاتجاه
     const arr = this.snapPositions;
+    // ✅ Disable snapping once we enter the LAST section (free scroll to footer)
+    const lastStart = arr[arr.length - 1];
+    if (current >= lastStart - 2) return;
 
     // ✅ BRANCH 1: Section 1 Logic (Reading Mode & Transition to Sec 2)
     // Only applies if we have at least 2 sections and we are above the start of Sec 2
@@ -369,7 +375,9 @@ export class ProductsComponent {
   private performSnap(target: number, current: number) {
     const dist = Math.abs(target - current);
     if (dist <= 12) return;
-
+    const arr = this.snapPositions;
+    const lastStart = arr[arr.length - 1];
+    if (current >= lastStart - 2) return;
     this.isSnappingMobile = true;
     gsap.to(this.scrollEl, {
       scrollTo: target,
