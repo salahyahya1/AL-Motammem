@@ -8,5 +8,8 @@ Disallow: /blogs/EditBlog
 Disallow: /blogs/EditBlog/
 Disallow: /blogs/CreateBlog/
 
+Disallow: /PrivacyPlicy
+Disallow: /TermsPlicy
+
 
 Sitemap: https://almotammem.com/sitemap.xml
