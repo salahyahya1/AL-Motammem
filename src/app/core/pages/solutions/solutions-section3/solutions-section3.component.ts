@@ -113,7 +113,7 @@ export class SolutionsSection3Component {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.2,
+                  duration: 0.1,
                   ease: 'sine.out',
                   stagger: 0.02,
                   onStart: () => {
@@ -128,7 +128,7 @@ export class SolutionsSection3Component {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.2,
+                  duration: 0.1,
                   ease: 'sine.out',
                   stagger: 0.02,
                   onStart: () => { gsap.set(sectionSub, { opacity: 1, visibility: 'visible' }) },
@@ -177,7 +177,7 @@ export class SolutionsSection3Component {
                   {
                     autoAlpha: 1,
                     yPercent: 0,
-                    duration: 0.2,
+                    duration: 0.1,
                     ease: 'power3.out',
                   },
                   '>'
@@ -217,7 +217,7 @@ export class SolutionsSection3Component {
                 }, {
                   autoAlpha: 1,
                   yPercent: 0,
-                  duration: 0.2,
+                  duration: 0.1,
                   ease: 'power3.out',
                   stagger: 0.15,
                 }, '>')

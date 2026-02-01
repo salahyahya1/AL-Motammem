@@ -65,7 +65,7 @@ export class SolutionsSection6Component {
                 scrollTrigger: {
                   trigger: "#solutionsSection6",
                   start: 'top top',
-                  end: mobile ? 'top 95%' : '110% bottom',
+                  end: mobile ? 'top 95%' : '115% bottom',
                   pinType: 'transform',
                   pin: true,
                   // markers: true,
