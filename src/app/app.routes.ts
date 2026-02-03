@@ -19,8 +19,8 @@ export const routes: Routes = [
                     seo: {
                         title: 'المُتَمِّم | نظام ERP لإدارة موارد المؤسسة',
                         description: 'المتمم ERP بخبرة 40 سنة لإدارة المالية والمخزون والموارد البشرية… احجز استشارة مجانية الآن.',
-                        canonical: 'https://www.almotammem.com/',
-                        image: 'https://www.almotammem.com/images/Icon.webp'
+                        canonical: 'https://almotammem.com/',
+                        image: 'https://almotammem.com/images/Icon.webp'
                     }
                 },
                 // children: [
@@ -37,8 +37,8 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'ERP عربي بخبرة 40 سنة…',
-                        image: 'https://www.almotammem.com/images/Icon.webp',
-                        canonical: 'https://www.almotammem.com/about'
+                        image: 'https://almotammem.com/images/Icon.webp',
+                        canonical: 'https://almotammem.com/about'
                     }
                 }
             },
@@ -49,8 +49,8 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'ERP عربي بخبرة 40 سنة…',
-                        image: 'https://www.almotammem.com/images/Icon.webp',
-                        canonical: 'https://www.almotammem.com/solutions'
+                        image: 'https://almotammem.com/images/Icon.webp',
+                        canonical: 'https://almotammem.com/solutions'
                     }
                 }
             },
@@ -61,8 +61,8 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'ERP عربي بخبرة 40 سنة…',
-                        image: 'https://www.almotammem.com/images/Icon.webp',
-                        canonical: 'https://www.almotammem.com/products'
+                        image: 'https://almotammem.com/images/Icon.webp',
+                        canonical: 'https://almotammem.com/products'
                     }
                 }
             },
@@ -73,7 +73,7 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'خطط وأسعار مرنة…',
-                        canonical: 'https://www.almotammem.com/plans'
+                        canonical: 'https://almotammem.com/plans'
                     }
                 }
             },
@@ -91,8 +91,8 @@ export const routes: Routes = [
                         data: {
                             seo: {
                                 description: 'المدونات',
-                                image: 'https://www.almotammem.com/images/Icon.webp',
-                                canonical: 'https://www.almotammem.com/blogs'
+                                image: 'https://almotammem.com/images/Icon.webp',
+                                canonical: 'https://almotammem.com/blogs'
                             }
                         }
                     },
@@ -121,8 +121,8 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'FAQS',
-                        image: 'https://www.almotammem.com/images/Icon.webp',
-                        canonical: 'https://www.almotammem.com/FAQS'
+                        image: 'https://almotammem.com/images/Icon.webp',
+                        canonical: 'https://almotammem.com/FAQS'
                     }
                 }
             },
@@ -134,8 +134,8 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'تواصل معنا',
-                        image: 'https://www.almotammem.com/images/Icon.webp',
-                        canonical: 'https://www.almotammem.com/ContactUs'
+                        image: 'https://almotammem.com/images/Icon.webp',
+                        canonical: 'https://almotammem.com/ContactUs'
                     }
                 }
             },
@@ -147,8 +147,8 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'الشروط والاحكام',
-                        image: 'https://www.almotammem.com/images/Icon.webp',
-                        canonical: 'https://www.almotammem.com/TermsPlicy'
+                        image: 'https://almotammem.com/images/Icon.webp',
+                        canonical: 'https://almotammem.com/TermsPlicy'
                     }
                 }
             },
@@ -160,8 +160,8 @@ export const routes: Routes = [
                 data: {
                     seo: {
                         description: 'سياسة الخصوصية',
-                        image: 'https://www.almotammem.com/images/Icon.webp',
-                        canonical: 'https://www.almotammem.com/PrivacyPlicy'
+                        image: 'https://almotammem.com/images/Icon.webp',
+                        canonical: 'https://almotammem.com/PrivacyPlicy'
                     }
                 }
             },
