@@ -24,8 +24,9 @@
 
 
 .dot-label.active {
-    color: #FFD166;
+    color: #f9b515;
     transition: all 0.3s ease;
+    opacity: 0;
 }
 
 .group:hover .dot-label {
@@ -34,5 +35,6 @@
 }
 
 .group:hover .dot.active~.dot-label {
-    color: #FFD166;
+    color: #f9b515;
+    opacity: 1;
 }

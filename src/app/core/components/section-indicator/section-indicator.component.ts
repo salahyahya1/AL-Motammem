@@ -404,7 +404,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
            (click)="scrollToSection(s.targetId || s.id)">
         <div class="absolute inset-[-16px] w-10 h-10 cursor-pointer"></div>
         <div class="dot w-2 h-2 bg-[#fca61f] rounded-full transition-transform duration-300 group-hover:scale-[2] group-active:scale-[1.5]"></div>
-        <div class="dot-label absolute rtl:right-6 ltr:left-6 top-1/2 -translate-y-1/2 text-[var(--primary)] text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-300 whitespace-nowrap">
+        <div class="dot-label absolute rtl:right-6 ltr:left-6 top-1/2 -translate-y-1/2 text-[var(--primary)] text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-300 whitespace-nowrap rounded-full bg-white px-3 py-2">
           {{ s.labelKey | translate }}
         </div>
       </div>

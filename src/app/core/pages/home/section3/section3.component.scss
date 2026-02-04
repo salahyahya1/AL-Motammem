@@ -222,7 +222,7 @@
 #capsule2 {
     position: absolute;
     inset: 0;
-    width: 85%;
+    width: 90%;
     height: 80%;
     margin: auto;
 }
@@ -269,14 +269,29 @@
     }
 
     #capsule2 {
-        width: 85%;
+        width: 90%;
         height: 80%;
     }
 }
 
+// @media (max-width: 950px) {
+//     #section50-TITLE {
+//         font-size: 1.65rem;
+//     }
+
+//     #section50-details {
+//         font-size: 1.05rem;
+//     }
+
+//     #capsule2 {
+//         width: 85%;
+//         height: 80%;
+//     }
+// }
+
 @media (max-width: 900px) {
     #section50-TITLE {
-        font-size: 1.7rem;
+        font-size: 1.6rem;
     }
 
     #section50-details {
@@ -289,9 +304,9 @@
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 850px) {
     #section50-TITLE {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
     }
 
     #section50-details {
@@ -299,14 +314,54 @@
     }
 
     #capsule2 {
-        width: 90%;
+        width: 86%;
         height: 80%;
+    }
+}
+
+@media (max-width: 767px) {
+    #section50-TITLE {
+        font-size: 1.5rem;
+    }
+
+    #section50-details {
+        font-size: 0.9rem;
+    }
+
+    #capsule2 {
+        width: 86%;
+        height: 80%;
+    }
+}
+
+@media (max-width: 700px) {
+    #section50-TITLE {
+        font-size: 1.3rem;
+    }
+
+    #section50-details {
+        font-size: 0.85rem;
+        padding: 0px 5px;
+    }
+
+    #capsule2 {
+        width: 86%;
+        height: 80%;
+    }
+
+    .erp-carousel .card h3 {
+        padding-right: 0.5rem;
+    }
+
+    .card {
+        margin-left: 0rem;
+        padding: 0px;
     }
 }
 
 @media (max-width: 600px) {
     #section50-TITLE {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
     }
 
     #section50-details {
@@ -318,36 +373,53 @@
         width: 90%;
         height: 90%;
     }
+
+    .erp-carousel .card h3 {
+        padding-right: 0.5rem;
+    }
+
+    .card {
+        margin-left: 0rem;
+        padding: 0px;
+    }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 530px) {
     #section50-TITLE {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     #section50-details {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         padding: 0px 5px;
+    }
+
+    #capsule2 {
+        width: 91%;
+        height: 90%;
+    }
+
+    .erp-carousel .card h3 {
+        font-size: 1.1rem;
+    }
+
+    .erp-carousel .card p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 430px) {
+    #section50-TITLE {
+        font-size: 0.85rem;
+    }
+
+    #section50-details {
+        font-size: 0.6rem;
     }
 
     #capsule2 {
         width: 90%;
         height: 90%;
-    }
-}
-
-@media (max-width: 400px) {
-    #section50-TITLE {
-        font-size: 0.9rem;
-    }
-
-    #section50-details {
-        font-size: 0.5rem;
-    }
-
-    #capsule2 {
-        width: 80%;
-        height: 80%;
     }
 
     .controls {
@@ -364,23 +436,87 @@
         overflow: hidden;
     }
 
+    .erp-carousel .card h3 {
+        font-size: 1rem;
+    }
+
     .erp-carousel .card p {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 370px) {
+    #section50-TITLE {
+        font-size: 0.75rem;
+    }
+
+    #section50-details {
+        font-size: 0.5rem;
+    }
+
+    #capsule2 {
+        width: 90%;
+        height: 90%;
+    }
+
+    .controls {
+        width: 95%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+        position: absolute;
+        top: 50%;
+    }
+
+    .swiper {
+        width: 90%;
+        overflow: hidden;
+    }
+
+    .erp-carousel .card h3 {
+        font-size: 1rem;
+    }
+
+    .erp-carousel .card p {
+        font-size: 0.8rem;
     }
 }
 
 
 @media (max-width: 335px) {
     #section50-TITLE {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
     }
 
     #section50-details {
-        font-size: 0.45rem;
+        font-size: 0.4rem;
     }
 
     #capsule2 {
         width: 90%;
         height: 90%;
+    }
+}
+
+@media (max-width: 300px) {
+    #section50-TITLE {
+        font-size: 0.65rem;
+    }
+
+    #section50-details {
+        font-size: 0.4rem;
+    }
+
+    #capsule2 {
+        width: 90%;
+        height: 90%;
+    }
+
+    .erp-carousel .card h3 {
+        font-size: 1rem;
+    }
+
+    .erp-carousel .card p {
+        font-size: 0.6rem;
     }
 }

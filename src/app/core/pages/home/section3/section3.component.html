@@ -50,7 +50,7 @@
                 {{ 'HOME.SECTION3.TITLE' | translate }}
             </p>
 
-            <p id="section50-details" class="mt-2 text-[var(--dark-gray)] font-normal leading-relaxed
+            <p id="section50-details" class="ltr:min-[280px]:mt-2 rtl:mt-2 text-[var(--dark-gray)] font-normal leading-relaxed
              rtl:text-[clamp(.65rem,1vw,.95rem)]
              ltr:text-[clamp(.6rem,.95vw,.9rem)]
              max-w-[72ch]">
@@ -78,7 +78,7 @@
         </div>
 
         <div #swiperEl class="swiper">
-            <div class="swiper-wrapper ps-[1.18rem]">
+            <div class="swiper-wrapper ltr:ps-[0.3rem] ltr:md:ps-[1.18rem] rtl:ps-[1.18rem]">
                 <div class="swiper-slide" *ngFor="let f of features">
                     <div class="card">
                         <div class="text-content text-start">

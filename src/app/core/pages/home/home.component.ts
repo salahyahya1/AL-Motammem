@@ -3175,7 +3175,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     const siteName = 'Al-Motammem';
     const pageTitle = "Al-Motammem ERP | نظام المتمم لإدارة المؤسسات";
     const desc = "نظام ERP متكامل لتطوير الشركات منذ 40 عامًا - المتمم.";
-    const image = 'https://www.almotammem.com/images/Icon.webp';
+    const image = 'https://almotammem.com/images/Icon.webp';
 
     const url =
       (typeof window !== 'undefined' && window.location?.href)

@@ -482,7 +482,7 @@ export class Section3Component {
             }
           }, ">+0.3");
           tl.to("#capsule2Wrap", {
-            y: -60,
+            y: window.innerWidth >= 768 && !this.isRtl ? -25 : -60,
             duration: 0.2,
             ease: "power2.inOut",
           }, ">-0.4");
