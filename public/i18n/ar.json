@@ -7,7 +7,8 @@
     "kNOWLEDGE": "قاعدة المعرفة",
     "CONTACT": "تواصل معنا",
     "SUPPORT": "الأسئلة الشائعة",
-    "SEARCH": "بحث..."
+    "SEARCH": "بحث...",
+    "CLOSE_SEARCH": "إغلاق البحث"
   },
   "SEARCH": {
     "RESULTS_TITLE": "نتائج البحث",

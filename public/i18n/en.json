@@ -7,7 +7,8 @@
     "kNOWLEDGE": "Knowledge base",
     "CONTACT": "Contact us",
     "SUPPORT": "FAQs",
-    "SEARCH": "Search..."
+    "SEARCH": "Search...",
+    "CLOSE_SEARCH": "Close search"
   },
   "SEARCH": {
     "RESULTS_TITLE": "Search Results",

@@ -31,6 +31,7 @@
 
                     <!-- Close Button (Hidden when closed) -->
                     <button (click)="closeSearch(); $event.stopPropagation()" type="button"
+                        [attr.aria-label]="'NAVBAR.CLOSE_SEARCH' | translate" [attr.aria-expanded]="isSearchOpen"
                         class="absolute ltr:right-1 rtl:left-1 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-200 focus:outline-none transition-all duration-300 z-20"
                         [class.opacity-0]="!isSearchOpen" [class.scale-0]="!isSearchOpen"
                         [class.pointer-events-none]="!isSearchOpen" [class.opacity-100]="isSearchOpen"
