@@ -6,8 +6,10 @@
 
   @if (showDesktopSprite) {
   <app-animated-sequence class="absolute inset-0 transition-opacity duration-200" componentId="comp1"
-    [class.opacity-0]="!spriteReady" [imageUrl]="'/images/homepage/SS_final_4cols_q92.webp'" [totalFrames]="66"
-    [frameWidth]="625" [frameHeight]="391" [framesPerRow]="4" [spriteWidth]="2500" [spriteHeight]="6647">
+    [class.opacity-0]="!spriteReady"
+    [imageUrl]="lang === 'ar' ? '/images/homepage/SS_final_4cols_q92.webp' : '/images/homepage/ss3.webp'"
+    [totalFrames]="lang === 'ar' ? 66 : 56 " [frameWidth]="625" [frameHeight]="lang === 'ar' ? 391 : 475"
+    [framesPerRow]="4" [spriteWidth]="2500" [spriteHeight]="6647">
   </app-animated-sequence>
   }
 </div>

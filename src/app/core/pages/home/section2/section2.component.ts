@@ -352,9 +352,9 @@ export class Section2Component implements AfterViewInit {
                 if (labelWords) {
                   rowTL.to(labelWords, {
                     opacity: 1,
-                    duration: 0.2,
+                    duration: 0.1,
                     ease: 'sine.out',
-                    stagger: { each: 0.2, from: 'start' },
+                    stagger: { each: 0.1, from: 'start' },
                   });
                 }
 
@@ -380,12 +380,12 @@ export class Section2Component implements AfterViewInit {
 
               if (cta) {
                 gsap.set(cta, { opacity: 0, y: 20 });
-                tl.to(cta, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, '-=0.15');
+                tl.to(cta, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out' }, '-=0.15');
               }
 
               if (subtitle) {
                 gsap.set(subtitle, { opacity: 0, y: 10 });
-                tl.to(subtitle, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }, '<');
+                tl.to(subtitle, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out' }, '<');
               }
             });
 

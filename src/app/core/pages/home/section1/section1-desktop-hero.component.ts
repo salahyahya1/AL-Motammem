@@ -34,7 +34,7 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
 
   private spritePreloaded = false;
   private spritePreloadImg: HTMLImageElement | null = null;
-
+  lang: string = 'ar'
   private mm?: any;
   private timeline?: gsap.core.Timeline;
 
@@ -58,6 +58,8 @@ export class Section1DesktopHeroComponent implements AfterViewInit, OnDestroy {
         this.revertSplits();
         setTimeout(() => this.kickDesktopAfterLCP(), 0);
       });
+    this.lang = this.translate.currentLang;
+
   }
 
   ngAfterViewInit(): void {

@@ -2966,6 +2966,7 @@ import { Router } from '@angular/router';
 import { SeoLinkService } from '../../services/seo-link.service';
 import { NavigationStart } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
+import { PreloadService } from '../../services/preload.service';
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 @Component({
@@ -3167,6 +3168,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     public sectionsRegistry: SectionsRegistryService,
     private router: Router,
     private seoLinks: SeoLinkService,
+    private preloadService: PreloadService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -3185,6 +3187,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     this.seoLinks.setCanonical(url);
     if (!this.isBrowser) return;
     this.isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+
+    this.preloadService.addPreloads([
+      { href: '/images/homepage/white_481x302.webp', as: 'image', media: '(min-width: 767px)' },
+      { href: '/images/homepage/SS_final_4cols_q92.webp', as: 'image', media: '(min-width: 767px)' },
+      { href: '/images/homepage/SS_final_4cols_q92Sm.webp', as: 'image', media: '(max-width: 767px)' },
+      // { href: '/fonts/almarai-v19-arabic-regular.woff2', as: 'font' }
+    ]);
   }
   private isHomeRoute() {
     const url = this.router.url.split('?')[0].split('#')[0];

@@ -28,7 +28,7 @@ export class AboutSection1Component {
       this.ngZone.runOutsideAngular(() => {
         setTimeout(() => {
           this.runGsapAnimation();
-        }, 500);
+        }, 100);
       });
     });
   }
@@ -49,13 +49,13 @@ export class AboutSection1Component {
           yPercent: 100,
           opacity: 0,
           ease: "expo.out",
-          stagger: 0.08,
+          stagger: 0.02,
         });
 
         tl.from(videoEl, {
           opacity: 0,
           y: -100,
-          duration: 0.2,
+          duration: 0.01,
           ease: "sine.out",
         }, "<");
 
