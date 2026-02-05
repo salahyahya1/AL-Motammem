@@ -510,6 +510,7 @@ import { ProductSection5Component } from "./product-section5/product-section5.co
 import { ProductSection6Component } from "./product-section6/product-section6.component";
 import { ProductSection8Component } from "./product-section8/product-section8.component";
 import { ProductSection7Component } from "./product-section7/product-section7.component";
+import { PreloadService } from '../../services/preload.service';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
 
@@ -565,7 +566,8 @@ export class ProductsComponent {
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private navTheme: NavbarThemeService,
-    private sectionsRegistry: SectionsRegistryService
+    private sectionsRegistry: SectionsRegistryService,
+    private preloadService: PreloadService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -573,6 +575,9 @@ export class ProductsComponent {
   ngOnInit() {
     if (!this.isBrowser) return;
     this.isMobile = window.matchMedia('(max-width: 991px)').matches; // same as your logic
+    this.preloadService.addPreloads([
+      { href: '/product/Nested Sequence 02.webm', as: 'vedio' },
+    ]);
   }
 
   ngAfterViewInit(): void {
