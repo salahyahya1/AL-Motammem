@@ -575,7 +575,7 @@ export class ProductsComponent {
 
   ngOnInit() {
     if (!this.isBrowser) return;
-    this.isMobile = window.matchMedia('(max-width: 991px)').matches; // same as your logic
+    this.isMobile = window.matchMedia('(max-width: 767px)').matches; // same as your logic
     this.preloadService.addPreloads([
       { href: '/product/Nested Sequence 02.webm', as: 'vedio' },
     ]);
