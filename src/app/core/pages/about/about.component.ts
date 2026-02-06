@@ -1301,7 +1301,7 @@ export class AboutComponent {
   private smoother: any;
   private smootherST: any;
 
-  // ✅ Desktop snap debounce (kept)
+  // Desktop snap debounce (kept)
   private desktopSnapDC?: gsap.core.Tween;
 
   constructor(
@@ -1323,10 +1323,8 @@ export class AboutComponent {
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
 
-    // Separate paths for Mobile vs Desktop
     if (this.isMobile) {
       this.mobileInitTimer = setTimeout(() => {
-        // ✅ Wrap in context for proper cleanup of triggers
         this.ctx = gsap.context(() => {
           this.initMobileSnap();
         });
@@ -1334,7 +1332,6 @@ export class AboutComponent {
       return;
     }
 
-    // Desktop: wait for smoother and set up
     this.ngZone.runOutsideAngular(() => {
       this.waitForSmoother((smoother) => {
         this.smoother = smoother;
@@ -1357,7 +1354,7 @@ export class AboutComponent {
     tick();
   }
 
-  // ✅ request snap with SAME desktop feel (0.7s)
+  // Desktop snap request (unchanged)
   private requestDesktopSnap = () => {
     if (!this.smootherST || !this.smoother) return;
     if (!this.snapPositions.length) return;
@@ -1366,7 +1363,6 @@ export class AboutComponent {
     this.desktopSnapDC = gsap.delayedCall(0.7, () => this.doSnap());
   };
 
-  // ✅ scrollEnd catches scrollbar drag
   private onDesktopScrollEnd = () => {
     this.requestDesktopSnap();
   };
@@ -1386,7 +1382,7 @@ export class AboutComponent {
     }, 600);
   }
 
-  // =================== MOBILE SNAP ===================
+  // =================== MOBILE SNAP (FIXED / STABLE) ===================
   private scrollEl!: HTMLElement;
   private mobileObserver?: any;
 
@@ -1395,7 +1391,6 @@ export class AboutComponent {
 
   private lastDirMobile: 1 | -1 = 1;
   private isSnappingMobile = false;
-  private isTouchingMobile = false;
 
   private globalSnapLocked = false;
   private globalSnapLockUntil = 0;
@@ -1404,14 +1399,13 @@ export class AboutComponent {
   private mobileResizeT: any = null;
   private mobileInitTimer: any = null;
 
-  // Section3 trigger build retries
   private s3WaitTries = 0;
 
-  // ✅ NEW: mobile stabilization
+  // ✅ NEW: prevent double-snap / correction snap
   private lastSnapAtMobile = 0;
-  private readonly SNAP_COOLDOWN = 480; // ms
-  private readonly DEAD_ZONE = 32; // px
-  private footerPassedOnce = false;
+  private readonly SNAP_COOLDOWN_MS = 520; // a bit longer to absorb browser correction
+  private readonly DEAD_ZONE_PX = 34;      // bigger to avoid micro corrections
+  private touchReleaseT: any = null;
 
   // from Section3 to lock/unlock global snap
   private onS3Lock = (e: Event) => {
@@ -1433,28 +1427,21 @@ export class AboutComponent {
       ScrollTrigger.refresh(true);
       this.buildSnapPositionsMobile();
       this.mobileObserver?.enable?.();
-    }, cooldownMs + 120);
+    }, cooldownMs + 140);
   };
 
-  private onTouchStartMobile = () => { this.isTouchingMobile = true; };
-  private onTouchEndMobile = () => { this.isTouchingMobile = false; };
-
   private initMobileSnap() {
+    // address bar safety
     ScrollTrigger.config({ ignoreMobileResize: true });
 
     this.scrollEl = (document.scrollingElement || document.documentElement) as HTMLElement;
 
-    this.footerPassedOnce = false; // ✅ reset on init
-
     this.observeSectionsMobile();
-
     window.addEventListener('S3_SNAP_LOCK', this.onS3Lock as any);
-
-    window.addEventListener('touchstart', this.onTouchStartMobile, { passive: true });
-    window.addEventListener('touchend', this.onTouchEndMobile, { passive: true });
 
     ScrollTrigger.refresh(true);
     this.buildSnapPositionsMobile();
+
     this.initMobileObserver();
 
     this.lastVVH = (window.visualViewport?.height || window.innerHeight);
@@ -1465,19 +1452,33 @@ export class AboutComponent {
   private initMobileObserver() {
     try { this.mobileObserver?.kill?.(); } catch { }
 
+    // ✅ IMPORTANT:
+    // - remove 'scroll' (prevents snap-loop)
+    // - use touch release to snap (prevents snapping while finger still down)
     this.mobileObserver = ScrollTrigger.observe({
       target: window,
-      // ✅ IMPORTANT: remove 'scroll' to prevent snap-loop
-      type: 'wheel,touch',
+      type: 'touch,wheel',
       onDown: () => { this.lastDirMobile = 1; },
       onUp: () => { this.lastDirMobile = -1; },
+
+      // touch lifecycle
+      onPress: () => {
+        // cancel any pending snap from previous release
+        if (this.touchReleaseT) clearTimeout(this.touchReleaseT);
+      },
+      onRelease: () => {
+        // delay a bit so iOS/Android momentum settles
+        if (this.touchReleaseT) clearTimeout(this.touchReleaseT);
+        this.touchReleaseT = setTimeout(() => this.doSnapMobile(), 90);
+      },
+
+      // wheel/trackpad stop
       onStop: () => {
-        if (this.globalSnapLocked) return;
-        if (performance.now() < this.globalSnapLockUntil) return;
-        if (this.isTouchingMobile) return;
         this.doSnapMobile();
       },
-      onStopDelay: 0.22,
+      onStopDelay: 0.24,
+      preventDefault: false,
+      allowClicks: true,
     });
 
     if (this.globalSnapLocked) this.mobileObserver.disable();
@@ -1508,7 +1509,7 @@ export class AboutComponent {
     const st3 = ScrollTrigger.getById('AboutSection3Trigger-mobile') as any;
 
     if (!st3) {
-      if (this.s3WaitTries < 8) {
+      if (this.s3WaitTries < 10) {
         this.s3WaitTries++;
         window.setTimeout(() => {
           ScrollTrigger.refresh(true);
@@ -1539,27 +1540,31 @@ export class AboutComponent {
     if (gsap.isTweening(this.scrollEl)) return;
 
     const now = performance.now();
-    if (now - this.lastSnapAtMobile < this.SNAP_COOLDOWN) return;
+    if (now - this.lastSnapAtMobile < this.SNAP_COOLDOWN_MS) return;
 
     const current = this.scrollEl.scrollTop;
     const vh = (window.visualViewport?.height || window.innerHeight);
 
-    // ✅ FOOTER HARD ESCAPE
-    const footerZoneStart = this.footerTopMobile - vh * 0.35;
-    if (current >= footerZoneStart && this.lastDirMobile > 0) {
-      this.footerPassedOnce = true;
+    // ✅ FOOTER: once user enters footer zone while scrolling down -> stop snapping
+    // (but allow snapping again if user scrolls back up far enough)
+    const footerZoneStart = this.footerTopMobile - vh * 0.38;
+    const footerZoneExit = this.footerTopMobile - vh * 0.55;
+
+    if (this.lastDirMobile > 0 && current >= footerZoneStart) return;
+    if (this.lastDirMobile < 0 && current > footerZoneExit) {
+      // still near footer while going up: don't fight user
       return;
     }
-    if (this.footerPassedOnce) return;
 
-    // ✅ LAST SECTION FREE SCROLL (allow reaching footer)
+    // ✅ allow free scrolling in last section when going down (so you can reach footer smoothly)
     const lastSnap = this.snapPositions[this.snapPositions.length - 1];
-    if (current > lastSnap + 60) return;
+    if (this.lastDirMobile > 0 && current > lastSnap + vh * 0.18) {
+      return;
+    }
 
     // nearest snap (binary search)
     const arr = this.snapPositions;
     let lo = 0, hi = arr.length - 1;
-
     while (lo < hi) {
       const mid = (lo + hi) >> 1;
       if (arr[mid] < current) lo = mid + 1;
@@ -1569,25 +1574,30 @@ export class AboutComponent {
     const next = arr[lo];
     const prev = lo > 0 ? arr[lo - 1] : arr[0];
 
-    let target =
-      Math.abs(current - prev) <= Math.abs(next - current)
-        ? prev
-        : next;
+    // direction-aware target to reduce "snap then correct"
+    let target: number;
+    if (this.lastDirMobile > 0) {
+      // going down: prefer next unless very close to prev
+      target = (Math.abs(current - prev) <= this.DEAD_ZONE_PX * 1.1) ? prev : next;
+    } else {
+      // going up: prefer prev unless very close to next
+      target = (Math.abs(next - current) <= this.DEAD_ZONE_PX * 1.1) ? next : prev;
+    }
 
     const dist = Math.abs(target - current);
-    if (dist <= this.DEAD_ZONE) return;
+    if (dist <= this.DEAD_ZONE_PX) return;
 
-    // Section3 end preference
+    // ✅ Section3: only snap to end when user is going DOWN and already near its end
     const st3 = ScrollTrigger.getById('AboutSection3Trigger-mobile') as any;
     if (st3) {
       const s3End = Math.round(st3.end);
-      if (Math.abs(current - s3End) <= vh * 0.6) {
+      if (this.lastDirMobile > 0 && Math.abs(current - s3End) <= vh * 0.52) {
         target = s3End;
       }
     }
 
-    // offsets
-    const DOWN_OFFSET = 12;
+    // offsets (very small) to avoid landing exactly on boundary
+    const DOWN_OFFSET = 10;
     const offset = this.lastDirMobile > 0 ? DOWN_OFFSET : 0;
 
     const targetPos =
@@ -1600,7 +1610,7 @@ export class AboutComponent {
 
     gsap.to(this.scrollEl, {
       scrollTo: targetPos,
-      duration: 0.75,
+      duration: 0.78,
       ease: 'power3.out',
       overwrite: true,
       onComplete: () => { this.isSnappingMobile = false; },
@@ -1611,24 +1621,23 @@ export class AboutComponent {
   private onResizeMobile = () => {
     const h = (window.visualViewport?.height || window.innerHeight);
 
-    // ✅ address bar jitter guard (more tolerant)
-    if (Math.abs(h - this.lastVVH) < 28) return;
+    // ✅ ignore address bar jitter (more tolerant)
+    if (Math.abs(h - this.lastVVH) < 34) return;
     this.lastVVH = h;
 
     if (this.mobileResizeT) clearTimeout(this.mobileResizeT);
     this.mobileResizeT = setTimeout(() => {
       ScrollTrigger.refresh(true);
       this.buildSnapPositionsMobile();
-    }, 220);
+    }, 240);
   };
 
   private destroyMobileSnap() {
     try { this.mobileObserver?.kill?.(); } catch { }
 
-    window.removeEventListener('S3_SNAP_LOCK', this.onS3Lock as any);
-    window.removeEventListener('touchstart', this.onTouchStartMobile as any);
-    window.removeEventListener('touchend', this.onTouchEndMobile as any);
+    if (this.touchReleaseT) clearTimeout(this.touchReleaseT);
 
+    window.removeEventListener('S3_SNAP_LOCK', this.onS3Lock as any);
     window.removeEventListener('resize', this.onResizeMobile);
     window.visualViewport?.removeEventListener('resize', this.onResizeMobile);
   }
