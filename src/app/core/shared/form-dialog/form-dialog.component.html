@@ -1,16 +1,17 @@
 <div *ngIf="visible$ | async" id="dialog-backdrop" (click)="onBackdropClick($event)"
     class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div dir="rtl" class="bg-white rounded-3xl shadow-xl w-[90%] max-w-xl p-6 md:p-8 relative">
+    <div [dir]="lang === 'ar' ? 'rtl' : 'ltr'"
+        class="bg-white rounded-3xl shadow-xl w-[90%] max-w-xl p-6 md:p-8 relative">
 
         <button type="button" (click)="closeDialog()" aria-label="إغلاق"
-            class="absolute left-4 top-4 text-gray-400 hover:text-gray-600 text-2xl leading-none">
+            class="absolute rtl:left-4 ltr:right-4 top-4 text-gray-400 hover:text-gray-600 text-2xl leading-none">
             &times;
         </button>
 
         <div *ngIf="!showSuccess; else successState">
-            <h2 class="text-lg md:text-xl font-semibold text-gray-900 mb-4 text-right">
-                تواصل معنا
+            <h2 class="text-lg md:text-xl font-semibold text-gray-900 mb-4 text-start">
+                {{ 'CONTACT_DIALOG.TITLE' | translate }}
             </h2>
 
             <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4" autocomplete="off">
@@ -18,39 +19,42 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- fullName -->
                     <div>
-                        <label class="block mb-1 text-sm text-gray-700">الاسم الكامل</label>
+                        <label class="block mb-1 text-sm text-gray-700">{{ 'CONTACT_DIALOG.FULL_NAME.LABEL' | translate
+                            }}</label>
                         <input type="text" formControlName="fullName"
                             class="w-full rounded-full px-4 py-2 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]" />
 
                         <p *ngIf="isInvalid('fullName')" class="mt-1 text-xs text-red-500">
-                            الاسم الكامل: هذا الحقل مطلوب
+                            {{ 'CONTACT_DIALOG.FULL_NAME.REQUIRED' | translate }}
                         </p>
                     </div>
 
                     <!-- phone -->
                     <div>
-                        <label class="block mb-1 text-sm text-gray-700">رقم الهاتف</label>
+                        <label class="block mb-1 text-sm text-gray-700">{{ 'CONTACT_DIALOG.PHONE.LABEL' | translate
+                            }}</label>
                         <input type="tel" formControlName="phone"
                             class="w-full rounded-full px-4 py-2 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]" />
 
                         <p *ngIf="isInvalid('phone')" class="mt-1 text-xs text-red-500">
-                            رقم الهاتف: هذا الحقل مطلوب
+                            {{ 'CONTACT_DIALOG.PHONE.REQUIRED' | translate }}
                         </p>
                     </div>
                 </div>
 
                 <!-- email -->
                 <div>
-                    <label class="block mb-1 text-sm text-gray-700">البريد الإلكتروني</label>
+                    <label class="block mb-1 text-sm text-gray-700">{{ 'CONTACT_DIALOG.EMAIL.LABEL' | translate
+                        }}</label>
                     <input type="email" formControlName="email"
                         class="w-full rounded-full px-4 py-2 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]" />
 
                     <ng-container *ngIf="isInvalid('email')">
                         <p *ngIf="form.get('email')?.errors?.['required']" class="mt-1 text-xs text-red-500">
-                            البريد الإلكتروني: هذا الحقل مطلوب
+                            {{ 'CONTACT_DIALOG.EMAIL.REQUIRED' | translate }}
                         </p>
                         <p *ngIf="form.get('email')?.errors?.['email']" class="mt-1 text-xs text-red-500">
-                            البريد الإلكتروني: من فضلك أدخل بريد صحيح
+                            {{ 'CONTACT_DIALOG.EMAIL.INVALID' | translate }}
                         </p>
                     </ng-container>
                 </div>
@@ -58,7 +62,7 @@
                 <!-- message -->
                 <div>
                     <label class="block mb-1 text-sm text-gray-700">
-                        رسالة / شرح احتياجاتك (اختياري)
+                        {{ 'CONTACT_DIALOG.MESSAGE.LABEL' | translate }}
                     </label>
                     <textarea rows="4" formControlName="message"
                         class="w-full rounded-3xl px-4 py-3 bg-gray-100 resize-none focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F4B942]"></textarea>
@@ -67,8 +71,8 @@
                 <div class="flex flex-col items-center pt-2 gap-2">
                     <button type="submit" [disabled]="isSubmitting"
                         class="px-10 py-2 rounded-full bg-[#F4B942] text-white font-semibold shadow-md hover:bg-[#f3a924] hover:shadow-lg transition disabled:opacity-60 disabled:cursor-not-allowed">
-                        <span *ngIf="!isSubmitting">إرسال</span>
-                        <span *ngIf="isSubmitting">جارٍ الإرسال...</span>
+                        <span *ngIf="!isSubmitting">{{ 'CONTACT_DIALOG.SUBMIT.DEFAULT' | translate }}</span>
+                        <span *ngIf="isSubmitting">{{ 'CONTACT_DIALOG.SUBMIT.LOADING' | translate }}</span>
                     </button>
 
                     <!-- error message -->
@@ -86,14 +90,14 @@
                     <span class="text-2xl">✅</span>
                 </div>
                 <h3 class="text-lg font-semibold text-gray-900">
-                    تم إرسال طلبك بنجاح
+                    {{ 'CONTACT_DIALOG.SUCCESS.TITLE' | translate }}
                 </h3>
                 <p class="text-sm text-gray-600 max-w-xs">
-                    شكرًا لتواصلك معنا. سيتم التواصل معك في أقرب وقت ممكن.
+                    {{ 'CONTACT_DIALOG.SUCCESS.DESCRIPTION' | translate }}
                 </p>
                 <button type="button" (click)="closeDialog()"
                     class="mt-2 px-6 py-2 rounded-full text-sm bg-[#F4B942] text-white font-medium shadow hover:bg-[#f3a924] transition">
-                    حسناً
+                    {{ 'CONTACT_DIALOG.SUCCESS.BUTTON' | translate }}
                 </button>
             </div>
         </ng-template>

@@ -87,11 +87,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormDialogService } from '../services/form-dialog.service';
 import { Observable, finalize } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-form-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './form-dialog.component.html',
   styleUrl: './form-dialog.component.scss'
 })
@@ -101,11 +103,12 @@ export class FormDialogComponent {
   showSuccess = false;
   isSubmitting = false;
   errorMessage = '';
-
+  lang: string = 'ar';
   constructor(
     private fb: FormBuilder,
     private formDialogService: FormDialogService,
-    private http: HttpClient
+    private http: HttpClient,
+    public languageService: LanguageService
   ) {
     this.form = this.fb.group({
       fullName: ['', Validators.required],
@@ -114,7 +117,7 @@ export class FormDialogComponent {
       // ✅ اختياري فعلاً (زي ما مكتوب في الـ UI)
       message: ['']
     });
-
+    this.lang = this.languageService.currentLang
     this.visible$ = this.formDialogService.visible$;
   }
 

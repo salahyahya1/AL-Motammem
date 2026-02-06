@@ -21,6 +21,35 @@
     "BADGE_FAQ": "FAQ",
     "BADGE_SITE": "Page"
   },
+  "CONTACT_DIALOG": {
+    "TITLE": "Contact Us",
+    "FULL_NAME": {
+      "LABEL": "Full Name",
+      "REQUIRED": "Full name: this field is required"
+    },
+    "PHONE": {
+      "LABEL": "Phone Number",
+      "REQUIRED": "Phone number: this field is required"
+    },
+    "EMAIL": {
+      "LABEL": "Email Address",
+      "REQUIRED": "Email address: this field is required",
+      "INVALID": "Email address: please enter a valid email"
+    },
+    "MESSAGE": {
+      "LABEL": "Message / Describe your needs (optional)"
+    },
+    "SUBMIT": {
+      "DEFAULT": "Submit",
+      "LOADING": "Submitting..."
+    },
+    "SUCCESS": {
+      "TITLE": "Your request has been sent successfully",
+      "DESCRIPTION": "Thank you for contacting us. We will get back to you as soon as possible.",
+      "BUTTON": "OK"
+    },
+    "CLOSE": "Close"
+  },
   "HOME": {
     "INDECATORS": {
       "ABOUT": "About Al-Motammem",
