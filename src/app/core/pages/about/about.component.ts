@@ -871,9 +871,17 @@ export class AboutComponent {
     const current = this.scrollEl.scrollTop;
     const vh = (window.visualViewport?.height || window.innerHeight);
 
-    // ✅ footer zone: لو نازل للفوتر سيبه (مايعملش snap)
+    // ✅ footer zone: if approaching footer, stop snapping
     const footerZoneStart = this.footerTopMobile - vh * 0.25;
     if (current >= footerZoneStart && this.lastDirMobile > 0) return;
+
+    // ✅ LAST SECTION GUARD:
+    // If we are deep inside the last section (more than 150px), DO NOT snap back to its start.
+    // This allows free scrolling to the footer.
+    const lastSnap = this.snapPositions[this.snapPositions.length - 1];
+    if (current > lastSnap + 50) {
+      return;
+    }
 
     // ✅ nearest snap (binary search)
     const arr = this.snapPositions;
@@ -1041,7 +1049,7 @@ export class AboutComponent {
 
     // Only snap if we're not already at the position
     if (minDistance > 10) {
-      const SNAP_OFFSET = 50;
+      const SNAP_OFFSET = 120; // ✅ Increased offset to enter section deeper for animations
 
       // ✅ NEW: safe offset (still 50px feel, but never overshoots next section)
       const idx = this.snapPositions.indexOf(nearest);
