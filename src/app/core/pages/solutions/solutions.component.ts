@@ -1354,7 +1354,11 @@ export class SolutionsComponent {
     if (!this.isBrowser) return;
 
     if (this.isMobile) {
-      this.mobileInitTimer = setTimeout(() => this.initMobileSnap(), 750);
+      this.mobileInitTimer = setTimeout(() => {
+        this.ctx = gsap.context(() => {
+          this.initMobileSnap();
+        });
+      }, 750);
       return;
     }
 
@@ -1866,10 +1870,11 @@ export class SolutionsComponent {
     this.desktopSnapDC?.kill();
 
     // mobile cleanup
-    if (this.isMobile) {
-      this.destroyMobileSnap();
-    }
+    this.destroyMobileSnap();
 
     this.ctx?.revert();
+
+    // ✅ Final Safety
+    ScrollTrigger.getAll().forEach(t => t.kill());
   }
 }

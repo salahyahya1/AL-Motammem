@@ -586,7 +586,11 @@ export class ProductsComponent {
 
     // Mobile specific path
     if (this.isMobile) {
-      this.mobileInitTimer = setTimeout(() => this.initMobileSnap(), 750);
+      this.mobileInitTimer = setTimeout(() => {
+        this.ctx = gsap.context(() => {
+          this.initMobileSnap();
+        });
+      }, 750);
       return;
     }
 
@@ -988,11 +992,12 @@ export class ProductsComponent {
     try { this.snapObserver?.kill?.(); } catch { }
     this.desktopSnapDC?.kill();
 
-    // ✅ mobile cleanup once
-    if (this.isMobile) {
-      this.destroyMobileSnap();
-    }
+    // ✅ mobile cleanup
+    this.destroyMobileSnap();
 
     this.ctx?.revert();
+
+    // ✅ Final Safety
+    ScrollTrigger.getAll().forEach(t => t.kill());
   }
 }

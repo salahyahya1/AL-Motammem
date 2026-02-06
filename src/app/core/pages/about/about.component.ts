@@ -641,7 +641,12 @@ export class AboutComponent {
 
     // Separate paths for Mobile vs Desktop
     if (this.isMobile) {
-      this.mobileInitTimer = setTimeout(() => this.initMobileSnap(), 750);
+      this.mobileInitTimer = setTimeout(() => {
+        // ✅ Wrap in context for proper cleanup of triggers
+        this.ctx = gsap.context(() => {
+          this.initMobileSnap();
+        });
+      }, 750);
       return;
     }
 
@@ -657,6 +662,8 @@ export class AboutComponent {
       });
     });
   }
+
+
 
   private waitForSmoother(cb: (s: any) => void) {
     const start = performance.now();
@@ -1130,11 +1137,13 @@ export class AboutComponent {
     try { this.snapObserver?.kill?.(); } catch { }
     this.desktopSnapDC?.kill();
 
-    // ✅ mobile clean once only
-    if (this.isMobile) {
-      this.destroyMobileSnap();
-    }
+    // ✅ mobile cleanup
+    this.destroyMobileSnap();
 
+    // ✅ Revert GSAP context (kills triggers created inside it)
     this.ctx?.revert();
+
+    // ✅ Final Safety: Kill ALL ScrollTriggers
+    ScrollTrigger.getAll().forEach(t => t.kill());
   }
 }
