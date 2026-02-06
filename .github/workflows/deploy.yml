@@ -2,7 +2,7 @@ name: 🚀 FTP Deploy - Al Motammem
 
 on:
   push:
-    branches: [ "soultionsscrollsnap" ]   # أي push على main هيعمل deploy
+    branches: [ "soultionsscrollsnap" ]   # أي push على soultionsscrollsnap هيعمل deploy
 
 jobs:
   build-and-deploy:
