@@ -1315,6 +1315,7 @@ export class SolutionsComponent {
   private isTouchingMobile = false;
   private lastVVH = 0;
   private mobileResizeT: any = null;
+  private mobileInitTimer: any = null;
 
   // ✅ Mobile end view of section3
   private s3EndViewMobile = 0;
@@ -1353,7 +1354,7 @@ export class SolutionsComponent {
     if (!this.isBrowser) return;
 
     if (this.isMobile) {
-      setTimeout(() => this.initMobileSnap(), 750);
+      this.mobileInitTimer = setTimeout(() => this.initMobileSnap(), 750);
       return;
     }
 
@@ -1850,6 +1851,10 @@ export class SolutionsComponent {
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
+
+    if (this.mobileInitTimer) {
+      clearTimeout(this.mobileInitTimer);
+    }
 
     if (!this.isBrowser) return;
 

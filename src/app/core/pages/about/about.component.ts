@@ -640,7 +640,7 @@ export class AboutComponent {
 
     // Separate paths for Mobile vs Desktop
     if (this.isMobile) {
-      setTimeout(() => this.initMobileSnap(), 750);
+      this.mobileInitTimer = setTimeout(() => this.initMobileSnap(), 750);
       return;
     }
 
@@ -718,6 +718,7 @@ export class AboutComponent {
 
   private lastVVH = 0;
   private mobileResizeT: any = null;
+  private mobileInitTimer: any = null;
 
   // مهم: علشان لو Section3 trigger لسه ما اتبناش وقت build
   private s3WaitTries = 0;
@@ -1115,6 +1116,10 @@ export class AboutComponent {
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
+
+    if (this.mobileInitTimer) {
+      clearTimeout(this.mobileInitTimer);
+    }
 
     if (!this.isBrowser) return;
 

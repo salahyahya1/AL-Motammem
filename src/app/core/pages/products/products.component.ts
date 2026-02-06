@@ -560,6 +560,7 @@ export class ProductsComponent {
   private isTouchingMobile = false;
   private lastVVH = 0;
   private mobileResizeT: any = null;
+  private mobileInitTimer: any = null;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -585,7 +586,7 @@ export class ProductsComponent {
 
     // Mobile specific path
     if (this.isMobile) {
-      setTimeout(() => this.initMobileSnap(), 750);
+      this.mobileInitTimer = setTimeout(() => this.initMobileSnap(), 750);
       return;
     }
 
@@ -974,6 +975,10 @@ export class ProductsComponent {
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
+
+    if (this.mobileInitTimer) {
+      clearTimeout(this.mobileInitTimer);
+    }
 
     if (!this.isBrowser) return;
 
