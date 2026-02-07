@@ -1974,6 +1974,7 @@ export class AboutComponent {
   ngOnInit() {
     if (!this.isBrowser) return;
 
+    // ✅ SSR-safe plugins register
     if (!AboutComponent.pluginsRegistered) {
       gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
       AboutComponent.pluginsRegistered = true;
@@ -1981,18 +1982,14 @@ export class AboutComponent {
 
     this.isMobile = window.matchMedia('(max-width: 767px)').matches;
 
+    // (اختياري) preload — طالما isBrowser true
     this.preloadService.addPreloads([
-      // الصور: preload عادي (لو بتظهر بسرعة في الموبايل)
-      { href: '/About us/Vertical about us copy1.jpg', as: 'image', media: '(max-width: 767px)', fetchpriority: 'high' },
+      { href: '/About us/assetsafarihigh.mp4', as: 'video' },
+      { href: '/About us/Nested Sequence 02safari.mp4', as: 'video' },
+      { href: '/About us/Vertical about us copy1.jpg', as: 'image', media: '(max-width: 767px)' },
       { href: '/About us/Vertical about us copy2.jpg', as: 'image', media: '(max-width: 767px)' },
       { href: '/About us/Vertical about us copy3.jpg', as: 'image', media: '(max-width: 767px)' },
-
-      // الفيديوهات: PREFETCH بدل PRELOAD عشان ما يطلعش "not used within a few seconds"
-      { href: '/About us/assetsafarihigh.mp4', as: 'video', type: 'video/mp4', rel: 'prefetch' },
-      { href: '/About us/Nested Sequence 02safari.mp4', as: 'video', type: 'video/mp4', rel: 'prefetch' },
     ]);
-
-
   }
 
   ngAfterViewInit(): void {
@@ -2007,6 +2004,7 @@ export class AboutComponent {
       return;
     }
 
+    // Desktop path
     this.ngZone.runOutsideAngular(() => {
       this.waitForSmoother((smoother) => {
         this.smoother = smoother;
@@ -2075,6 +2073,7 @@ export class AboutComponent {
 
       this.snapPositions.push(st.start);
 
+      // Section3 end
       if (index === 2) {
         this.snapPositions.push(st.end);
       }
@@ -2129,7 +2128,11 @@ export class AboutComponent {
     if (minDistance > 10) {
       const SNAP_OFFSET = 120;
       const idx = this.snapPositions.indexOf(nearest);
-      const nextSnap = (idx >= 0 && idx < this.snapPositions.length - 1) ? this.snapPositions[idx + 1] : nearest;
+      const nextSnap =
+        (idx >= 0 && idx < this.snapPositions.length - 1)
+          ? this.snapPositions[idx + 1]
+          : nearest;
+
       const maxAllowedOffset = Math.max(0, nextSnap - nearest - 20);
       const safeOffset = Math.min(SNAP_OFFSET, maxAllowedOffset);
 
@@ -2171,10 +2174,14 @@ export class AboutComponent {
   };
 
   // =========================
-  // ✅ MOBILE (STABLE)
+  // ✅ MOBILE (STABLE + S3 END BACK SNAP + S4 NAV OFFSET)
   // =========================
 
   private readonly FOOTER_SELECTOR = 'app-footer, #site-footer, footer, #footer, .footer';
+
+  // ✅ Section4 Nav Offset
+  private readonly S4_INDEX = 3;
+  private readonly S4_NAV_OFFSET_PX = 50;
 
   private mobileInitTimer: any = null;
   private mobileResizeT: any = null;
@@ -2182,14 +2189,7 @@ export class AboutComponent {
 
   private scrollEl!: HTMLElement;
 
-  // panel starts (S1..S5)
-  private panelStartsMobile: number[] = [];
-
-  // ✅ snap points = panel starts + (Section3 end if exists)
-  private snapPointsMobile: number[] = [];
-  private s3EndSnapMobile: number | null = null;
-  private s3EndTry = 0;
-
+  private panelStartsMobile: number[] = []; // sorted starts
   private lastDirMobile: 1 | -1 = 1;
   private lastScrollTopMobile = 0;
 
@@ -2202,18 +2202,21 @@ export class AboutComponent {
   private lastSnapIndexMobile = 0;
 
   private footerMode = false;
-  private footerTop = Number.POSITIVE_INFINITY;
   private footerEnterY = Number.POSITIVE_INFINITY;
   private footerExitY = Number.POSITIVE_INFINITY;
 
   private lastVVH = 0;
 
+  // ✅ Section3 end anchor (for snapping BACK from section4 -> last of section3)
+  private s3EndMobile: number | null = null;
+
   // language weight
   private isEnglishUI = false;
-  private s3AssistRatio = 0.62;
-  private s3DeepStartFactor = 0.90;
+  private s3AssistRatio = 0.62;      // lighter EN
+  private s3DeepStartFactor = 0.90;  // disable snap deep inside
   private s3DeepEndFactor = 0.90;
 
+  // tweakables
   private readonly SNAP_COOLDOWN_MS = 320;
   private readonly DEAD_ZONE_PX = 18;
 
@@ -2222,6 +2225,7 @@ export class AboutComponent {
 
     this.scrollEl = (document.scrollingElement || document.documentElement) as HTMLElement;
 
+    // language weight
     const html = document.documentElement;
     const lang = (html.getAttribute('lang') || '').toLowerCase();
     const dir = (html.getAttribute('dir') || '').toLowerCase();
@@ -2230,15 +2234,19 @@ export class AboutComponent {
     this.s3DeepStartFactor = this.isEnglishUI ? 0.85 : 0.90;
     this.s3DeepEndFactor = this.isEnglishUI ? 0.85 : 0.90;
 
+    // Navbar theme observers (mobile)
     this.observeSectionsMobile();
 
-    // ✅ important: refresh once so Section3 trigger end becomes correct
+    // important: refresh so Section3 trigger end is correct
     ScrollTrigger.refresh(true);
 
-    this.rebuildMobileSnapPoints();
+    // build initial anchors
+    this.rebuildMobileAnchors();
 
+    // init direction
     this.lastScrollTopMobile = this.getScrollTop();
 
+    // listeners (NO ScrollTrigger.observe)
     window.addEventListener('scroll', this.onMobileScroll, { passive: true });
     window.addEventListener('touchstart', this.onTouchStartMobile, { passive: true });
     window.addEventListener('touchend', this.onTouchEndMobile, { passive: true });
@@ -2247,13 +2255,13 @@ export class AboutComponent {
     window.addEventListener('resize', this.onResizeMobile, { passive: true });
     window.visualViewport?.addEventListener('resize', this.onResizeMobile as any, { passive: true } as any);
 
-    // delayed rebuild for late images/fonts
+    // one delayed rebuild near top only
     setTimeout(() => {
       const vh = (window.visualViewport?.height || window.innerHeight);
       const y = this.getScrollTop();
-      if (y < vh * 1.4 && !this.isTouchingMobile) {
+      if (y < vh * 1.4 && !this.isTouchingMobile && !this.footerMode) {
         ScrollTrigger.refresh(true);
-        this.rebuildMobileSnapPoints();
+        this.rebuildMobileAnchors();
       }
     }, 850);
   }
@@ -2269,8 +2277,8 @@ export class AboutComponent {
 
   private onTouchEndMobile = () => {
     this.isTouchingMobile = false;
-    // ✅ ensure snap happens after finger release
-    this.scheduleMobileSnap(90);
+    // ✅ snap only after you remove finger + after momentum ends (idle)
+    this.scheduleMobileSnap(170);
   };
 
   private onMobileScroll = () => {
@@ -2280,9 +2288,7 @@ export class AboutComponent {
     this.lastScrollTopMobile = y;
 
     this.computeFooterBands();
-
-    // scroll-end snap debounce
-    this.scheduleMobileSnap(140);
+    this.scheduleMobileSnap(170);
   };
 
   private scheduleMobileSnap(delayMs: number) {
@@ -2300,91 +2306,89 @@ export class AboutComponent {
     const footer = document.querySelector(this.FOOTER_SELECTOR) as HTMLElement | null;
 
     if (!footer) {
-      this.footerTop = Number.POSITIVE_INFINITY;
       this.footerEnterY = Number.POSITIVE_INFINITY;
       this.footerExitY = Number.POSITIVE_INFINITY;
       return;
     }
 
     const top = Math.round(footer.getBoundingClientRect().top + this.getScrollTop());
-    this.footerTop = top;
+
+    // enter = قريب من الفوتر وانت نازل
     this.footerEnterY = top - vh * 0.28;
+    // exit = لازم تطلع لفوق أكتر عشان نرجّع السناب
     this.footerExitY = top - vh * 0.68;
   }
 
-  // ✅ NEW: build panel starts + Section3 end snap point
-  private rebuildMobileSnapPoints() {
+  private getSnapTargetByIndex(idx: number) {
+    const base = this.panelStartsMobile[idx];
+    if (!Number.isFinite(base)) return base;
+
+    // ✅ apply nav offset ONLY for Section4
+    if (idx === this.S4_INDEX) {
+      const nextBase = this.panelStartsMobile[idx + 1] ?? base;
+      const maxAllowed = Math.max(0, nextBase - base - 20);
+      const safeOffset = Math.min(this.S4_NAV_OFFSET_PX, maxAllowed);
+      return base + safeOffset;
+    }
+    return base;
+  }
+
+  private rebuildMobileAnchors() {
     if (!this.isBrowser) return;
     if (this.footerMode) return;
 
     const panels = Array.from(document.querySelectorAll('.panel')) as HTMLElement[];
     const y = this.getScrollTop();
-    const vh = (window.visualViewport?.height || window.innerHeight);
 
-    // panel starts
     const starts = panels.map(p => Math.round(p.getBoundingClientRect().top + y));
-    const panelUniq = Array.from(new Set(starts)).sort((a, b) => a - b);
-    this.panelStartsMobile = panelUniq;
+    const uniq = Array.from(new Set(starts)).sort((a, b) => a - b);
 
-    // try read section3 pin end
-    this.s3EndSnapMobile = null;
+    this.panelStartsMobile = uniq;
+
+    // ✅ compute s3End from real ScrollTrigger (fallback = s4Start)
+    const s3Start = uniq[2];
+    const s4Start = uniq[3];
+
+    this.s3EndMobile = null;
     const st3 = ScrollTrigger.getById('AboutSection3Trigger-mobile') as any;
-    if (st3 && Number.isFinite(st3.end) && this.panelStartsMobile.length >= 4) {
-      const s3Start = this.panelStartsMobile[2];
-      const s4Start = this.panelStartsMobile[3];
-      const end = Math.round(st3.end);
 
-      // accept if it's in a sane range around transition
-      // (it can be equal/close to s4Start, and duplicates will be removed)
-      const minOk = s3Start + 60;
-      const maxOk = s4Start + vh * 0.6;
-      if (end > minOk && end < maxOk) {
-        this.s3EndSnapMobile = end;
-      }
-    } else {
-      // retry few times if trigger not ready yet (light)
-      if (this.s3EndTry < 8) {
-        this.s3EndTry++;
-        setTimeout(() => {
-          const topNow = this.getScrollTop();
-          if (topNow < vh * 2.0 && !this.isTouchingMobile && !this.footerMode) {
-            ScrollTrigger.refresh(true);
-            this.rebuildMobileSnapPoints();
-          }
-        }, 220);
+    if (Number.isFinite(s3Start) && Number.isFinite(s4Start)) {
+      if (st3 && Number.isFinite(st3.end)) {
+        const end = Math.round(st3.end);
+        // keep it inside [s3Start, s4Start] (or equal)
+        if (end > s3Start + 30 && end <= s4Start + 10) {
+          this.s3EndMobile = Math.min(end, s4Start);
+        } else {
+          this.s3EndMobile = s4Start;
+        }
+      } else {
+        this.s3EndMobile = s4Start;
       }
     }
 
-    // snap points = panel starts + s3 end
-    const all = [...this.panelStartsMobile];
-    if (this.s3EndSnapMobile != null) all.push(this.s3EndSnapMobile);
-
-    this.snapPointsMobile = Array.from(new Set(all)).sort((a, b) => a - b);
-
-    // sync index to current
-    this.lastSnapIndexMobile = this.findNearestIndex(this.snapPointsMobile, y);
+    // sync index (use EFFECTIVE targets)
+    this.lastSnapIndexMobile = this.findNearestIndex(y);
   }
 
-  private findNearestIndex(arr: number[], y: number) {
+  private findNearestIndex(y: number) {
+    const arr = this.panelStartsMobile;
     if (!arr.length) return 0;
 
-    let lo = 0, hi = arr.length - 1;
-    while (lo < hi) {
-      const mid = (lo + hi) >> 1;
-      if (arr[mid] < y) lo = mid + 1;
-      else hi = mid;
-    }
+    let best = 0;
+    let bestD = Infinity;
 
-    const next = arr[lo];
-    const prev = lo > 0 ? arr[lo - 1] : arr[0];
-    return (Math.abs(next - y) < Math.abs(y - prev)) ? lo : Math.max(0, lo - 1);
+    for (let i = 0; i < arr.length; i++) {
+      const t = this.getSnapTargetByIndex(i);
+      const d = Math.abs(y - t);
+      if (d < bestD) { bestD = d; best = i; }
+    }
+    return best;
   }
 
   private doSnapMobileStable() {
-    const snapArr = this.snapPointsMobile;
-    const panelArr = this.panelStartsMobile;
+    const arr = this.panelStartsMobile;
+    if (!arr.length) return;
 
-    if (!snapArr.length || !panelArr.length) return;
     if (this.isSnappingMobile) return;
     if (this.isProgrammaticMobile) return;
 
@@ -2394,21 +2398,22 @@ export class AboutComponent {
     const y = this.getScrollTop();
     const vh = (window.visualViewport?.height || window.innerHeight);
 
-    // ===== Footer Mode =====
+    // ===== Footer Mode (hard stop snap) =====
     if (!this.footerMode && this.lastDirMobile > 0 && y >= this.footerEnterY) {
       this.footerMode = true;
-      this.lastSnapIndexMobile = Math.max(0, snapArr.length - 1);
+      this.lastSnapIndexMobile = Math.max(0, arr.length - 1);
       return;
     }
 
     if (this.footerMode) {
       if (this.lastDirMobile < 0 && y <= this.footerExitY) {
         this.footerMode = false;
-        ScrollTrigger.refresh(true);
-        this.rebuildMobileSnapPoints();
 
-        // back to last section start (Section5)
-        const lastStart = panelArr[panelArr.length - 1];
+        // rebuild then snap back to last section start
+        ScrollTrigger.refresh(true);
+        this.rebuildMobileAnchors();
+
+        const lastStart = arr[arr.length - 1];
         this.snapToMobile(lastStart, now);
       }
       return;
@@ -2417,70 +2422,86 @@ export class AboutComponent {
     // prevent micro corrections
     if (Math.abs(y - this.lastSnappedPosMobile) <= this.DEAD_ZONE_PX) return;
 
-    // free scroll deep in last section to reach footer
-    const lastStart = panelArr[panelArr.length - 1];
+    // ===== allow free scroll after deep in last section =====
+    const lastStart = arr[arr.length - 1];
     if (this.lastDirMobile > 0 && y >= lastStart + vh * 0.42) {
-      this.lastSnapIndexMobile = snapArr.length - 1;
+      this.lastSnapIndexMobile = arr.length - 1;
       return;
     }
 
-    // ===== Section3 handling (assist to END, not to Section4 start) =====
-    if (panelArr.length >= 4) {
-      const s3Start = panelArr[2];
-      const s4Start = panelArr[3];
-
-      // use real pin end if exists, else fallback to s4Start
-      const s3End = this.s3EndSnapMobile ?? s4Start;
-
-      if (Number.isFinite(s3Start) && Number.isFinite(s3End) && y > s3Start + 2 && y < s3End - 2) {
-        const deepStart = s3Start + vh * this.s3DeepStartFactor;
-        const deepEnd = s3End - vh * this.s3DeepEndFactor;
-        if (y > deepStart && y < deepEnd) return;
-
-        if (this.lastDirMobile > 0) {
-          const len = Math.max(1, s3End - s3Start);
-          const ratio = (y - s3Start) / len;
-          const nearEnd = s3End - vh * (this.isEnglishUI ? 0.75 : 0.62);
-
-          if (ratio >= this.s3AssistRatio || y >= nearEnd) {
-            // snap to END of section3 (pin end)
-            this.lastSnapIndexMobile = this.findNearestIndex(snapArr, s3End);
-            this.snapToMobile(s3End, now);
-          }
-        } else {
-          if (y <= s3Start + vh * 0.45) {
-            this.lastSnapIndexMobile = this.findNearestIndex(snapArr, s3Start);
-            this.snapToMobile(s3Start, now);
-          }
-        }
+    // ✅ SPECIAL FIX:
+    // لما تطلع من Section4 لفوق -> سنّاب على آخر Section3 (s3End)
+    const s4Base = arr[this.S4_INDEX];
+    const s5Base = arr[this.S4_INDEX + 1] ?? Number.POSITIVE_INFINITY;
+    if (Number.isFinite(s4Base) && y >= s4Base - 5 && y < s5Base - 5 && this.lastDirMobile < 0) {
+      const s4Target = this.getSnapTargetByIndex(this.S4_INDEX);
+      const band = Math.max(this.S4_NAV_OFFSET_PX + 40, vh * 0.28);
+      if (y <= s4Target + band) {
+        const s3End = this.s3EndMobile ?? s4Base;
+        // خلي index يرجع لـ section3 (مش section4)
+        this.lastSnapIndexMobile = Math.max(0, this.S4_INDEX - 1);
+        this.snapToMobile(s3End, now);
         return;
       }
     }
 
-    // ===== Stable index-based snapping (now includes s3End point) =====
-    let idx = this.lastSnapIndexMobile;
-    idx = Math.max(0, Math.min(idx, snapArr.length - 1));
+    // ===== Section3 handling (assist exit) =====
+    const s3Start = arr[2];
+    const s4Start = arr[3];
+    if (Number.isFinite(s3Start) && Number.isFinite(s4Start) && y > s3Start + 2 && y < s4Start - 2) {
+      const deepStart = s3Start + vh * this.s3DeepStartFactor;
+      const deepEnd = s4Start - vh * this.s3DeepEndFactor;
+      if (y > deepStart && y < deepEnd) return;
 
-    if (Math.abs(y - snapArr[idx]) > vh * 0.95) {
-      idx = this.findNearestIndex(snapArr, y);
+      if (this.lastDirMobile > 0) {
+        const len = Math.max(1, s4Start - s3Start);
+        const ratio = (y - s3Start) / len;
+        const nearEnd = s4Start - vh * (this.isEnglishUI ? 0.75 : 0.62);
+
+        if (ratio >= this.s3AssistRatio || y >= nearEnd) {
+          // ✅ snap to Section4 WITH nav offset
+          this.lastSnapIndexMobile = 3;
+          this.snapToMobile(this.getSnapTargetByIndex(3), now);
+        }
+      } else {
+        if (y <= s3Start + vh * 0.45) {
+          this.lastSnapIndexMobile = 2;
+          this.snapToMobile(s3Start, now);
+        }
+      }
+      return;
+    }
+
+    // ===== Stable index-based snapping for all sections =====
+    let idx = this.lastSnapIndexMobile;
+    idx = Math.max(0, Math.min(idx, arr.length - 1));
+
+    const currTarget = this.getSnapTargetByIndex(idx);
+
+    // resync if drift far
+    if (Math.abs(y - currTarget) > vh * 0.95) {
+      idx = this.findNearestIndex(y);
       this.lastSnapIndexMobile = idx;
     }
 
     let targetIdx = idx;
 
     if (this.lastDirMobile > 0) {
-      const nextIdx = Math.min(idx + 1, snapArr.length - 1);
-      const gap = Math.max(1, snapArr[nextIdx] - snapArr[idx]);
+      const nextIdx = Math.min(idx + 1, arr.length - 1);
+      const nextTarget = this.getSnapTargetByIndex(nextIdx);
+      const gap = Math.max(1, nextTarget - currTarget);
       const step = Math.min(vh * 0.38, gap * 0.50);
-      if (y >= snapArr[idx] + step) targetIdx = nextIdx;
+      if (y >= currTarget + step) targetIdx = nextIdx;
     } else {
       const prevIdx = Math.max(idx - 1, 0);
-      const gap = Math.max(1, snapArr[idx] - snapArr[prevIdx]);
+      const prevTarget = this.getSnapTargetByIndex(prevIdx);
+      const gap = Math.max(1, currTarget - prevTarget);
       const step = Math.min(vh * 0.38, gap * 0.50);
-      if (y <= snapArr[idx] - step) targetIdx = prevIdx;
+      if (y <= currTarget - step) targetIdx = prevIdx;
     }
 
-    const target = snapArr[targetIdx];
+    const target = this.getSnapTargetByIndex(targetIdx);
+
     if (Math.abs(target - y) <= this.DEAD_ZONE_PX) {
       this.lastSnapIndexMobile = targetIdx;
       return;
@@ -2520,6 +2541,7 @@ export class AboutComponent {
 
     const h = (window.visualViewport?.height || window.innerHeight);
 
+    // address bar jitter guard
     if (Math.abs(h - this.lastVVH) < 28) return;
     this.lastVVH = h;
 
@@ -2527,7 +2549,7 @@ export class AboutComponent {
     this.mobileResizeT = setTimeout(() => {
       ScrollTrigger.refresh(true);
       this.computeFooterBands();
-      this.rebuildMobileSnapPoints();
+      this.rebuildMobileAnchors();
     }, 260);
   };
 
@@ -2570,15 +2592,18 @@ export class AboutComponent {
 
     if (!this.isBrowser) return;
 
+    // desktop cleanup
     try { window.removeEventListener('resize', this.onResize); } catch { }
     try { ScrollTrigger.removeEventListener('scrollEnd', this.onDesktopScrollEnd); } catch { }
     try { this.snapObserver?.kill?.(); } catch { }
     try { this.desktopSnapDC?.kill(); } catch { }
 
+    // mobile cleanup
     if (this.isMobile) {
       this.destroyMobileSnapStable();
     }
 
+    // ✅ revert only what was created in this component context
     this.ctx?.revert();
   }
 }

@@ -7,9 +7,10 @@ import InertiaPlugin from "gsap/InertiaPlugin";
 import SplitText from "gsap/SplitText";
 import { LanguageService } from '../../../shared/services/language.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { OpenFormDialogDirective } from '../../../shared/Directives/open-form-dialog.directive';
 @Component({
   selector: 'app-product-section8',
-  imports: [TranslatePipe],
+  imports: [TranslatePipe, OpenFormDialogDirective],
   templateUrl: './product-section8.component.html',
   styleUrl: './product-section8.component.scss'
 })
