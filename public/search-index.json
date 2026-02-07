@@ -150,7 +150,7 @@
       "key": "HOME.HERO.BTN2",
       "title": "HOME.HERO.BTN2",
       "route": "/",
-      "text": "Start chat now"
+      "text": "start the conversation now"
     },
     {
       "id": "en-19",
@@ -654,7 +654,7 @@
       "key": "HOME.PLANS.CTA",
       "title": "HOME.PLANS.CTA",
       "route": "/",
-      "text": "Start chat now"
+      "text": "start the conversation now"
     },
     {
       "id": "en-82",
@@ -894,7 +894,7 @@
       "key": "ABOUT.SECTION5.BTN2",
       "title": "ABOUT.SECTION5.BTN2",
       "route": "/about",
-      "text": "Start chat Know"
+      "text": "start chat now"
     },
     {
       "id": "en-112",

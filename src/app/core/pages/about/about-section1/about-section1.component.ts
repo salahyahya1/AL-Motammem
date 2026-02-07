@@ -49,13 +49,13 @@ export class AboutSection1Component {
           yPercent: 100,
           opacity: 0,
           ease: "expo.out",
-          stagger: 0.02,
+          stagger: 0.08,
         });
 
         tl.from(videoEl, {
           opacity: 0,
           y: -100,
-          duration: 0.01,
+          duration: 0.2,
           ease: "sine.out",
         }, "<");
 
