@@ -27,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       routes,
       // withPreloading(PreloadAllModules),
       withInMemoryScrolling({
-        scrollPositionRestoration: 'top',
+        scrollPositionRestoration: 'disabled',
         anchorScrolling: 'disabled',
       }),
       withRouterConfig({ onSameUrlNavigation: 'reload' })
