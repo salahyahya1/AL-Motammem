@@ -83,7 +83,7 @@ export class SolutionsSection6Component {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.2,
+                  duration: 0.1,
                   ease: 'sine.out',
                   stagger: 0.02,
                   onStart: () => { gsap.set(consultationTitle, { opacity: 1, visibility: 'visible' }) },
@@ -95,7 +95,7 @@ export class SolutionsSection6Component {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.2,
+                  duration: 0.1,
                   ease: 'sine.out',
                   stagger: 0.02,
                   onStart: () => { gsap.set(consultationSubtitle, { opacity: 1, visibility: 'visible' }) },
@@ -107,7 +107,7 @@ export class SolutionsSection6Component {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.2,
+                  duration: 0.1,
                   ease: 'sine.out',
                   stagger: 0.02,
                   onStart: () => { gsap.set(consultationDetails, { opacity: 1, visibility: 'visible' }) },
@@ -118,7 +118,7 @@ export class SolutionsSection6Component {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.2,
+                  duration: 0.1,
                   ease: 'sine.inOut',
                   onStart: () => { gsap.set(button1, { opacity: 1, visibility: 'visible' }) },
                 });
@@ -127,7 +127,7 @@ export class SolutionsSection6Component {
                 { opacity: 0, visibility: 'visible' },
                 {
                   opacity: 1,
-                  duration: 0.2,
+                  duration: 0.1,
                   ease: 'sine.out',
                   stagger: 0.02,
                   onStart: () => { gsap.set(consultationfooter, { opacity: 1, visibility: 'visible' }) },
