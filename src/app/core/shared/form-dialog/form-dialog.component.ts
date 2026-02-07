@@ -103,7 +103,7 @@ export class FormDialogComponent {
   showSuccess = false;
   isSubmitting = false;
   errorMessage = '';
-  lang: string = 'ar';
+  lang!: string;
   constructor(
     private fb: FormBuilder,
     private formDialogService: FormDialogService,
