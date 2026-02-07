@@ -2588,6 +2588,12 @@ export class SolutionsComponent {
 
   private ctx?: gsap.Context;
 
+  // ✅ NEW: guards + cancellations
+  private destroyed = false;
+  private smootherWaitRaf: number | null = null;
+  private desktopInitTimer: any = null;
+  private resizeBuildTimer: any = null;
+
   // Snap properties
   private snapObserver?: any;
   private snapPositions: number[] = [];
@@ -2662,7 +2668,9 @@ export class SolutionsComponent {
 
     if (this.isMobile) {
       this.mobileInitTimer = setTimeout(() => {
+        if (this.destroyed) return;
         this.ctx = gsap.context(() => {
+          if (this.destroyed) return;
           this.initMobileSnap();
         });
       }, 750);
@@ -2671,9 +2679,13 @@ export class SolutionsComponent {
 
     this.ngZone.runOutsideAngular(() => {
       this.waitForSmoother((smoother) => {
+        if (this.destroyed) return;
+
         this.smoother = smoother;
         this.smootherST = smoother.scrollTrigger;
+
         this.ctx = gsap.context(() => {
+          if (this.destroyed) return;
           this.initDesktop(smoother);
         });
       });
@@ -2684,15 +2696,23 @@ export class SolutionsComponent {
 
   private waitForSmoother(cb: (s: any) => void) {
     const start = performance.now();
+
     const tick = () => {
+      if (this.destroyed) return;
+
       const s = ScrollSmoother.get() as any;
       if (s) return cb(s);
-      if (performance.now() - start < 3000) requestAnimationFrame(tick);
+
+      if (performance.now() - start < 3000) {
+        this.smootherWaitRaf = requestAnimationFrame(tick);
+      }
     };
+
     tick();
   }
 
   private requestDesktopSnap = () => {
+    if (this.destroyed) return;
     if (!this.smootherST || !this.smoother) return;
     if (!this.snapPositions.length) return;
 
@@ -2700,11 +2720,16 @@ export class SolutionsComponent {
     if (performance.now() < this.desktopSnapLockUntil) return;
 
     this.desktopSnapDC?.kill();
-    this.desktopSnapDC = gsap.delayedCall(0.7, () => this.doSnap());
+    this.desktopSnapDC = gsap.delayedCall(0.7, () => {
+      if (this.destroyed) return;
+      this.doSnap();
+    });
   };
 
   // ✅ Native scroll handler (captures scrollbar drag end)
   private onDesktopScrollNative = () => {
+    if (this.destroyed) return;
+
     // ✅ ignore scroll events caused by programmatic snapping
     if (performance.now() < this.desktopSnapLockUntil) return;
 
@@ -2728,7 +2753,9 @@ export class SolutionsComponent {
     window.addEventListener('scroll', this.onDesktopScrollNative, { passive: true });
     scroller.addEventListener('scroll', this.onDesktopScrollNative, { passive: true });
 
-    setTimeout(() => {
+    this.desktopInitTimer = setTimeout(() => {
+      if (this.destroyed) return;
+
       ScrollTrigger.refresh();
       this.buildSnapPositions(smoother);
       this.initSnapObserver(smoother);
@@ -2807,6 +2834,7 @@ export class SolutionsComponent {
   }
 
   private doSnap() {
+    if (this.destroyed) return;
     if (!this.smootherST || !this.smoother) return;
     if (!this.snapPositions.length) return;
 
@@ -2898,7 +2926,8 @@ export class SolutionsComponent {
   private onTouchEndMobile = () => { this.isTouchingMobile = false; };
 
   private initMobileSnap() {
-    ScrollTrigger.config({ ignoreMobileResize: true });
+    // ❌ IMPORTANT: لا تغيّر ScrollTrigger.config هنا لأنه global
+    // ScrollTrigger.config({ ignoreMobileResize: true });
 
     this.scrollEl = (document.scrollingElement || document.documentElement) as HTMLElement;
 
@@ -2985,6 +3014,7 @@ export class SolutionsComponent {
   }
 
   private doSnapMobile() {
+    if (this.destroyed) return;
     if (!this.snapPositions.length) return;
     if (this.isSnappingMobile) return;
     if (gsap.isTweening(this.scrollEl)) return;
@@ -3064,6 +3094,8 @@ export class SolutionsComponent {
   }
 
   private performSnap(target: number, current: number) {
+    if (this.destroyed) return;
+
     const dist = Math.abs(target - current);
     if (dist <= 12) return;
 
@@ -3075,7 +3107,6 @@ export class SolutionsComponent {
     const finalTarget = Math.round(target + offset);
 
     this.isSnappingMobile = true;
-
     this.mobileSnapLockUntil = performance.now() + this.MOBILE_SNAP_LOCK_MS;
 
     gsap.to(this.scrollEl, {
@@ -3089,12 +3120,15 @@ export class SolutionsComponent {
   }
 
   private onResizeMobile = () => {
+    if (this.destroyed) return;
+
     const h = (window.visualViewport?.height || window.innerHeight);
     if (Math.abs(h - this.lastVVH) < 22) return;
     this.lastVVH = h;
 
     if (this.mobileResizeT) clearTimeout(this.mobileResizeT);
     this.mobileResizeT = setTimeout(() => {
+      if (this.destroyed) return;
       ScrollTrigger.refresh(true);
       this.buildSnapPositionsMobile();
     }, 220);
@@ -3158,38 +3192,120 @@ export class SolutionsComponent {
   }
 
   private onResize = () => {
+    if (this.destroyed) return;
+
     ScrollTrigger.refresh();
+
     if (this.smoother) {
-      setTimeout(() => this.buildSnapPositions(this.smoother), 100);
+      try {
+        if (this.resizeBuildTimer) clearTimeout(this.resizeBuildTimer);
+      } catch { }
+
+      this.resizeBuildTimer = setTimeout(() => {
+        if (this.destroyed) return;
+        this.buildSnapPositions(this.smoother);
+      }, 100);
     }
+
     this.ngZone.run(() => {
       this.cdr.detectChanges();
     });
   };
 
   ngOnDestroy(): void {
-    this.sectionsRegistry.clear();
-    this.sectionsRegistry.disable();
+    this.destroyed = true;
 
-    if (this.mobileInitTimer) {
-      clearTimeout(this.mobileInitTimer);
-    }
+    // ✅ Stop RAF loop
+    try {
+      if (this.smootherWaitRaf != null) cancelAnimationFrame(this.smootherWaitRaf);
+      this.smootherWaitRaf = null;
+    } catch { }
+
+    // ✅ Clear desktop timers
+    try {
+      if (this.desktopInitTimer) clearTimeout(this.desktopInitTimer);
+      this.desktopInitTimer = null;
+    } catch { }
+
+    try {
+      if (this.resizeBuildTimer) clearTimeout(this.resizeBuildTimer);
+      this.resizeBuildTimer = null;
+    } catch { }
+
+    // ✅ Clear registry
+    try {
+      this.sectionsRegistry.clear();
+      this.sectionsRegistry.disable();
+    } catch { }
+
+    // ✅ Complete BehaviorSubject
+    try {
+      this.visibilitySubject.complete();
+    } catch { }
+
+    // ✅ Clear mobile timers
+    try {
+      if (this.mobileInitTimer) {
+        clearTimeout(this.mobileInitTimer);
+        this.mobileInitTimer = undefined;
+      }
+      if (this.mobileResizeT) {
+        clearTimeout(this.mobileResizeT);
+        this.mobileResizeT = null;
+      }
+    } catch { }
+
+    // ✅ Kill delayed call
+    try {
+      this.desktopSnapDC?.kill();
+      this.desktopSnapDC = undefined;
+    } catch { }
 
     if (!this.isBrowser) return;
 
-    // desktop cleanup
+    // ✅ Kill all active tweens
+    try {
+      if (this.scrollEl) gsap.killTweensOf(this.scrollEl);
+      gsap.killTweensOf(window);
+      if (this.smoother) gsap.killTweensOf(this.smoother);
+      if (this.desktopScrollerEl) gsap.killTweensOf(this.desktopScrollerEl);
+    } catch { }
+
+    // ✅ Desktop: Remove listeners
     try { window.removeEventListener('resize', this.onResize); } catch { }
     try { window.removeEventListener('scroll', this.onDesktopScrollNative as any); } catch { }
     try { this.desktopScrollerEl?.removeEventListener('scroll', this.onDesktopScrollNative as any); } catch { }
-    try { this.snapObserver?.kill?.(); } catch { }
-    this.desktopSnapDC?.kill();
 
-    // mobile cleanup
-    this.destroyMobileSnap();
+    // ✅ Kill observers
+    try {
+      this.snapObserver?.kill?.();
+      this.snapObserver = null;
+    } catch { }
 
-    this.ctx?.revert();
+    try {
+      this.mobileObserver?.kill?.();
+      this.mobileObserver = null;
+    } catch { }
 
-    // ✅ Final Safety
-    ScrollTrigger.getAll().forEach(t => t.kill());
+    // ✅ Mobile: Remove touch + resize listeners
+    try {
+      window.removeEventListener('touchstart', this.onTouchStartMobile as any);
+      window.removeEventListener('touchend', this.onTouchEndMobile as any);
+      window.removeEventListener('resize', this.onResizeMobile);
+      window.visualViewport?.removeEventListener('resize', this.onResizeMobile);
+    } catch { }
+
+    // ✅ Revert gsap context
+    try {
+      this.ctx?.revert();
+      this.ctx = undefined;
+    } catch { }
+
+    // ❌ IMPORTANT: لا تعمل reset لـ ScrollTrigger.config هنا لأنه global (خليه في Layout)
+
+    // ✅ Null references
+    this.smoother = null;
+    this.smootherST = null;
+    this.desktopScrollerEl = undefined;
   }
 }

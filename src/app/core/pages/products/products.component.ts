@@ -547,7 +547,7 @@ export class ProductsComponent {
   private smoother: any;
   private smootherST: any;
 
-  // ✅ NEW: Desktop snap debounce (captures scrollbar drag end via scrollEnd)
+  // ✅ Desktop snap debounce
   private desktopSnapDC?: ReturnType<typeof gsap.delayedCall>;
 
   // =================== MOBILE SNAP PROPERTIES ===================
@@ -562,6 +562,18 @@ export class ProductsComponent {
   private mobileResizeT: any = null;
   private mobileInitTimer: any = null;
 
+  // ✅ NEW: Prevent async init after destroy
+  private destroyed = false;
+
+  // ✅ NEW: cancel RAF loop for waitForSmoother
+  private smootherWaitRaf: number | null = null;
+
+  // ✅ NEW: cancel desktop init timer (600ms)
+  private desktopInitTimer: any = null;
+
+  // ✅ OPTIONAL BUT IMPORTANT: cancel resize build timer (100ms)
+  private resizeBuildTimer: any = null;
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
@@ -575,9 +587,12 @@ export class ProductsComponent {
 
   ngOnInit() {
     if (!this.isBrowser) return;
-    this.isMobile = window.matchMedia('(max-width: 767px)').matches; // same as your logic
+
+    this.isMobile = window.matchMedia('(max-width: 767px)').matches;
+
     this.preloadService.addPreloads([
-      { href: '/product/Nested Sequence 02.webm', as: 'vedio' },
+      // ✅ fix typo: video
+      { href: '/product/Nested Sequence 02.webm', as: 'video' },
     ]);
   }
 
@@ -587,7 +602,10 @@ export class ProductsComponent {
     // Mobile specific path
     if (this.isMobile) {
       this.mobileInitTimer = setTimeout(() => {
+        if (this.destroyed) return;
+
         this.ctx = gsap.context(() => {
+          if (this.destroyed) return;
           this.initMobileSnap();
         });
       }, 750);
@@ -597,9 +615,13 @@ export class ProductsComponent {
     // Desktop: wait for smoother
     this.ngZone.runOutsideAngular(() => {
       this.waitForSmoother((smoother) => {
+        if (this.destroyed) return;
+
         this.smoother = smoother;
         this.smootherST = smoother.scrollTrigger;
+
         this.ctx = gsap.context(() => {
+          if (this.destroyed) return;
           this.initDesktop(smoother);
         });
       });
@@ -610,24 +632,35 @@ export class ProductsComponent {
 
   private waitForSmoother(cb: (s: any) => void) {
     const start = performance.now();
+
     const tick = () => {
+      if (this.destroyed) return;
+
       const s = ScrollSmoother.get() as any;
       if (s) return cb(s);
-      if (performance.now() - start < 3000) requestAnimationFrame(tick);
+
+      if (performance.now() - start < 3000) {
+        this.smootherWaitRaf = requestAnimationFrame(tick);
+      }
     };
+
     tick();
   }
 
-  // ✅ NEW: same desktop feel (0.7s) but triggered also by scrollbar drag end
+  // ✅ same desktop feel (0.7s) but triggered also by scrollbar drag end
   private requestDesktopSnap = () => {
+    if (this.destroyed) return;
     if (!this.smootherST || !this.smoother) return;
     if (!this.snapPositions.length) return;
 
     this.desktopSnapDC?.kill();
-    this.desktopSnapDC = gsap.delayedCall(0.7, () => this.doSnap());
+    this.desktopSnapDC = gsap.delayedCall(0.7, () => {
+      if (this.destroyed) return;
+      this.doSnap();
+    });
   };
 
-  // ✅ NEW: catches native scroll end (including dragging scrollbar)
+  // ✅ catches native scroll end (including dragging scrollbar)
   private onDesktopScrollEnd = () => {
     this.requestDesktopSnap();
   };
@@ -635,18 +668,16 @@ export class ProductsComponent {
   private initDesktop(smoother: any) {
     const scroller = smoother.wrapper();
 
-    // Navbar colors triggers
     this.observeSections(scroller);
 
-    // Resize handler
     window.addEventListener('resize', this.onResize);
 
-    // ✅ NEW: enable scrollEnd listener ONLY on desktop
-    // (safe: removed on destroy)
     ScrollTrigger.addEventListener('scrollEnd', this.onDesktopScrollEnd);
 
-    // Build snap positions
-    setTimeout(() => {
+    // ✅ store timer + guard
+    this.desktopInitTimer = setTimeout(() => {
+      if (this.destroyed) return;
+
       ScrollTrigger.refresh();
       this.buildSnapPositions(smoother);
       this.initSnapObserver(smoother);
@@ -667,10 +698,8 @@ export class ProductsComponent {
         refreshPriority: -1,
       });
 
-      // Add section START position
       this.snapPositions.push(st.start);
 
-      // Section 4 (index 4) is PINNED on Desktop, so add its END
       if (index === 4) {
         this.snapPositions.push(st.end);
       }
@@ -678,7 +707,6 @@ export class ProductsComponent {
       st.kill();
     });
 
-    // Sort and remove duplicates
     this.snapPositions = Array.from(new Set(this.snapPositions)).sort((a, b) => a - b);
   }
 
@@ -690,7 +718,6 @@ export class ProductsComponent {
     this.snapObserver = ScrollTrigger.observe({
       target: scroller,
       onStop: () => {
-        // ✅ بدل doSnap مباشرة: نخليها نفس سلوك scrollEnd (debounced + same 0.7 feel)
         this.requestDesktopSnap();
       },
       onStopDelay: 0.7
@@ -698,20 +725,16 @@ export class ProductsComponent {
   }
 
   private doSnap() {
+    if (this.destroyed) return;
     if (!this.smootherST || !this.smoother) return;
     if (this.snapPositions.length === 0) return;
 
     const currentScroll = this.smootherST.scroll();
 
-    // Footer Guard
     const lastSnapPoint = this.snapPositions[this.snapPositions.length - 1];
     const footerThreshold = 200;
+    if (currentScroll > lastSnapPoint + footerThreshold) return;
 
-    if (currentScroll > lastSnapPoint + footerThreshold) {
-      return;
-    }
-
-    // Find nearest snap position
     let nearest = this.snapPositions[0];
     let minDistance = Math.abs(currentScroll - nearest);
 
@@ -723,8 +746,6 @@ export class ProductsComponent {
       }
     }
 
-    // Deep Inside Section 4 Guard (Desktop Pinned)
-    // Section 4 Start is typically index 4. Its End is index 5.
     const section4Start = this.snapPositions[4] || 0;
     const section4End = this.snapPositions[5] || 0;
     const viewportHeight = window.innerHeight;
@@ -735,18 +756,15 @@ export class ProductsComponent {
 
     if (deepInsideSection4) return;
 
-    // Snap Execution
     if (minDistance > 10) {
       const SNAP_OFFSET = 50;
       let targetPosition = nearest;
 
-      // Don't add offset if snapping to Section 4 END
       const isSection4End = nearest === section4End;
 
-      // ✅ safe offset: ما يعدّيش بداية السكشن اللي بعده لو المسافة قصيرة
       const idx = this.snapPositions.indexOf(nearest);
       const nextSnap = (idx >= 0 && idx < this.snapPositions.length - 1) ? this.snapPositions[idx + 1] : nearest;
-      const maxAllowedOffset = Math.max(0, nextSnap - nearest - 20); // buffer 20px
+      const maxAllowedOffset = Math.max(0, nextSnap - nearest - 20);
       const safeOffset = Math.min(SNAP_OFFSET, maxAllowedOffset);
 
       if (!isSection4End && nearest > 0 && safeOffset >= 8) {
@@ -763,7 +781,8 @@ export class ProductsComponent {
   private onTouchEndMobile = () => { this.isTouchingMobile = false; };
 
   private initMobileSnap() {
-    ScrollTrigger.config({ ignoreMobileResize: true });
+    // ❌ IMPORTANT: do NOT change ScrollTrigger.config here (global)
+    // ScrollTrigger.config({ ignoreMobileResize: true });
 
     this.scrollEl = (document.scrollingElement || document.documentElement) as HTMLElement;
 
@@ -827,6 +846,7 @@ export class ProductsComponent {
   }
 
   private doSnapMobile() {
+    if (this.destroyed) return;
     if (!this.snapPositions.length) return;
     if (this.isSnappingMobile) return;
     if (gsap.isTweening(this.scrollEl)) return;
@@ -836,32 +856,25 @@ export class ProductsComponent {
 
     const arr = this.snapPositions;
 
-    // ✅ Disable snapping once we enter the LAST section (free scroll to footer)
     const lastStart = arr[arr.length - 1];
     if (current >= lastStart - 2) return;
 
-    // ✅ BRANCH 1: Section 1 Logic (Reading Mode & Transition to Sec 2)
     if (arr.length > 1 && current < arr[1] - 5) {
       const s2Top = arr[1];
       const overlap = (current + vh) - s2Top;
 
-      // Deep inside Section 1 => free scroll
       if (overlap < 10) return;
 
       const ratio = overlap / vh;
       let target = -1;
 
-      if (ratio < 0.45) {
-        target = Math.max(0, s2Top - vh);
-      } else {
-        target = s2Top;
-      }
+      if (ratio < 0.45) target = Math.max(0, s2Top - vh);
+      else target = s2Top;
 
       this.performSnap(target, current);
       return;
     }
 
-    // ✅ BRANCH 2: Standard Logic for Section 2 and beyond
     let lo = 0, hi = arr.length - 1;
     while (lo < hi) {
       const mid = (lo + hi) >> 1;
@@ -900,12 +913,15 @@ export class ProductsComponent {
   }
 
   private onResizeMobile = () => {
+    if (this.destroyed) return;
+
     const h = (window.visualViewport?.height || window.innerHeight);
     if (Math.abs(h - this.lastVVH) < 22) return;
     this.lastVVH = h;
 
     if (this.mobileResizeT) clearTimeout(this.mobileResizeT);
     this.mobileResizeT = setTimeout(() => {
+      if (this.destroyed) return;
       ScrollTrigger.refresh(true);
       this.buildSnapPositionsMobile();
     }, 220);
@@ -967,37 +983,125 @@ export class ProductsComponent {
   }
 
   private onResize = () => {
+    if (this.destroyed) return;
+
     ScrollTrigger.refresh();
+
     if (this.smoother) {
-      setTimeout(() => this.buildSnapPositions(this.smoother), 100);
+      try {
+        if (this.resizeBuildTimer) clearTimeout(this.resizeBuildTimer);
+      } catch { }
+
+      this.resizeBuildTimer = setTimeout(() => {
+        if (this.destroyed) return;
+        this.buildSnapPositions(this.smoother);
+      }, 100);
     }
+
     this.ngZone.run(() => {
       this.cdr.detectChanges();
     });
   };
 
   ngOnDestroy(): void {
-    this.sectionsRegistry.clear();
-    this.sectionsRegistry.disable();
+    // ✅ mark destroyed FIRST (prevents any late async work)
+    this.destroyed = true;
 
-    if (this.mobileInitTimer) {
-      clearTimeout(this.mobileInitTimer);
-    }
+    // ✅ cancel RAF loop
+    try {
+      if (this.smootherWaitRaf != null) cancelAnimationFrame(this.smootherWaitRaf);
+      this.smootherWaitRaf = null;
+    } catch { }
+
+    // ✅ cancel desktop init timer (600ms)
+    try {
+      if (this.desktopInitTimer) clearTimeout(this.desktopInitTimer);
+      this.desktopInitTimer = null;
+    } catch { }
+
+    // ✅ cancel resize build timer (100ms)
+    try {
+      if (this.resizeBuildTimer) clearTimeout(this.resizeBuildTimer);
+      this.resizeBuildTimer = null;
+    } catch { }
+
+    // ✅ Clear registry
+    try {
+      this.sectionsRegistry.clear();
+      this.sectionsRegistry.disable();
+    } catch { }
+
+    // ✅ Complete BehaviorSubject
+    try {
+      this.visibilitySubject.complete();
+    } catch { }
+
+    // ✅ Clear timers
+    try {
+      if (this.mobileInitTimer) {
+        clearTimeout(this.mobileInitTimer);
+        this.mobileInitTimer = undefined;
+      }
+      if (this.mobileResizeT) {
+        clearTimeout(this.mobileResizeT);
+        this.mobileResizeT = null;
+      }
+    } catch { }
+
+    // ✅ Kill delayed call
+    try {
+      this.desktopSnapDC?.kill();
+      this.desktopSnapDC = undefined;
+    } catch { }
 
     if (!this.isBrowser) return;
 
-    // ✅ desktop cleanup
-    try { window.removeEventListener('resize', this.onResize); } catch { }
-    try { ScrollTrigger.removeEventListener('scrollEnd', this.onDesktopScrollEnd); } catch { }
-    try { this.snapObserver?.kill?.(); } catch { }
-    this.desktopSnapDC?.kill();
+    // ✅ Kill tweens
+    try {
+      if (this.scrollEl) gsap.killTweensOf(this.scrollEl);
+      gsap.killTweensOf(window);
+      if (this.smoother) gsap.killTweensOf(this.smoother);
+    } catch { }
 
-    // ✅ mobile cleanup
-    this.destroyMobileSnap();
+    // ✅ Remove listeners
+    try {
+      window.removeEventListener('resize', this.onResize);
+    } catch { }
 
-    this.ctx?.revert();
+    try {
+      ScrollTrigger.removeEventListener('scrollEnd', this.onDesktopScrollEnd);
+    } catch { }
 
-    // ✅ Final Safety
-    ScrollTrigger.getAll().forEach(t => t.kill());
+    // ✅ Kill observers
+    try {
+      this.snapObserver?.kill?.();
+      this.snapObserver = null;
+    } catch { }
+
+    try {
+      this.mobileObserver?.kill?.();
+      this.mobileObserver = null;
+    } catch { }
+
+    // ✅ Mobile: Remove touch + resize listeners
+    try {
+      window.removeEventListener('touchstart', this.onTouchStartMobile as any);
+      window.removeEventListener('touchend', this.onTouchEndMobile as any);
+      window.removeEventListener('resize', this.onResizeMobile);
+      window.visualViewport?.removeEventListener('resize', this.onResizeMobile);
+    } catch { }
+
+    // ✅ Revert gsap context
+    try {
+      this.ctx?.revert();
+      this.ctx = undefined;
+    } catch { }
+
+    // ❌ IMPORTANT: do NOT reset ScrollTrigger.config here (global)
+
+    // ✅ Null out smoother references
+    this.smoother = null;
+    this.smootherST = null;
   }
 }
+

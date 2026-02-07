@@ -527,21 +527,30 @@ export class LayoutComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // ✅ Complete destroy subject (stops all takeUntil subscriptions)
     this.destroy$.next();
     this.destroy$.complete();
 
+    // ✅ Kill smoother instance
     try {
       this.smoother?.kill?.();
     } catch { }
     this.smoother = null;
 
-    // remove media query listener
+    // ✅ Remove MediaQueryList listener
     if (this.mq && this.mqHandler) {
-      if ('removeEventListener' in this.mq) {
-        this.mq.removeEventListener('change', this.mqHandler);
-      } else {
-        (this.mq as any).removeListener(this.mqHandler);
-      }
+      try {
+        if ('removeEventListener' in this.mq) {
+          this.mq.removeEventListener('change', this.mqHandler);
+        } else {
+          (this.mq as any).removeListener(this.mqHandler);
+        }
+      } catch { }
+      this.mq = null;
+      this.mqHandler = null;
     }
+
+    // ✅ Clear pending fragment state
+    this.pendingFragment = null;
   }
 }

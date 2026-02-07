@@ -1959,6 +1959,13 @@ export class AboutComponent {
   private smootherST: any;
   private desktopSnapDC?: gsap.core.Tween;
 
+  // ✅ NEW: guards + cancellations
+  private destroyed = false;
+  private smootherWaitRaf: number | null = null;
+  private desktopInitTimer: any = null;
+  private resizeBuildTimer: any = null;
+  private mobileLateRebuildTimer: any = null;
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
@@ -1982,7 +1989,6 @@ export class AboutComponent {
 
     this.isMobile = window.matchMedia('(max-width: 767px)').matches;
 
-    // preload (كما هو)
     this.preloadService.addPreloads([
       { href: '/About us/assetsafarihigh.mp4', as: 'video' },
       { href: '/About us/Nested Sequence 02safari.mp4', as: 'video' },
@@ -1997,7 +2003,10 @@ export class AboutComponent {
 
     if (this.isMobile) {
       this.mobileInitTimer = setTimeout(() => {
+        if (this.destroyed) return;
+
         this.ctx = gsap.context(() => {
+          if (this.destroyed) return;
           this.initMobileSnapStable();
         });
       }, 520);
@@ -2007,10 +2016,13 @@ export class AboutComponent {
     // Desktop path
     this.ngZone.runOutsideAngular(() => {
       this.waitForSmoother((smoother) => {
+        if (this.destroyed) return;
+
         this.smoother = smoother;
         this.smootherST = smoother.scrollTrigger;
 
         this.ctx = gsap.context(() => {
+          if (this.destroyed) return;
           this.initDesktop(smoother);
         });
       });
@@ -2019,23 +2031,34 @@ export class AboutComponent {
 
   private waitForSmoother(cb: (s: any) => void) {
     const start = performance.now();
+
     const tick = () => {
+      if (this.destroyed) return;
+
       const s = ScrollSmoother.get() as any;
       if (s) return cb(s);
-      if (performance.now() - start < 3500) requestAnimationFrame(tick);
+
+      if (performance.now() - start < 3500) {
+        this.smootherWaitRaf = requestAnimationFrame(tick);
+      }
     };
+
     tick();
   }
 
   // =========================
-  // ✅ DESKTOP (unchanged)
+  // ✅ DESKTOP
   // =========================
   private requestDesktopSnap = () => {
+    if (this.destroyed) return;
     if (!this.smootherST || !this.smoother) return;
     if (!this.snapPositions.length) return;
 
     this.desktopSnapDC?.kill();
-    this.desktopSnapDC = gsap.delayedCall(0.7, () => this.doSnap());
+    this.desktopSnapDC = gsap.delayedCall(0.7, () => {
+      if (this.destroyed) return;
+      this.doSnap();
+    });
   };
 
   private onDesktopScrollEnd = () => {
@@ -2050,7 +2073,9 @@ export class AboutComponent {
     window.addEventListener('resize', this.onResize);
     ScrollTrigger.addEventListener('scrollEnd', this.onDesktopScrollEnd);
 
-    setTimeout(() => {
+    this.desktopInitTimer = setTimeout(() => {
+      if (this.destroyed) return;
+
       ScrollTrigger.refresh();
       this.buildSnapPositions(smoother);
       this.initSnapObserver(smoother);
@@ -2097,6 +2122,7 @@ export class AboutComponent {
   }
 
   private doSnap() {
+    if (this.destroyed) return;
     if (!this.smootherST || !this.smoother) return;
     if (!this.snapPositions.length) return;
 
@@ -2162,10 +2188,21 @@ export class AboutComponent {
   }
 
   private onResize = () => {
+    if (this.destroyed) return;
+
     ScrollTrigger.refresh();
+
     if (this.smoother) {
-      setTimeout(() => this.buildSnapPositions(this.smoother), 100);
+      try {
+        if (this.resizeBuildTimer) clearTimeout(this.resizeBuildTimer);
+      } catch { }
+
+      this.resizeBuildTimer = setTimeout(() => {
+        if (this.destroyed) return;
+        this.buildSnapPositions(this.smoother);
+      }, 100);
     }
+
     this.ngZone.run(() => this.cdr.detectChanges());
   };
 
@@ -2174,8 +2211,6 @@ export class AboutComponent {
   // =========================
 
   private readonly FOOTER_SELECTOR = 'app-footer, #site-footer, footer, #footer, .footer';
-
-  // ✅ requested: Section4 nav offset
   private readonly SECTION4_NAV_OFFSET_PX = 0;
 
   private mobileInitTimer: any = null;
@@ -2184,7 +2219,7 @@ export class AboutComponent {
 
   private scrollEl!: HTMLElement;
 
-  private panelStartsMobile: number[] = []; // sorted starts
+  private panelStartsMobile: number[] = [];
   private panelStartsSet = new Set<number>();
 
   private lastDirMobile: 1 | -1 = 1;
@@ -2205,25 +2240,22 @@ export class AboutComponent {
 
   private lastVVH = 0;
 
-  // ✅ NEW: end of section3 (for snapping up from section4)
   private s3EndMobile: number | null = null;
 
-  // language weight
   private isEnglishUI = false;
-  private s3AssistRatio = 0.62;      // lighter EN
-  private s3DeepStartFactor = 0.90;  // disable snap deep inside
+  private s3AssistRatio = 0.62;
+  private s3DeepStartFactor = 0.90;
   private s3DeepEndFactor = 0.90;
 
-  // tweakables
   private readonly SNAP_COOLDOWN_MS = 320;
   private readonly DEAD_ZONE_PX = 18;
 
   private initMobileSnapStable() {
-    ScrollTrigger.config({ ignoreMobileResize: true });
+    // ❌ IMPORTANT: do NOT change ScrollTrigger.config here (global)
+    // ScrollTrigger.config({ ignoreMobileResize: true });
 
     this.scrollEl = (document.scrollingElement || document.documentElement) as HTMLElement;
 
-    // language weight
     const html = document.documentElement;
     const lang = (html.getAttribute('lang') || '').toLowerCase();
     const dir = (html.getAttribute('dir') || '').toLowerCase();
@@ -2232,26 +2264,24 @@ export class AboutComponent {
     this.s3DeepStartFactor = this.isEnglishUI ? 0.85 : 0.90;
     this.s3DeepEndFactor = this.isEnglishUI ? 0.85 : 0.90;
 
-    // Navbar theme observers (mobile)
     this.observeSectionsMobile();
 
-    // build initial anchors
     this.rebuildMobileAnchors();
 
-    // init direction
     this.lastScrollTopMobile = this.getScrollTop();
 
-    // listeners (NO Observer)
     window.addEventListener('scroll', this.onMobileScroll, { passive: true });
     window.addEventListener('touchstart', this.onTouchStartMobile, { passive: true });
     window.addEventListener('touchend', this.onTouchEndMobile, { passive: true });
 
     this.lastVVH = (window.visualViewport?.height || window.innerHeight);
-    window.addEventListener('resize', this.onResizeMobile, { passive: true });
+    window.addEventListener('resize', this.onResizeMobile as any, { passive: true } as any);
     window.visualViewport?.addEventListener('resize', this.onResizeMobile as any, { passive: true } as any);
 
-    // small delayed rebuild (once) to catch late images/fonts WITHOUT killing footer
-    setTimeout(() => {
+    // ✅ store this timer so it can't fire after destroy
+    this.mobileLateRebuildTimer = setTimeout(() => {
+      if (this.destroyed) return;
+
       const vh = (window.visualViewport?.height || window.innerHeight);
       const y = this.getScrollTop();
       if (y < vh * 1.4 && !this.isTouchingMobile) {
@@ -2271,15 +2301,15 @@ export class AboutComponent {
 
   private onTouchEndMobile = () => {
     this.isTouchingMobile = false;
-    // ✅ snap only after release (and after a short settle)
     this.scheduleMobileSnap(180);
   };
 
   private onMobileScroll = () => {
-    const y = this.getScrollTop();
+    if (this.destroyed) return;
 
-    // ✅ direction stable (avoid bounce flipping)
+    const y = this.getScrollTop();
     const dy = y - this.lastScrollTopMobile;
+
     if (dy > 2) this.lastDirMobile = 1;
     else if (dy < -2) this.lastDirMobile = -1;
 
@@ -2290,10 +2320,12 @@ export class AboutComponent {
   };
 
   private scheduleMobileSnap(delayMs: number) {
+    if (this.destroyed) return;
     if (this.isProgrammaticMobile) return;
 
     if (this.mobileScrollStopT) clearTimeout(this.mobileScrollStopT);
     this.mobileScrollStopT = setTimeout(() => {
+      if (this.destroyed) return;
       if (this.isTouchingMobile) return;
       this.doSnapMobileStable();
     }, delayMs);
@@ -2330,7 +2362,6 @@ export class AboutComponent {
     this.panelStartsMobile = uniq;
     this.panelStartsSet = new Set(uniq);
 
-    // ✅ compute S3 end reliably + fallback (solves S3/S4 gap)
     this.s3EndMobile = null;
     if (this.panelStartsMobile.length >= 4) {
       const s3Start = this.panelStartsMobile[2];
@@ -2342,14 +2373,12 @@ export class AboutComponent {
 
       if (st3) {
         let end = Math.round(st3.end);
-        // clamp: never exceed s4Start
         end = Math.min(end, s4Start - 2);
         if (Number.isFinite(end) && end > s3Start + 20) {
           this.s3EndMobile = end;
         }
       }
 
-      // fallback if trigger not found yet
       if (!this.s3EndMobile) {
         this.s3EndMobile = s4Start - 2;
       }
@@ -2374,6 +2403,8 @@ export class AboutComponent {
   }
 
   private doSnapMobileStable() {
+    if (this.destroyed) return;
+
     const arr = this.panelStartsMobile;
     if (!arr.length) return;
 
@@ -2386,7 +2417,6 @@ export class AboutComponent {
     const y = this.getScrollTop();
     const vh = (window.visualViewport?.height || window.innerHeight);
 
-    // ===== Footer Mode =====
     if (!this.footerMode && this.lastDirMobile > 0 && y >= this.footerEnterY) {
       this.footerMode = true;
       this.lastSnapIndexMobile = Math.max(0, arr.length - 1);
@@ -2404,22 +2434,18 @@ export class AboutComponent {
       return;
     }
 
-    // prevent micro corrections
     if (Math.abs(y - this.lastSnappedPosMobile) <= this.DEAD_ZONE_PX) return;
 
-    // ===== allow free scroll deep in last section =====
     const lastStart = arr[arr.length - 1];
     if (this.lastDirMobile > 0 && y >= lastStart + vh * 0.42) {
       this.lastSnapIndexMobile = arr.length - 1;
       return;
     }
 
-    // ✅✅ FIX: never stay stuck between END S3 and START S4
     if (arr.length >= 4) {
       const s3Start = arr[2];
       const s4Start = arr[3];
 
-      // ensure we have s3 end (try again lazily)
       if (!this.s3EndMobile || this.s3EndMobile >= s4Start) {
         this.s3EndMobile = s4Start - 2;
         const st3 =
@@ -2434,7 +2460,6 @@ export class AboutComponent {
 
       const s3End = this.s3EndMobile ?? (s4Start - 2);
 
-      // bridge zone band around the gap (covers “standing in between”)
       const bridgePadTop = Math.max(70, Math.round(vh * 0.14));
       const bridgePadBot = Math.max(50, Math.round(vh * 0.08));
 
@@ -2442,11 +2467,9 @@ export class AboutComponent {
 
       if (inBridgeZone) {
         if (this.lastDirMobile > 0) {
-          // down -> snap to section4 start (with nav offset)
           this.lastSnapIndexMobile = 3;
           this.snapToMobile(s4Start, now, 3);
         } else {
-          // up -> snap to section3 end (real end if exists)
           this.lastSnapIndexMobile = 2;
           this.snapToMobile(s3End, now, 2);
         }
@@ -2454,7 +2477,6 @@ export class AboutComponent {
       }
     }
 
-    // ===== Section3 handling (assist exit) =====
     if (arr.length >= 4) {
       const s3Start = arr[2];
       const s4Start = arr[3];
@@ -2483,7 +2505,6 @@ export class AboutComponent {
       }
     }
 
-    // ===== Stable index-based snapping =====
     let idx = this.lastSnapIndexMobile;
     idx = Math.max(0, Math.min(idx, arr.length - 1));
 
@@ -2519,7 +2540,6 @@ export class AboutComponent {
   private snapToMobile(targetY: number, now: number, targetIndex?: number) {
     if (!Number.isFinite(targetY)) return;
 
-    // ✅ apply nav offset only for Section4 index (3)
     let finalY = targetY;
     if (targetIndex === 3) {
       finalY = Math.max(0, targetY - this.SECTION4_NAV_OFFSET_PX);
@@ -2547,6 +2567,7 @@ export class AboutComponent {
   }
 
   private onResizeMobile = () => {
+    if (this.destroyed) return;
     if (this.isSnappingMobile) return;
     if (this.footerMode) return;
 
@@ -2556,6 +2577,7 @@ export class AboutComponent {
 
     if (this.mobileResizeT) clearTimeout(this.mobileResizeT);
     this.mobileResizeT = setTimeout(() => {
+      if (this.destroyed) return;
       this.computeFooterBands();
       this.rebuildMobileAnchors();
     }, 260);
@@ -2578,43 +2600,104 @@ export class AboutComponent {
     });
   }
 
-  private destroyMobileSnapStable() {
-    if (this.mobileScrollStopT) clearTimeout(this.mobileScrollStopT);
-    if (this.mobileResizeT) clearTimeout(this.mobileResizeT);
-    if (this.mobileInitTimer) clearTimeout(this.mobileInitTimer);
-
-    window.removeEventListener('scroll', this.onMobileScroll as any);
-    window.removeEventListener('touchstart', this.onTouchStartMobile as any);
-    window.removeEventListener('touchend', this.onTouchEndMobile as any);
-
-    window.removeEventListener('resize', this.onResizeMobile as any);
-    window.visualViewport?.removeEventListener('resize', this.onResizeMobile as any);
-  }
-
   // =========================
   // DESTROY
   // =========================
   ngOnDestroy(): void {
-    this.sectionsRegistry.clear();
-    this.sectionsRegistry.disable();
+    this.destroyed = true;
+
+    // ✅ cancel RAF
+    try {
+      if (this.smootherWaitRaf != null) cancelAnimationFrame(this.smootherWaitRaf);
+      this.smootherWaitRaf = null;
+    } catch { }
+
+    // ✅ cancel desktop timers
+    try {
+      if (this.desktopInitTimer) clearTimeout(this.desktopInitTimer);
+      this.desktopInitTimer = null;
+    } catch { }
+
+    try {
+      if (this.resizeBuildTimer) clearTimeout(this.resizeBuildTimer);
+      this.resizeBuildTimer = null;
+    } catch { }
+
+    // ✅ cancel mobile late rebuild
+    try {
+      if (this.mobileLateRebuildTimer) clearTimeout(this.mobileLateRebuildTimer);
+      this.mobileLateRebuildTimer = null;
+    } catch { }
+
+    // ✅ Clear registry
+    try {
+      this.sectionsRegistry.clear();
+      this.sectionsRegistry.disable();
+    } catch { }
+
+    // ✅ Complete subject
+    try {
+      this.visibilitySubject.complete();
+    } catch { }
+
+    // ✅ Clear timers
+    try {
+      if (this.mobileScrollStopT) clearTimeout(this.mobileScrollStopT);
+      if (this.mobileResizeT) clearTimeout(this.mobileResizeT);
+      if (this.mobileInitTimer) clearTimeout(this.mobileInitTimer);
+      this.mobileScrollStopT = null;
+      this.mobileResizeT = null;
+      this.mobileInitTimer = null;
+    } catch { }
+
+    // ✅ Kill delayed call
+    try {
+      this.desktopSnapDC?.kill();
+      this.desktopSnapDC = undefined;
+    } catch { }
 
     if (!this.isBrowser) return;
 
-    // desktop cleanup
+    // ✅ Kill tweens
+    try {
+      if (this.scrollEl) gsap.killTweensOf(this.scrollEl);
+      gsap.killTweensOf(window);
+      if (this.smoother) gsap.killTweensOf(this.smoother);
+    } catch { }
+
+    // ✅ Remove desktop listeners
     try { window.removeEventListener('resize', this.onResize); } catch { }
     try { ScrollTrigger.removeEventListener('scrollEnd', this.onDesktopScrollEnd); } catch { }
-    try { this.snapObserver?.kill?.(); } catch { }
-    try { this.desktopSnapDC?.kill(); } catch { }
 
-    // mobile cleanup
-    if (this.isMobile) {
-      this.destroyMobileSnapStable();
-    }
+    // ✅ Kill observers
+    try {
+      this.snapObserver?.kill?.();
+      this.snapObserver = null;
+    } catch { }
 
-    this.ctx?.revert();
-    // ScrollTrigger.getAll().forEach(t => t.kill());
+    // ✅ Remove mobile listeners (safe حتى لو مش موبايل)
+    try {
+      window.removeEventListener('scroll', this.onMobileScroll as any);
+      window.removeEventListener('touchstart', this.onTouchStartMobile as any);
+      window.removeEventListener('touchend', this.onTouchEndMobile as any);
+      window.removeEventListener('resize', this.onResizeMobile as any);
+      window.visualViewport?.removeEventListener('resize', this.onResizeMobile as any);
+    } catch { }
+
+    // ✅ Revert context
+    try {
+      this.ctx?.revert();
+      this.ctx = undefined;
+    } catch { }
+
+    // ❌ IMPORTANT: do NOT reset ScrollTrigger.config here (global)
+
+    // ✅ Null references
+    this.smoother = null;
+    this.smootherST = null;
   }
 }
+
 
 
 
