@@ -2176,7 +2176,7 @@ export class AboutComponent {
   private readonly FOOTER_SELECTOR = 'app-footer, #site-footer, footer, #footer, .footer';
 
   // ✅ requested: Section4 nav offset
-  private readonly SECTION4_NAV_OFFSET_PX = 50;
+  private readonly SECTION4_NAV_OFFSET_PX = 24;
 
   private mobileInitTimer: any = null;
   private mobileResizeT: any = null;
