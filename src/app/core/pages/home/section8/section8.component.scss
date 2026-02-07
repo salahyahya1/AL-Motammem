@@ -91,14 +91,14 @@ img {
 }
 
 
-@for $i from 1 through 6 {
+@for $i from 1 through 7 {
     .stack-#{$i} {
         z-index: 7 - $i;
         transform: translate3d(#{($i - 1) * 2}rem, #{-($i - 1) * 2.4}rem, 0);
     }
 }
 
-@for $i from 1 through 6 {
+@for $i from 1 through 7 {
     .hero-visuals.stack-#{$i}:hover .portfolio-overlay {
         // transform: translate3d((125% -($i *5)), 0, 0) scale(1);
 
@@ -113,7 +113,7 @@ img {
 }
 
 
-@for $i from 1 through 6 {
+@for $i from 1 through 7 {
     .stack-wrap .hero-visuals.stack-#{$i} .portfolio-overlay {
         top: -160% - (-27% *$i);
     }
@@ -126,14 +126,14 @@ img {
         justify-content: end;
     }
 
-    @for $i from 1 through 6 {
+    @for $i from 1 through 7 {
         .stack-wrap .hero-visuals.stack-#{$i} {
             z-index: 7 - $i;
             transform: translate3d(-#{($i - 1) * 1.5}rem, #{-($i - 1) * 2}rem, 0);
         }
     }
 
-    @for $i from 1 through 6 {
+    @for $i from 1 through 7 {
         .stack-wrap .hero-visuals.stack-#{$i}:hover .portfolio-overlay {
             transform: translate3d(#{($i) * 1.5}rem, #{-($i - 1) * 0.4}rem, 0) scale(1.5);
         }
@@ -145,7 +145,7 @@ img {
     }
 
 
-    @for $i from 1 through 6 {
+    @for $i from 1 through 7 {
         .stack-wrap .hero-visuals.stack-#{$i} .portfolio-overlay {
             top: -100% - (-25% *($i)-1);
         }

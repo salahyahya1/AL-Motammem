@@ -25,7 +25,7 @@ export class FooterComponent {
   }
 
   @Input() menuOpen = false;
-  
+
   private isBrowser: boolean;
   private destroy$ = new Subject<void>();
   currentLang: 'ar' | 'en' = 'ar';
@@ -45,14 +45,12 @@ export class FooterComponent {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  
+
   private language = inject(LanguageService);
 
   setLang(lang: 'en' | 'ar') {
     this.currentLang = lang;
     this.language.switchLang(lang);
-    console.log(lang);
-
   }
 
 }

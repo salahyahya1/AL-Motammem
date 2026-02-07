@@ -83,7 +83,7 @@ try {
     const langs = ['en', 'ar'];
     const docs = [];
 
-    console.log('Starting build...');
+
 
     for (const lang of langs) {
         const filePath = path.join(i18nDir, `${lang}.json`);
@@ -97,7 +97,7 @@ try {
 
     const output = { docs };
     fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
-    console.log(`Search index generated at ${outPath} with ${docs.length} entries.`);
+    // console.log(`Search index generated at ${outPath} with ${docs.length} entries.`);
     fs.writeFileSync(statusPath, `Done with ${docs.length} entries at ${new Date().toISOString()}`);
 
 } catch (err) {

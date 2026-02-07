@@ -101,3 +101,17 @@ a:hover {
 // #Text2:hover {
 
 // }
+
+@media (min-width: 769px) {
+
+    // FIX: The navSmallScreen container (30% width) can overlap navbar links 
+    // in the flex-row-reverse layout, blocking clicks. 
+    // We make the container transparent to clicks, but keep content interactive.
+    .navSmallScreen {
+        pointer-events: none;
+
+        &>* {
+            pointer-events: auto;
+        }
+    }
+}

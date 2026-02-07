@@ -3484,7 +3484,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
 
     if (this.refreshTimer) clearTimeout(this.refreshTimer);
     this.refreshTimer = setTimeout(() => {
-      console.log('[HOME] Refreshing due to:', reason);
+
       this.safeRefresh();
     }, 240);
   }
@@ -3821,12 +3821,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     const st = this.homeSnapST || (ScrollTrigger.getById('HOME_SNAP') as any);
     const end = (st as any)?.end ?? 0;
 
-    console.log('[HOME_SNAP] maxScroll=', Math.round(max), ' end=', Math.round(end), ' diff=', Math.round(max - end));
+
   }
 
   private debugSnapPoints() {
     if (!this.snapY.length) return;
-    console.log('[SNAP_Y]', this.snapY.map(v => Math.round(v)));
+
   }
 
   // ===================== MOBILE STATIC HERO I18N =====================

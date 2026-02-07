@@ -610,17 +610,17 @@ export class CreateBlogComponent implements AfterViewInit, OnDestroy {
             // 3) call your service (it already uses base url interceptor)
             this.blogsService.AddBlog(fd).subscribe({
                 next: (resp) => {
-                    console.log('✅ AddBlog response:', resp);
+
                     this.openSuccess();
                 },
                 error: (err) => {
-                    console.error('❌ AddBlog error:', err);
+
                     this.openFail();
                 }
             });
 
         } catch (err) {
-            console.error('❌ AddBlog error:', err);
+
         } finally {
             this.isSubmitting = false;
         }

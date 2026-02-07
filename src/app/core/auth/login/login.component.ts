@@ -49,7 +49,7 @@ export class LoginComponent {
       this.form.markAllAsTouched();
       return;
     }
-    console.log(this.form.value);
+
 
     this.loading = true;
 

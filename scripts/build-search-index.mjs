@@ -102,7 +102,6 @@ async function buildIndex() {
 
         const output = { docs };
         fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
-        console.log(`Search index generated at ${outPath} with ${docs.length} entries.`);
         fs.writeFileSync(path.join(rootDir, 'public', 'build-status.txt'), `Done with ${docs.length} entries at ${new Date().toISOString()}`);
 
     } catch (err) {

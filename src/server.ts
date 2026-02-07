@@ -86,8 +86,8 @@ app.get('*', (req, res, next) => {
 if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 4000;
   app.listen(port, () => {
-    console.log(`✅ Angular SSR running on http://localhost:${port}`);
-    console.log(`📁 Serving static from: ${browserDistFolder}`);
+    // console.log(`✅ Angular SSR running on http://localhost:${port}`);
+    // console.log(`📁 Serving static from: ${browserDistFolder}`);
   });
 }
 

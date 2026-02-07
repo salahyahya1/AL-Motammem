@@ -92,9 +92,7 @@ async function fetchAllBlogs() {
         page++;
 
 
-        console.log("page", page, "keys:", Object.keys(json));
-        console.log("dataType:", Array.isArray(json?.data), "len:", json?.data?.length);
-        console.log("pagination:", json?.pagination);
+
 
     }
 
@@ -135,11 +133,7 @@ async function main() {
     const indexXml = buildSitemapIndex();
     await fs.writeFile(OUT_INDEX, indexXml, "utf8");
 
-    console.log("✅ sitemaps generated:");
-    console.log(" -", OUT_INDEX);
-    console.log(" -", OUT_STATIC);
-    console.log(" -", OUT_BLOGS);
-    console.log(`✅ blogs count: ${blogUrls.length}`);
+
 }
 
 main().catch((e) => {
