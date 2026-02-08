@@ -23,31 +23,6 @@ jobs:
       - name: Build Angular app (prebuild hook generates search-index & sitemaps)
         run: npm run build
         
-      - name: Verify generated files in browser output
-        run: |
-          echo "=== Diagnostic: Find all generated files ==="
-          find dist/al-motammem -maxdepth 3 -type f \( -name "search-index.json" -o -name "sitemap*.xml" \) -ls || true
-          
-          echo ""
-          echo "=== list dist structure ==="
-          ls -la dist/al-motammem
-          echo ""
-          ls -la dist/al-motammem/browser | head -20
-          
-          echo ""
-          echo "=== Verify search-index.json ==="
-          test -f dist/al-motammem/browser/search-index.json && echo "✅ search-index.json OK" || (echo "❌ MISSING search-index.json" && exit 1)
-          
-          echo ""
-          echo "=== Verify sitemaps ==="
-          test -f dist/al-motammem/browser/sitemap.xml && echo "✅ sitemap.xml OK" || (echo "❌ sitemap.xml not found" && exit 1)
-          test -f dist/al-motammem/browser/sitemap-static.xml && echo "✅ sitemap-static.xml OK" || echo "⚠️ sitemap-static.xml not found"
-          test -f dist/al-motammem/browser/sitemap-blogs.xml && echo "✅ sitemap-blogs.xml OK" || echo "⚠️ sitemap-blogs.xml not found"
-          
-          echo ""
-          echo "=== Search index stats ==="
-          node -e "const fs=require('fs'); const p='dist/al-motammem/browser/search-index.json'; const s=fs.statSync(p).size; const j=JSON.parse(fs.readFileSync(p,'utf8')); console.log('size(bytes)=',s,'docs=',(j.docs||[]).length)"
-
       # هنا بيرفع الـ build على السيرفر عن طريق FTP
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
