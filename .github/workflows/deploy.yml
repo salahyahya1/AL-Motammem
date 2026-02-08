@@ -22,10 +22,16 @@ jobs:
 
       - name: Build Angular app
         run: npm run build
-
-# ✅ Generate sitemap.xml (dynamic blogs)
-      - name: Generate sitemaps (index + static + blogs)
-        run: node scripts/generate-sitemaps.mjs
+        
+      - name: Verify generated files in dist
+        run: |
+          echo "== list dist root =="
+          ls -la dist/al-motammem | head -80
+          echo "== check search index =="
+          test -f dist/al-motammem/sitemap.xml && echo "sitemap.xml OK" || echo "sitemap.xml not found"
+          test -f dist/al-motammem/search-index.json && echo "search-index.json OK" || (echo "MISSING search-index.json" && exit 1)
+          echo "== size =="
+          node -e "const fs=require('fs'); const p='dist/al-motammem/search-index.json'; const s=fs.statSync(p).size; const j=JSON.parse(fs.readFileSync(p,'utf8')); console.log('size(bytes)=',s,' docs=',(j.docs||[]).length)"
 
       # هنا بيرفع الـ build على السيرفر عن طريق FTP
       - name: Deploy to FTP

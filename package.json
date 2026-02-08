@@ -17,7 +17,8 @@
     "dev:ssr:live": "ng build --watch & nodemon dist/al-motammem/server/server.mjs",
     "share:ssr": "npm run serve:ssr & ngrok http 4100",
     "build:ssr:prod": "ng build --configuration production",
-    "serve:ssr:prod": "node dist/al-motammem/server/server.mjs"
+    "serve:ssr:prod": "node dist/al-motammem/server/server.mjs",
+    "prebuild": "npm run build:search-index && node scripts/generate-sitemaps.mjs"
   },
   "private": true,
   "dependencies": {
