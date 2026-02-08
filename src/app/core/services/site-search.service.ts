@@ -1,12 +1,13 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
-import { BehaviorSubject, firstValueFrom, forkJoin, from, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { firstValueFrom, forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 // @ts-ignore
 import FlexSearch from 'flexsearch';
-import { BlogsService, BlogApiItem } from '../pages/blogs/services/blogs-service';
+import { BlogsService } from '../pages/blogs/services/blogs-service';
 import { FaqsService } from '../pages/faqs/Faqs-service';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface SearchResult {
     id: string;
@@ -20,16 +21,13 @@ export interface SearchResult {
     source: 'site' | 'blog' | 'faq';
 }
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class SiteSearchService {
     private i18nIndex: any = null;
     private contentIndex: any = null;
 
     private currentLang: string | null = null;
 
-    // Status flags
     private isI18nLoaded = false;
     private isContentLoaded = false;
     private isContentLoading = false;
@@ -41,73 +39,96 @@ export class SiteSearchService {
         private http: HttpClient,
         @Inject(PLATFORM_ID) private platformId: Object,
         private blogsService: BlogsService,
-        private faqsService: FaqsService
+        private faqsService: FaqsService,
+        private translate: TranslateService
     ) { }
 
+    private normalizeLang(lang: string): string {
+        return (lang || '').toLowerCase().split('-')[0]; // ar-EG -> ar, en-US -> en
+    }
+
+    private resolveI18nText(value?: string): string {
+        if (!value) return '';
+        // لو هي Key هيترجمها، ولو نص عادي غالبًا هيرجّعها زي ما هي
+        const out = this.translate.instant(value);
+        return (out && typeof out === 'string') ? out : value;
+    }
+
     /**
-     * Ensure the index is ready for the given language.
-     * Starts loading both indexes if not ready.
-     * Returns when i18n index is ready (fast). Content index loads in background.
+     * Ensure i18n index is ready ASAP.
+     * Content index loads in background (does NOT block first search).
      */
     async ensureReady(lang: string): Promise<void> {
         if (!isPlatformBrowser(this.platformId)) return;
 
+        const normLang = this.normalizeLang(lang);
+
         // Reset if language changed
-        if (this.currentLang && this.currentLang !== lang) {
+        if (this.currentLang && this.currentLang !== normLang) {
             this.reset();
         }
-        this.currentLang = lang;
+        this.currentLang = normLang;
 
-        // Trigger Content Load (Background) if not started
-        if (!this.isContentLoaded && !this.isContentLoading) {
-            this.contentLoadPromise = this.loadContentIndex(lang);
+        // Start Content Load in background
+        if (!this.isContentLoaded && !this.isContentLoading && !this.contentLoadPromise) {
+            this.contentLoadPromise = this.loadContentIndex(normLang);
         }
 
-        // Trigger i18n Load (Background) if not started
+        // Start i18n Load if not started
         if (!this.isI18nLoaded && !this.i18nLoadPromise) {
-            this.i18nLoadPromise = this.loadI18nIndex(lang);
+            this.i18nLoadPromise = this.loadI18nIndex(normLang);
         }
 
-        // Wait for BOTH to be ready before returning
-        // This ensures the first search includes all results.
-        const promises = [];
-        if (this.contentLoadPromise) promises.push(this.contentLoadPromise);
-        if (this.i18nLoadPromise) promises.push(this.i18nLoadPromise);
-
-        if (promises.length > 0) {
-            const results = await Promise.allSettled(promises);
-            // Log errors if any, but don't crash everything if one fails
-            results.forEach(res => {
-                if (res.status === 'rejected') console.error('Index load failed', res.reason);
-            });
+        // IMPORTANT: wait فقط على i18n (عشان السرش يشتغل فورًا)
+        if (this.i18nLoadPromise) {
+            try {
+                await this.i18nLoadPromise;
+            } catch (e) {
+                console.error('i18n index load failed', e);
+            }
         }
     }
 
     private async loadI18nIndex(lang: string): Promise<void> {
         try {
-            const data = await firstValueFrom(this.http.get<{ docs: any[] }>('/search-index.json'));
+            // خليها relative عشان baseHref/virtual dir مايكسرش
+            const data = await firstValueFrom(this.http.get<{ docs: any[] }>('search-index.json')
+            );
 
             this.i18nIndex = new FlexSearch.Document({
                 document: {
                     id: 'id',
-                    index: ['title', 'text'],
+                    index: ['title', 'text', 'key'], // ✅ index للـ key كمان
                     store: true
                 },
                 tokenize: 'forward',
                 context: true
             });
 
-            const langDocs = data.docs
-                .filter(d => d.lang === lang)
-                .map(d => ({ ...d, source: 'site' }));
+            const langDocs = (data?.docs || [])
+                .filter(d => this.normalizeLang(d?.lang || '') === lang)
+                .map(d => ({ ...d, source: 'site' as const }));
 
             for (const doc of langDocs) {
-                // Determine fragment based on key
+                // fragment based on key
                 if (doc.key) {
                     doc.fragment = this.getFragmentForKey(doc.key);
                 }
-                this.i18nIndex.add(doc);
+
+                // ✅ حول title/text للنص المترجم (خصوصًا NAVBAR.MAIN)
+                const resolvedTitle = this.resolveI18nText(doc.title || doc.key);
+                const resolvedText = this.resolveI18nText(doc.text);
+
+                // خلي النص searchable حتى لو الترجمة رجعت key
+                const mergedText = `${doc.key || ''} ${doc.title || ''} ${resolvedTitle} ${doc.text || ''} ${resolvedText}`.trim();
+
+                this.i18nIndex.add({
+                    ...doc,
+                    title: resolvedTitle || doc.title || doc.key || '',
+                    text: mergedText
+                });
             }
+
             this.isI18nLoaded = true;
         } catch (e) {
             console.error('Failed to load i18n search index', e);
@@ -159,7 +180,7 @@ export class SiteSearchService {
     private async loadContentIndex(lang: string): Promise<void> {
         this.isContentLoading = true;
         try {
-            const cacheKey = `content_search_cache_v3_${lang}`; // Bumped version
+            const cacheKey = `content_search_cache_v3_${lang}`;
             const cached = localStorage.getItem(cacheKey);
 
             let docs: SearchResult[] = [];
@@ -172,13 +193,7 @@ export class SiteSearchService {
                 }
             }
 
-            // If no cache (or invalid), fetch from API
             if (!docs || docs.length === 0) {
-                // Fetch in parallel
-                /* 
-                   BlogsService.getAllBlogs(1) returns { success, data: [], pagination } 
-                   FaqsService.GetAllFAQS() returns { data: [] } (inferred)
-                */
                 const result = await firstValueFrom(
                     forkJoin({
                         blogs: this.blogsService.getAllBlogs(1).pipe(catchError(() => of({ data: [] }))),
@@ -186,21 +201,18 @@ export class SiteSearchService {
                     })
                 );
 
-                // Process Blogs
                 const blogsData = (result.blogs as any).data || [];
-                const blogDocs = blogsData.map((b: any) => ({
+                const blogDocs: SearchResult[] = blogsData.map((b: any) => ({
                     id: `blog-${b.id}`,
                     lang,
                     title: b.title,
-                    // Use 'url' as slug. Route: /blogs/blog/:url
                     route: `/blogs/blog/${b.url}`,
                     text: `${b.title} ${b.metaDescription || ''} ${b.category || ''}`,
                     source: 'blog'
                 }));
 
-                // Process FAQs
                 const faqsData = (result.faqs as any).data || [];
-                const faqDocs = faqsData.map((f: any) => {
+                const faqDocs: SearchResult[] = faqsData.map((f: any) => {
                     const q = lang === 'ar' ? f.question : f.englishQuestion;
                     const a = lang === 'ar' ? f.answer : f.englishAnswer;
                     return {
@@ -212,35 +224,26 @@ export class SiteSearchService {
                         text: `${q} ${a}`,
                         source: 'faq'
                     };
-                }).filter((d: any) => d.title && d.text); // validation
+                }).filter((d: any) => d.title && d.text);
 
                 docs = [...blogDocs, ...faqDocs];
-
-                // Cache it
                 localStorage.setItem(cacheKey, JSON.stringify(docs));
             }
 
-            // Initialize Index
             this.contentIndex = new FlexSearch.Document({
-                document: {
-                    id: 'id',
-                    index: ['title', 'text'],
-                    store: true
-                },
+                document: { id: 'id', index: ['title', 'text'], store: true },
                 tokenize: 'forward',
                 context: true
             });
 
-            for (const doc of docs) {
-                this.contentIndex.add(doc);
-            }
+            for (const doc of docs) this.contentIndex.add(doc);
 
             this.isContentLoaded = true;
-
         } catch (e) {
             console.error('Failed to load content search index', e);
         } finally {
             this.isContentLoading = false;
+            this.contentLoadPromise = null;
         }
     }
 
@@ -251,23 +254,24 @@ export class SiteSearchService {
         this.isContentLoaded = false;
         this.isContentLoading = false;
         this.currentLang = null;
+        this.i18nLoadPromise = null;
+        this.contentLoadPromise = null;
     }
 
     async search(query: string, lang: string): Promise<SearchResult[]> {
         if (!isPlatformBrowser(this.platformId)) return [];
 
-        await this.ensureReady(lang);
+        const normLang = this.normalizeLang(lang);
+        await this.ensureReady(normLang);
 
-        if (!query || query.length < 2) return [];
+        if (!query || query.trim().length < 2) return [];
 
-        const promises = [];
+        const promises: Promise<SearchResult[]>[] = [];
 
-        // Search I18n
         if (this.isI18nLoaded && this.i18nIndex) {
             promises.push(this.indexSearch(this.i18nIndex, query));
         }
 
-        // Search Content (only if ready)
         if (this.isContentLoaded && this.contentIndex) {
             promises.push(this.indexSearch(this.contentIndex, query));
         }
@@ -282,7 +286,7 @@ export class SiteSearchService {
         const raw = await index.search(query, {
             limit: 20,
             enrich: true,
-            bool: "or"
+            bool: 'or'
         });
 
         const uniqueDocs = new Map<string, SearchResult>();
@@ -302,25 +306,20 @@ export class SiteSearchService {
 
     private prioritizeResults(results: SearchResult[], query: string): SearchResult[] {
         const lowerQuery = query.toLowerCase();
-        return results.sort((a, b) => {
-            const aTitle = a.title.toLowerCase();
-            const bTitle = b.title.toLowerCase();
 
-            // Exact match priority
+        return results.sort((a, b) => {
+            const aTitle = (a.title || '').toLowerCase();
+            const bTitle = (b.title || '').toLowerCase();
+
             const aExact = aTitle === lowerQuery;
             const bExact = bTitle === lowerQuery;
             if (aExact && !bExact) return -1;
             if (!aExact && bExact) return 1;
 
-            // Starts with priority
             const aStart = aTitle.startsWith(lowerQuery);
             const bStart = bTitle.startsWith(lowerQuery);
             if (aStart && !bStart) return -1;
             if (!aStart && bStart) return 1;
-
-            // Site pages priority over logs/faqs (optional, but good for UX)
-            // if (a.source === 'site' && b.source !== 'site') return -1;
-            // if (a.source !== 'site' && b.source === 'site') return 1;
 
             return 0;
         });
