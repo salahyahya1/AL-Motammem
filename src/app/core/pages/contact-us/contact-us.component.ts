@@ -6,6 +6,7 @@ import {
   ChangeDetectorRef,
   ElementRef,
   ViewChild,
+  OnDestroy
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import gsap from 'gsap';
@@ -17,19 +18,26 @@ import ScrollToPlugin from 'gsap/ScrollToPlugin';
 import { TranslatePipe } from '@ngx-translate/core';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
 @Component({
   selector: 'app-contact-us',
   imports: [TranslatePipe],
   templateUrl: './contact-us.component.html',
   styleUrl: './contact-us.component.scss'
 })
-export class ContactUsComponent {
+export class ContactUsComponent implements OnDestroy {
   private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
   visibility$ = this.visibilitySubject.asObservable();
   visibilityState: 'visible' | 'invisible' = 'visible';
-  @ViewChild('bgVideo') bgVideo!: ElementRef<HTMLVideoElement>;
-  menuOpen = false;
+
+  @ViewChild('bgVideo', { static: false })
+  bgVideo?: ElementRef<HTMLVideoElement>;
+
   isBrowser: boolean;
+  private ctx6?: gsap.Context;
+  private onResize = () => ScrollTrigger.refresh();
+
+  private onCanPlay = () => this.safePlayBgVideo();
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -41,51 +49,69 @@ export class ContactUsComponent {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
-  private ctx6?: gsap.Context;
-  private onResize = () => ScrollTrigger.refresh();
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
 
+    this.setupBgVideoAutoplayFix();
 
-    const v = this.bgVideo?.nativeElement;
-    if (!v) return;
-
-    v.muted = true;          // مهم
-    v.playsInline = true;    // مهم للموبايل
-    v.autoplay = true;
-
-    v.load();
-    v.play().catch(() => {
-      // لو اتمنع autoplay على جهاز معين
-    });
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.ctx6 = gsap.context(() => {
           this.navTheme.setColor('var(--white)');
           this.navTheme.setBg('#0c81ff');
-          // window.addEventListener('resize', () => {
-          //   this.ngZone.run(() => {
-          //     this.cdr.detectChanges();
-          //   });
-          // });
-
         });
+
         window.addEventListener('resize', this.onResize);
         ScrollTrigger.refresh();
       }, 150);
     });
   }
 
+  private setupBgVideoAutoplayFix() {
+    const v = this.bgVideo?.nativeElement;
+    if (!v) return;
+
+    // شروط autoplay خصوصًا iOS/Safari
+    v.muted = true;
+    v.playsInline = true;
+    v.autoplay = true;
+    v.setAttribute('playsinline', '');
+    v.setAttribute('webkit-playsinline', '');
+
+    // حاول تشغله بعد ما يبقى جاهز
+    v.addEventListener('canplay', this.onCanPlay, { once: true });
+
+    v.load();
+    this.safePlayBgVideo();
+  }
+
+  private safePlayBgVideo() {
+    const v = this.bgVideo?.nativeElement;
+    if (!v) return;
+
+    const p = v.play();
+    if (p) {
+      p.catch((err) => {
+        // لو autoplay اتمنع على جهاز معين
+        console.warn('BG video autoplay blocked/failed:', err);
+      });
+    }
+  }
+
   ngOnDestroy(): void {
     this.sectionsRegistry.clear();
     this.sectionsRegistry.disable();
 
-    // if (this.isBrowser) {
-    //   ScrollTrigger.getAll().forEach(t => t.kill());
-    // }
     this.ctx6?.revert();
+
     if (this.isBrowser) {
       window.removeEventListener('resize', this.onResize);
+
+      const v: any = this.bgVideo?.nativeElement;
+      if (v && typeof v.pause === 'function') {
+        v.pause();
+        v.removeEventListener?.('canplay', this.onCanPlay);
+      }
     }
   }
 }
