@@ -3,7 +3,7 @@ import fs from "fs/promises";
 const SITE = "https://almotammem.com";
 const API_BASE = "https://almotammem.com/api/articles/allblogs";
 
-const OUT_DIR = "./dist/al-motammem";
+const OUT_DIR = "./public";
 const OUT_INDEX = `${OUT_DIR}/sitemap.xml`;
 const OUT_STATIC = `${OUT_DIR}/sitemap-static.xml`;
 const OUT_BLOGS = `${OUT_DIR}/sitemap-blogs.xml`;
