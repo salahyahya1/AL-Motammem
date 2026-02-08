@@ -1,60 +1,58 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Component, Inject, NgZone, OnDestroy, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, Inject, NgZone, OnDestroy, PLATFORM_ID } from '@angular/core';
+import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import gsap from "gsap";
-import SplitText from "gsap/SplitText";
+import SplitText from 'gsap/SplitText';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RemiveRoleAriaService } from '../../../shared/services/removeRoleAria';
-gsap.registerPlugin(SplitText, ScrollTrigger)
+
+gsap.registerPlugin(SplitText, ScrollTrigger);
 
 @Component({
   selector: 'app-solutions-section1',
   imports: [TranslatePipe],
   templateUrl: './solutions-section1.component.html',
-  styleUrl: './solutions-section1.component.scss'
+  styleUrl: './solutions-section1.component.scss',
 })
-export class SolutionsSection1Component {
+export class SolutionsSection1Component implements OnDestroy {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
-    private RemiveRoleAriaService: RemiveRoleAriaService,
+    private RemiveRoleAriaService: RemiveRoleAriaService
   ) { }
-  timeline!: gsap.core.Timeline
-  Section1_title_split: any;
-  Section1_vedio!: HTMLElement;
 
+  timeline?: gsap.core.Timeline;
+  Section1_title_split?: any;
 
   ngAfterViewInit() {
-    if (typeof window === 'undefined') return;
-
     if (!isPlatformBrowser(this.platformId)) return;
-    requestAnimationFrame(() => {
-      this.ngZone.runOutsideAngular(() => {
-        setTimeout(() => {
-          this.runGsapAnimation();
-        }, 0);
+
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => {
+        this.runGsapAnimation();
       });
     });
-
   }
-  private runGsapAnimation() {
-    document.fonts.ready.then(() => {
-      const videoEl = document.querySelector('#solutions-Section1-vedio') as HTMLElement;
-      const titleEl = document.querySelector('#solutions-Section1-title') as HTMLElement;
 
-      if (!titleEl || !videoEl) {
-        console.warn('⚠️ عناصر الـ hero مش لاقيها SplitText');
+  private runGsapAnimation() {
+    const videoWrap = document.querySelector('#solutions-Section1-vedio') as HTMLElement | null;
+    const titleEl = document.querySelector('#solutions-Section1-title') as HTMLElement | null;
+
+    // ✅ الفيديو يظهر فورًا (حتى لو الفونتات لسه بتتحمّل)
+    if (videoWrap) gsap.set(videoWrap, { opacity: 1, visibility: 'visible' });
+
+    // SplitText يستنى الفونتات
+    document.fonts.ready.then(() => {
+      if (!titleEl) {
+        console.warn('⚠️ title element not found');
         return;
       }
 
-
       requestAnimationFrame(() => {
-        // Split بعد ما المتصفح رسم السطور فعليًا
-        const split = SplitText.create('#solutions-Section1-title', { type: "lines", autoSplit: true })
+        const split = SplitText.create(titleEl, { type: 'lines', autoSplit: true });
         this.RemiveRoleAriaService.cleanA11y(titleEl, split);
 
-        gsap.set(titleEl, { opacity: 1, visibility: "visible" });
-        gsap.set(videoEl, { opacity: 1, visibility: "visible" });
+        gsap.set(titleEl, { opacity: 1, visibility: 'visible' });
 
         const tl = gsap.timeline();
 
@@ -62,22 +60,33 @@ export class SolutionsSection1Component {
           duration: 0.2,
           yPercent: 100,
           opacity: 0,
-          ease: "expo.out",
+          ease: 'expo.out',
           stagger: 0.08,
         });
 
-        tl.from(videoEl, {
-          opacity: 0,
-          y: -100,
-          duration: 0.2,
-          ease: "sine.out",
-        }, "<");
+        // ✅ أنيميت الفيديو لو موجود، غير كده مش مشكلة
+        if (videoWrap) {
+          tl.from(
+            videoWrap,
+            {
+              opacity: 0,
+              y: -100,
+              duration: 0.2,
+              ease: 'sine.out',
+            },
+            '<'
+          );
+        }
 
         this.timeline = tl;
         this.Section1_title_split = split;
       });
-
     });
   }
 
+  ngOnDestroy() {
+    this.timeline?.kill();
+    this.Section1_title_split?.revert?.();
+    ScrollTrigger.getAll().forEach((t) => t.kill());
+  }
 }
