@@ -2934,6 +2934,1010 @@
 //   }
 // }
 
+// import {
+//   Component,
+//   Inject,
+//   PLATFORM_ID,
+//   AfterViewInit,
+//   NgZone,
+//   ChangeDetectorRef,
+//   OnDestroy,
+//   OnInit,
+// } from '@angular/core';
+// import { CommonModule, isPlatformBrowser } from '@angular/common';
+// import gsap from 'gsap';
+// import ScrollTrigger from 'gsap/ScrollTrigger';
+// import ScrollSmoother from 'gsap/ScrollSmoother';
+
+// import { Section1Component } from './section1/section1.component';
+// import { Section2Component } from './section2/section2.component';
+// import { Section3Component } from './section3/section3.component';
+// import { Section4Component } from './section4/section4.component';
+// import { Section5Component } from './section5/section5.component';
+// import { Section6Component } from './section6/section6.component';
+// import { Section7Component } from './section7/section7.component';
+// import { Section8Component } from './section8/section8.component';
+
+// import { BehaviorSubject } from 'rxjs';
+// import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
+// import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
+// import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
+// import { Router } from '@angular/router';
+// import { SeoLinkService } from '../../services/seo-link.service';
+// import { NavigationStart } from '@angular/router';
+// import { filter, Subscription } from 'rxjs';
+// import { PreloadService } from '../../services/preload.service';
+// gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+// @Component({
+//   selector: 'app-home',
+//   standalone: true,
+//   imports: [
+//     CommonModule,
+//     Section1Component,
+//     Section2Component,
+//     Section3Component,
+//     Section4Component,
+//     Section5Component,
+//     Section6Component,
+//     Section7Component,
+//     Section8Component,
+//     OpenFormDialogDirective,
+//   ],
+//   templateUrl: './home.component.html',
+//   styleUrls: ['./home.component.scss'],
+// })
+// export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
+//   private routerSub?: Subscription;
+//   private snapEnabled = false;
+
+//   private teardownHomeSnap() {
+//     // 1) وقف أي snapping حالياً
+//     this.snapTween?.kill();
+//     this.snapTween = undefined;
+//     this.isSnapping = false;
+
+//     // 2) وقف idle detector (RAF + scroll listener)
+//     this.idleCleanup?.();
+//     this.idleCleanup = undefined;
+
+//     // safety: لو فيه RAF متسجل
+//     if (this.idleRaf) cancelAnimationFrame(this.idleRaf);
+//     this.idleRaf = undefined;
+
+//     // 3) شيل killSnap listeners (wheel/touch/pointer)
+//     (this as any)._killSnapCleanup?.();
+//     (this as any)._killSnapCleanup = undefined;
+
+//     // 4) شيل window listeners
+//     try { window.removeEventListener('resize', this.onResize); } catch { }
+//     window.removeEventListener('pin-ready', this.onPinReady as any);
+
+//     // 5) Kill ScrollTriggers الخاصة بالهوم فقط (بالـ ids / arrays)
+//     this.colorTriggers.forEach(t => t.kill());
+//     this.colorTriggers = [];
+
+//     this.snapTriggers.forEach(t => t.kill());
+//     this.snapTriggers = [];
+
+//     this.homeSnapST?.kill();
+//     this.homeSnapST = undefined;
+
+//     // 6) شيل refresh listeners اللي انتِ ضيفاها
+//     const rebuild = (this as any)._snapRebuild;
+//     if (rebuild) {
+//       ScrollTrigger.removeEventListener('refreshInit', rebuild);
+//       ScrollTrigger.removeEventListener('refresh', rebuild);
+//     }
+
+//     // 7) اقفلي observers
+//     this.cleanupLoadListener?.(); this.cleanupLoadListener = undefined;
+//     this.cleanupFontsListener?.(); this.cleanupFontsListener = undefined;
+
+//     this.resizeObs?.disconnect(); this.resizeObs = undefined;
+//     this.observer?.disconnect(); this.observer = undefined;
+
+//     clearTimeout(this.refreshTimer);
+//     clearTimeout(this.mediaRefreshTimer);
+
+//     // 8) ✅ أهم سطرين في حالتك (عشان السناب مايكملش على صفحات تانية)
+//     this.snapY = [];
+//     this.snapListenersAttached = false;
+
+//     // 9) Context revert (لو فيه animations/triggers اتعملت داخل ctx)
+//     this.ctx?.revert();
+//     this.ctx = undefined;
+
+//     // 10) تحديث GSAP state
+//     try { ScrollTrigger.refresh(true); } catch { }
+//   }
+//   private exposeGlobalCleanup() {
+//     (window as any).__HOME_SNAP_CLEANUP__ = () => {
+//       try {
+//         // نفس اللي بتعمليه في ngOnDestroy بس مركّز على السناب
+//         this.snapTween?.kill();
+//         this.snapTween = undefined;
+//         this.isSnapping = false;
+
+//         this.idleCleanup?.();
+//         this.idleCleanup = undefined;
+
+//         if (this.idleRaf) cancelAnimationFrame(this.idleRaf);
+//         this.idleRaf = undefined;
+
+//         (this as any)._killSnapCleanup?.();
+//         (this as any)._killSnapCleanup = undefined;
+
+//         // kill triggers اللي انتي عاملاها في الهوم فقط
+//         this.colorTriggers.forEach(t => t.kill());
+//         this.colorTriggers = [];
+
+//         this.snapTriggers.forEach(t => t.kill());
+//         this.snapTriggers = [];
+
+//         this.homeSnapST?.kill();
+//         this.homeSnapST = undefined;
+
+//         // remove refresh listeners
+//         const rebuild = (this as any)._snapRebuild;
+//         if (rebuild) {
+//           ScrollTrigger.removeEventListener('refreshInit', rebuild);
+//           ScrollTrigger.removeEventListener('refresh', rebuild);
+//         }
+
+//         // صفري نقاط السناب
+//         this.snapY = [];
+//         this.snapListenersAttached = false;
+
+//         // مهم: ctx revert (لو فيه حاجات جوّاه)
+//         this.ctx?.revert();
+//         this.ctx = undefined;
+
+//         // Update
+//         ScrollTrigger.update();
+//       } catch { }
+//     };
+//   }
+
+//   private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
+//   visibility$ = this.visibilitySubject.asObservable();
+//   visibilityState: 'visible' | 'invisible' = 'visible';
+
+//   isMobile!: boolean;
+//   isBrowser: boolean;
+
+//   private ctx?: gsap.Context;
+
+//   // guards
+//   private isRefreshing = false;
+//   private isRefreshQueued = false;
+
+//   // Navbar offset (لو nav ثابت فوق)
+//   private readonly NAV_OFFSET_DESKTOP = 0;
+
+//   // MutationObserver / debounce
+//   private observer?: MutationObserver;
+//   private lastHomeHeight = 0;
+//   private refreshTimer: any;
+
+//   // ✅ snap points (pin-safe)
+//   private snapY: number[] = [];
+//   private snapListenersAttached = false;
+
+//   // ✅ منطقة السماح للسناب
+//   private readonly SNAP_ZONE_VH = 0.75;
+
+//   // ✅ snap behavior tuning
+//   private readonly SNAP_ENTER_PCT = 0.02;     // ✅ 2% داخل السكشن
+//   private readonly SNAP_MIN_DELTA_PX = 2;     // ✅ تجاهل micro snap
+//   private readonly SNAP_CAP_VH = 0.95;        // ✅ cap لمنع الشد بعيد قوي
+//   private readonly SNAP_OFFSET_CAP_VH = 0.18; // ✅ cap للـ 2% offset (pinned sections)
+
+//   // ✅ color triggers
+//   private colorTriggers: ScrollTrigger[] = [];
+
+//   // ✅ snap triggers (REAL top/bottom) — pin-safe
+//   private snapTriggers: ScrollTrigger[] = [];
+
+//   // ✅ ResizeObserver + media load capture + fonts listener
+//   private resizeObs?: ResizeObserver;
+//   private cleanupLoadListener?: () => void;
+//   private cleanupFontsListener?: () => void;
+
+//   // ✅ HOME_SNAP ref
+//   private homeSnapST?: ScrollTrigger;
+
+//   // ✅ snap tween
+//   private snapTween?: gsap.core.Tween;
+//   private isSnapping = false;
+
+//   // ✅ stop media-load refresh spam
+//   private mediaRefreshArmed = true;
+//   private mediaRefreshTimer: any;
+
+//   // ✅ Idle detector (بديل tick + onUpdate debounce)
+//   private idleRaf?: number;
+//   private lastIdleY = 0;
+//   private stillFrames = 0;
+//   private idleCleanup?: () => void;
+
+//   constructor(
+//     @Inject(PLATFORM_ID) private platformId: Object,
+//     private ngZone: NgZone,
+//     private cdr: ChangeDetectorRef,
+//     private navTheme: NavbarThemeService,
+//     public sectionsRegistry: SectionsRegistryService,
+//     private router: Router,
+//     private seoLinks: SeoLinkService,
+//     private preloadService: PreloadService
+//   ) {
+//     this.isBrowser = isPlatformBrowser(this.platformId);
+//   }
+
+//   ngOnInit() {
+//     const siteName = 'Al-Motammem';
+//     const pageTitle = "Al-Motammem ERP | نظام المتمم لإدارة المؤسسات";
+//     const desc = "نظام ERP متكامل لتطوير الشركات منذ 40 عامًا - المتمم.";
+//     const image = 'https://almotammem.com/images/Icon.webp';
+
+//     const url =
+//       (typeof window !== 'undefined' && window.location?.href)
+//         ? window.location.href
+//         : `https://almotammem.com/`;
+//     this.seoLinks.setSocialMeta({ title: pageTitle, desc, image, url, type: 'website' });
+//     this.seoLinks.setCanonical(url);
+//     if (!this.isBrowser) return;
+//     this.isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+
+//     this.preloadService.addPreloads([
+//       { href: '/images/homepage/white_481x302.webp', as: 'image', media: '(min-width: 767px)' },
+//       { href: '/images/homepage/SS_final_4cols_q92.webp', as: 'image', media: '(min-width: 767px)' },
+//       { href: '/images/homepage/SS_final_4cols_q92Sm.webp', as: 'image', media: '(max-width: 767px)' },
+//       // { href: '/fonts/almarai-v19-arabic-regular.woff2', as: 'font' }
+//     ]);
+//   }
+//   private isHomeRoute() {
+//     const url = this.router.url.split('?')[0].split('#')[0];
+//     return url === '/' || url === '/home';
+//   }
+
+//   ngAfterViewInit(): void {
+//     if (!this.isBrowser) return;
+//     if (!this.isHomeRoute()) return;
+//     this.routerSub?.unsubscribe();
+//     this.routerSub = this.router.events
+//       .pipe(filter(e => e instanceof NavigationStart))
+//       .subscribe((e: any) => {
+//         // لو خارج من الهوم لأي route تاني
+//         const nextUrl = (e.url || '').split('?')[0].split('#')[0];
+//         if (this.isHomeRoute() && nextUrl !== '/' && nextUrl !== '/home') {
+//           this.teardownHomeSnap();
+//         }
+//       });
+
+//     this.setupMobileStaticHeroLanguage();
+
+//     // ✅ Mobile: بدون Snap
+//     if (this.isMobile) {
+//       setTimeout(() => this.observeSectionsMobile(), 750);
+//       return;
+//     }
+
+//     this.ngZone.runOutsideAngular(() => {
+//       this.waitForSmoother((smoother) => {
+//         this.ctx = gsap.context(() => {
+//           this.initDesktop(smoother);
+//           this.exposeGlobalCleanup();
+
+//         });
+//       });
+//     });
+//   }
+
+//   private waitForSmoother(cb: (s: any) => void) {
+//     const start = performance.now();
+//     const tick = () => {
+//       const s = ScrollSmoother.get() as any;
+//       if (s) return cb(s);
+//       if (performance.now() - start < 4500) requestAnimationFrame(tick);
+//     };
+//     tick();
+//   }
+
+//   private initDesktop(smoother: any) {
+//     const scroller = smoother.wrapper();
+
+//     // 1) Registry للـ section indicator
+//     const sections: SectionItem[] = [
+//       { id: 'section1-home', labelKey: 'HOME.INDECATORS.ABOUT', wholeSectionId: 'section1-home' },
+//       { id: 'section2-home', labelKey: 'HOME.INDECATORS.FACTS', wholeSectionId: 'section2-home' },
+//       { id: 'section3-home', labelKey: 'HOME.INDECATORS.WHY', wholeSectionId: 'section3-home' },
+//       { id: 'section4-home', labelKey: 'HOME.INDECATORS.APPS', wholeSectionId: 'section4-home' },
+//       { id: 'section5-home', labelKey: 'HOME.INDECATORS.TESTIMONIALS', wholeSectionId: 'section5-home' },
+//       { id: 'section6-home', labelKey: 'HOME.INDECATORS.INTEGRATIONS', wholeSectionId: 'section6-home' },
+//       { id: 'section7-home', labelKey: 'HOME.INDECATORS.PLANS', wholeSectionId: 'section7-home' },
+//       { id: 'section8-home', labelKey: 'HOME.INDECATORS.CONTACT', wholeSectionId: 'section8-home' },
+//     ];
+//     this.sectionsRegistry.set(sections);
+//     this.sectionsRegistry.enable();
+
+//     // 2) Navbar color observers
+//     this.observeSectionsDesktopColors(scroller);
+
+//     // 3) ✅ build snap triggers
+//     this.buildSnapTriggers(scroller);
+
+//     // 4) ✅ HOME_SNAP trigger
+//     this.homeSnapST?.kill();
+//     this.homeSnapST = ScrollTrigger.create({
+//       id: 'HOME_SNAP',
+//       trigger: '#home',
+//       scroller,
+//       start: 0,
+//       end: () => '+=' + (ScrollTrigger.maxScroll(scroller) || 1),
+//       invalidateOnRefresh: true,
+//       // markers: {
+//       //   startColor: 'red',
+//       //   endColor: 'red',
+//       //   fontSize: '12px',
+//       //   indent: 10,
+//       // },
+//     });
+
+//     // 5) ✅ idle detector (بديل onUpdate/tick)
+//     this.snapEnabled = false;
+//     this.attachSnapDetector(smoother);
+
+//     // 6) MutationObserver للـ @defer
+//     this.initMutationObserver();
+
+//     // 7) Resize
+//     window.addEventListener('resize', this.onResize);
+
+//     // 8) pins inside sections
+//     window.removeEventListener('pin-ready', this.onPinReady as any);
+//     window.addEventListener('pin-ready', this.onPinReady as any);
+
+//     // observe size/media/fonts
+//     this.attachResizeObserver();
+//     this.attachMediaLoadListener();
+//     this.attachFontsListener();
+//     requestAnimationFrame(() => {
+//       requestAnimationFrame(() => {
+//         this.snapEnabled = true;
+//       });
+//     });
+
+//     // initial refresh
+//     this.safeRefresh();
+
+//     // one-time idle refresh (defer/images/fonts)
+//     this.scheduleOneTimeIdleRefresh();
+
+//     // build points + refresh listeners
+//     this.buildSnapPointsFromTriggers(smoother);
+//     this.attachSnapRebuildListeners();
+
+//     // debug
+//     this.debugSnapEnds();
+//     this.debugSnapPoints();
+
+//     // ✅ kill snap on user input (wheel/touch/pointer)
+//     this.bindUserInputKillSnap(scroller);
+//   }
+
+//   // ===================== SNAP DETECTOR (Idle: scroll + RAF) =====================
+
+//   private attachSnapDetector(smoother: any) {
+//     const scroller = smoother.wrapper();
+
+//     // cleanup old
+//     this.idleCleanup?.();
+//     this.idleCleanup = undefined;
+
+//     if (this.idleRaf) cancelAnimationFrame(this.idleRaf);
+//     this.idleRaf = undefined;
+
+//     this.lastIdleY = Math.round(smoother.scrollTop());
+//     this.stillFrames = 0;
+
+//     const runIdleLoop = () => {
+//       if (this.isRefreshing || this.isRefreshQueued || this.isSnapping) {
+//         this.stillFrames = 0;
+//         this.lastIdleY = Math.round(smoother.scrollTop());
+//         this.idleRaf = requestAnimationFrame(runIdleLoop);
+//         return;
+//       }
+
+//       const y = Math.round(smoother.scrollTop());
+//       const dy = Math.abs(y - this.lastIdleY);
+
+//       if (dy === 0) this.stillFrames++;
+//       else this.stillFrames = 0;
+
+//       this.lastIdleY = y;
+
+//       // ✅ بعد ~8 فريم ثابتين نفّذ snap
+//       if (this.stillFrames >= 8) {
+//         this.stillFrames = 0;
+//         this.performSnap(smoother);
+//       }
+
+//       this.idleRaf = requestAnimationFrame(runIdleLoop);
+//     };
+
+//     const onScroll = () => {
+//       // أي scroll جديد = reset
+//       this.stillFrames = 0;
+//       this.lastIdleY = Math.round(smoother.scrollTop());
+
+//       // شغّل الـ loop لو كان متوقف
+//       if (!this.idleRaf) this.idleRaf = requestAnimationFrame(runIdleLoop);
+//     };
+
+//     // شغّل من البداية
+//     this.idleRaf = requestAnimationFrame(runIdleLoop);
+
+//     // اسمع scroll الحقيقي
+//     scroller.addEventListener('scroll', onScroll, { passive: true });
+
+//     this.idleCleanup = () => {
+//       scroller.removeEventListener('scroll', onScroll as any);
+//       if (this.idleRaf) cancelAnimationFrame(this.idleRaf);
+//       this.idleRaf = undefined;
+//     };
+//   }
+
+//   // ===================== SNAP =====================
+
+//   private performSnap(smoother: any) {
+//     if (!this.snapEnabled) return;
+
+//     if (this.isRefreshing || this.isRefreshQueued) return;
+
+//     if (!this.snapY.length) this.buildSnapPointsFromTriggers(smoother);
+
+//     const scroller = smoother.wrapper();
+//     const vh = scroller?.clientHeight || window.innerHeight;
+
+//     const currentY = Math.round(smoother.scrollTop());
+//     const targetY = gsap.utils.snap(this.snapY, currentY);
+
+//     const delta = targetY - currentY;
+
+//     // ✅ لو قريب جدًا: ثبّت فورًا
+//     if (Math.abs(delta) <= this.SNAP_MIN_DELTA_PX) {
+//       smoother.scrollTop(targetY);
+//       ScrollTrigger.update();
+//       this.isSnapping = false;
+//       return;
+//     }
+
+//     // ✅ شرط القرب
+//     const threshold = vh * this.SNAP_ZONE_VH;
+//     if (Math.abs(delta) > threshold) return;
+
+//     // ✅ cap إضافي
+//     const cap = vh * this.SNAP_CAP_VH;
+//     if (Math.abs(delta) > cap) return;
+
+//     this.isSnapping = true;
+
+//     const proxy = { y: currentY };
+//     const distance = Math.abs(delta);
+
+//     // ✅ duration ذكي حسب المسافة (ناعم)
+//     const dur = gsap.utils.clamp(
+//       0.25,                          // أقل مدة
+//       0.85,                          // أقصى مدة
+//       distance / (vh * 1.2)          // scale حسب vh
+//     );
+//     this.snapTween?.kill();
+//     this.snapTween = gsap.to(proxy, {
+//       y: targetY,
+//       duration: dur,
+//       ease: 'power2.out',
+//       overwrite: true,
+//       onUpdate: () => smoother.scrollTop(proxy.y),
+//       onComplete: () => {
+//         smoother.scrollTop(targetY);
+//         ScrollTrigger.update();
+//         this.isSnapping = false;
+//       },
+//     });
+//   }
+
+//   private bindUserInputKillSnap(scroller: HTMLElement) {
+//     const kill = () => {
+//       this.snapTween?.kill();
+//       this.snapTween = undefined;
+//       this.isSnapping = false;
+
+//       // ✅ reset idle detector window
+//       this.stillFrames = 0;
+//       const sm = ScrollSmoother.get() as any;
+//       if (sm) this.lastIdleY = Math.round(sm.scrollTop());
+//     };
+
+//     scroller.addEventListener('wheel', kill, { passive: true });
+//     scroller.addEventListener('touchstart', kill, { passive: true });
+//     scroller.addEventListener('pointerdown', kill, { passive: true });
+
+//     (this as any)._killSnapCleanup = () => {
+//       scroller.removeEventListener('wheel', kill as any);
+//       scroller.removeEventListener('touchstart', kill as any);
+//       scroller.removeEventListener('pointerdown', kill as any);
+//     };
+//   }
+
+//   // ===================== REFRESH / OBSERVERS =====================
+
+//   private onPinReady = () => {
+//     this.scheduleRefresh('pin-ready');
+//   };
+
+//   private scheduleRefresh(reason: string) {
+//     if (this.isRefreshing || this.isRefreshQueued) return;
+
+//     // ✅ media-load: مرة واحدة كل 2 ثانية كحد أقصى
+//     if (reason === 'media-load') {
+//       if (!this.mediaRefreshArmed) return;
+//       this.mediaRefreshArmed = false;
+
+//       clearTimeout(this.mediaRefreshTimer);
+//       this.mediaRefreshTimer = setTimeout(() => {
+//         this.mediaRefreshArmed = true;
+//       }, 2000);
+//     }
+
+//     if (this.refreshTimer) clearTimeout(this.refreshTimer);
+//     this.refreshTimer = setTimeout(() => {
+
+//       this.safeRefresh();
+//     }, 240);
+//   }
+
+//   private scheduleOneTimeIdleRefresh() {
+//     const run = () => this.safeRefresh();
+//     const ric = (window as any).requestIdleCallback;
+//     if (typeof ric === 'function') ric(() => run(), { timeout: 2500 });
+//     else setTimeout(run, 1400);
+//   }
+
+//   private safeRefresh() {
+//     if (this.isRefreshing) return;
+
+//     const smoother = ScrollSmoother.get() as any;
+//     if (!smoother) return;
+
+//     if (this.isRefreshQueued) return;
+//     this.isRefreshQueued = true;
+
+//     // stop any snapping during refresh
+//     this.snapTween?.kill();
+//     this.snapTween = undefined;
+//     this.isSnapping = false;
+
+//     // reset idle detector
+//     this.stillFrames = 0;
+
+//     const doPass = () => {
+//       this.isRefreshing = true;
+
+//       smoother.refresh();
+//       ScrollTrigger.refresh(true);
+//       ScrollTrigger.update();
+
+//       // kick scrollerProxy
+//       const y = smoother.scrollTop();
+//       smoother.scrollTop(y);
+
+//       // force end update
+//       this.forceUpdateHomeSnapEnd();
+
+//       // rebuild snap triggers + points
+//       this.buildSnapTriggers(smoother.wrapper());
+//       this.buildSnapPointsFromTriggers(smoother);
+
+//       // rebuild detector (refresh resets)
+//       this.attachSnapDetector(smoother);
+
+//       this.isRefreshing = false;
+//     };
+
+//     doPass();
+
+//     requestAnimationFrame(() => {
+//       const sm = ScrollSmoother.get() as any;
+//       if (sm) doPass();
+
+//       this.isRefreshQueued = false;
+//       this.debugSnapEnds();
+//       this.debugSnapPoints();
+//     });
+//   }
+
+//   private forceUpdateHomeSnapEnd() {
+//     const smoother = ScrollSmoother.get() as any;
+//     if (!smoother) return;
+
+//     const scroller = smoother.wrapper();
+//     const max = ScrollTrigger.maxScroll(scroller) || 1;
+
+//     const st = this.homeSnapST || (ScrollTrigger.getById('HOME_SNAP') as any);
+//     if (!st) return;
+
+//     (st as any).vars.end = '+=' + max;
+//     try { (st as any).refresh(); } catch { }
+//   }
+
+//   private initMutationObserver() {
+//     const homeEl = document.getElementById('home');
+//     if (!homeEl) return;
+
+//     this.lastHomeHeight = homeEl.scrollHeight;
+
+//     this.observer = new MutationObserver(() => {
+//       const h = homeEl.scrollHeight;
+//       if (Math.abs(h - this.lastHomeHeight) < 5) return;
+//       this.lastHomeHeight = h;
+
+//       this.scheduleRefresh('mutation');
+//     });
+
+//     this.observer.observe(homeEl, { childList: true, subtree: true });
+//   }
+
+//   private attachResizeObserver() {
+//     if (typeof ResizeObserver === 'undefined') return;
+
+//     this.resizeObs?.disconnect();
+
+//     const content = document.querySelector('#smooth-content') as HTMLElement | null;
+//     const wrapper = document.querySelector('#smooth-wrapper') as HTMLElement | null;
+
+//     this.resizeObs = new ResizeObserver(() => {
+//       this.scheduleRefresh('resize-observer');
+//     });
+
+//     if (content) this.resizeObs.observe(content);
+//     if (wrapper) this.resizeObs.observe(wrapper);
+//   }
+
+//   private attachMediaLoadListener() {
+//     this.cleanupLoadListener?.();
+//     this.cleanupLoadListener = undefined;
+
+//     const onLoadCapture = (e: Event) => {
+//       const t = e.target as HTMLElement | null;
+//       if (!t) return;
+
+//       if (
+//         t.tagName === 'VIDEO' ||
+//         t.tagName === 'IFRAME' ||
+//         t.tagName === 'SOURCE'
+//       ) {
+//         this.scheduleRefresh('media-load');
+//       }
+//     };
+
+//     document.addEventListener('load', onLoadCapture, true);
+
+//     this.cleanupLoadListener = () => {
+//       document.removeEventListener('load', onLoadCapture, true);
+//     };
+//   }
+
+//   private attachFontsListener() {
+//     this.cleanupFontsListener?.();
+//     this.cleanupFontsListener = undefined;
+
+//     const anyDoc = document as any;
+//     const fonts: FontFaceSet | undefined = anyDoc.fonts;
+//     if (!fonts) return;
+
+//     const onFonts = () => this.scheduleRefresh('fonts');
+
+//     fonts.ready?.then(onFonts).catch(() => { });
+
+//     const done = () => onFonts();
+//     try {
+//       (fonts as any).addEventListener?.('loadingdone', done);
+//       (fonts as any).addEventListener?.('loadingerror', done);
+//     } catch { }
+
+//     this.cleanupFontsListener = () => {
+//       try {
+//         (fonts as any).removeEventListener?.('loadingdone', done);
+//         (fonts as any).removeEventListener?.('loadingerror', done);
+//       } catch { }
+//     };
+//   }
+
+//   // ===================== DESKTOP: NAV COLORS (50%) =====================
+
+//   private observeSectionsDesktopColors(scroller: HTMLElement) {
+//     this.colorTriggers.forEach(t => t.kill());
+//     this.colorTriggers = [];
+
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
+
+//     sections.forEach((section, index) => {
+//       const textColor = section.dataset['textcolor'] || 'var(--primary)';
+//       const bgColor = section.dataset['bgcolor'] || 'var(--white)';
+
+//       const t = ScrollTrigger.create({
+//         id: `HOME_COLOR_${index + 1}`,
+//         trigger: section,
+//         scroller,
+//         start: 'top 50%',
+//         end: 'bottom 50%',
+//         invalidateOnRefresh: true,
+//         onEnter: () => {
+//           this.navTheme.setColor(textColor);
+//           this.navTheme.setBg(bgColor);
+//         },
+//         onEnterBack: () => {
+//           this.navTheme.setColor(textColor);
+//           this.navTheme.setBg(bgColor);
+//         },
+//         onLeaveBack: () => {
+//           if (index === 0) {
+//             this.navTheme.setBg('var(--white)');
+//             this.navTheme.setColor('var(--primary)');
+//           }
+//         },
+//       });
+
+//       this.colorTriggers.push(t);
+//     });
+//   }
+
+//   private observeSectionsMobile() {
+//     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
+
+//     sections.forEach((section, index) => {
+//       const textColor = section.dataset['textcolor'] || 'var(--primary)';
+//       const bgColor = section.dataset['bgcolor'] || 'var(--white)';
+
+//       ScrollTrigger.create({
+//         trigger: section,
+//         start: 'top 10%',
+//         end: 'bottom 50%',
+//         onEnter: () => {
+//           this.navTheme.setColor(textColor);
+//           this.navTheme.setBg(bgColor);
+//         },
+//         onEnterBack: () => {
+//           this.navTheme.setColor(textColor);
+//           this.navTheme.setBg(bgColor);
+//         },
+//         onLeaveBack: () => {
+//           if (index === 0) {
+//             this.navTheme.setBg('var(--white)');
+//             this.navTheme.setColor('var(--primary)');
+//           }
+//         },
+//       });
+//     });
+//   }
+
+//   private onResize = () => {
+//     this.scheduleRefresh('resize');
+
+//     this.ngZone.run(() => {
+//       this.cdr.detectChanges();
+//     });
+//   };
+
+//   // ===================== SNAP TRIGGERS =====================
+
+//   private buildSnapTriggers(scroller: HTMLElement) {
+//     this.snapTriggers.forEach(t => t.kill());
+//     this.snapTriggers = [];
+
+//     const panels = gsap.utils.toArray<HTMLElement>('#home .panel');
+
+//     panels.forEach((panel, i) => {
+//       const t = ScrollTrigger.create({
+//         id: `SNAP_PANEL_${i + 1}`,
+//         trigger: panel,
+//         scroller,
+//         start: 'top top',
+//         end: 'bottom bottom',
+//         invalidateOnRefresh: true,
+//         // markers: {
+//         //   startColor: 'green',
+//         //   endColor: 'green',
+//         //   fontSize: '10px',
+//         //   indent: 55,
+//         // },
+//       });
+//       this.snapTriggers.push(t);
+//     });
+//   }
+
+//   // ===================== SNAP POINTS (PIN-SAFE) =====================
+
+//   private buildSnapPointsFromTriggers(smoother: any) {
+//     const scroller = smoother.wrapper();
+//     const max = ScrollTrigger.maxScroll(scroller) || 1;
+//     const vh = scroller?.clientHeight || window.innerHeight;
+
+//     const points: number[] = [];
+
+//     for (const t of this.snapTriggers) {
+//       const start = t.start ?? 0;
+//       const end = t.end ?? start;
+
+//       const length = end - start;
+
+//       // 2% داخل السكشن + cap
+//       const rawOffset = length * this.SNAP_ENTER_PCT;
+//       const offsetCap = vh * this.SNAP_OFFSET_CAP_VH;
+//       const offset = Math.min(rawOffset, offsetCap);
+
+//       const yEnter = (start - this.NAV_OFFSET_DESKTOP) + offset;
+//       points.push(this.clamp(yEnter, 0, max));
+
+//       // Tail
+//       if (length > vh * 1.15) {
+//         const tail = (start - this.NAV_OFFSET_DESKTOP) + (length - vh) + offset;
+//         points.push(this.clamp(tail, 0, max));
+//       }
+//     }
+
+//     points.sort((a, b) => a - b);
+
+//     // Round + dedupe
+//     const rounded = points.map(v => Math.round(v));
+//     this.snapY = rounded.filter((v, i, arr) => i === 0 || Math.abs(v - arr[i - 1]) > 8);
+//   }
+
+//   private attachSnapRebuildListeners() {
+//     if (this.snapListenersAttached) return;
+//     this.snapListenersAttached = true;
+
+//     const rebuild = () => {
+//       const smoother = ScrollSmoother.get() as any;
+//       if (!smoother) return;
+
+//       this.buildSnapTriggers(smoother.wrapper());
+//       this.buildSnapPointsFromTriggers(smoother);
+//       this.attachSnapDetector(smoother);
+//     };
+
+//     ScrollTrigger.addEventListener('refreshInit', rebuild);
+//     ScrollTrigger.addEventListener('refresh', rebuild);
+
+//     (this as any)._snapRebuild = rebuild;
+//   }
+
+//   private clamp(v: number, min: number, max: number) {
+//     return Math.max(min, Math.min(max, v));
+//   }
+
+//   // ===================== DEBUG =====================
+
+//   private debugSnapEnds() {
+//     const smoother = ScrollSmoother.get() as any;
+//     if (!smoother) return;
+
+//     const scroller = smoother.wrapper();
+//     const max = ScrollTrigger.maxScroll(scroller) || 0;
+
+//     const st = this.homeSnapST || (ScrollTrigger.getById('HOME_SNAP') as any);
+//     const end = (st as any)?.end ?? 0;
+
+
+//   }
+
+//   private debugSnapPoints() {
+//     if (!this.snapY.length) return;
+
+//   }
+
+//   // ===================== MOBILE STATIC HERO I18N =====================
+
+//   private setupMobileStaticHeroLanguage() {
+//     const isMobile = window.matchMedia('(max-width: 768px)').matches;
+//     if (!isMobile) return;
+
+//     const saved = (localStorage.getItem('lang') || '').toLowerCase();
+//     if (saved !== 'en') return;
+
+//     const run = () => this.applyEnglishToMobileHero();
+//     const ric = (window as any).requestIdleCallback;
+//     if (typeof ric === 'function') ric(() => run(), { timeout: 3000 });
+//     else setTimeout(run, 1800);
+//   }
+
+//   private applyEnglishToMobileHero() {
+//     const hero = document.getElementById('hero-mobile');
+//     if (!hero) return;
+
+//     const title = hero.querySelector('[data-i18n="title"]');
+//     const subtitle = hero.querySelector('[data-i18n="subtitle"]');
+//     const details = hero.querySelector('[data-i18n="details"]');
+//     const btn1 = hero.querySelector('[data-i18n="btn1"]');
+//     const btn2 = hero.querySelector('[data-i18n="btn2"]');
+
+//     if (title) title.textContent = 'Manage all your operations in one integrated system';
+//     if (subtitle)
+//       subtitle.textContent =
+//         'Al Motammem ERP for enterprise resource management, backed by 40 years of experience in local and Gulf markets.';
+//     if (details)
+//       details.textContent =
+//         'Financial management - inventory - HR and payroll - reporting - fixed assets management - cash and banks - letters of guarantee - letters of credit - tax integrations, plus many more features tailored to your business.';
+//     if (btn1) btn1.textContent = 'Book a free consultation';
+//     if (btn2) btn2.textContent = 'start the conversation now';
+
+//     hero.setAttribute('dir', 'ltr');
+//     hero.classList.add('is-en');
+//   }
+
+//   ngOnDestroy(): void {
+//     this.routerSub?.unsubscribe();
+//     this.routerSub = undefined;
+
+//     this.sectionsRegistry.clear();
+//     this.sectionsRegistry.disable();
+
+//     if (this.isBrowser) {
+//       this.teardownHomeSnap();
+//     }
+//     if (this.isBrowser) {
+//       try {
+//         window.removeEventListener('resize', this.onResize);
+//       } catch { }
+
+//       window.removeEventListener('pin-ready', this.onPinReady as any);
+
+//       const rebuild = (this as any)._snapRebuild;
+//       if (rebuild) {
+//         ScrollTrigger.removeEventListener('refreshInit', rebuild);
+//         ScrollTrigger.removeEventListener('refresh', rebuild);
+//       }
+
+//       // ✅ cleanup idle detector
+//       this.idleCleanup?.();
+//       this.idleCleanup = undefined;
+
+//       this.cleanupLoadListener?.();
+//       this.cleanupLoadListener = undefined;
+
+//       this.cleanupFontsListener?.();
+//       this.cleanupFontsListener = undefined;
+
+//       this.resizeObs?.disconnect();
+//       this.resizeObs = undefined;
+
+//       this.observer?.disconnect();
+//       this.observer = undefined;
+
+//       clearTimeout(this.refreshTimer);
+//       clearTimeout(this.mediaRefreshTimer);
+
+//       this.colorTriggers.forEach(t => t.kill());
+//       this.colorTriggers = [];
+
+//       this.snapTriggers.forEach(t => t.kill());
+//       this.snapTriggers = [];
+
+//       this.homeSnapST?.kill();
+//       this.homeSnapST = undefined;
+
+//       this.snapTween?.kill();
+//       this.snapTween = undefined;
+
+//       (this as any)._killSnapCleanup?.();
+//       (this as any)._killSnapCleanup = undefined;
+
+//       this.ctx?.revert();
+//     }
+//   }
+// }
 import {
   Component,
   Inject,
@@ -2958,15 +3962,17 @@ import { Section6Component } from './section6/section6.component';
 import { Section7Component } from './section7/section7.component';
 import { Section8Component } from './section8/section8.component';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, filter, Subscription } from 'rxjs';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
-import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
+import {
+  SectionItem,
+  SectionsRegistryService,
+} from '../../shared/services/sections-registry.service';
 import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { SeoLinkService } from '../../services/seo-link.service';
-import { NavigationStart } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
 import { PreloadService } from '../../services/preload.service';
+
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 @Component({
@@ -2990,113 +3996,18 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   private routerSub?: Subscription;
 
-  private teardownHomeSnap() {
-    // 1) وقف أي snapping حالياً
-    this.snapTween?.kill();
-    this.snapTween = undefined;
-    this.isSnapping = false;
+  // ✅ Guards
+  private homeActive = false;        // الهوم شغال فعلاً؟
+  private snapEnabled = false;       // السماح بالسناب بعد استقرار أولي
+  private userInteracted = false;    // سناب بعد أول تفاعل حقيقي فقط
 
-    // 2) وقف idle detector (RAF + scroll listener)
-    this.idleCleanup?.();
-    this.idleCleanup = undefined;
+  // ✅ cancel idle refresh
+  private idleRefreshId?: number;
+  private idleRefreshTimeout: any;
 
-    // safety: لو فيه RAF متسجل
-    if (this.idleRaf) cancelAnimationFrame(this.idleRaf);
-    this.idleRaf = undefined;
-
-    // 3) شيل killSnap listeners (wheel/touch/pointer)
-    (this as any)._killSnapCleanup?.();
-    (this as any)._killSnapCleanup = undefined;
-
-    // 4) شيل window listeners
-    try { window.removeEventListener('resize', this.onResize); } catch { }
-    window.removeEventListener('pin-ready', this.onPinReady as any);
-
-    // 5) Kill ScrollTriggers الخاصة بالهوم فقط (بالـ ids / arrays)
-    this.colorTriggers.forEach(t => t.kill());
-    this.colorTriggers = [];
-
-    this.snapTriggers.forEach(t => t.kill());
-    this.snapTriggers = [];
-
-    this.homeSnapST?.kill();
-    this.homeSnapST = undefined;
-
-    // 6) شيل refresh listeners اللي انتِ ضيفاها
-    const rebuild = (this as any)._snapRebuild;
-    if (rebuild) {
-      ScrollTrigger.removeEventListener('refreshInit', rebuild);
-      ScrollTrigger.removeEventListener('refresh', rebuild);
-    }
-
-    // 7) اقفلي observers
-    this.cleanupLoadListener?.(); this.cleanupLoadListener = undefined;
-    this.cleanupFontsListener?.(); this.cleanupFontsListener = undefined;
-
-    this.resizeObs?.disconnect(); this.resizeObs = undefined;
-    this.observer?.disconnect(); this.observer = undefined;
-
-    clearTimeout(this.refreshTimer);
-    clearTimeout(this.mediaRefreshTimer);
-
-    // 8) ✅ أهم سطرين في حالتك (عشان السناب مايكملش على صفحات تانية)
-    this.snapY = [];
-    this.snapListenersAttached = false;
-
-    // 9) Context revert (لو فيه animations/triggers اتعملت داخل ctx)
-    this.ctx?.revert();
-    this.ctx = undefined;
-
-    // 10) تحديث GSAP state
-    try { ScrollTrigger.refresh(true); } catch { }
-  }
-  private exposeGlobalCleanup() {
-    (window as any).__HOME_SNAP_CLEANUP__ = () => {
-      try {
-        // نفس اللي بتعمليه في ngOnDestroy بس مركّز على السناب
-        this.snapTween?.kill();
-        this.snapTween = undefined;
-        this.isSnapping = false;
-
-        this.idleCleanup?.();
-        this.idleCleanup = undefined;
-
-        if (this.idleRaf) cancelAnimationFrame(this.idleRaf);
-        this.idleRaf = undefined;
-
-        (this as any)._killSnapCleanup?.();
-        (this as any)._killSnapCleanup = undefined;
-
-        // kill triggers اللي انتي عاملاها في الهوم فقط
-        this.colorTriggers.forEach(t => t.kill());
-        this.colorTriggers = [];
-
-        this.snapTriggers.forEach(t => t.kill());
-        this.snapTriggers = [];
-
-        this.homeSnapST?.kill();
-        this.homeSnapST = undefined;
-
-        // remove refresh listeners
-        const rebuild = (this as any)._snapRebuild;
-        if (rebuild) {
-          ScrollTrigger.removeEventListener('refreshInit', rebuild);
-          ScrollTrigger.removeEventListener('refresh', rebuild);
-        }
-
-        // صفري نقاط السناب
-        this.snapY = [];
-        this.snapListenersAttached = false;
-
-        // مهم: ctx revert (لو فيه حاجات جوّاه)
-        this.ctx?.revert();
-        this.ctx = undefined;
-
-        // Update
-        ScrollTrigger.update();
-      } catch { }
-    };
-  }
+  // (اختياري) cancel idle for mobile hero i18n
+  private heroI18nIdleId?: number;
+  private heroI18nTimeout: any;
 
   private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
   visibility$ = this.visibilitySubject.asObservable();
@@ -3107,54 +4018,45 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
 
   private ctx?: gsap.Context;
 
-  // guards
+  // refresh guards
   private isRefreshing = false;
   private isRefreshQueued = false;
 
-  // Navbar offset (لو nav ثابت فوق)
   private readonly NAV_OFFSET_DESKTOP = 0;
 
-  // MutationObserver / debounce
   private observer?: MutationObserver;
   private lastHomeHeight = 0;
   private refreshTimer: any;
 
-  // ✅ snap points (pin-safe)
   private snapY: number[] = [];
   private snapListenersAttached = false;
 
-  // ✅ منطقة السماح للسناب
   private readonly SNAP_ZONE_VH = 0.75;
 
-  // ✅ snap behavior tuning
-  private readonly SNAP_ENTER_PCT = 0.02;     // ✅ 2% داخل السكشن
-  private readonly SNAP_MIN_DELTA_PX = 2;     // ✅ تجاهل micro snap
-  private readonly SNAP_CAP_VH = 0.95;        // ✅ cap لمنع الشد بعيد قوي
-  private readonly SNAP_OFFSET_CAP_VH = 0.18; // ✅ cap للـ 2% offset (pinned sections)
+  private readonly SNAP_ENTER_PCT = 0.02;
+  private readonly SNAP_MIN_DELTA_PX = 2;
+  private readonly SNAP_CAP_VH = 0.95;
+  private readonly SNAP_OFFSET_CAP_VH = 0.18;
 
-  // ✅ color triggers
+  // triggers
   private colorTriggers: ScrollTrigger[] = [];
-
-  // ✅ snap triggers (REAL top/bottom) — pin-safe
   private snapTriggers: ScrollTrigger[] = [];
 
-  // ✅ ResizeObserver + media load capture + fonts listener
+  // observers / listeners
   private resizeObs?: ResizeObserver;
   private cleanupLoadListener?: () => void;
   private cleanupFontsListener?: () => void;
 
-  // ✅ HOME_SNAP ref
   private homeSnapST?: ScrollTrigger;
 
-  // ✅ snap tween
+  // snap tween
   private snapTween?: gsap.core.Tween;
   private isSnapping = false;
 
-  // ✅ stop media-load refresh spam
   private mediaRefreshArmed = true;
   private mediaRefreshTimer: any;
 
-  // ✅ Idle detector (بديل tick + onUpdate debounce)
+  // idle detector (RAF + scroll)
   private idleRaf?: number;
   private lastIdleY = 0;
   private stillFrames = 0;
@@ -3173,8 +4075,42 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
+  // ===================== ROUTE HELPERS =====================
+
+  private isHomeRoute() {
+    const url = this.router.url.split('?')[0].split('#')[0];
+    return url === '/' || url === '/home';
+  }
+
+  private isHomeDomReady() {
+    return !!document.getElementById('home');
+  }
+
+  // ✅ Defensive: kill any ScrollTriggers whose trigger is inside #home
+  private killAllHomeST(scroller?: HTMLElement) {
+    try {
+      const all = ScrollTrigger.getAll();
+      all.forEach((st) => {
+        const trg: any = (st as any).trigger;
+        if (!trg?.closest) return;
+        if (!trg.closest('#home')) return;
+
+        // لو عايز تقيّد على نفس scroller فقط
+        if (scroller) {
+          const s1: any = (st as any).scroller;
+          const s2: any = (st as any).vars?.scroller;
+          const sameScroller = s1 === scroller || s2 === scroller;
+          if (!sameScroller) return;
+        }
+
+        st.kill(true);
+      });
+    } catch { }
+  }
+
+  // ===================== LIFECYCLE =====================
+
   ngOnInit() {
-    const siteName = 'Al-Motammem';
     const pageTitle = "Al-Motammem ERP | نظام المتمم لإدارة المؤسسات";
     const desc = "نظام ERP متكامل لتطوير الشركات منذ 40 عامًا - المتمم.";
     const image = 'https://almotammem.com/images/Icon.webp';
@@ -3183,33 +4119,35 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
       (typeof window !== 'undefined' && window.location?.href)
         ? window.location.href
         : `https://almotammem.com/`;
+
     this.seoLinks.setSocialMeta({ title: pageTitle, desc, image, url, type: 'website' });
     this.seoLinks.setCanonical(url);
-    if (!this.isBrowser) return;
-    this.isMobile = window.matchMedia('(max-width: 768px)').matches;
 
+    if (!this.isBrowser) return;
+
+    this.isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     this.preloadService.addPreloads([
       { href: '/images/homepage/white_481x302.webp', as: 'image', media: '(min-width: 767px)' },
       { href: '/images/homepage/SS_final_4cols_q92.webp', as: 'image', media: '(min-width: 767px)' },
       { href: '/images/homepage/SS_final_4cols_q92Sm.webp', as: 'image', media: '(max-width: 767px)' },
-      // { href: '/fonts/almarai-v19-arabic-regular.woff2', as: 'font' }
     ]);
-  }
-  private isHomeRoute() {
-    const url = this.router.url.split('?')[0].split('#')[0];
-    return url === '/' || url === '/home';
   }
 
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
     if (!this.isHomeRoute()) return;
+
+    // ✅ الهوم أصبح active
+    this.homeActive = true;
+
+    // unsubscribe old
     this.routerSub?.unsubscribe();
     this.routerSub = this.router.events
-      .pipe(filter(e => e instanceof NavigationStart))
+      .pipe(filter((e) => e instanceof NavigationStart))
       .subscribe((e: any) => {
-        // لو خارج من الهوم لأي route تاني
         const nextUrl = (e.url || '').split('?')[0].split('#')[0];
+        // لو خارج من الهوم
         if (this.isHomeRoute() && nextUrl !== '/' && nextUrl !== '/home') {
           this.teardownHomeSnap();
         }
@@ -3219,20 +4157,186 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
 
     // ✅ Mobile: بدون Snap
     if (this.isMobile) {
-      setTimeout(() => this.observeSectionsMobile(), 750);
+      setTimeout(() => {
+        if (!this.homeActive) return;
+        this.observeSectionsMobile();
+      }, 750);
       return;
     }
 
     this.ngZone.runOutsideAngular(() => {
       this.waitForSmoother((smoother) => {
+        // لو خرجت قبل ما ييجي smoother
+        if (!this.homeActive || !this.isHomeRoute()) return;
+
         this.ctx = gsap.context(() => {
           this.initDesktop(smoother);
           this.exposeGlobalCleanup();
-
         });
       });
     });
   }
+
+  ngOnDestroy(): void {
+    this.routerSub?.unsubscribe();
+    this.routerSub = undefined;
+
+    this.sectionsRegistry.clear();
+    this.sectionsRegistry.disable();
+
+    if (this.isBrowser) {
+      this.teardownHomeSnap();
+    }
+
+    if (this.isBrowser) {
+      try {
+        window.removeEventListener('resize', this.onResize);
+      } catch { }
+      window.removeEventListener('pin-ready', this.onPinReady as any);
+
+      const rebuild = (this as any)._snapRebuild;
+      if (rebuild) {
+        ScrollTrigger.removeEventListener('refreshInit', rebuild);
+        ScrollTrigger.removeEventListener('refresh', rebuild);
+      }
+
+      this.idleCleanup?.();
+      this.idleCleanup = undefined;
+
+      this.cleanupLoadListener?.();
+      this.cleanupLoadListener = undefined;
+
+      this.cleanupFontsListener?.();
+      this.cleanupFontsListener = undefined;
+
+      this.resizeObs?.disconnect();
+      this.resizeObs = undefined;
+
+      this.observer?.disconnect();
+      this.observer = undefined;
+
+      clearTimeout(this.refreshTimer);
+      clearTimeout(this.mediaRefreshTimer);
+
+      this.colorTriggers.forEach((t) => t.kill());
+      this.colorTriggers = [];
+
+      this.snapTriggers.forEach((t) => t.kill());
+      this.snapTriggers = [];
+
+      this.homeSnapST?.kill();
+      this.homeSnapST = undefined;
+
+      this.snapTween?.kill();
+      this.snapTween = undefined;
+
+      (this as any)._killSnapCleanup?.();
+      (this as any)._killSnapCleanup = undefined;
+
+      this.ctx?.revert();
+      this.ctx = undefined;
+    }
+  }
+
+  // ===================== CLEANUP =====================
+
+  private teardownHomeSnap() {
+    // ✅ اقفل الهوم فورًا
+    this.homeActive = false;
+
+    // ✅ اقفل السناب gates
+    this.snapEnabled = false;
+    this.userInteracted = false;
+
+    // ✅ cancel idle refresh callbacks
+    const cancelRIC = (window as any).cancelIdleCallback;
+    if (this.idleRefreshId && typeof cancelRIC === 'function') {
+      try { cancelRIC(this.idleRefreshId); } catch { }
+    }
+    this.idleRefreshId = undefined;
+    clearTimeout(this.idleRefreshTimeout);
+    this.idleRefreshTimeout = undefined;
+
+    // ✅ cancel mobile hero i18n idle
+    if (this.heroI18nIdleId && typeof cancelRIC === 'function') {
+      try { cancelRIC(this.heroI18nIdleId); } catch { }
+    }
+    this.heroI18nIdleId = undefined;
+    clearTimeout(this.heroI18nTimeout);
+    this.heroI18nTimeout = undefined;
+
+    // 1) stop snapping
+    this.snapTween?.kill();
+    this.snapTween = undefined;
+    this.isSnapping = false;
+
+    // 2) stop idle detector
+    this.idleCleanup?.();
+    this.idleCleanup = undefined;
+
+    if (this.idleRaf) cancelAnimationFrame(this.idleRaf);
+    this.idleRaf = undefined;
+
+    // 3) remove input kill listeners
+    (this as any)._killSnapCleanup?.();
+    (this as any)._killSnapCleanup = undefined;
+
+    // 4) window listeners
+    try { window.removeEventListener('resize', this.onResize); } catch { }
+    window.removeEventListener('pin-ready', this.onPinReady as any);
+
+    // 5) defensive kill ALL home triggers (حتى اللي جوه sections)
+    const sm = ScrollSmoother.get() as any;
+    if (sm) this.killAllHomeST(sm.wrapper());
+
+    // 6) kill tracked triggers
+    this.colorTriggers.forEach((t) => t.kill());
+    this.colorTriggers = [];
+
+    this.snapTriggers.forEach((t) => t.kill());
+    this.snapTriggers = [];
+
+    this.homeSnapST?.kill();
+    this.homeSnapST = undefined;
+
+    // 7) remove refresh listeners
+    const rebuild = (this as any)._snapRebuild;
+    if (rebuild) {
+      ScrollTrigger.removeEventListener('refreshInit', rebuild);
+      ScrollTrigger.removeEventListener('refresh', rebuild);
+    }
+
+    // 8) observers
+    this.cleanupLoadListener?.(); this.cleanupLoadListener = undefined;
+    this.cleanupFontsListener?.(); this.cleanupFontsListener = undefined;
+
+    this.resizeObs?.disconnect(); this.resizeObs = undefined;
+    this.observer?.disconnect(); this.observer = undefined;
+
+    clearTimeout(this.refreshTimer);
+    clearTimeout(this.mediaRefreshTimer);
+
+    // 9) reset snap points
+    this.snapY = [];
+    this.snapListenersAttached = false;
+
+    // 10) ctx revert
+    this.ctx?.revert();
+    this.ctx = undefined;
+
+    // ❌ مهم: بلاش ScrollTrigger.refresh(true) هنا لأنه عالمي وبيعمل jumps أثناء التنقل
+    // try { ScrollTrigger.refresh(true); } catch { }
+  }
+
+  private exposeGlobalCleanup() {
+    (window as any).__HOME_SNAP_CLEANUP__ = () => {
+      try {
+        this.teardownHomeSnap();
+      } catch { }
+    };
+  }
+
+  // ===================== SMOOTHER WAIT =====================
 
   private waitForSmoother(cb: (s: any) => void) {
     const start = performance.now();
@@ -3244,10 +4348,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     tick();
   }
 
+  // ===================== DESKTOP INIT =====================
+
   private initDesktop(smoother: any) {
+    if (!this.homeActive || !this.isHomeRoute() || !this.isHomeDomReady()) return;
+
     const scroller = smoother.wrapper();
 
-    // 1) Registry للـ section indicator
+    // ✅ defensive: kill any old home triggers (لو رجعت للهوم تاني)
+    this.killAllHomeST(scroller);
+
+    // Registry للـ section indicator
     const sections: SectionItem[] = [
       { id: 'section1-home', labelKey: 'HOME.INDECATORS.ABOUT', wholeSectionId: 'section1-home' },
       { id: 'section2-home', labelKey: 'HOME.INDECATORS.FACTS', wholeSectionId: 'section2-home' },
@@ -3261,13 +4372,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     this.sectionsRegistry.set(sections);
     this.sectionsRegistry.enable();
 
-    // 2) Navbar color observers
+    // colors
     this.observeSectionsDesktopColors(scroller);
 
-    // 3) ✅ build snap triggers
+    // snap triggers
     this.buildSnapTriggers(scroller);
 
-    // 4) ✅ HOME_SNAP trigger
+    // HOME_SNAP
     this.homeSnapST?.kill();
     this.homeSnapST = ScrollTrigger.create({
       id: 'HOME_SNAP',
@@ -3276,24 +4387,22 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
       start: 0,
       end: () => '+=' + (ScrollTrigger.maxScroll(scroller) || 1),
       invalidateOnRefresh: true,
-      // markers: {
-      //   startColor: 'red',
-      //   endColor: 'red',
-      //   fontSize: '12px',
-      //   indent: 10,
-      // },
     });
 
-    // 5) ✅ idle detector (بديل onUpdate/tick)
+    // ✅ gates
+    this.snapEnabled = false;
+    this.userInteracted = false;
+
+    // idle detector
     this.attachSnapDetector(smoother);
 
-    // 6) MutationObserver للـ @defer
+    // MutationObserver
     this.initMutationObserver();
 
-    // 7) Resize
+    // Resize
     window.addEventListener('resize', this.onResize);
 
-    // 8) pins inside sections
+    // pins ready
     window.removeEventListener('pin-ready', this.onPinReady as any);
     window.addEventListener('pin-ready', this.onPinReady as any);
 
@@ -3305,22 +4414,47 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     // initial refresh
     this.safeRefresh();
 
-    // one-time idle refresh (defer/images/fonts)
+    // one-time idle refresh
     this.scheduleOneTimeIdleRefresh();
 
     // build points + refresh listeners
     this.buildSnapPointsFromTriggers(smoother);
     this.attachSnapRebuildListeners();
 
-    // debug
-    this.debugSnapEnds();
-    this.debugSnapPoints();
+    // ✅ enable snap after a short stabilization window
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (!this.homeActive) return;
+        this.snapEnabled = true;
+      });
+    });
 
-    // ✅ kill snap on user input (wheel/touch/pointer)
+    // kill snap on user input (wheel/touch/pointer + mark userInteracted)
     this.bindUserInputKillSnap(scroller);
+
+    // ✅ enable “user intent” detection for keyboard scroll too
+    this.bindKeyboardUserIntent();
   }
 
-  // ===================== SNAP DETECTOR (Idle: scroll + RAF) =====================
+  // ===================== USER INTENT =====================
+
+  private bindKeyboardUserIntent() {
+    const onKey = (e: KeyboardEvent) => {
+      // keys that scroll
+      const keys = ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '];
+      if (keys.includes(e.key)) this.userInteracted = true;
+    };
+    window.addEventListener('keydown', onKey, { passive: true });
+
+    const prev = (this as any)._keyIntentCleanup;
+    if (prev) prev();
+
+    (this as any)._keyIntentCleanup = () => {
+      window.removeEventListener('keydown', onKey as any);
+    };
+  }
+
+  // ===================== SNAP DETECTOR =====================
 
   private attachSnapDetector(smoother: any) {
     const scroller = smoother.wrapper();
@@ -3336,6 +4470,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     this.stillFrames = 0;
 
     const runIdleLoop = () => {
+      if (!this.homeActive) {
+        this.idleRaf = undefined;
+        return;
+      }
+
       if (this.isRefreshing || this.isRefreshQueued || this.isSnapping) {
         this.stillFrames = 0;
         this.lastIdleY = Math.round(smoother.scrollTop());
@@ -3351,7 +4490,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
 
       this.lastIdleY = y;
 
-      // ✅ بعد ~8 فريم ثابتين نفّذ snap
       if (this.stillFrames >= 8) {
         this.stillFrames = 0;
         this.performSnap(smoother);
@@ -3361,18 +4499,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     };
 
     const onScroll = () => {
-      // أي scroll جديد = reset
+      // reset on any scroll
       this.stillFrames = 0;
       this.lastIdleY = Math.round(smoother.scrollTop());
 
-      // شغّل الـ loop لو كان متوقف
       if (!this.idleRaf) this.idleRaf = requestAnimationFrame(runIdleLoop);
     };
 
-    // شغّل من البداية
     this.idleRaf = requestAnimationFrame(runIdleLoop);
 
-    // اسمع scroll الحقيقي
     scroller.addEventListener('scroll', onScroll, { passive: true });
 
     this.idleCleanup = () => {
@@ -3385,6 +4520,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   // ===================== SNAP =====================
 
   private performSnap(smoother: any) {
+    if (!this.homeActive || !this.isHomeRoute() || !this.isHomeDomReady()) return;
+
+    // ✅ لا سناب قبل السماح + قبل user interaction
+    if (!this.snapEnabled) return;
+    if (!this.userInteracted) return;
+
     if (this.isRefreshing || this.isRefreshQueued) return;
 
     if (!this.snapY.length) this.buildSnapPointsFromTriggers(smoother);
@@ -3397,7 +4538,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
 
     const delta = targetY - currentY;
 
-    // ✅ لو قريب جدًا: ثبّت فورًا
     if (Math.abs(delta) <= this.SNAP_MIN_DELTA_PX) {
       smoother.scrollTop(targetY);
       ScrollTrigger.update();
@@ -3405,11 +4545,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
       return;
     }
 
-    // ✅ شرط القرب
     const threshold = vh * this.SNAP_ZONE_VH;
     if (Math.abs(delta) > threshold) return;
 
-    // ✅ cap إضافي
     const cap = vh * this.SNAP_CAP_VH;
     if (Math.abs(delta) > cap) return;
 
@@ -3418,12 +4556,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     const proxy = { y: currentY };
     const distance = Math.abs(delta);
 
-    // ✅ duration ذكي حسب المسافة (ناعم)
-    const dur = gsap.utils.clamp(
-      0.25,                          // أقل مدة
-      0.85,                          // أقصى مدة
-      distance / (vh * 1.2)          // scale حسب vh
-    );
+    const dur = gsap.utils.clamp(0.25, 0.85, distance / (vh * 1.2));
+
     this.snapTween?.kill();
     this.snapTween = gsap.to(proxy, {
       y: targetY,
@@ -3441,11 +4575,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
 
   private bindUserInputKillSnap(scroller: HTMLElement) {
     const kill = () => {
+      // ✅ أول تفاعل حقيقي
+      this.userInteracted = true;
+
       this.snapTween?.kill();
       this.snapTween = undefined;
       this.isSnapping = false;
 
-      // ✅ reset idle detector window
       this.stillFrames = 0;
       const sm = ScrollSmoother.get() as any;
       if (sm) this.lastIdleY = Math.round(sm.scrollTop());
@@ -3459,6 +4595,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
       scroller.removeEventListener('wheel', kill as any);
       scroller.removeEventListener('touchstart', kill as any);
       scroller.removeEventListener('pointerdown', kill as any);
+      (this as any)._keyIntentCleanup?.();
+      (this as any)._keyIntentCleanup = undefined;
     };
   }
 
@@ -3469,9 +4607,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   };
 
   private scheduleRefresh(reason: string) {
+    if (!this.homeActive || !this.isHomeRoute() || !this.isHomeDomReady()) return;
     if (this.isRefreshing || this.isRefreshQueued) return;
 
-    // ✅ media-load: مرة واحدة كل 2 ثانية كحد أقصى
     if (reason === 'media-load') {
       if (!this.mediaRefreshArmed) return;
       this.mediaRefreshArmed = false;
@@ -3484,19 +4622,35 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
 
     if (this.refreshTimer) clearTimeout(this.refreshTimer);
     this.refreshTimer = setTimeout(() => {
-
       this.safeRefresh();
     }, 240);
   }
 
   private scheduleOneTimeIdleRefresh() {
-    const run = () => this.safeRefresh();
+    // ✅ cancel previous
+    const cancelRIC = (window as any).cancelIdleCallback;
+    if (this.idleRefreshId && typeof cancelRIC === 'function') {
+      try { cancelRIC(this.idleRefreshId); } catch { }
+    }
+    this.idleRefreshId = undefined;
+    clearTimeout(this.idleRefreshTimeout);
+    this.idleRefreshTimeout = undefined;
+
+    const run = () => {
+      if (!this.homeActive) return;
+      this.safeRefresh();
+    };
+
     const ric = (window as any).requestIdleCallback;
-    if (typeof ric === 'function') ric(() => run(), { timeout: 2500 });
-    else setTimeout(run, 1400);
+    if (typeof ric === 'function') {
+      this.idleRefreshId = ric(() => run(), { timeout: 2500 });
+    } else {
+      this.idleRefreshTimeout = setTimeout(run, 1400);
+    }
   }
 
   private safeRefresh() {
+    if (!this.homeActive || !this.isHomeRoute() || !this.isHomeDomReady()) return;
     if (this.isRefreshing) return;
 
     const smoother = ScrollSmoother.get() as any;
@@ -3505,7 +4659,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.isRefreshQueued) return;
     this.isRefreshQueued = true;
 
-    // stop any snapping during refresh
+    // stop snapping during refresh
     this.snapTween?.kill();
     this.snapTween = undefined;
     this.isSnapping = false;
@@ -3514,6 +4668,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     this.stillFrames = 0;
 
     const doPass = () => {
+      if (!this.homeActive) return;
+
       this.isRefreshing = true;
 
       smoother.refresh();
@@ -3524,14 +4680,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
       const y = smoother.scrollTop();
       smoother.scrollTop(y);
 
-      // force end update
+      // update home end
       this.forceUpdateHomeSnapEnd();
 
-      // rebuild snap triggers + points
+      // rebuild triggers + points
       this.buildSnapTriggers(smoother.wrapper());
       this.buildSnapPointsFromTriggers(smoother);
 
-      // rebuild detector (refresh resets)
+      // rebuild detector
       this.attachSnapDetector(smoother);
 
       this.isRefreshing = false;
@@ -3540,12 +4696,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     doPass();
 
     requestAnimationFrame(() => {
+      if (!this.homeActive) {
+        this.isRefreshQueued = false;
+        return;
+      }
+
       const sm = ScrollSmoother.get() as any;
       if (sm) doPass();
 
       this.isRefreshQueued = false;
-      this.debugSnapEnds();
-      this.debugSnapPoints();
     });
   }
 
@@ -3570,6 +4729,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     this.lastHomeHeight = homeEl.scrollHeight;
 
     this.observer = new MutationObserver(() => {
+      if (!this.homeActive) return;
+
       const h = homeEl.scrollHeight;
       if (Math.abs(h - this.lastHomeHeight) < 5) return;
       this.lastHomeHeight = h;
@@ -3601,14 +4762,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     this.cleanupLoadListener = undefined;
 
     const onLoadCapture = (e: Event) => {
+      if (!this.homeActive) return;
       const t = e.target as HTMLElement | null;
       if (!t) return;
 
-      if (
-        t.tagName === 'VIDEO' ||
-        t.tagName === 'IFRAME' ||
-        t.tagName === 'SOURCE'
-      ) {
+      if (t.tagName === 'VIDEO' || t.tagName === 'IFRAME' || t.tagName === 'SOURCE') {
         this.scheduleRefresh('media-load');
       }
     };
@@ -3628,7 +4786,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     const fonts: FontFaceSet | undefined = anyDoc.fonts;
     if (!fonts) return;
 
-    const onFonts = () => this.scheduleRefresh('fonts');
+    const onFonts = () => {
+      if (!this.homeActive) return;
+      this.scheduleRefresh('fonts');
+    };
 
     fonts.ready?.then(onFonts).catch(() => { });
 
@@ -3646,10 +4807,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     };
   }
 
-  // ===================== DESKTOP: NAV COLORS (50%) =====================
+  private onResize = () => {
+    this.scheduleRefresh('resize');
+    this.ngZone.run(() => {
+      this.cdr.detectChanges();
+    });
+  };
+
+  // ===================== NAV COLORS =====================
 
   private observeSectionsDesktopColors(scroller: HTMLElement) {
-    this.colorTriggers.forEach(t => t.kill());
+    this.colorTriggers.forEach((t) => t.kill());
     this.colorTriggers = [];
 
     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
@@ -3686,13 +4854,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   private observeSectionsMobile() {
+    // ✅ خليه يقتل القديم عشان لو رجعت للهوم على موبايل
+    this.colorTriggers.forEach((t) => t.kill());
+    this.colorTriggers = [];
+
     const sections = gsap.utils.toArray<HTMLElement>('#home .panel');
 
     sections.forEach((section, index) => {
       const textColor = section.dataset['textcolor'] || 'var(--primary)';
       const bgColor = section.dataset['bgcolor'] || 'var(--white)';
 
-      ScrollTrigger.create({
+      const t = ScrollTrigger.create({
         trigger: section,
         start: 'top 10%',
         end: 'bottom 50%',
@@ -3711,21 +4883,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
           }
         },
       });
+
+      this.colorTriggers.push(t);
     });
   }
-
-  private onResize = () => {
-    this.scheduleRefresh('resize');
-
-    this.ngZone.run(() => {
-      this.cdr.detectChanges();
-    });
-  };
 
   // ===================== SNAP TRIGGERS =====================
 
   private buildSnapTriggers(scroller: HTMLElement) {
-    this.snapTriggers.forEach(t => t.kill());
+    this.snapTriggers.forEach((t) => t.kill());
     this.snapTriggers = [];
 
     const panels = gsap.utils.toArray<HTMLElement>('#home .panel');
@@ -3738,18 +4904,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
         start: 'top top',
         end: 'bottom bottom',
         invalidateOnRefresh: true,
-        // markers: {
-        //   startColor: 'green',
-        //   endColor: 'green',
-        //   fontSize: '10px',
-        //   indent: 55,
-        // },
       });
       this.snapTriggers.push(t);
     });
   }
 
-  // ===================== SNAP POINTS (PIN-SAFE) =====================
+  // ===================== SNAP POINTS =====================
 
   private buildSnapPointsFromTriggers(smoother: any) {
     const scroller = smoother.wrapper();
@@ -3764,7 +4924,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
 
       const length = end - start;
 
-      // 2% داخل السكشن + cap
       const rawOffset = length * this.SNAP_ENTER_PCT;
       const offsetCap = vh * this.SNAP_OFFSET_CAP_VH;
       const offset = Math.min(rawOffset, offsetCap);
@@ -3772,7 +4931,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
       const yEnter = (start - this.NAV_OFFSET_DESKTOP) + offset;
       points.push(this.clamp(yEnter, 0, max));
 
-      // Tail
       if (length > vh * 1.15) {
         const tail = (start - this.NAV_OFFSET_DESKTOP) + (length - vh) + offset;
         points.push(this.clamp(tail, 0, max));
@@ -3781,8 +4939,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
 
     points.sort((a, b) => a - b);
 
-    // Round + dedupe
-    const rounded = points.map(v => Math.round(v));
+    const rounded = points.map((v) => Math.round(v));
     this.snapY = rounded.filter((v, i, arr) => i === 0 || Math.abs(v - arr[i - 1]) > 8);
   }
 
@@ -3791,6 +4948,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     this.snapListenersAttached = true;
 
     const rebuild = () => {
+      if (!this.homeActive) return;
+
       const smoother = ScrollSmoother.get() as any;
       if (!smoother) return;
 
@@ -3809,27 +4968,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     return Math.max(min, Math.min(max, v));
   }
 
-  // ===================== DEBUG =====================
-
-  private debugSnapEnds() {
-    const smoother = ScrollSmoother.get() as any;
-    if (!smoother) return;
-
-    const scroller = smoother.wrapper();
-    const max = ScrollTrigger.maxScroll(scroller) || 0;
-
-    const st = this.homeSnapST || (ScrollTrigger.getById('HOME_SNAP') as any);
-    const end = (st as any)?.end ?? 0;
-
-
-  }
-
-  private debugSnapPoints() {
-    if (!this.snapY.length) return;
-
-  }
-
-  // ===================== MOBILE STATIC HERO I18N =====================
+  // ===================== MOBILE HERO I18N =====================
 
   private setupMobileStaticHeroLanguage() {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -3838,10 +4977,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     const saved = (localStorage.getItem('lang') || '').toLowerCase();
     if (saved !== 'en') return;
 
-    const run = () => this.applyEnglishToMobileHero();
+    const run = () => {
+      if (!this.homeActive) return;
+      this.applyEnglishToMobileHero();
+    };
+
     const ric = (window as any).requestIdleCallback;
-    if (typeof ric === 'function') ric(() => run(), { timeout: 3000 });
-    else setTimeout(run, 1800);
+    if (typeof ric === 'function') {
+      this.heroI18nIdleId = ric(() => run(), { timeout: 3000 });
+    } else {
+      this.heroI18nTimeout = setTimeout(run, 1800);
+    }
   }
 
   private applyEnglishToMobileHero() {
@@ -3867,68 +5013,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     hero.setAttribute('dir', 'ltr');
     hero.classList.add('is-en');
   }
-
-  ngOnDestroy(): void {
-    this.routerSub?.unsubscribe();
-    this.routerSub = undefined;
-
-    this.sectionsRegistry.clear();
-    this.sectionsRegistry.disable();
-
-    if (this.isBrowser) {
-      this.teardownHomeSnap();
-    }
-    if (this.isBrowser) {
-      try {
-        window.removeEventListener('resize', this.onResize);
-      } catch { }
-
-      window.removeEventListener('pin-ready', this.onPinReady as any);
-
-      const rebuild = (this as any)._snapRebuild;
-      if (rebuild) {
-        ScrollTrigger.removeEventListener('refreshInit', rebuild);
-        ScrollTrigger.removeEventListener('refresh', rebuild);
-      }
-
-      // ✅ cleanup idle detector
-      this.idleCleanup?.();
-      this.idleCleanup = undefined;
-
-      this.cleanupLoadListener?.();
-      this.cleanupLoadListener = undefined;
-
-      this.cleanupFontsListener?.();
-      this.cleanupFontsListener = undefined;
-
-      this.resizeObs?.disconnect();
-      this.resizeObs = undefined;
-
-      this.observer?.disconnect();
-      this.observer = undefined;
-
-      clearTimeout(this.refreshTimer);
-      clearTimeout(this.mediaRefreshTimer);
-
-      this.colorTriggers.forEach(t => t.kill());
-      this.colorTriggers = [];
-
-      this.snapTriggers.forEach(t => t.kill());
-      this.snapTriggers = [];
-
-      this.homeSnapST?.kill();
-      this.homeSnapST = undefined;
-
-      this.snapTween?.kill();
-      this.snapTween = undefined;
-
-      (this as any)._killSnapCleanup?.();
-      (this as any)._killSnapCleanup = undefined;
-
-      this.ctx?.revert();
-    }
-  }
 }
+
 
 
 
