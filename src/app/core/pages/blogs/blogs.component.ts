@@ -1123,36 +1123,37 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
         next: (res: any) => {
           this.totalPages = res.pagination.totalPages;
 
-          const canonical = 'https://almotammem.com/blogs';
-const isAr = this.language.currentLang === 'ar';
-
-const jsonld = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": isAr ? "مركز المعرفة من المتمم" : "Knowledge Base",
-  "description": isAr
-    ? "مقالات مختصرة تساعدك في فهم أنظمة ERP وتطوير عملك…"
-    : "Short articles about ERP systems and best practices.",
-  "url": canonical,
-  "mainEntity": {
-    "@type": "ItemList",
-    "itemListElement": (this.allBlogs ?? []).slice(0, 10).map((b, i) => ({
-      "@type": "ListItem",
-      "position": i + 1,
-      "url": `https://almotammem.com/blogs/blog/${b.englishURL || b.url}`,
-      "name": b.title
-    }))
-  }
-};
-
-this._pageSeoService.apply({
-  canonical,
-  jsonld,
-  jsonldId: 'jsonld-main'
-});
-
           if (page === 1) this.allBlogs = res?.data ?? [];
           else this.allBlogs.push(...(res?.data ?? []));
+  // 2) ابنِ JSON-LD من الداتا اللي وصلت (أو this.allBlogs بعد التحديث)
+  const canonical = 'https://almotammem.com/blogs';
+  const isAr = this.language.currentLang === 'ar';
+  const list = (res?.data ?? this.allBlogs ?? []).slice(0, 10);
+
+  const jsonld = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": isAr ? "مركز المعرفة من المتمم" : "Knowledge Base",
+    "description": isAr
+      ? "مقالات مختصرة تساعدك في فهم أنظمة ERP وتطوير عملك…"
+      : "Short articles about ERP systems and best practices.",
+    "url": canonical,
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": list.map((b: any, i: number) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "url": `https://almotammem.com/blogs/blog/${b.englishURL || b.url}`,
+        "name": b.title
+      }))
+    }
+  };
+
+  this._pageSeoService.apply({
+    canonical,
+    jsonld,
+    jsonldId: 'jsonld-main'
+  });
 
           if (!this.isBrowser && page === 1) this.transfer.set(ALL_BLOGS_KEY, res);
 

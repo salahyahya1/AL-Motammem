@@ -66,7 +66,7 @@
                                         <div
                                             class="w-[95%] mx-auto md:w-full h-44 md:h-52 lg:h-56 rounded-3xl bg-[#FFFFFF] overflow-hidden">
                                             <img *ngIf="article.mainImage" [src]="article.mainImage"
-                                                [alt]="article.altText || article.title" loading="lazy"
+                                                [alt]="article.altText || article.title"
                                                 class="w-full h-full object-cover" />
                                         </div>
 
@@ -78,7 +78,8 @@
                                         </h3>
 
                                         <p class="text-[#6B7280] text-sm md:text-base leading-relaxed w-full mb-4">
-                                            {{ article.metaDescription }}
+                                            {{ article.metaDescription || article.shortDescription || 'اقرأ المقالة
+                                            لمعرفة التفاصيل كاملة.' }}
                                         </p>
 
                                         <div class="flex justify-start items-start gap-2">
@@ -162,7 +163,7 @@
                     <article
                         class="bg-white rounded-3xl shadow-sm border border-[#E5E7EB] flex flex-col overflow-hidden">
                         <div class="h-32 md:h-43 bg-[#FFFFFF]">
-                            <img *ngIf="blog.mainImage" [src]="blog.mainImage" [alt]="blog.title" loading="lazy"
+                            <img *ngIf="blog.mainImage" [src]="blog.mainImage" [alt]="blog.title"
                                 class="w-full h-full object-cover" />
                         </div>
                         <div class="p-4 md:p-5 flex flex-col gap-2 text-right">
@@ -170,7 +171,7 @@
                                 {{ blog.title }}
                             </h3>
                             <p class="text-[#6B7280] text-xs md:text-sm">
-                                {{ blog.metaDescription }}
+                                {{ blog.metaDescription || 'اقرأ المقالة لمعرفة التفاصيل كاملة.' }}
                             </p>
                             <div class="mt-3">
                                 <div class="flex justify-start items-start gap-2">
