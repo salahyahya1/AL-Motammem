@@ -352,9 +352,14 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   navigateToResult(result: SearchResult) {
     this.closeSearch();
+    this.closeMenuOnMobile();
 
     if (result.fragment) {
       localStorage.setItem('scroll_to_section', result.fragment);
+      // Dispatch custom event for immediate same-page navigation support
+      if (this.isBrowser) {
+        window.dispatchEvent(new CustomEvent('app-scroll-to-section', { detail: result.fragment }));
+      }
     }
 
     this.router.navigateByUrl(result.route);

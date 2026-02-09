@@ -97,9 +97,7 @@ import { DialogButton, MessegeDialogComponent } from "../../../shared/messege-di
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Title, Meta } from '@angular/platform-browser';
-import { SeoLinkService } from '../../../services/seo-link.service';
-import { SchemaService } from '../../../services/schema.service';
-import { SeoService } from '../../../seo/seo.service';
+import { PageSeoService } from '../../../seo/page-seo.service';
 
 
 const BLOG_KEY = (slug: string) => makeStateKey<any>(`blog_${slug}`);
@@ -145,9 +143,7 @@ export class BlogVeiwComponent {
     private transfer: TransferState,
     private title: Title,
     private meta: Meta,
-    private seoLinks: SeoLinkService,
-    private schemaService: SchemaService,
-    private seoService: SeoService
+    private _pageSeoService: PageSeoService,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -208,7 +204,7 @@ export class BlogVeiwComponent {
     const url = `https://almotammem.com${path}`;
 
     // ✅ Use SeoService for unified set (fixes race condition & SSR)
-    this.seoService.set({
+    this._pageSeoService.apply({
       title: pageTitle,
       description: desc,
       image: image,
@@ -259,19 +255,19 @@ export class BlogVeiwComponent {
       .filter(Boolean);
 
     if (faqEntities.length) {
-      this.schemaService.setJsonLd('blog-faq-schema', {
+      this._pageSeoService.setJsonLd('blog-faq-schema', {
         "@context": "https://schema.org",
         "@type": "FAQPage",
         "mainEntity": faqEntities
       });
     } else {
-      this.schemaService.removeJsonLd?.('blog-faq-schema'); // هنضيفها تحت
+      this._pageSeoService.removeJsonLd?.('blog-faq-schema'); // هنضيفها تحت
     }
 
     // =========================================================
     // ✅ Breadcrumb Schema
     // =========================================================
-    this.schemaService.setJsonLd('blog-breadcrumb-schema', {
+    this._pageSeoService.setJsonLd('blog-breadcrumb-schema', {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [

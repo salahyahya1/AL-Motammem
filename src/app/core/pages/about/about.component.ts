@@ -1923,8 +1923,8 @@ import { AboutSection3Component } from './about-section3/about-section3.componen
 import { AboutSection4Component } from './about-section4/about-section4.component';
 import { AboutSection5Component } from './about-section5/about-section5.component';
 
-import { SeoLinkService } from '../../services/seo-link.service';
 import { PreloadService } from '../../services/preload.service';
+import { PageSeoService } from '../../seo/page-seo.service';
 
 @Component({
   selector: 'app-about',
@@ -1965,7 +1965,7 @@ export class AboutComponent {
     private cdr: ChangeDetectorRef,
     private navTheme: NavbarThemeService,
     private sectionsRegistry: SectionsRegistryService,
-    private seoLinks: SeoLinkService,
+    private _pageSeoService: PageSeoService,
     private preloadService: PreloadService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);

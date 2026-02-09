@@ -222,7 +222,7 @@
 //     ScrollTrigger.config({ ignoreMobileResize: true });
 //   }
 // }
-import { ChangeDetectorRef, Component, Inject, NgZone, PLATFORM_ID, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, NgZone, PLATFORM_ID, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet, Scroll } from "@angular/router";
 import { AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { filter, auditTime, Subject, takeUntil } from 'rxjs';
@@ -262,14 +262,22 @@ export class LayoutComponent implements OnDestroy {
   // ✅ لمنع تكرار subscriptions لو حصل HMR أو re-init
   private destroy$ = new Subject<void>();
 
-  // ✅ لتقليل قراءة localStorage على كل Scroll Event
-  private pendingFragment: string | null = null;
-
   // ✅ لمراقبة التحويل بين Desktop/Mobile بدون ريفرش
   private mq: MediaQueryList | null = null;
   private mqHandler: ((e: MediaQueryListEvent) => void) | null = null;
 
   sections$: any;
+
+  @HostListener('window:app-scroll-to-section', ['$event'])
+  onManualScroll(event: any) {
+    if (!this.isBrowser) return;
+    const fragment = event.detail;
+    if (fragment) {
+      // Clear localStorage just in case it was set by NavbarComponent
+      localStorage.removeItem('scroll_to_section');
+      this.scrollToFragment(fragment, true);
+    }
+  }
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -338,24 +346,16 @@ export class LayoutComponent implements OnDestroy {
   }
 
   private setupFragmentScrolling() {
-    // ✅ اقرأ localStorage مرة واحدة فقط
-    const storedFragment = localStorage.getItem('scroll_to_section');
-    if (storedFragment) {
-      this.pendingFragment = storedFragment;
-      localStorage.removeItem('scroll_to_section');
-    }
-
     // Listen for Scroll events (covers loads + fragment + normal nav + back/forward)
     this.router.events.pipe(
       filter((e): e is Scroll => e instanceof Scroll),
       takeUntil(this.destroy$)
     ).subscribe(e => {
-
-      // ✅ أولوية: pendingFragment (من storage) مرة واحدة
-      if (this.pendingFragment) {
-        const f = this.pendingFragment;
-        this.pendingFragment = null;
-        this.scrollToFragment(f, true);
+      // ✅ Check localStorage on EVERY scroll event to handle same-page search navigation
+      const storedFragment = localStorage.getItem('scroll_to_section');
+      if (storedFragment) {
+        localStorage.removeItem('scroll_to_section');
+        this.scrollToFragment(storedFragment, true);
         return;
       }
 
@@ -397,11 +397,11 @@ export class LayoutComponent implements OnDestroy {
 
     // Handle initial fragment/pending on load
     const initialFragment = this.router.parseUrl(this.router.url).fragment;
+    const storedFragment = localStorage.getItem('scroll_to_section');
 
-    if (this.pendingFragment) {
-      const f = this.pendingFragment;
-      this.pendingFragment = null;
-      this.scrollToFragment(f, true);
+    if (storedFragment) {
+      localStorage.removeItem('scroll_to_section');
+      this.scrollToFragment(storedFragment, true);
     } else if (initialFragment) {
       this.scrollToFragment(initialFragment);
     }
@@ -415,15 +415,31 @@ export class LayoutComponent implements OnDestroy {
 
       // ✅ Mobile/Native scroll (no smoother)
       if (!this.smoother) {
+        const performMobileScroll = (el: HTMLElement) => {
+          // Calculate offset for fixed navbar (usually 70-80px)
+          const offset = 80;
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementRect = el.getBoundingClientRect().top;
+          const elementPosition = elementRect - bodyRect;
+          const offsetPosition = elementPosition - offset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        };
+
         if (element) {
+          // Increase delay to ensure layout is stable after search closes
           setTimeout(() => {
-            element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 200);
+            performMobileScroll(element!);
+          }, 350);
         } else {
+          // If element not ready, wait longer
           setTimeout(() => {
             const el = document.getElementById(fragment);
-            el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 800);
+            if (el) performMobileScroll(el);
+          }, 1000);
         }
         return;
       }

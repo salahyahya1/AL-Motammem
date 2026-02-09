@@ -2,20 +2,33 @@
 // import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 // import { ChangeDetectorRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
 // import { AccordionComponent } from "../../shared/accordion/accordion.component";
-// import { TranslatePipe } from '@ngx-translate/core';
+// import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 // import { SectionsRegistryService } from '../../shared/services/sections-registry.service';
 // import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 // import { BehaviorSubject } from 'rxjs';
-// import { TranslateService } from '@ngx-translate/core';
 // import gsap from 'gsap';
 // import ScrollTrigger from 'gsap/ScrollTrigger';
 // import ScrollToPlugin from 'gsap/ScrollToPlugin';
 // import { FaqsService } from './Faqs-service';
 // import { DialogButton, MessegeDialogComponent } from "../../shared/messege-dialog/messege-dialog.component";
 // import { SafeHtml } from '@angular/platform-browser';
-// gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-// type FaqItem = { id: number; question: string; answer: string; startOpen?: boolean };
 
+// gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+// type FaqItem = {
+//   id: number;
+
+//   // ✅ دول للعرض حسب اللغة (accordion)
+//   question: string;
+//   answer: string;
+//   startOpen?: boolean;
+
+//   // ✅ دول للتخزين الدائم (عشان edit يشتغل صح)
+//   arQuestion?: string;
+//   arAnswer?: string;
+//   englishQuestion?: string;
+//   englishAnswer?: string;
+// };
 
 // @Component({
 //   selector: 'app-faqs',
@@ -25,24 +38,7 @@
 //   styleUrl: './faqs.component.scss',
 // })
 // export class FAQSComponent {
-//   FAQS: FaqItem[] = [
-//     // { question: "FAQS.Q1.T1", answer: 'FAQS.Q1.A1', startOpen: true },
-//     // { question: "FAQS.Q2.T1", answer: 'FAQS.Q2.A1', startOpen: false },
-//     // { question: "FAQS.Q3.T1", answer: 'FAQS.Q3.A1', startOpen: false },
-//     // { question: "FAQS.Q4.T1", answer: 'FAQS.Q4.A1', startOpen: false },
-//     // { question: "FAQS.Q5.T1", answer: 'FAQS.Q5.A1', startOpen: false },
-//     // { question: "FAQS.Q6.T1", answer: 'FAQS.Q6.A1', startOpen: false },
-//     // { question: "FAQS.Q7.T1", answer: 'FAQS.Q7.A1', startOpen: false },
-//     // { question: "FAQS.Q8.T1", answer: 'FAQS.Q8.A1', startOpen: false },
-//     // { question: "FAQS.Q9.T1", answer: 'FAQS.Q9.A1', startOpen: false },
-//     // { question: "FAQS.Q10.T1", answer: 'FAQS.Q10.A1', startOpen: false },
-//     // { question: "FAQS.Q11.T1", answer: 'FAQS.Q11.A1', startOpen: false },
-//     // { question: "FAQS.Q12.T1", answer: 'FAQS.Q12.A1', startOpen: false },
-//     // { question: "FAQS.Q13.T1", answer: 'FAQS.Q13.A1', startOpen: false },
-//     // { question: "FAQS.Q14.T1", answer: 'FAQS.Q14.A1', startOpen: false },
-//     // { question: "FAQS.Q15.T1", answer: 'FAQS.Q15.A1', startOpen: false },
-//   ];
-
+//   FAQS: FaqItem[] = [];
 
 //   private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
 //   visibility$ = this.visibilitySubject.asObservable();
@@ -60,10 +56,18 @@
 //   dialogOpen = false;
 //   blog: any;
 //   blogHtml: SafeHtml = '';
-//   dialogVariant: 'success' | 'error' = 'success';
+//   dialogVariant: 'success' | 'error' | 'warning' = 'success';
 //   dialogTitle = '';
 //   dialogMessage = '';
 //   dialogButtons: DialogButton[] = [];
+
+//   loadingFaqs = true;
+
+//   // ✅ NEW: inline edit
+//   editingId: number | null = null;
+//   deletingId!: number;
+//   editForm: FormGroup;
+//   enableActions: boolean = false
 //   constructor(
 //     @Inject(PLATFORM_ID) private platformId: Object,
 //     private ngZone: NgZone,
@@ -71,29 +75,44 @@
 //     private navTheme: NavbarThemeService,
 //     private sectionsRegistry: SectionsRegistryService,
 //     private fb: FormBuilder,
-//     private faqsService: FaqsService, private translate: TranslateService
+//     private faqsService: FaqsService,
+//     private translate: TranslateService
 //   ) {
 //     this.isBrowser = isPlatformBrowser(this.platformId);
+
+//     // ✅ add form (زي ما هو عندك)
 //     this.faqForm = this.fb.group({
 //       faqs: this.fb.array([])
 //     });
+
+//     // ✅ NEW: edit form (inline)
+//     this.editForm = this.fb.group({
+//       question: ['', Validators.required],
+//       answer: ['', Validators.required],
+//       englishAnswer: ['', Validators.required],
+//       englishQuestion: ['', Validators.required],
+//     });
+
 //     this.lang = this.translate.currentLang || this.translate.defaultLang || 'ar';
+//     if (this.isBrowser) {
+//       this.isAuthenticated = this.faqsService.isAuthenticated();
+//       this.role = localStorage.getItem('role');
+//       this.hasrole = !!this.role;
+//       this.enableActions = this.hasrole && this.isAuthenticated;
+//     }
 //     this.loadFaqs();
 //   }
+
 //   ngOnInit(): void {
 //     if (!this.isBrowser) return;
-//     this.isAuthenticated = this.faqsService.isAuthenticated();
-//     this.role = localStorage.getItem('role')
-//     this.hasrole = this.role ? true : false;
+
 //     this.ngZone.runOutsideAngular(() => {
-//       // setTimeout(() => {
 //       this.navTheme.setColor('var(--primary)');
 //       this.navTheme.setBg('var(--white)');
-
-//       // }, 150);
 //     });
-//   }
 
+
+//   }
 
 //   ngOnDestroy(): void {
 //     this.sectionsRegistry.clear();
@@ -103,6 +122,7 @@
 //       ScrollTrigger.getAll().forEach(t => t.kill());
 //     }
 //   }
+
 //   get faqs() {
 //     return this.faqForm.get('faqs') as FormArray;
 //   }
@@ -116,23 +136,54 @@
 //     });
 //     this.faqs.push(faqGroup);
 //   }
+
+//   removeFaq(index: number) {
+//     this.faqs.removeAt(index);
+//   }
+
 //   onSubmit() {
-//     console.log(this.faqForm.value.faqs[0]);
-//     this.faqsService.AddFAQS(this.faqForm.value.faqs[0]).subscribe((res) => {
-//       this.loadFaqs();
-//     })
+//     console.log(this.faqForm.value);
+//     if (this.faqForm.value.faqs.length === 0) return;
+//     for (let index = 0; index < this.faqForm.value.faqs.length; index++) {
+//       const element = this.faqForm.value.faqs[index];
+//       this.faqsService.AddFAQS(element).subscribe(() => {
+//         this.loadFaqs();
+//       });
+//     }
+//     // لحد مالباك يحل مشكله الاراي او اوبكتس
+//     // this.faqsService.AddFAQS(this.faqForm.value.faqs).subscribe(() => {
+//     //   this.loadFaqs();
+//     // });
+//   }
+//   checkbeforeDelete(id: number) {
+//     this.dialogVariant = 'warning';
+//     this.dialogTitle = '';
+//     this.dialogMessage = 'Are you sure you want to delete this FAQ?';
+//     this.dialogButtons = [
+//       { id: 'cancel', text: 'Cancel', style: 'outline' },
+//       { id: 'show all', text: 'ok', style: 'primary' },
+//     ];
+//     this.dialogOpen = true;
+//     this.deletingId = id;
+//     // افتكر صلح مكان الدايلوج 
 //   }
 //   onDeleteFaq(id: number) {
 //     this.faqsService.DeleteFAQ(id).subscribe({
-//       next: (res: any) => {
+//       next: () => {
 //         this.dialogVariant = 'success';
 //         this.dialogTitle = 'Success';
 //         this.dialogMessage = 'FAQ deleted successfully';
 //         this.dialogButtons = [
 //           { id: 'cancel', text: 'Cancel', style: 'outline' },
-//           { id: 'retry', text: 'Try again', style: 'danger' },
+//           { id: 'sureOfDelete', text: 'ok', style: 'primary' },
 //         ];
 //         this.dialogOpen = true;
+
+//         // ✅ لو كنت بتعدل نفس العنصر واتمسح
+//         if (this.editingId === id) {
+//           this.cancelEdit();
+//         }
+
 //         this.loadFaqs();
 //       },
 //       error: (err: any) => {
@@ -147,82 +198,72 @@
 //         this.dialogOpen = true;
 //         this.loadingFaqs = false;
 //       },
-//     })
-//     // console.log('Deleted accordion id:', id);
-
+//     });
 //   }
+
+//   // ✅ NEW: لما تدوس edit على accordion
 //   onEditFaq(id: number) {
-//     // console.log(this.FAQS.find((faq: any) => faq.id === id));
-//     this.faqsService.GetAllFAQS().subscribe((res: any) => {
-//       const list = res?.data ?? [];
-//       this.FAQS = list.map((faq: any) => ({
-//         id: faq.id,
-//         question: this.lang === 'ar' ? faq.question : faq.englishQuestion,
-//         answer: this.lang === 'ar' ? faq.answer : faq.englishAnswer,
-//         englishAnswer: faq.englishAnswer,
-//         englishQuestion: faq.englishQuestion,
-//       }));
-//       this.EditFAQ = this.FAQS.find((faq: any) => faq.id === id)
-//       this.faqForm.patchValue({
-//         question: this.EditFAQ.question,
-//         answer: this.EditFAQ.answer,
-//         englishAnswer: this.EditFAQ.englishAnswer,
-//         englishQuestion: this.EditFAQ.englishQuestion,
-//       })
-//       console.log(this.faqForm.value);
-
-//     })
-//     // this.faqsService.UpdateFAQ(id, this.FAQS.find((faq: any) => faq.id === id)).subscribe({
-//     //   next: (res: any) => {
-//     //     console.log(res);
-//     //     // console.log(this.FAQS.find((faq: any) => faq.id === id));
-
-//     //   },
-//     //   // next: (res: any) => {
-//     //   //   this.dialogVariant = 'success';
-//     //   //   this.dialogTitle = 'Success';
-//     //   //   this.dialogMessage = 'FAQ deleted successfully';
-//     //   //   this.dialogButtons = [
-//     //   //     { id: 'cancel', text: 'Cancel', style: 'outline' },
-//     //   //     { id: 'retry', text: 'Try again', style: 'danger' },
-//     //   //   ];
-//     //   //   this.dialogOpen = true;
-//     //   //   this.loadFaqs();
-//     //   // },
-//     //   // error: (err: any) => {
-//     //   //   console.log(err);
-//     //   //   this.dialogVariant = 'error';
-//     //   //   this.dialogTitle = 'Error';
-//     //   //   this.dialogMessage = err?.error?.message;
-//     //   //   this.dialogButtons = [
-//     //   //     { id: 'cancel', text: 'Cancel', style: 'outline' },
-//     //   //     { id: 'retry', text: 'Try again', style: 'danger' },
-//     //   //   ];
-//     //   //   this.dialogOpen = true;
-//     //   //   this.loadingFaqs = false;
-//     //   // },
-//     // })
-//     // console.log('Deleted accordion id:', id);
-//     // console.log(id);
-//     // this.
+//     const item = this.FAQS.find((f: any) => f.id === id);
+//     if (!item) return;
+//     this.startEdit(item);
 //   }
-//   removeFaq(index: number) {
-//     this.faqs.removeAt(index);
+
+//   // ✅ NEW: فتح inline edit لنفس شكل الفورم
+//   startEdit(faq: any) {
+//     this.editingId = faq.id;
+
+//     this.editForm.patchValue({
+//       question: faq.arQuestion ?? faq.question ?? '',
+//       answer: faq.arAnswer ?? faq.answer ?? '',
+//       englishQuestion: faq.englishQuestion ?? '',
+//       englishAnswer: faq.englishAnswer ?? '',
+//     });
+
+//     // لو تحب تعمل scroll للـ item وهو بيتعدل:
+//     // setTimeout(() => document.getElementById(`faq-edit-${faq.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 0);
 //   }
-//   // loadFaqs() {
 
-//   //   this.faqsService.GetAllFAQS().subscribe((res: any) => {
-//   //     const list = res?.data ?? [];
+//   // ✅ NEW: إلغاء
+//   cancelEdit() {
+//     this.editingId = null;
+//     this.editForm.reset();
+//   }
 
-//   //     this.FAQS = list.map((faq: any) => ({
-//   //       id: faq.id,
-//   //       question: this.lang === 'ar' ? faq.question : faq.englishQuestion,
-//   //       answer: this.lang === 'ar' ? faq.answer : faq.englishAnswer,
-//   //       startOpen: false,
-//   //     }));
-//   //   });
-//   // }
-//   loadingFaqs = true;
+//   // ✅ NEW: حفظ
+//   saveEdit() {
+//     if (this.editingId == null) return;
+
+//     if (this.editForm.invalid) {
+//       this.editForm.markAllAsTouched();
+//       return;
+//     }
+
+//     const payload = this.editForm.value;
+
+//     this.faqsService.UpdateFAQ(this.editingId, payload).subscribe({
+//       next: () => {
+//         this.dialogVariant = 'success';
+//         this.dialogTitle = 'Success';
+//         this.dialogMessage = 'FAQ updated successfully';
+//         this.dialogButtons = [{ id: 'cancel', text: 'OK', style: 'outline' }];
+//         this.dialogOpen = true;
+
+//         this.editingId = null;
+//         this.editForm.reset();
+//         this.loadFaqs();
+//       },
+//       error: (err: any) => {
+//         this.dialogVariant = 'error';
+//         this.dialogTitle = 'Error';
+//         this.dialogMessage = err?.error?.message || 'Update failed';
+//         this.dialogButtons = [
+//           { id: 'cancel', text: 'Cancel', style: 'outline' },
+//           { id: 'retry', text: 'Try again', style: 'danger' },
+//         ];
+//         this.dialogOpen = true;
+//       },
+//     });
+//   }
 
 //   loadFaqs() {
 //     this.loadingFaqs = true;
@@ -230,50 +271,71 @@
 //     this.faqsService.GetAllFAQS().subscribe({
 //       next: (res: any) => {
 //         const list = res?.data ?? [];
+
 //         this.FAQS = list.map((faq: any) => ({
 //           id: faq.id,
-//           // question: faq.question,
-//           // answer: faq.answer,
+
+//           // ✅ نخزن الاتنين عشان edit يشتغل في كل الحالات
+//           arQuestion: faq.question,
+//           arAnswer: faq.answer,
+//           englishQuestion: faq.englishQuestion,
+//           englishAnswer: faq.englishAnswer,
+
+//           // ✅ دول للعرض حسب اللغة
 //           question: this.lang === 'ar' ? faq.question : faq.englishQuestion,
 //           answer: this.lang === 'ar' ? faq.answer : faq.englishAnswer,
+
 //           startOpen: false,
 //         }));
+
+//         // ✅ لو كنت بتعدل عنصر واتعمل reload والداتا لسه موجودة: حافظ على edit mode
+//         if (this.editingId != null) {
+//           const stillExists = this.FAQS.some(x => x.id === this.editingId);
+//           if (!stillExists) this.cancelEdit();
+//         }
+
 //         this.loadingFaqs = false;
 //       },
-//       error: (err: any) => {
-//         // console.log(err);
-//         // this.dialogVariant = 'error';
-//         // this.dialogTitle = '';
-//         // this.dialogMessage = err?.message;
-//         // this.dialogButtons = [
-//         //   { id: 'cancel', text: 'Cancel', style: 'outline' },
-//         //   { id: 'retry', text: 'Try again', style: 'danger' },
-//         // ];
-//         // this.dialogOpen = true;
-//         // this.loadingFaqs = false;
+//       error: () => {
+//         this.loadingFaqs = false;
 //       },
 //     });
 //   }
+
 //   onDialogAction(id: string) {
 //     if (id === 'show all') {
 //       this.dialogOpen = false;
 //     }
 //     if (id === 'show edited blog') {
 //       this.dialogOpen = false;
-//       // this.router.navigate(['/blogs/BlogVeiw', this.blogsService.spacesToHyphen(this.blogForm.value.englishUrl ?? '')]);
 //     }
 //     if (id === 'retry') {
 //       this.dialogOpen = false;
-//       // ✅ optional: retry submit or reload
 //     }
 //     if (id === 'cancel') {
 //       this.dialogOpen = false;
 //     }
+//     if (id === 'sureOfDelete') {
+//       this.dialogOpen = false;
+//       this.onDeleteFaq(this.deletingId);
+//     }
 //   }
 // }
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { ChangeDetectorRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  Validators
+} from '@angular/forms';
+import {
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  NgZone,
+  PLATFORM_ID
+} from '@angular/core';
 import { AccordionComponent } from "../../shared/accordion/accordion.component";
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { SectionsRegistryService } from '../../shared/services/sections-registry.service';
@@ -283,8 +345,12 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
 import { FaqsService } from './Faqs-service';
-import { DialogButton, MessegeDialogComponent } from "../../shared/messege-dialog/messege-dialog.component";
+import {
+  DialogButton,
+  MessegeDialogComponent
+} from "../../shared/messege-dialog/messege-dialog.component";
 import { SafeHtml } from '@angular/platform-browser';
+import { TransferState, makeStateKey } from '@angular/core';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -302,6 +368,8 @@ type FaqItem = {
   englishQuestion?: string;
   englishAnswer?: string;
 };
+
+const FAQS_GENERAL_KEY = makeStateKey<FaqItem[]>('faqs_general_v1');
 
 @Component({
   selector: 'app-faqs',
@@ -329,6 +397,7 @@ export class FAQSComponent {
   dialogOpen = false;
   blog: any;
   blogHtml: SafeHtml = '';
+
   dialogVariant: 'success' | 'error' | 'warning' = 'success';
   dialogTitle = '';
   dialogMessage = '';
@@ -340,7 +409,11 @@ export class FAQSComponent {
   editingId: number | null = null;
   deletingId!: number;
   editForm: FormGroup;
-  enableActions: boolean = false
+  enableActions: boolean = false;
+
+  // ✅ SEO (FAQ Schema)
+  faqSchemaJson = '';
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private ngZone: NgZone,
@@ -349,7 +422,8 @@ export class FAQSComponent {
     private sectionsRegistry: SectionsRegistryService,
     private fb: FormBuilder,
     private faqsService: FaqsService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private transferState: TransferState
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
@@ -358,7 +432,7 @@ export class FAQSComponent {
       faqs: this.fb.array([])
     });
 
-    // ✅ NEW: edit form (inline)
+    // ✅ edit form (inline)
     this.editForm = this.fb.group({
       question: ['', Validators.required],
       answer: ['', Validators.required],
@@ -367,12 +441,16 @@ export class FAQSComponent {
     });
 
     this.lang = this.translate.currentLang || this.translate.defaultLang || 'ar';
-    if (!this.isBrowser) return;
 
-    this.isAuthenticated = this.faqsService.isAuthenticated();
-    this.role = localStorage.getItem('role');
-    this.hasrole = this.role ? true : false;
-    this.enableActions = this.hasrole && this.isAuthenticated
+    // ✅ browser-only (localStorage / role)
+    if (this.isBrowser) {
+      this.isAuthenticated = this.faqsService.isAuthenticated();
+      this.role = localStorage.getItem('role');
+      this.hasrole = !!this.role;
+      this.enableActions = this.hasrole && this.isAuthenticated;
+    }
+
+    // ✅ IMPORTANT: load on server + browser
     this.loadFaqs();
   }
 
@@ -383,8 +461,6 @@ export class FAQSComponent {
       this.navTheme.setColor('var(--primary)');
       this.navTheme.setBg('var(--white)');
     });
-
-
   }
 
   ngOnDestroy(): void {
@@ -415,19 +491,16 @@ export class FAQSComponent {
   }
 
   onSubmit() {
-    console.log(this.faqForm.value);
     if (this.faqForm.value.faqs.length === 0) return;
+
     for (let index = 0; index < this.faqForm.value.faqs.length; index++) {
       const element = this.faqForm.value.faqs[index];
       this.faqsService.AddFAQS(element).subscribe(() => {
         this.loadFaqs();
       });
     }
-    // لحد مالباك يحل مشكله الاراي او اوبكتس
-    // this.faqsService.AddFAQS(this.faqForm.value.faqs).subscribe(() => {
-    //   this.loadFaqs();
-    // });
   }
+
   checkbeforeDelete(id: number) {
     this.dialogVariant = 'warning';
     this.dialogTitle = '';
@@ -438,8 +511,8 @@ export class FAQSComponent {
     ];
     this.dialogOpen = true;
     this.deletingId = id;
-    // افتكر صلح مكان الدايلوج 
   }
+
   onDeleteFaq(id: number) {
     this.faqsService.DeleteFAQ(id).subscribe({
       next: () => {
@@ -452,7 +525,6 @@ export class FAQSComponent {
         ];
         this.dialogOpen = true;
 
-        // ✅ لو كنت بتعدل نفس العنصر واتمسح
         if (this.editingId === id) {
           this.cancelEdit();
         }
@@ -460,7 +532,6 @@ export class FAQSComponent {
         this.loadFaqs();
       },
       error: (err: any) => {
-        console.log(err);
         this.dialogVariant = 'error';
         this.dialogTitle = 'Error';
         this.dialogMessage = err?.error?.message;
@@ -474,14 +545,12 @@ export class FAQSComponent {
     });
   }
 
-  // ✅ NEW: لما تدوس edit على accordion
   onEditFaq(id: number) {
     const item = this.FAQS.find((f: any) => f.id === id);
     if (!item) return;
     this.startEdit(item);
   }
 
-  // ✅ NEW: فتح inline edit لنفس شكل الفورم
   startEdit(faq: any) {
     this.editingId = faq.id;
 
@@ -491,18 +560,13 @@ export class FAQSComponent {
       englishQuestion: faq.englishQuestion ?? '',
       englishAnswer: faq.englishAnswer ?? '',
     });
-
-    // لو تحب تعمل scroll للـ item وهو بيتعدل:
-    // setTimeout(() => document.getElementById(`faq-edit-${faq.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 0);
   }
 
-  // ✅ NEW: إلغاء
   cancelEdit() {
     this.editingId = null;
     this.editForm.reset();
   }
 
-  // ✅ NEW: حفظ
   saveEdit() {
     if (this.editingId == null) return;
 
@@ -539,6 +603,16 @@ export class FAQSComponent {
   }
 
   loadFaqs() {
+    // ✅ 1) لو اتنقلت من السيرفر للكلاينت (TransferState) استخدمها وما تعملش request تاني
+    const cached = this.transferState.get(FAQS_GENERAL_KEY, null as any);
+    if (cached && Array.isArray(cached) && cached.length) {
+      this.FAQS = cached;
+      this.loadingFaqs = false;
+      this.transferState.remove(FAQS_GENERAL_KEY);
+      this.updateFaqSchema();
+      return;
+    }
+
     this.loadingFaqs = true;
 
     this.faqsService.GetAllFAQS().subscribe({
@@ -548,30 +622,55 @@ export class FAQSComponent {
         this.FAQS = list.map((faq: any) => ({
           id: faq.id,
 
-          // ✅ نخزن الاتنين عشان edit يشتغل في كل الحالات
           arQuestion: faq.question,
           arAnswer: faq.answer,
           englishQuestion: faq.englishQuestion,
           englishAnswer: faq.englishAnswer,
 
-          // ✅ دول للعرض حسب اللغة
           question: this.lang === 'ar' ? faq.question : faq.englishQuestion,
           answer: this.lang === 'ar' ? faq.answer : faq.englishAnswer,
 
           startOpen: false,
         }));
 
-        // ✅ لو كنت بتعدل عنصر واتعمل reload والداتا لسه موجودة: حافظ على edit mode
+        // ✅ 2) خزنها عشان تتنقل للكلاينت بدون request تاني
+        this.transferState.set(FAQS_GENERAL_KEY, this.FAQS);
+
         if (this.editingId != null) {
           const stillExists = this.FAQS.some(x => x.id === this.editingId);
           if (!stillExists) this.cancelEdit();
         }
 
         this.loadingFaqs = false;
+        this.updateFaqSchema();
       },
       error: () => {
         this.loadingFaqs = false;
       },
+    });
+  }
+
+  // ✅ SEO: Generate FAQPage JSON-LD
+  private updateFaqSchema() {
+    if (!this.FAQS || this.FAQS.length === 0) {
+      this.faqSchemaJson = '';
+      return;
+    }
+
+    // Schema لازم يكون نص plain (بدون HTML tags)
+    const mainEntity = this.FAQS.map(f => ({
+      "@type": "Question",
+      "name": (f.question || '').toString(),
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": (f.answer || '').toString()
+      }
+    }));
+
+    this.faqSchemaJson = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": mainEntity
     });
   }
 

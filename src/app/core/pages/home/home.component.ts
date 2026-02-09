@@ -3970,8 +3970,9 @@ import {
 } from '../../shared/services/sections-registry.service';
 import { OpenFormDialogDirective } from '../../shared/Directives/open-form-dialog.directive';
 import { Router, NavigationStart } from '@angular/router';
-import { SeoLinkService } from '../../services/seo-link.service';
+// import { SeoLinkService } from '../../services/seo-link.service';
 import { PreloadService } from '../../services/preload.service';
+import { PageSeoService } from '../../seo/page-seo.service';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -4069,7 +4070,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     private navTheme: NavbarThemeService,
     public sectionsRegistry: SectionsRegistryService,
     private router: Router,
-    private seoLinks: SeoLinkService,
+    private _pageSeoService: PageSeoService,
     private preloadService: PreloadService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -4120,8 +4121,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
         ? window.location.href
         : `https://almotammem.com/`;
 
-    this.seoLinks.setSocialMeta({ title: pageTitle, desc, image, url, type: 'website' });
-    this.seoLinks.setCanonical(url);
+    this._pageSeoService.apply({ title: pageTitle, description: desc, image: image, canonical: url, type: 'website' });
 
     if (!this.isBrowser) return;
 

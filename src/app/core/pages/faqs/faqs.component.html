@@ -251,3 +251,7 @@
 <app-messege-dialog [open]="dialogOpen" [isFaqsPage]="true" [variant]="dialogVariant" [title]="dialogTitle"
     [message]="dialogMessage" [buttons]="dialogButtons" (closed)="dialogOpen = false" (action)="onDialogAction($event)">
 </app-messege-dialog>
+<script type="application/ld+json" *ngIf="faqSchemaJson">
+    {{ faqSchemaJson }}
+  </script>
+  

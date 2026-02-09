@@ -1,6 +1,6 @@
 import { Component, Inject, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SeoService } from './core/seo/seo.service';
+import { PageSeoService } from './core/seo/page-seo.service';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
@@ -17,7 +17,7 @@ import { LanguageService } from './core/shared/services/language.service';
 export class AppComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private seo = inject(SeoService);
+  private seo = inject(PageSeoService);
 
   private readonly siteOrigin = 'https://almotammem.com';
 
@@ -48,7 +48,7 @@ export class AppComponent {
         // (لو عندك TitleStrategy هتشتغل طبيعي برضو)
         const title = seoData.title ?? 'المتمم';
 
-        this.seo.set({
+        this.seo.apply({
           title,
           description: seoData.description,
           image: seoData.image,

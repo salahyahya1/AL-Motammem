@@ -666,6 +666,7 @@ import { PortalModule } from '@angular/cdk/portal';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../shared/services/language.service';
 import { TransferState, makeStateKey } from '@angular/core';
+import { PageSeoService } from '../../seo/page-seo.service';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
@@ -755,7 +756,8 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
     private overlay: Overlay,
     private vcr: ViewContainerRef,
     private language: LanguageService,
-    private transfer: TransferState
+    private transfer: TransferState,
+    private _pageSeoService: PageSeoService,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -795,6 +797,20 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const canonical = 'https://almotammem.com/blogs';
+    const isAr = this.language.currentLang === 'ar';
+  
+    this._pageSeoService.apply({
+      title: isAr ? 'مركز المعرفة من المتمم' : 'Knowledge Base',
+      description: isAr
+        ? 'هنا تجد مقالات مختصرة تساعدك فى فهم أنظمة ERP وتطوير عملك… خبرة تمتد لأكثر من 40 عامًا.'
+        : 'Short articles to help you understand ERP systems, improve operations, and learn best practices.',
+      canonical,
+      image: 'https://almotammem.com/images/Icon.webp',
+      type: 'website',
+      twitterCard: 'summary_large_image',
+      // jsonld هنحطه بعد ما البيانات تيجي (أو من TransferState)
+    });
     this.loadMostRead();
     this.loadAllBlogs(this.page);
 
@@ -1106,6 +1122,35 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           this.totalPages = res.pagination.totalPages;
+
+          const canonical = 'https://almotammem.com/blogs';
+const isAr = this.language.currentLang === 'ar';
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": isAr ? "مركز المعرفة من المتمم" : "Knowledge Base",
+  "description": isAr
+    ? "مقالات مختصرة تساعدك في فهم أنظمة ERP وتطوير عملك…"
+    : "Short articles about ERP systems and best practices.",
+  "url": canonical,
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": (this.allBlogs ?? []).slice(0, 10).map((b, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "url": `https://almotammem.com/blogs/blog/${b.englishURL || b.url}`,
+      "name": b.title
+    }))
+  }
+};
+
+this._pageSeoService.apply({
+  canonical,
+  jsonld,
+  jsonldId: 'jsonld-main'
+});
+
           if (page === 1) this.allBlogs = res?.data ?? [];
           else this.allBlogs.push(...(res?.data ?? []));
 
