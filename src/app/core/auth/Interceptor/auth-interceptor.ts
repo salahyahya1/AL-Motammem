@@ -26,7 +26,10 @@ export class BaseUrlInterceptor implements HttpInterceptor {
 
         const base = environment.apiBaseUrl.replace(/\/+$/, '');
         const path = req.url.replace(/^\/+/, '');
-        const updatedReq = req.clone({ url: `${base}/${path}` });
+        const updatedReq = req.clone({
+            url: `${base}/${path}`,
+            setHeaders: { Accept: 'application/json' },
+        });
 
         return next.handle(this.attachTokenIfExists(updatedReq));
     }
