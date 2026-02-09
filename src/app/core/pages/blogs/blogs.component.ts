@@ -797,7 +797,7 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const canonical = 'https://almotammem.com/blogs';
+    const canonical = 'https://almotammem.com/blogs/';
     const isAr = this.language.currentLang === 'ar';
   
     this._pageSeoService.apply({
