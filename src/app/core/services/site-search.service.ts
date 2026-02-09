@@ -62,9 +62,11 @@ export class SiteSearchService {
         if (!isPlatformBrowser(this.platformId)) return;
 
         const normLang = this.normalizeLang(lang);
+        console.log(`[SiteSearch] ensureReady called for lang: ${lang} -> ${normLang}`);
 
         // Reset if language changed
         if (this.currentLang && this.currentLang !== normLang) {
+            console.log('[SiteSearch] Language changed, resetting indexes');
             this.reset();
         }
         this.currentLang = normLang;
@@ -76,6 +78,7 @@ export class SiteSearchService {
 
         // Start i18n Load if not started
         if (!this.isI18nLoaded && !this.i18nLoadPromise) {
+            console.log('[SiteSearch] triggering loadI18nIndex');
             this.i18nLoadPromise = this.loadI18nIndex(normLang);
         }
 
@@ -91,9 +94,11 @@ export class SiteSearchService {
 
     private async loadI18nIndex(lang: string): Promise<void> {
         try {
+            console.log(`[SiteSearch] loadI18nIndex: fetching search-index.json`);
             // خليها relative عشان baseHref/virtual dir مايكسرش
-            const data = await firstValueFrom(this.http.get<{ docs: any[] }>('search-index.json')
-            );
+            const start = performance.now();
+            const data = await firstValueFrom(this.http.get<{ docs: any[] }>('search-index.json'));
+            console.log(`[SiteSearch] loadI18nIndex: fetched in ${(performance.now() - start).toFixed(2)}ms`);
 
             this.i18nIndex = new FlexSearch.Document({
                 document: {
@@ -130,6 +135,7 @@ export class SiteSearchService {
             }
 
             this.isI18nLoaded = true;
+            console.log(`[SiteSearch] loadI18nIndex: success. Indexed ${langDocs.length} docs.`);
         } catch (e) {
             console.error('Failed to load i18n search index', e);
             throw e;
@@ -178,6 +184,7 @@ export class SiteSearchService {
     }
 
     private async loadContentIndex(lang: string): Promise<void> {
+        console.log(`[SiteSearch] loadContentIndex started for ${lang}`);
         this.isContentLoading = true;
         try {
             const cacheKey = `content_search_cache_v3_${lang}`;
@@ -188,12 +195,15 @@ export class SiteSearchService {
             if (cached) {
                 try {
                     docs = JSON.parse(cached);
+                    console.log(`[SiteSearch] loadContentIndex: Cache HIT (${docs.length} docs)`);
                 } catch {
+                    console.warn('[SiteSearch] loadContentIndex: Cache invalid, clearing');
                     localStorage.removeItem(cacheKey);
                 }
             }
 
             if (!docs || docs.length === 0) {
+                console.log('[SiteSearch] loadContentIndex: Cache MISS, fetching from APIs');
                 const result = await firstValueFrom(
                     forkJoin({
                         blogs: this.blogsService.getAllBlogs(1).pipe(catchError(() => of({ data: [] }))),
@@ -238,6 +248,7 @@ export class SiteSearchService {
 
             for (const doc of docs) this.contentIndex.add(doc);
 
+            console.log(`[SiteSearch] loadContentIndex: Indexed ${docs.length} content docs.`);
             this.isContentLoaded = true;
         } catch (e) {
             console.error('Failed to load content search index', e);
@@ -262,6 +273,7 @@ export class SiteSearchService {
         if (!isPlatformBrowser(this.platformId)) return [];
 
         const normLang = this.normalizeLang(lang);
+        console.log(`[SiteSearch] Searching for "${query}" in ${normLang}`);
         await this.ensureReady(normLang);
 
         if (!query || query.trim().length < 2) return [];
@@ -278,11 +290,13 @@ export class SiteSearchService {
 
         const results = await Promise.all(promises);
         const merged = results.flat();
+        console.log(`[SiteSearch] Found ${merged.length} results total.`);
 
         return this.prioritizeResults(merged, query).slice(0, 20);
     }
 
     private async indexSearch(index: any, query: string): Promise<SearchResult[]> {
+        console.log('[SiteSearch] indexSearch executed');
         const raw = await index.search(query, {
             limit: 20,
             enrich: true,
