@@ -23,8 +23,5 @@
 
       </rules>
     </rewrite>
-          <staticContent>
-            <mimeMap fileExtension=".webp" mimeType="image/webp" />
-        </staticContent>
   </system.webServer>
 </configuration>
