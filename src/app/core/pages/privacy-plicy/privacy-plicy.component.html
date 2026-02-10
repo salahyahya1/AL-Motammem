@@ -1,20 +1,28 @@
 <section class="bg-white text-slate-900 pt-15" [attr.dir]="(Lang === 'ar' ? 'rtl' : 'ltr')">
   <div class="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-10">
 
-    <p class="italic text-sm sm:text-base leading-relaxed text-slate-700">
+    <!-- Page Title -->
+    <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight">
+      {{ 'privacy.pageTitle' | translate }}
+    </h1>
+
+    <!-- Intro -->
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-slate-700">
       {{ 'privacy.intro' | translate }}
     </p>
 
-    <div class="mt-8">
+    <!-- Information Collection -->
+    <div class="mt-10">
       <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
-        {{ 'privacy.voluntary.title' | translate }}
+        {{ 'privacy.collection.title' | translate }}
       </h2>
       <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
-        {{ 'privacy.voluntary.body' | translate }}
+        {{ 'privacy.collection.body' | translate }}
       </p>
     </div>
 
-    <div class="mt-8">
+    <!-- Cookies -->
+    <div class="mt-10">
       <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
         {{ 'privacy.cookies.title' | translate }}
       </h2>
@@ -23,52 +31,69 @@
       </p>
     </div>
 
-    <div class="mt-8">
+    <!-- Technical Info -->
+    <div class="mt-10">
       <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
-        {{ 'privacy.browser.title' | translate }}
+        {{ 'privacy.technical.title' | translate }}
       </h2>
       <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
-        {{ 'privacy.browser.body' | translate }}
+        {{ 'privacy.technical.body' | translate }}
       </p>
     </div>
 
-    <div class="mt-8">
+    <!-- Use of Information -->
+    <div class="mt-10">
       <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
         {{ 'privacy.use.title' | translate }}
       </h2>
 
       <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
-        {{ 'privacy.use.p1' | translate }}
+        {{ 'privacy.use.intro' | translate }}
       </p>
+
+      <ul class="mt-4 space-y-2 text-sm sm:text-base leading-7 text-slate-700 list-disc"
+          [class.pl-6]="Lang !== 'ar'"
+          [class.pr-6]="Lang === 'ar'">
+        <li>{{ 'privacy.use.items.i1' | translate }}</li>
+        <li>{{ 'privacy.use.items.i2' | translate }}</li>
+        <li>{{ 'privacy.use.items.i3' | translate }}</li>
+        <li>{{ 'privacy.use.items.i4' | translate }}</li>
+      </ul>
 
       <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">
-        {{ 'privacy.use.p2' | translate }}
-      </p>
-
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">
-        {{ 'privacy.use.p3' | translate }}
-      </p>
-
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">
-        {{ 'privacy.use.p4' | translate }}
-      </p>
-
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">
-        {{ 'privacy.use.p5' | translate }}
-      </p>
-
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">
-        {{ 'privacy.use.p6' | translate }}
-      </p>
-
-      <p class="mt-6 text-sm sm:text-base leading-7 text-slate-700">
-        {{ 'privacy.use.children' | translate }}
+        {{ 'privacy.use.footer' | translate }}
       </p>
     </div>
 
-    <p class="mt-10 italic text-base sm:text-lg text-slate-700">
-      {{ 'privacy.footer' | translate }}
-    </p>
+    <!-- Information Sharing -->
+    <div class="mt-10">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
+        {{ 'privacy.sharing.title' | translate }}
+      </h2>
+      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
+        {{ 'privacy.sharing.body' | translate }}
+      </p>
+    </div>
+
+    <!-- Children -->
+    <div class="mt-10">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
+        {{ 'privacy.children.title' | translate }}
+      </h2>
+      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
+        {{ 'privacy.children.body' | translate }}
+      </p>
+    </div>
+
+    <!-- Updates -->
+    <div class="mt-10">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
+        {{ 'privacy.updates.title' | translate }}
+      </h2>
+      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
+        {{ 'privacy.updates.body' | translate }}
+      </p>
+    </div>
 
   </div>
 </section>

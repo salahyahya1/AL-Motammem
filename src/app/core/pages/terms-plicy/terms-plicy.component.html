@@ -1,105 +1,95 @@
 <section class="bg-white text-slate-900 pt-15" [attr.dir]="(Lang === 'ar' ? 'rtl' : 'ltr')">
   <div class="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-10">
-    <p class="text-sm sm:text-base leading-relaxed text-slate-700">
+
+    <!-- Page Title -->
+    <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight">
+      {{ 'terms.pageTitle' | translate }}
+    </h1>
+
+    <!-- Intro -->
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-slate-700">
       {{ 'terms.intro' | translate }}
     </p>
 
-    <div class="mt-8">
-      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-start">
-        {{ 'terms.legal.title' | translate }}
+    <!-- Acceptance -->
+    <div class="mt-10">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
+        {{ 'terms.acceptance.title' | translate }}
       </h2>
-      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.legal.p1' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.legal.p2' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.legal.p3' | translate }}</p>
+      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
+        {{ 'terms.acceptance.body' | translate }}
+      </p>
     </div>
 
-    <div class="mt-8">
-      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-start">
+    <!-- Permitted Use -->
+    <div class="mt-10">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
         {{ 'terms.permitted.title' | translate }}
       </h2>
-      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.permitted.p1' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.permitted.p2' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.permitted.p3' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.permitted.p4' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.permitted.p5' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.permitted.p6' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.permitted.p7' | translate }}</p>
+
+      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
+        {{ 'terms.permitted.intro' | translate }}
+      </p>
+
+      <ul class="mt-4 space-y-2 text-sm sm:text-base leading-7 text-slate-700 list-disc"
+          [class.pl-6]="Lang !== 'ar'"
+          [class.pr-6]="Lang === 'ar'">
+        <li>{{ 'terms.permitted.items.i1' | translate }}</li>
+        <li>{{ 'terms.permitted.items.i2' | translate }}</li>
+        <li>{{ 'terms.permitted.items.i3' | translate }}</li>
+        <li>{{ 'terms.permitted.items.i4' | translate }}</li>
+      </ul>
     </div>
 
-    <div class="mt-8">
-      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-start">
-        {{ 'terms.submissions.title' | translate }}
+    <!-- Accounts -->
+    <div class="mt-10">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
+        {{ 'terms.accounts.title' | translate }}
       </h2>
-      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.submissions.p1' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.submissions.p2' | translate }}</p>
+      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
+        {{ 'terms.accounts.body' | translate }}
+      </p>
     </div>
 
-    <div class="mt-8">
-      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-start">
-        {{ 'terms.forums.title' | translate }}
+    <!-- Intellectual Property -->
+    <div class="mt-10">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
+        {{ 'terms.ip.title' | translate }}
       </h2>
-      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.forums.p1' | translate }}</p>
+      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
+        {{ 'terms.ip.body' | translate }}
+      </p>
     </div>
 
-    <div class="mt-8">
-      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-start">
-        {{ 'terms.pii.title' | translate }}
+    <!-- Limitation of Liability -->
+    <div class="mt-10">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
+        {{ 'terms.liability.title' | translate }}
       </h2>
-      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.pii.p1' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.pii.p2' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.pii.p3' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.pii.p4' | translate }}</p>
+      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
+        {{ 'terms.liability.body' | translate }}
+      </p>
     </div>
 
-    <div class="mt-8">
-      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-start">
-        {{ 'terms.indemnification.title' | translate }}
+    <!-- Changes -->
+    <div class="mt-10">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
+        {{ 'terms.changes.title' | translate }}
       </h2>
-      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.indemnification.p1' | translate }}</p>
+      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
+        {{ 'terms.changes.body' | translate }}
+      </p>
     </div>
 
-    <div class="mt-8">
-      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-start">
-        {{ 'terms.termination.title' | translate }}
+    <!-- Governing Law -->
+    <div class="mt-10">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
+        {{ 'terms.law.title' | translate }}
       </h2>
-      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.termination.p1' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.termination.p2' | translate }}</p>
+      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">
+        {{ 'terms.law.body' | translate }}
+      </p>
     </div>
 
-    <div class="mt-8">
-      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-start">
-        {{ 'terms.warranty.title' | translate }}
-      </h2>
-      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.warranty.p1' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.warranty.p2' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.warranty.p3' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.warranty.p4' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.warranty.p5' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.warranty.p6' | translate }}</p>
-    </div>
-
-    <div class="mt-8">
-      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-start">
-        {{ 'terms.general.title' | translate }}
-      </h2>
-      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.general.p1' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.general.p2' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.general.p3' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.general.p4' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.general.p5' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.general.p6' | translate }}</p>
-    </div>
-
-    <div class="mt-8">
-      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-start">
-        {{ 'terms.links.title' | translate }}
-      </h2>
-      <p class="mt-2 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.links.p1' | translate }}</p>
-      <p class="mt-4 text-sm sm:text-base leading-7 text-slate-700">{{ 'terms.links.p2' | translate }}</p>
-    </div>
-
-    <p class="mt-10 italic text-base sm:text-lg text-slate-700">
-      {{ 'terms.footer' | translate }}
-    </p>
   </div>
 </section>
