@@ -452,12 +452,12 @@
 
     @if (isMobile) {
     <!-- Batch 3: load with section6 -->
-    @defer (on viewport(section7Trigger); prefetch on idle) {
+    @defer (on viewport(section6Trigger); prefetch on idle) {
     <app-section8></app-section8>
     } @placeholder { <div class="w-full h-[60vh]"></div> }
     } @else {
     <!-- Desktop: FIX correct trigger -->
-    @defer (on viewport(section7Trigger); prefetch on idle) {
+    @defer (on viewport(section6Trigger); prefetch on idle) {
     <app-section8></app-section8>
     } @placeholder { <div class="w-full h-[60vh]"></div> }
     }

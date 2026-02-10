@@ -188,7 +188,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(({ text, bg }) => {
         // ✅ التكست زي ما هو
         nav.style.color = text;
-
+        const menuEl = this.navbarMenu?.nativeElement;
+        const topEl  = this.navSmallScreen?.nativeElement;
+      
+        // ✅ apply bg to ALL always (mobile + desktop)
+        nav.style.backgroundColor = bg;
+        if (menuEl) menuEl.style.backgroundColor = bg;
+        if (topEl)  topEl.style.backgroundColor = bg;
         // const brand = nav.querySelectorAll('.brand-text') as NodeListOf<HTMLElement>;
         const brand = Array.from(nav.querySelectorAll('.brand-text')) as HTMLElement[];
         const brand2 = nav.querySelector('#brand-text2') as HTMLElement | null;
@@ -214,6 +220,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
           const topEl = this.navSmallScreen?.nativeElement;
           if (topEl) topEl.style.backgroundColor = bg;
+          
         } else {
           // ✅ Desktop: نفس طريقة الموبايل بس للـ nav كله فقط
           nav.style.backgroundColor = bg;
@@ -235,7 +242,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     // if (last) nav.style.color = last;
     const snap = this.theme.getSnapshot();
     nav.style.color = snap.text;
+    
     nav.style.backgroundColor = snap.bg;
+    this.navbarMenu?.nativeElement && (this.navbarMenu.nativeElement.style.backgroundColor = snap.bg);
+    this.navSmallScreen?.nativeElement && (this.navSmallScreen.nativeElement.style.backgroundColor = snap.bg);
     if (window.matchMedia('(max-width: 765px)').matches) {
 
       this.navbarMenu?.nativeElement && (this.navbarMenu.nativeElement.style.backgroundColor = snap.bg);
