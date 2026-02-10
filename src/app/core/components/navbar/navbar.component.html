@@ -169,6 +169,10 @@
                     </div>
 
                 </div>
+                <button (click)="closeMenuOnMobile(); logout()" [hidden]="isAuthenticated && hasrole ? 'visible' : 'hidden'" 
+                class="hover:text-primary whitespace-nowrap bg-red-500 rounded-full px-3 py-1">{{
+                'NAVBAR.LOGOUT' | translate
+                }}</button>
             </div>
 
 
