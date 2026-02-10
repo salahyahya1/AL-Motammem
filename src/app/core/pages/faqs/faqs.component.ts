@@ -887,6 +887,8 @@ export class FAQSComponent {
       const element = this.faqForm.value.faqs[index];
       this.faqsService.AddFAQS(element).subscribe(() => {
         // بعد الإضافة نجيب من الشبكة
+          this.faqForm.reset();
+          this.faqs.clear();
         this.transferState.remove(FAQS_GENERAL_KEY);
         this.loadFaqs(true);
       });
