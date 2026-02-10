@@ -58,8 +58,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.currentLang = saved;
     }
   }
-  isAuthenticated = false;
-  hasrole = false;
+  isAuthenticated!:boolean;
+  hasrole!:boolean;
   role = '';
   isLangOpen = false;
 
@@ -70,14 +70,29 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   closeLangDropdown() {
     this.isLangOpen = false;
   }
-logout(){
-  this.auth.logout();
-  this.router.navigateByUrl('/');
-  this.isAuthenticated = false;
-  this.hasrole = false;
-  this.role = '';
-  this.cdr.detectChanges();
-}
+  onLogoutClick(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+  
+    console.log('logout clicked');
+    this.logout();
+  }
+  
+  logout() {
+  
+    this.auth.logout();
+  
+    this.closeSearch();
+    this.closeLangDropdown();
+    this.closeMenuOnMobile();
+  
+    this.router.navigateByUrl('/');this.router.navigateByUrl('/', { replaceUrl: true });
+  
+    this.cdr.markForCheck();
+  }
+  
+  
+  
 
   ngOnInit(): void {
     // RxJS Pipeline for Search Input
@@ -133,12 +148,23 @@ logout(){
         }
       }
     });
-    this.auth.syncFromStorage();
-    this.auth.isAuthenticated$.subscribe(t => this.isAuthenticated = !!t);
-    this.auth.roleObs$.subscribe(r => {
+    this.auth.authenticated$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(isAuth => {
+      this.isAuthenticated = isAuth;
+      this.cdr.markForCheck();
+    });
+  
+  this.auth.roleObs$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(r => {
       this.role = r || '';
       this.hasrole = !!r;
+      this.cdr.markForCheck();
     });
+  
+    this.auth.syncFromStorage();
+
   }
   private onBp!: () => void;
   ngAfterViewInit(): void {
@@ -449,6 +475,8 @@ logout(){
     this.closeMenu();
   }
   closeMenu() {
+    if (this.mq?.matches) return; // desktop
+  if (!this.menuOpen) return;  
     this.toggleMenu();
   }
 }
