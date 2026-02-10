@@ -820,6 +820,8 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isAuthenticated = this.blogsService.isAuthenticated();
       this.role = localStorage.getItem('role');
       this.hasrole = !!this.role;
+
+      this.cdr.detectChanges();
     }
   }
 

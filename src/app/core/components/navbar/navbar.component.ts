@@ -1,7 +1,7 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, ElementRef, Inject, Input, PLATFORM_ID, ViewChild, AfterViewInit, OnDestroy, inject, HostListener, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
-import { Subject, from, of } from 'rxjs';
+import { BehaviorSubject, Subject, from, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, takeUntil, map, tap, catchError } from 'rxjs/operators';
 import gsap from 'gsap';
 import { NavbarThemeService } from './navbar-theme.service';
@@ -10,6 +10,7 @@ import { TranslateDirective, TranslatePipe, TranslateService } from '@ngx-transl
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SiteSearchService, SearchResult } from '../../services/site-search.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -32,8 +33,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isMobile = false;
   
-  isAuthenticated = false;
-  hasrole = false;
 
   // Search related
   searchControl = new FormControl('');
@@ -49,6 +48,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private translate: TranslateService,
     private cdr: ChangeDetectorRef,
+    private auth: AuthService,
     @Inject(PLATFORM_ID) platformId: Object,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -57,16 +57,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     if (saved === 'ar' || saved === 'en') {
       this.currentLang = saved;
     }
-    this.isAuthenticated = !!localStorage.getItem('token');
-    this.hasrole = !!localStorage.getItem('role');
   }
-  logout(){
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    this.router.navigateByUrl('/');
-    this.isAuthenticated = false;
-    this.hasrole = false;
-  }
+  isAuthenticated = false;
+  hasrole = false;
+  role = '';
   isLangOpen = false;
 
   toggleLangDropdown() {
@@ -76,7 +70,14 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   closeLangDropdown() {
     this.isLangOpen = false;
   }
-
+logout(){
+  this.auth.logout();
+  this.router.navigateByUrl('/');
+  this.isAuthenticated = false;
+  this.hasrole = false;
+  this.role = '';
+  this.cdr.detectChanges();
+}
 
   ngOnInit(): void {
     // RxJS Pipeline for Search Input
@@ -131,6 +132,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
           this.showResults = true;
         }
       }
+    });
+    this.auth.syncFromStorage();
+    this.auth.isAuthenticated$.subscribe(t => this.isAuthenticated = !!t);
+    this.auth.roleObs$.subscribe(r => {
+      this.role = r || '';
+      this.hasrole = !!r;
     });
   }
   private onBp!: () => void;
