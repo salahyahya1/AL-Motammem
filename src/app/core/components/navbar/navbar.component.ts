@@ -31,6 +31,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   currentLang: 'ar' | 'en' = 'ar';
 
   isMobile = false;
+  
+  isAuthenticated = false;
+  hasrole = false;
 
   // Search related
   searchControl = new FormControl('');
@@ -54,8 +57,16 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     if (saved === 'ar' || saved === 'en') {
       this.currentLang = saved;
     }
+    this.isAuthenticated = !!localStorage.getItem('token');
+    this.hasrole = !!localStorage.getItem('role');
   }
-
+  logout(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    this.router.navigateByUrl('/');
+    this.isAuthenticated = false;
+    this.hasrole = false;
+  }
   isLangOpen = false;
 
   toggleLangDropdown() {

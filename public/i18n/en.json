@@ -8,7 +8,9 @@
     "CONTACT": "Contact us",
     "SUPPORT": "FAQs",
     "SEARCH": "Search...",
-    "CLOSE_SEARCH": "Close search"
+    "CLOSE_SEARCH": "Close search",
+    "LOGOUT": "Logout"
+
   },
   "SEARCH": {
     "RESULTS_TITLE": "Search Results",
@@ -694,8 +696,8 @@
       "QUESTION_EN": "Question (English)",
       "ANSWER_AR": "Answer (Arabic)",
       "ANSWER_EN": "Answer (English)",
-      "ADD_NEW": "Add New Question",
-      "SUBMIT": "Add"
+      "ADD_NEW": "Add New Question Form",
+      "SUBMIT": "Save Questions"
     },
     "LOADING": "Loading FAQs..."
   },
