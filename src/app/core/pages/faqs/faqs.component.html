@@ -234,7 +234,7 @@
             <!-- ✅ VIEW MODE -->
             <ng-template #viewMode>
                 <div [attr.id]="'faq-' + FAQ.id">
-                    <app-accordion [title]="FAQ.question" [isDeleteable]="enableActions"
+                    <app-accordion [fragmentId]="'faq-' + FAQ.id" [title]="FAQ.question" [isDeleteable]="enableActions"
                         (deletefaq)="checkbeforeDelete(FAQ.id)" [isEditable]="enableActions"
                         (editfaq)="onEditFaq(FAQ.id)">
                         {{ FAQ.answer }}

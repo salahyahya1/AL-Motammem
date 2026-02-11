@@ -6,6 +6,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, switchMap, filter, tap } from 'rxjs/operators';
 import { Subscription, of } from 'rxjs';
 import { SiteSearchService, SearchResult } from '../../services/site-search.service';
+import { SearchNavigationCoordinatorService } from '../../services/search-navigation-coordinator.service';
 
 @Component({
     selector: 'app-search-results',
@@ -76,6 +77,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private searchService: SiteSearchService,
+        private searchNav: SearchNavigationCoordinatorService,
         private translate: TranslateService,
         @Inject(PLATFORM_ID) private platformId: Object
     ) { }
@@ -133,10 +135,11 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     }
 
     handleResultClick(result: SearchResult) {
-        if (result.fragment) {
-            localStorage.setItem('scroll_to_section', result.fragment);
-        }
-        this.router.navigateByUrl(result.route);
+        this.searchNav.requestNavigation({
+            route: result.route,
+            fragment: result.fragment,
+            source: 'search-results',
+        });
     }
 
     async performSearch(query: string) {

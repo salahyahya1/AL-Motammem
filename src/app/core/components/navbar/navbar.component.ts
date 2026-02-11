@@ -9,6 +9,7 @@ import { LanguageService } from '../../shared/services/language.service';
 import { TranslateDirective, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SiteSearchService, SearchResult } from '../../services/site-search.service';
+import { SearchNavigationCoordinatorService } from '../../services/search-navigation-coordinator.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 
@@ -45,6 +46,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private theme: NavbarThemeService,
     private searchService: SiteSearchService,
+    private searchNav: SearchNavigationCoordinatorService,
     private router: Router,
     private translate: TranslateService,
     private cdr: ChangeDetectorRef,
@@ -407,16 +409,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   navigateToResult(result: SearchResult) {
     this.closeSearch();
     this.closeMenuOnMobile();
-
-    if (result.fragment) {
-      localStorage.setItem('scroll_to_section', result.fragment);
-      // Dispatch custom event for immediate same-page navigation support
-      if (this.isBrowser) {
-        window.dispatchEvent(new CustomEvent('app-scroll-to-section', { detail: result.fragment }));
-      }
-    }
-
-    this.router.navigateByUrl(result.route);
+    this.searchNav.requestNavigation({
+      route: result.route,
+      fragment: result.fragment,
+      source: 'navbar',
+    });
   }
 
   @HostListener('document:click', ['$event'])

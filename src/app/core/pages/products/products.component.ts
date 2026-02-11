@@ -511,6 +511,7 @@ import { ProductSection6Component } from "./product-section6/product-section6.co
 import { ProductSection8Component } from "./product-section8/product-section8.component";
 import { ProductSection7Component } from "./product-section7/product-section7.component";
 import { PreloadService } from '../../services/preload.service';
+import { ProgrammaticScrollService } from '../../services/programmatic-scroll.service';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
 
@@ -568,7 +569,8 @@ export class ProductsComponent {
     private cdr: ChangeDetectorRef,
     private navTheme: NavbarThemeService,
     private sectionsRegistry: SectionsRegistryService,
-    private preloadService: PreloadService
+    private preloadService: PreloadService,
+    private programmaticScroll: ProgrammaticScrollService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -700,6 +702,7 @@ export class ProductsComponent {
   private doSnap() {
     if (!this.smootherST || !this.smoother) return;
     if (this.snapPositions.length === 0) return;
+    if (this.programmaticScroll.isActive()) return;
 
     const currentScroll = this.smootherST.scroll();
 
@@ -753,7 +756,15 @@ export class ProductsComponent {
         targetPosition = nearest + safeOffset;
       }
 
+      const token = this.programmaticScroll.start('products-snap');
       this.smoother.scrollTo(targetPosition, true);
+      this.programmaticScroll.endWhenSettle(
+        token,
+        () => (typeof this.smoother?.scrollTop === 'function' ? this.smoother.scrollTop() : 0),
+        2000,
+        4,
+        2
+      );
     }
   }
 
@@ -830,6 +841,7 @@ export class ProductsComponent {
     if (!this.snapPositions.length) return;
     if (this.isSnappingMobile) return;
     if (gsap.isTweening(this.scrollEl)) return;
+    if (this.programmaticScroll.isActive()) return;
 
     const current = this.scrollEl.scrollTop;
     const vh = (window.visualViewport?.height || window.innerHeight);
@@ -889,14 +901,27 @@ export class ProductsComponent {
 
     this.isSnappingMobile = true;
 
-    gsap.to(this.scrollEl, {
+    const token = this.programmaticScroll.start('products-mobile-snap');
+    const tween = gsap.to(this.scrollEl, {
       scrollTo: target,
       duration: 0.75,
       ease: 'power3.out',
       overwrite: true,
-      onComplete: () => { this.isSnappingMobile = false; },
-      onInterrupt: () => { this.isSnappingMobile = false; },
+      onComplete: () => {
+        this.isSnappingMobile = false;
+        this.programmaticScroll.end(token);
+      },
+      onInterrupt: () => {
+        this.isSnappingMobile = false;
+        this.programmaticScroll.end(token);
+      },
     });
+    if (tween && typeof tween.eventCallback === 'function') {
+      (tween as any).eventCallback('onKill', () => {
+        this.isSnappingMobile = false;
+        this.programmaticScroll.end(token);
+      });
+    }
   }
 
   private onResizeMobile = () => {

@@ -380,6 +380,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import { fromEvent, Subscription, Subject, takeUntil } from 'rxjs';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { SectionItem, SectionsRegistryService } from '../../shared/services/sections-registry.service';
+import { ProgrammaticScrollService } from '../../services/programmatic-scroll.service';
 import { TranslatePipe } from '@ngx-translate/core';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
@@ -455,7 +456,8 @@ export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
-    private registry: SectionsRegistryService
+    private registry: SectionsRegistryService,
+    private programmaticScroll: ProgrammaticScrollService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -709,6 +711,8 @@ export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
     const target = document.getElementById(id);
     if (!target) return;
 
+    const progToken = this.programmaticScroll.start('section-indicator');
+
     const navOffset = this.getNavOffset();
     const insidePx = this.INSIDE_SECTION_PX;
     const crossPx = Math.min(this.CROSS_START_PX, Math.round(window.innerHeight * 0.18));
@@ -751,13 +755,21 @@ export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
       smoother.scrollTop(preYc);
 
       await new Promise<void>(resolve => {
-        gsap.to(smoother, {
+        const tween = gsap.to(smoother, {
           scrollTop: finalYc,
           duration: 1.05,
           ease: 'power2.inOut',
           overwrite: 'auto',
-          onComplete: () => resolve(),
+          onComplete: () => {
+            this.programmaticScroll.end(progToken);
+            resolve();
+          },
+          onInterrupt: () => {
+            this.programmaticScroll.end(progToken);
+            resolve();
+          },
         });
+        this.programmaticScroll.wrapTween(tween, progToken);
       });
 
       // ✅ تصحيح واحد خفيف بعد ما أي layout يتحرك (مهم مع سكاشن طويلة/صور)
@@ -783,13 +795,21 @@ export class SectionIndicatorComponent implements AfterViewInit, OnDestroy {
       window.scrollTo(0, preYc);
 
       await new Promise<void>(resolve => {
-        gsap.to(window, {
+        const tween = gsap.to(window, {
           duration: 1.05,
           scrollTo: { y: finalYc },
           ease: 'power2.inOut',
           overwrite: 'auto',
-          onComplete: () => resolve(),
+          onComplete: () => {
+            this.programmaticScroll.end(progToken);
+            resolve();
+          },
+          onInterrupt: () => {
+            this.programmaticScroll.end(progToken);
+            resolve();
+          },
         } as any);
+        this.programmaticScroll.wrapTween(tween, progToken);
       });
 
       this.postFixTimer = setTimeout(() => {

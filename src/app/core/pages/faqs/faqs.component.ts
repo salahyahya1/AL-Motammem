@@ -719,7 +719,7 @@ import {
   NgZone,
   PLATFORM_ID
 } from '@angular/core';
-import { AccordionComponent } from "../../shared/accordion/accordion.component";
+// import { AccordionComponent } from "../../shared/accordion/accordion.component";
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { SectionsRegistryService } from '../../shared/services/sections-registry.service';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
@@ -734,6 +734,7 @@ import {
 } from "../../shared/messege-dialog/messege-dialog.component";
 import { SafeHtml } from '@angular/platform-browser';
 import { TransferState, makeStateKey } from '@angular/core';
+import { AccordionComponent } from '../../shared/accordion/accordion.component';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 

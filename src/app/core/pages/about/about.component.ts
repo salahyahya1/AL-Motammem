@@ -1925,6 +1925,7 @@ import { AboutSection5Component } from './about-section5/about-section5.componen
 
 import { PreloadService } from '../../services/preload.service';
 import { PageSeoService } from '../../seo/page-seo.service';
+import { ProgrammaticScrollService } from '../../services/programmatic-scroll.service';
 
 @Component({
   selector: 'app-about',
@@ -1941,6 +1942,7 @@ import { PageSeoService } from '../../seo/page-seo.service';
 })
 export class AboutComponent {
   private static pluginsRegistered = false;
+  private cleanupProgListeners?: () => void;
 
   private visibilitySubject = new BehaviorSubject<'visible' | 'invisible'>('visible');
   visibility$ = this.visibilitySubject.asObservable();
@@ -1966,7 +1968,8 @@ export class AboutComponent {
     private navTheme: NavbarThemeService,
     private sectionsRegistry: SectionsRegistryService,
     private _pageSeoService: PageSeoService,
-    private preloadService: PreloadService
+    private preloadService: PreloadService,
+    private programmaticScroll: ProgrammaticScrollService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -2031,6 +2034,8 @@ export class AboutComponent {
   // ✅ DESKTOP (unchanged)
   // =========================
   private requestDesktopSnap = () => {
+    if (this.programmaticScroll.isActive()) return;
+
     if (!this.smootherST || !this.smoother) return;
     if (!this.snapPositions.length) return;
 
@@ -2055,6 +2060,8 @@ export class AboutComponent {
       this.buildSnapPositions(smoother);
       this.initSnapObserver(smoother);
     }, 600);
+    this.attachProgrammaticScrollListeners();
+
   }
 
   private buildSnapPositions(smoother: any) {
@@ -2097,6 +2104,8 @@ export class AboutComponent {
   }
 
   private doSnap() {
+    if (this.programmaticScroll.isActive()) return;
+
     if (!this.smootherST || !this.smoother) return;
     if (!this.snapPositions.length) return;
 
@@ -2139,7 +2148,15 @@ export class AboutComponent {
         target = nearest + safeOffset;
       }
 
+      const token = this.programmaticScroll.start('about-snap');
       this.smoother.scrollTo(target, true);
+      this.programmaticScroll.endWhenSettle(
+        token,
+        () => (typeof this.smoother?.scrollTop === 'function' ? this.smoother.scrollTop() : 0),
+        2000,
+        4,
+        2
+      );
     }
   }
 
@@ -2291,7 +2308,8 @@ export class AboutComponent {
 
   private scheduleMobileSnap(delayMs: number) {
     if (this.isProgrammaticMobile) return;
-
+    if (this.programmaticScroll.isActive()) return;
+  
     if (this.mobileScrollStopT) clearTimeout(this.mobileScrollStopT);
     this.mobileScrollStopT = setTimeout(() => {
       if (this.isTouchingMobile) return;
@@ -2374,6 +2392,8 @@ export class AboutComponent {
   }
 
   private doSnapMobileStable() {
+    if (this.programmaticScroll.isActive()) return;
+
     const arr = this.panelStartsMobile;
     if (!arr.length) return;
 
@@ -2530,7 +2550,8 @@ export class AboutComponent {
     this.lastSnapAtMobile = now;
     this.lastSnappedPosMobile = finalY;
 
-    gsap.to(window, {
+    const token = this.programmaticScroll.start('about-mobile-snap');
+    const tween = gsap.to(window, {
       scrollTo: { y: finalY, autoKill: true },
       duration: 0.78,
       ease: 'power3.out',
@@ -2538,12 +2559,21 @@ export class AboutComponent {
       onComplete: () => {
         this.isSnappingMobile = false;
         this.isProgrammaticMobile = false;
+        this.programmaticScroll.end(token);
       },
       onInterrupt: () => {
         this.isSnappingMobile = false;
         this.isProgrammaticMobile = false;
+        this.programmaticScroll.end(token);
       },
     });
+    if (tween && typeof tween.eventCallback === 'function') {
+      (tween as any).eventCallback('onKill', () => {
+        this.isSnappingMobile = false;
+        this.isProgrammaticMobile = false;
+        this.programmaticScroll.end(token);
+      });
+    }
   }
 
   private onResizeMobile = () => {
@@ -2599,6 +2629,8 @@ export class AboutComponent {
     this.sectionsRegistry.disable();
 
     if (!this.isBrowser) return;
+    this.cleanupProgListeners?.();
+    this.cleanupProgListeners = undefined;
 
     // desktop cleanup
     try { window.removeEventListener('resize', this.onResize); } catch { }
@@ -2614,6 +2646,26 @@ export class AboutComponent {
     this.ctx?.revert();
     // ScrollTrigger.getAll().forEach(t => t.kill());
   }
+  private attachProgrammaticScrollListeners() {
+    this.cleanupProgListeners?.();
+    this.cleanupProgListeners = undefined;
+  
+    const onStart = () => {
+      this.desktopSnapDC?.kill();
+      this.desktopSnapDC = undefined;
+    };
+
+    const onEnd = () => {};
+  
+    window.addEventListener('app-programmatic-scroll-start', onStart as any);
+    window.addEventListener('app-programmatic-scroll-end', onEnd as any);
+  
+    this.cleanupProgListeners = () => {
+      window.removeEventListener('app-programmatic-scroll-start', onStart as any);
+      window.removeEventListener('app-programmatic-scroll-end', onEnd as any);
+    };
+  }
+  
 }
 
 

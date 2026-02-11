@@ -12,6 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { isPlatformBrowser, NgClass } from '@angular/common';
+import { FaqAccordionRegistryService } from '../../services/faq-accordion-registry.service';
 
 @Component({
   selector: 'app-accordion',
@@ -30,6 +31,8 @@ export class AccordionComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() singleOpen = true;
 
   @Input() startOpen = false;
+  /** When set (e.g. "faq-123"), this accordion registers with FaqAccordionRegistryService for search-driven open. */
+  @Input() fragmentId?: string;
   @Input() disabled = false;
   @Input() duration = 0.35;
   @Input() isDeleteable = false;
@@ -73,12 +76,18 @@ export class AccordionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   // ================================================
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
+    private faqRegistry: FaqAccordionRegistryService
+  ) {
     this.browser = isPlatformBrowser(platformId);
   }
 
   ngOnInit(): void {
     this.register();
+    if (this.fragmentId) {
+      this.faqRegistry.register(this.fragmentId, () => this.open());
+    }
     this.isOpen = this.startOpen;
   }
 
@@ -102,6 +111,9 @@ export class AccordionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.fragmentId) {
+      this.faqRegistry.unregister(this.fragmentId);
+    }
     this.unregister();
   }
 

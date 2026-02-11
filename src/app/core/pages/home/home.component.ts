@@ -3973,6 +3973,7 @@ import { Router, NavigationStart } from '@angular/router';
 // import { SeoLinkService } from '../../services/seo-link.service';
 import { PreloadService } from '../../services/preload.service';
 import { PageSeoService } from '../../seo/page-seo.service';
+import { ProgrammaticScrollService } from '../../services/programmatic-scroll.service';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -3996,6 +3997,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 })
 export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   private routerSub?: Subscription;
+  private cleanupProgListeners?: () => void;
 
   // ✅ Guards
   private homeActive = false;        // الهوم شغال فعلاً؟
@@ -4071,7 +4073,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     public sectionsRegistry: SectionsRegistryService,
     private router: Router,
     private _pageSeoService: PageSeoService,
-    private preloadService: PreloadService
+    private preloadService: PreloadService,
+    private programmaticScroll: ProgrammaticScrollService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -4187,6 +4190,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.isBrowser) {
       this.teardownHomeSnap();
     }
+    this.cleanupProgListeners?.();
+    this.cleanupProgListeners = undefined;
 
     if (this.isBrowser) {
       try {
@@ -4395,6 +4400,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
 
     // idle detector
     this.attachSnapDetector(smoother);
+    this.attachProgrammaticScrollListeners();
 
     // MutationObserver
     this.initMutationObserver();
@@ -4529,6 +4535,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.isRefreshing || this.isRefreshQueued) return;
 
     if (!this.snapY.length) this.buildSnapPointsFromTriggers(smoother);
+    if (this.programmaticScroll.isActive()) return;
 
     const scroller = smoother.wrapper();
     const vh = scroller?.clientHeight || window.innerHeight;
@@ -4552,11 +4559,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     if (Math.abs(delta) > cap) return;
 
     this.isSnapping = true;
+    const token = this.programmaticScroll.start('home-snap');
 
     const proxy = { y: currentY };
     const distance = Math.abs(delta);
-
     const dur = gsap.utils.clamp(0.25, 0.85, distance / (vh * 1.2));
+
+    const endSnap = () => {
+      this.programmaticScroll.end(token);
+      this.isSnapping = false;
+    };
 
     this.snapTween?.kill();
     this.snapTween = gsap.to(proxy, {
@@ -4568,8 +4580,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
       onComplete: () => {
         smoother.scrollTop(targetY);
         ScrollTrigger.update();
-        this.isSnapping = false;
+        endSnap();
       },
+      onInterrupt: endSnap,
+      onKill: endSnap,
     });
   }
 
@@ -5013,6 +5027,44 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     hero.setAttribute('dir', 'ltr');
     hero.classList.add('is-en');
   }
+
+
+  private attachProgrammaticScrollListeners() {
+    // cleanup القديم لو موجود
+    this.cleanupProgListeners?.();
+    this.cleanupProgListeners = undefined;
+  
+    const onStart = () => {
+      this.snapTween?.kill();
+      this.snapTween = undefined;
+      this.isSnapping = false;
+  
+      // reset idle detector state
+      this.stillFrames = 0;
+  
+      // خليك محافظ على userInteracted زي ما هو
+      // لكن امنع performSnap من الاشتغال
+    };
+  
+    const onEnd = () => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (!this.homeActive) return;
+          // خليه جاهز تاني
+          // snapEnabled بالفعل true بعد init، مش بنغيرها هنا
+        });
+      });
+    };
+  
+    window.addEventListener('app-programmatic-scroll-start', onStart as any);
+    window.addEventListener('app-programmatic-scroll-end', onEnd as any);
+  
+    this.cleanupProgListeners = () => {
+      window.removeEventListener('app-programmatic-scroll-start', onStart as any);
+      window.removeEventListener('app-programmatic-scroll-end', onEnd as any);
+    };
+  }
+  
 }
 
 

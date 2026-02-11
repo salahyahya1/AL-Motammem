@@ -2553,6 +2553,7 @@ import ScrollToPlugin from 'gsap/ScrollToPlugin';
 import { BehaviorSubject } from 'rxjs';
 import { NavbarThemeService } from '../../components/navbar/navbar-theme.service';
 import { SectionsRegistryService } from '../../shared/services/sections-registry.service';
+import { ProgrammaticScrollService } from '../../services/programmatic-scroll.service';
 
 import { SolutionsSection1Component } from './solutions-section1/solutions-section1.component';
 import { SolutionsSection2Component } from './solutions-section2/solutions-section2.component';
@@ -2647,7 +2648,8 @@ export class SolutionsComponent {
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private navTheme: NavbarThemeService,
-    private sectionsRegistry: SectionsRegistryService
+    private sectionsRegistry: SectionsRegistryService,
+    private programmaticScroll: ProgrammaticScrollService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -2809,6 +2811,7 @@ export class SolutionsComponent {
   private doSnap() {
     if (!this.smootherST || !this.smoother) return;
     if (!this.snapPositions.length) return;
+    if (this.programmaticScroll.isActive()) return;
 
     // ✅ lock guard
     if (performance.now() < this.desktopSnapLockUntil) return;
@@ -2832,7 +2835,15 @@ export class SolutionsComponent {
       if (this.lastDirDesktop < 0 && current >= upWinTop && current <= upWinBottom) {
         if (Math.abs(current - endView) > 10) {
           this.desktopSnapLockUntil = performance.now() + this.DESKTOP_SNAP_LOCK_MS;
+          const token = this.programmaticScroll.start('solutions-snap');
           this.smoother.scrollTo(endView, true);
+          this.programmaticScroll.endWhenSettle(
+            token,
+            () => (typeof this.smoother?.scrollTop === 'function' ? this.smoother.scrollTop() : 0),
+            2000,
+            4,
+            2
+          );
         }
         return;
       }
@@ -2848,7 +2859,15 @@ export class SolutionsComponent {
 
         if (Math.abs(current - target) > 10) {
           this.desktopSnapLockUntil = performance.now() + this.DESKTOP_SNAP_LOCK_MS;
+          const token = this.programmaticScroll.start('solutions-snap');
           this.smoother.scrollTo(target, true);
+          this.programmaticScroll.endWhenSettle(
+            token,
+            () => (typeof this.smoother?.scrollTop === 'function' ? this.smoother.scrollTop() : 0),
+            2000,
+            4,
+            2
+          );
         }
         return;
       }
@@ -2856,7 +2875,15 @@ export class SolutionsComponent {
       if (this.lastDirDesktop > 0 && current > endView - 5 && current < s4Top - 5) {
         if (Math.abs(current - endView) > 10) {
           this.desktopSnapLockUntil = performance.now() + this.DESKTOP_SNAP_LOCK_MS;
+          const token = this.programmaticScroll.start('solutions-snap');
           this.smoother.scrollTo(endView, true);
+          this.programmaticScroll.endWhenSettle(
+            token,
+            () => (typeof this.smoother?.scrollTop === 'function' ? this.smoother.scrollTop() : 0),
+            2000,
+            4,
+            2
+          );
         }
         return;
       }
@@ -2889,7 +2916,15 @@ export class SolutionsComponent {
 
     // ✅ lock then snap
     this.desktopSnapLockUntil = performance.now() + this.DESKTOP_SNAP_LOCK_MS;
+    const token = this.programmaticScroll.start('solutions-snap');
     this.smoother.scrollTo(target, true);
+    this.programmaticScroll.endWhenSettle(
+      token,
+      () => (typeof this.smoother?.scrollTop === 'function' ? this.smoother.scrollTop() : 0),
+      2000,
+      4,
+      2
+    );
   }
 
   // =================== MOBILE ===================
@@ -2988,6 +3023,7 @@ export class SolutionsComponent {
     if (!this.snapPositions.length) return;
     if (this.isSnappingMobile) return;
     if (gsap.isTweening(this.scrollEl)) return;
+    if (this.programmaticScroll.isActive()) return;
 
     const tNow = performance.now();
     if (tNow < this.mobileSnapLockUntil) return;
@@ -3078,14 +3114,27 @@ export class SolutionsComponent {
 
     this.mobileSnapLockUntil = performance.now() + this.MOBILE_SNAP_LOCK_MS;
 
-    gsap.to(this.scrollEl, {
+    const token = this.programmaticScroll.start('solutions-mobile-snap');
+    const tween = gsap.to(this.scrollEl, {
       scrollTo: finalTarget,
       duration: 0.75,
       ease: 'power3.out',
       overwrite: true,
-      onComplete: () => { this.isSnappingMobile = false; },
-      onInterrupt: () => { this.isSnappingMobile = false; },
+      onComplete: () => {
+        this.isSnappingMobile = false;
+        this.programmaticScroll.end(token);
+      },
+      onInterrupt: () => {
+        this.isSnappingMobile = false;
+        this.programmaticScroll.end(token);
+      },
     });
+    if (tween && typeof tween.eventCallback === 'function') {
+      (tween as any).eventCallback('onKill', () => {
+        this.isSnappingMobile = false;
+        this.programmaticScroll.end(token);
+      });
+    }
   }
 
   private onResizeMobile = () => {
