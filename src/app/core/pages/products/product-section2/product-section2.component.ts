@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, Inject, NgZone, PLATFORM_ID, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import InertiaPlugin from "gsap/InertiaPlugin";

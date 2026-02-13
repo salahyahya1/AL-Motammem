@@ -286,7 +286,7 @@ export class LayoutComponent implements OnDestroy {
     private navTheme: NavbarThemeService,
     private sectionsRegistry: SectionsRegistryService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -537,9 +537,49 @@ export class LayoutComponent implements OnDestroy {
       ignoreMobileResize: true,
     });
 
-    ScrollTrigger.defaults({ scroller: this.smoother.wrapper() });
+    // ScrollTrigger.defaults({ scroller: this.smoother.wrapper() });
     requestAnimationFrame(() => ScrollTrigger.refresh(true));
     ScrollTrigger.config({ ignoreMobileResize: true });
+    
+    // ✅ Fix: Manual scroll handling to support fragments with ScrollSmoother
+    this.handleScroll();
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe(() => {
+      // Timeout to allow for DOM updates/rendering
+      setTimeout(() => {
+        this.handleScroll();
+      }, 100);
+    });
+  }
+
+  private handleScroll() {
+    if (!this.isBrowser) return;
+
+    // Get fragment from current URL
+    const tree = this.router.parseUrl(this.router.url);
+    const fragment = tree.fragment;
+
+    if (fragment) {
+      const el = document.getElementById(fragment);
+      if (el) {
+        if (this.smoother) {
+          // Use ScrollSmoother if available
+          this.smoother.scrollTo(el, true, "top top");
+        } else {
+          // Fallback if smoother not ready (though it should be)
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    } else {
+      // Scroll to top if no fragment
+      if (this.smoother) {
+        this.smoother.scrollTo(0, true);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  
   }
 
   ngOnDestroy(): void {
