@@ -251,7 +251,7 @@
 
 }
 
-.swiper-wrapper {
+.swiper-wrapper,#capsuleAboutWrap {
   will-change: transform;
   transform: translateZ(0);
 }
