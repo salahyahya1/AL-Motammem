@@ -117,9 +117,8 @@ export class AboutSection4Component {
             mobile: '(max-width: 767px)',
           }, (context) => {
             let { desktop, mobile } = context.conditions as any;
-
             // Re-select title to ensure fresh reference if needed, though simpler to just use outer var
-            // Initialize SplitText
+            // Initialize SplitTextذ  
             AboutSection4TITLESplit = SplitText.create(AboutSection4TITLE, { type: "words" });
 
             ScrollTrigger.create({
@@ -211,15 +210,11 @@ export class AboutSection4Component {
               }, "<+0.5"
             );
 
-            gsap.from('.swiper-slide', {
-              scrollTrigger: {
-                trigger: '.erp-carousel',
-                start: 'top 85%',
-              },
+            tl.from('.swiper-slide', {
               opacity: 0,
               y: mobile ? 40 : 60, // Reduced movement on mobile
-              duration: 0.2,
-              stagger: 0.2,
+              duration: 0.05,
+              stagger: 0.05,
               ease: 'power3.out',
             });
 
