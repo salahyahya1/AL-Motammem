@@ -2700,7 +2700,7 @@ export class SolutionsComponent {
     if (performance.now() < this.desktopSnapLockUntil) return;
 
     this.desktopSnapDC?.kill();
-    this.desktopSnapDC = gsap.delayedCall(0.7, () => this.doSnap());
+    this.desktopSnapDC = gsap.delayedCall(0.6, () => this.doSnap());
   };
 
   // ✅ Native scroll handler (captures scrollbar drag end)

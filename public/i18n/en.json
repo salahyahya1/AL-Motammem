@@ -388,7 +388,7 @@
   "PRODUCTS": {
     "SECTION1": {
       "TITLE": "Solutions that fit every stage of your company’s journey",
-      "SUB-TITLE": "The platform offers three packages designed to match the needs of all types of companies, from individuals and small projects to large enterprises.",
+      "SUB-TITLE": "The platform offers three software solutions designed to match the needs of all types of companies, from individuals and small projects to large enterprises.",
       "CARD1": {
         "TITLEp1": "Al-Motammem Mini",
         "TITLEp2": "(Mini)",
@@ -646,7 +646,7 @@
     }
   },
   "BLOGS": {
-    "TITLE": "Al Motammem Knowledge Center",
+    "TITLE": "Al Motammem Knowledge Base",
     "DESC": "Here you will find concise articles that help you understand Enterprise Resource Planning (ERP) systems, develop your business, and explore best practices in financial management, inventory, human resources, and more… backed by over 40 years of experience.",
     "MOST_READ": "Most Read",
     "DISCOVER_MORE": "Discover more",
