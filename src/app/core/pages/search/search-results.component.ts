@@ -135,7 +135,24 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     handleResultClick(result: SearchResult) {
         if (result.fragment) {
             localStorage.setItem('scroll_to_section', result.fragment);
+
+            if (isPlatformBrowser(this.platformId)) {
+                const norm = (p: string) =>
+                    (p || '')
+                        .split('?')[0]
+                        .split('#')[0]
+                        .replace(/\/+$/, '') // remove trailing slashes
+                        .toLowerCase();
+
+                const currentPath = norm(this.router.url);
+                const targetPath = norm(result.route || '');
+
+                if (currentPath === targetPath) {
+                    window.dispatchEvent(new CustomEvent('app-scroll-to-section', { detail: result.fragment }));
+                }
+            }
         }
+
         this.router.navigateByUrl(result.route);
     }
 

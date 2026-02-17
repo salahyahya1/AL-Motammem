@@ -4,7 +4,8 @@
 
     <div #DivisionsTrigger class="contents">
         <div class="contents relative">
-            <div class="scroll-bg-section h-screen w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
+            <div id="AboutSection3-VISION"
+                class="scroll-bg-section h-screen w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
                 [ngStyle]="{ 'background-image': `url('${sections[0].bgUrl}')` }">
             </div>
 
@@ -53,13 +54,12 @@
                         {{ 'ABOUT.SECTION3.VISION.LABEL' | translate }}
                     </span>
                 </div>
-
-
             </div>
         </div>
 
         <div class="contents relative">
-            <div class="scroll-bg-section1 h-screen w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
+            <div id="AboutSection3-MISSION"
+                class="scroll-bg-section1 h-screen w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
                 [ngStyle]="{ 'background-image': `url('${sections[1].bgUrl}')` }">
             </div>
 
@@ -112,7 +112,8 @@
         </div>
 
         <div class="contents relative">
-            <div class="scroll-bg-section2 h-screen w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
+            <div id="AboutSection3-MESSAGE"
+                class="scroll-bg-section2 h-screen w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
                 [ngStyle]="{ 'background-image': `url('${sections[2].bgUrl}')` }">
             </div>
 
@@ -176,7 +177,7 @@
     class="grid grid-cols-12 grid-rows-12 gap-0.5 w-full h-[100vh] relative bg-[var(--primary)]">
 
     <div #DivisionsTrigger class="contents">
-        <div class="contents relative">
+        <div id="AboutSection3-VISION" class="contents relative">
             <div class="scroll-bg-section-m h-screen w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
                 [ngStyle]="{ 'background-image': `url('${mobileBg[0]}')` }">
             </div>
@@ -194,7 +195,7 @@
             </div>
         </div>
 
-        <div class="contents relative">
+        <div id="AboutSection3-MISSION" class="contents relative">
             <div class="scroll-bg-section1-m h-screen w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
                 [ngStyle]="{ 'background-image': `url('${mobileBg[1]}')` }">
             </div>
@@ -212,7 +213,7 @@
             </div>
         </div>
 
-        <div class="contents relative">
+        <div id="AboutSection3-MESSAGE" class="contents relative">
             <div class="scroll-bg-section2-m h-screen w-full col-start-1 row-start-1 row-span-12 col-span-12 inset-0 bg-cover bg-center z-[-2]"
                 [ngStyle]="{ 'background-image': `url('${mobileBg[2]}')` }">
             </div>

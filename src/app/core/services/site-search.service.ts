@@ -1,7 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
-import { firstValueFrom, forkJoin, of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 // @ts-ignore
 import FlexSearch from 'flexsearch';
@@ -41,13 +41,18 @@ export class SiteSearchService {
   private i18nLoadPromise: Promise<void> | null = null;
   private contentLoadPromise: Promise<void> | null = null;
 
+  // ✅ retry guards
+  private contentRetryCount: Record<string, number> = {};
+  private maxContentRetries = 2;
+  private contentRetryTimers: Record<string, any> = {};
+
   constructor(
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object,
     private blogsService: BlogsService,
     private faqsService: FaqsService,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   private normalizeLang(lang: string): string {
     return (lang || '').toLowerCase().split('-')[0]; // ar-EG -> ar, en-US -> en
@@ -74,11 +79,9 @@ export class SiteSearchService {
     if (!isPlatformBrowser(this.platformId)) return;
 
     const normLang = this.normalizeLang(lang);
-    console.log(`[SiteSearch] ensureReady called for lang: ${lang} -> ${normLang}`);
 
     // Reset if language changed
     if (this.currentLang && this.currentLang !== normLang) {
-      console.log('[SiteSearch] Language changed, resetting indexes');
       this.reset();
     }
     this.currentLang = normLang;
@@ -90,7 +93,6 @@ export class SiteSearchService {
 
     // Start i18n Load if not started
     if (!this.isI18nLoaded && !this.i18nLoadPromise) {
-      console.log('[SiteSearch] triggering loadI18nIndex');
       this.i18nLoadPromise = this.loadI18nIndex(normLang);
     }
 
@@ -99,20 +101,15 @@ export class SiteSearchService {
       try {
         await this.i18nLoadPromise;
       } catch (e) {
-        console.error('i18n index load failed', e);
+        // keep behavior (was console.error only)
       }
     }
   }
 
   private async loadI18nIndex(lang: string): Promise<void> {
     try {
-      console.log(`[SiteSearch] loadI18nIndex: fetching search-index.json`);
-      const start = performance.now();
-
       // خليها relative عشان baseHref/virtual dir مايكسرش
       const data = await firstValueFrom(this.http.get<{ docs: any[] }>('search-index.json'));
-
-      console.log(`[SiteSearch] loadI18nIndex: fetched in ${(performance.now() - start).toFixed(2)}ms`);
 
       this.i18nIndex = new FlexSearch.Document({
         document: {
@@ -154,9 +151,7 @@ export class SiteSearchService {
       }
 
       this.isI18nLoaded = true;
-      console.log(`[SiteSearch] loadI18nIndex: success. Indexed ${langDocs.length} docs.`);
     } catch (e) {
-      console.error('Failed to load i18n search index', e);
       throw e;
     } finally {
       this.i18nLoadPromise = null;
@@ -177,6 +172,9 @@ export class SiteSearchService {
     // About
     if (key.includes('ABOUT.HERO')) return 'AboutSection1';
     if (key.includes('ABOUT.SECTION2')) return 'AboutSection2';
+    if (key.includes('ABOUT.SECTION3.VISION')) return 'AboutSection3::VISION';
+    if (key.includes('ABOUT.SECTION3.MISSION')) return 'AboutSection3::MISSION';
+    if (key.includes('ABOUT.SECTION3.MESSAGE')) return 'AboutSection3::MESSAGE';
     if (key.includes('ABOUT.SECTION3')) return 'AboutSection3';
     if (key.includes('ABOUT.SECTION4')) return 'AboutSection4';
     if (key.includes('ABOUT.SECTION5')) return 'AboutSection5';
@@ -202,8 +200,55 @@ export class SiteSearchService {
     return undefined;
   }
 
+  /**
+   * Limited fetch for blogs (avoid too many requests).
+   */
+  private async fetchAllBlogsLimited(): Promise<any[]> {
+    const all: any[] = [];
+    let page = 1;
+    const maxPagesSafety = 10;  // ✅ reduce requests
+    const maxBlogsCap = 200;    // ✅ reduce memory/size
+
+    while (page <= maxPagesSafety && all.length < maxBlogsCap) {
+      const res: any = await firstValueFrom(
+        this.blogsService.getAllBlogs(page).pipe(catchError(() => of(null)))
+      );
+
+      const items = Array.isArray(res?.data) ? res.data : [];
+      if (!items.length) break;
+
+      all.push(...items);
+      page++;
+    }
+
+    return all.slice(0, maxBlogsCap);
+  }
+
+  private scheduleContentRetry(lang: string) {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (this.isContentLoading || this.isContentLoaded) return;
+
+    const c = (this.contentRetryCount[lang] || 0);
+    if (c >= this.maxContentRetries) {
+      return;
+    }
+
+    // ✅ prevent stacking multiple timers
+    if (this.contentRetryTimers[lang]) return;
+
+    this.contentRetryCount[lang] = c + 1;
+
+    this.contentRetryTimers[lang] = setTimeout(() => {
+      this.contentRetryTimers[lang] = null;
+
+      // still needs retry?
+      if (!this.isContentLoading && !this.isContentLoaded) {
+        this.contentLoadPromise = this.loadContentIndex(lang);
+      }
+    }, 2000);
+  }
+
   private async loadContentIndex(lang: string): Promise<void> {
-    console.log(`[SiteSearch] loadContentIndex started for ${lang}`);
     this.isContentLoading = true;
 
     try {
@@ -212,39 +257,39 @@ export class SiteSearchService {
 
       let docs: SearchResult[] = [];
 
+      // ✅ Read cache first (and treat empty as invalid)
       if (cached) {
         try {
-          docs = JSON.parse(cached);
-          console.log(`[SiteSearch] loadContentIndex: Cache HIT (${docs.length} docs)`);
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            docs = parsed;
+          } else {
+            localStorage.removeItem(cacheKey);
+          }
         } catch {
-          console.warn('[SiteSearch] loadContentIndex: Cache invalid, clearing');
           localStorage.removeItem(cacheKey);
         }
       }
 
+      // ✅ Cache MISS → fetch from APIs
       if (!docs || docs.length === 0) {
-        console.log('[SiteSearch] loadContentIndex: Cache MISS, fetching from APIs');
+        const [blogsData, faqsRes] = await Promise.all([
+          this.fetchAllBlogsLimited(),
+          firstValueFrom(this.faqsService.GetAllFAQS().pipe(catchError(() => of(null)))),
+        ]);
 
-        const result = await firstValueFrom(
-          forkJoin({
-            blogs: this.blogsService.getAllBlogs(1).pipe(catchError(() => of({ data: [] }))),
-            faqs: this.faqsService.GetAllFAQS().pipe(catchError(() => of({ data: [] }))),
-          })
-        );
-
-        const blogsData = (result.blogs as any).data || [];
-        const blogDocs: SearchResult[] = blogsData.map((b: any) => ({
+        const blogDocs: SearchResult[] = (blogsData || []).map((b: any) => ({
           id: `blog-${b.id}`,
           lang,
           title: b.title,
           route: `/blogs/blog/${b.url}`,
           text: `${b.title} ${b.metaDescription || ''} ${b.category || ''}`,
-          snippetText: `${b.title} ${b.metaDescription || ''} ${b.category || ''}`.trim(), // ✅
+          snippetText: `${b.title} ${b.metaDescription || ''} ${b.category || ''}`.trim(),
           source: 'blog',
         }));
 
-        const faqsData = (result.faqs as any).data || [];
-        const faqDocs: SearchResult[] = faqsData
+        const faqsData = Array.isArray((faqsRes as any)?.data) ? (faqsRes as any).data : [];
+        const faqDocs: SearchResult[] = (faqsData || [])
           .map((f: any) => {
             const q = lang === 'ar' ? f.question : f.englishQuestion;
             const a = lang === 'ar' ? f.answer : f.englishAnswer;
@@ -255,14 +300,28 @@ export class SiteSearchService {
               route: `/FAQS`,
               fragment: `faq-${f.id}`,
               text: `${q} ${a}`,
-              snippetText: `${q} ${a}`.trim(), // ✅
+              snippetText: `${q} ${a}`.trim(),
               source: 'faq',
             } as SearchResult;
           })
           .filter((d: any) => d.title && d.text);
 
         docs = [...blogDocs, ...faqDocs];
-        localStorage.setItem(cacheKey, JSON.stringify(docs));
+
+        if (docs.length > 0) {
+          localStorage.setItem(cacheKey, JSON.stringify(docs));
+          this.contentRetryCount[lang] = 0; // reset
+        } else {
+          // ✅ retry safely
+          this.scheduleContentRetry(lang);
+        }
+      }
+
+      // ✅ If still empty: do NOT mark loaded, and do NOT build empty index
+      if (!docs || docs.length === 0) {
+        this.contentIndex = null;
+        this.isContentLoaded = false;
+        return;
       }
 
       this.contentIndex = new FlexSearch.Document({
@@ -273,10 +332,9 @@ export class SiteSearchService {
 
       for (const doc of docs) this.contentIndex.add(doc);
 
-      console.log(`[SiteSearch] loadContentIndex: Indexed ${docs.length} content docs.`);
       this.isContentLoaded = true;
     } catch (e) {
-      console.error('Failed to load content search index', e);
+      this.isContentLoaded = false;
     } finally {
       this.isContentLoading = false;
       this.contentLoadPromise = null;
@@ -286,19 +344,28 @@ export class SiteSearchService {
   reset() {
     this.i18nIndex = null;
     this.contentIndex = null;
+
     this.isI18nLoaded = false;
     this.isContentLoaded = false;
     this.isContentLoading = false;
+
     this.currentLang = null;
+
     this.i18nLoadPromise = null;
     this.contentLoadPromise = null;
+
+    // ✅ clear retry state/timers
+    this.contentRetryCount = {};
+    Object.keys(this.contentRetryTimers).forEach(k => {
+      try { clearTimeout(this.contentRetryTimers[k]); } catch { }
+    });
+    this.contentRetryTimers = {};
   }
 
   async search(query: string, lang: string): Promise<SearchResult[]> {
     if (!isPlatformBrowser(this.platformId)) return [];
 
     const normLang = this.normalizeLang(lang);
-    console.log(`[SiteSearch] Searching for "${query}" in ${normLang}`);
     await this.ensureReady(normLang);
 
     if (!query || query.trim().length < 2) return [];
@@ -315,14 +382,11 @@ export class SiteSearchService {
 
     const results = await Promise.all(promises);
     const merged = results.flat();
-    console.log(`[SiteSearch] Found ${merged.length} results total.`);
 
     return this.prioritizeResults(merged, query).slice(0, 20);
   }
 
   private async indexSearch(index: any, query: string): Promise<SearchResult[]> {
-    console.log('[SiteSearch] indexSearch executed');
-
     const raw = await index.search(query, {
       limit: 20,
       enrich: true,
@@ -335,7 +399,6 @@ export class SiteSearchService {
       group.result.forEach((match: any) => {
         const doc = match.doc as SearchResult;
         if (!uniqueDocs.has(doc.id)) {
-          // ✅ snippet من snippetText (بدون keys) ولو مش موجودة fallback لـ title
           const base = (doc.snippetText && doc.snippetText.trim())
             ? doc.snippetText
             : (doc.title || '');

@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   currentLang: 'ar' | 'en' = 'ar';
 
   isMobile = false;
-  
+
 
   // Search related
   searchControl = new FormControl('');
@@ -58,8 +58,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.currentLang = saved;
     }
   }
-  isAuthenticated!:boolean;
-  hasrole!:boolean;
+  isAuthenticated!: boolean;
+  hasrole!: boolean;
   role = '';
   isLangOpen = false;
 
@@ -73,26 +73,26 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   onLogoutClick(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-  
+
     console.log('logout clicked');
     this.logout();
   }
-  
+
   logout() {
-  
+
     this.auth.logout();
-  
+
     this.closeSearch();
     this.closeLangDropdown();
     this.closeMenuOnMobile();
-  
-    this.router.navigateByUrl('/');this.router.navigateByUrl('/', { replaceUrl: true });
-  
+
+    this.router.navigateByUrl('/'); this.router.navigateByUrl('/', { replaceUrl: true });
+
     this.cdr.markForCheck();
   }
-  
-  
-  
+
+
+
 
   ngOnInit(): void {
     // RxJS Pipeline for Search Input
@@ -149,20 +149,20 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     this.auth.authenticated$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(isAuth => {
-      this.isAuthenticated = isAuth;
-      this.cdr.markForCheck();
-    });
-  
-  this.auth.roleObs$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(r => {
-      this.role = r || '';
-      this.hasrole = !!r;
-      this.cdr.markForCheck();
-    });
-  
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(isAuth => {
+        this.isAuthenticated = isAuth;
+        this.cdr.markForCheck();
+      });
+
+    this.auth.roleObs$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(r => {
+        this.role = r || '';
+        this.hasrole = !!r;
+        this.cdr.markForCheck();
+      });
+
     this.auth.syncFromStorage();
 
   }
@@ -189,12 +189,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         // ✅ التكست زي ما هو
         nav.style.color = text;
         const menuEl = this.navbarMenu?.nativeElement;
-        const topEl  = this.navSmallScreen?.nativeElement;
-      
+        const topEl = this.navSmallScreen?.nativeElement;
+
         // ✅ apply bg to ALL always (mobile + desktop)
         nav.style.backgroundColor = bg;
         if (menuEl) menuEl.style.backgroundColor = bg;
-        if (topEl)  topEl.style.backgroundColor = bg;
+        if (topEl) topEl.style.backgroundColor = bg;
         // const brand = nav.querySelectorAll('.brand-text') as NodeListOf<HTMLElement>;
         const brand = Array.from(nav.querySelectorAll('.brand-text')) as HTMLElement[];
         const brand2 = nav.querySelector('#brand-text2') as HTMLElement | null;
@@ -220,7 +220,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
           const topEl = this.navSmallScreen?.nativeElement;
           if (topEl) topEl.style.backgroundColor = bg;
-          
+
         } else {
           // ✅ Desktop: نفس طريقة الموبايل بس للـ nav كله فقط
           nav.style.backgroundColor = bg;
@@ -242,7 +242,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     // if (last) nav.style.color = last;
     const snap = this.theme.getSnapshot();
     nav.style.color = snap.text;
-    
+
     nav.style.backgroundColor = snap.bg;
     this.navbarMenu?.nativeElement && (this.navbarMenu.nativeElement.style.backgroundColor = snap.bg);
     this.navSmallScreen?.nativeElement && (this.navSmallScreen.nativeElement.style.backgroundColor = snap.bg);
@@ -397,6 +397,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSearchSubmit() {
     const query = this.searchControl.value;
+    console.log(query);
+
     if (query) {
       this.closeSearch(); // Close on submit navigation? user said "Navigating to a result closes the bar".
       // Submitting usually goes to results page, so closing is good.
@@ -410,9 +412,22 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (result.fragment) {
       localStorage.setItem('scroll_to_section', result.fragment);
-      // Dispatch custom event for immediate same-page navigation support
+
       if (this.isBrowser) {
-        window.dispatchEvent(new CustomEvent('app-scroll-to-section', { detail: result.fragment }));
+        const norm = (p: string) =>
+          (p || '')
+            .split('?')[0]
+            .split('#')[0]
+            .replace(/\/+$/, '') // remove trailing slashes
+            .toLowerCase();
+
+        const currentPath = norm(this.router.url);
+        const targetPath = norm(result.route || '');
+
+        // Only dispatch event if staying on the same page to avoid premature cleanup by Layout
+        if (currentPath === targetPath) {
+          window.dispatchEvent(new CustomEvent('app-scroll-to-section', { detail: result.fragment }));
+        }
       }
     }
 
@@ -486,7 +501,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   closeMenu() {
     if (this.mq?.matches) return; // desktop
-  if (!this.menuOpen) return;  
+    if (!this.menuOpen) return;
     this.toggleMenu();
   }
 }

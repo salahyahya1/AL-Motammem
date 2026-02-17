@@ -2100,6 +2100,15 @@ export class AboutComponent {
     if (!this.smootherST || !this.smoother) return;
     if (!this.snapPositions.length) return;
 
+    // ✅ لو في Scroll مبرمج جاي من السيرش/الناڤبار، متعملش سناب خالص
+    try {
+      if ((window as any).__appNavigatingToFragment) {
+        return;
+      }
+    } catch {
+      // ignore
+    }
+
     const currentScroll = this.smootherST.scroll();
     const lastSnapPoint = this.snapPositions[this.snapPositions.length - 1];
     if (currentScroll > lastSnapPoint + 200) return;
@@ -2376,6 +2385,15 @@ export class AboutComponent {
   private doSnapMobileStable() {
     const arr = this.panelStartsMobile;
     if (!arr.length) return;
+
+    // ✅ لو في Scroll مبرمج جاي من السيرش/الناڤبار، متعملش سناب خالص
+    try {
+      if ((window as any).__appNavigatingToFragment) {
+        return;
+      }
+    } catch {
+      // ignore
+    }
 
     if (this.isSnappingMobile) return;
     if (this.isProgrammaticMobile) return;

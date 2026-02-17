@@ -20,6 +20,7 @@ gsap.registerPlugin(ScrollTrigger);
 export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy {
   public AboutSection3Timeline!: GSAPTimeline;
   private mm = gsap.matchMedia();
+  private aboutS3GotoHandler!: (e: any) => void;
 
   DivisionId = 0;
   isMobile = false;
@@ -55,6 +56,7 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
     if (!isPlatformBrowser(this.platformId)) return;
     this.isMobile = window.innerWidth < 768;
   }
+  private isProgrammaticNavigation = false;
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -66,6 +68,21 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
         setTimeout(async () => {
           await document.fonts?.ready;
           this.makeanimation();
+          this.aboutS3GotoHandler = (e: any) => {
+            const scene = (e?.detail?.scene || '').toString().toUpperCase();
+            this.goToScene(scene);
+          };
+
+          window.removeEventListener('ABOUT_S3_GOTO', this.aboutS3GotoHandler as any);
+
+          this.aboutS3GotoHandler = (e: any) => {
+            const scene = (e?.detail?.scene || '').toString().toUpperCase();
+            this.goToScene(scene);
+          };
+
+          window.addEventListener('ABOUT_S3_GOTO', this.aboutS3GotoHandler);
+
+
           ScrollTrigger.refresh();
         }, 0);
       });
@@ -89,7 +106,8 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
         setTimeout(async () => {
           await document.fonts?.ready;
           this.makeanimation();
-          ScrollTrigger.refresh(true);
+          ScrollTrigger.refresh();
+
         }, 0);
       });
     });
@@ -509,7 +527,10 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
             onLeaveBack: () => dispatchLock(false, 450),
 
             snap: {
-              snapTo: (v: number, st: any) => (anchors.length ? pickDirectionalAnchor(v, st) : v),
+              snapTo: (v: number, st: any) => {
+                if (this.isProgrammaticNavigation) return v;  // ✅ add this
+                return anchors.length ? pickDirectionalAnchor(v, st) : v;
+              },
               duration: { min: 0.18, max: 0.45 },
               delay: 0.10,
               ease: 'power2.out',
@@ -592,7 +613,10 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
           scrub: scrubFactor,
           pin: true,
           snap: {
-            snapTo: (value) => textAnchors.length ? gsap.utils.snap(textAnchors, value) : value,
+            snapTo: (value) => {
+              if (this.isProgrammaticNavigation) return value;
+              return textAnchors.length ? gsap.utils.snap(textAnchors, value) : value;
+            },
             duration: { min: 0.3, max: 0.8 }, // Slower snap
             delay: 0.1,
             ease: 'power2.out',
@@ -635,8 +659,11 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
 
         const holdStartTime = tl.duration();
         tl.to({}, { duration: holdDuration });
+        // const midHoldTime = holdStartTime + (holdDuration / 2);
+        // tl.addLabel(`scene_${index}_stable`, midHoldTime);
         const midHoldTime = holdStartTime + (holdDuration / 2);
         tl.addLabel(`scene_${index}_stable`, midHoldTime);
+        tl.addLabel(`snap_${index}`, midHoldTime); // ✅ add this
 
         tl.to(text, {
           y: exit,
@@ -651,8 +678,10 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
       addScene({ bg: '.scroll-bg-section2', text: '.scroll-bg-section-text2', index: 2 });
 
       const totalDuration = tl.duration() || 1;
+      // textAnchors = Object.entries(tl.labels)
+      //   .filter(([name]) => name.includes('_stable'))
       textAnchors = Object.entries(tl.labels)
-        .filter(([name]) => name.includes('_stable'))
+        .filter(([name]) => name.startsWith('snap_'))
         .map(([, time]) => time / totalDuration)
         .sort((a, b) => a - b);
 
@@ -662,12 +691,54 @@ export class AboutSection3Component implements OnInit, AfterViewInit, OnDestroy 
       };
     });
   }
+  private goToScene(scene: string) {
+    const tl = this.AboutSection3Timeline;
+    if (!tl) return;
+
+    const map: Record<string, string> = {
+      VISION: 'snap_0',
+      MISSION: 'snap_1',
+      MESSAGE: 'snap_2',
+    };
+
+    const label = map[scene];
+    if (!label) return;
+
+    const t = tl.labels?.[label];
+    if (typeof t !== 'number') return;
+
+    // ✅ اقفل snap مؤقتًا
+    this.isProgrammaticNavigation = true;
+
+    // ✅ مهم جدًا: نوقف أي tween شغال قبل كده
+    (gsap as any).killTweensOf(tl);
+
+
+    // ✅ روح للـ label
+    tl.tweenTo(t, {
+      duration: 0.55,
+      ease: 'power2.out',
+      overwrite: 'auto',
+      onComplete: () => {
+        // سيب 150ms عشان الـ scrub يثبت
+        setTimeout(() => (this.isProgrammaticNavigation = false), 150);
+      }
+    });
+  }
+
+
+
+
 
   get isRtl() {
     return this.language.currentLang === 'ar';
   }
   ngOnDestroy() {
     if (this.resizeHandler) window.removeEventListener('resize', this.resizeHandler);
+    if (this.aboutS3GotoHandler) {
+      window.removeEventListener('ABOUT_S3_GOTO', this.aboutS3GotoHandler);
+    }
+
     try { this.mm.revert(); } catch { }
   }
 }
