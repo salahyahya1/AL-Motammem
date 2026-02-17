@@ -4556,7 +4556,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     const proxy = { y: currentY };
     const distance = Math.abs(delta);
 
-    const dur = gsap.utils.clamp(0.25, 0.85, distance / (vh * 1.2));
+    const dur = gsap.utils.clamp(0.25, 0.75, distance / (vh * 1.2));
 
     this.snapTween?.kill();
     this.snapTween = gsap.to(proxy, {

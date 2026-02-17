@@ -123,7 +123,6 @@
 
     .swiper {
         width: 85%;
-        overflow: hidden;
     }
 
     .swiper-slide {
@@ -207,7 +206,6 @@
 
         .swiper {
             width: 94%;
-            overflow: hidden;
         }
 
         .swiper-slide {
@@ -252,3 +250,10 @@
     }
 
 }
+
+.swiper-wrapper,#capsuleAboutWrap {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.swiper-wrapper { backface-visibility: hidden; }

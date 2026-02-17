@@ -2035,7 +2035,7 @@ export class AboutComponent {
     if (!this.snapPositions.length) return;
 
     this.desktopSnapDC?.kill();
-    this.desktopSnapDC = gsap.delayedCall(0.7, () => this.doSnap());
+    this.desktopSnapDC = gsap.delayedCall(0.6, () => this.doSnap());
   };
 
   private onDesktopScrollEnd = () => {
