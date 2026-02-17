@@ -56,7 +56,7 @@ export class ProductSection8Component {
             let { desktop, mobile } = context.conditions as any;
 
             this.productSection8TitleSplit = new SplitText(productSection8Title, { type: "words" });
-            this.productSection8ListSplit = new SplitText(productSection8List, { type: "lines" });
+            this.productSection8ListSplit = new SplitText(productSection8List, { type: "words" });
             this.productSection8FooterSplit = new SplitText(productSection8Footer, { type: "words" });
 
             ScrollTrigger.create({
@@ -127,5 +127,8 @@ export class ProductSection8Component {
         });
       });
     });
+  }
+  get isRtl() {
+    return this.language.currentLang === 'ar';
   }
 }

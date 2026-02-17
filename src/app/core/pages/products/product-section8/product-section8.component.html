@@ -6,7 +6,7 @@
             {{ 'PRODUCTS.SECTION8.TITLE' | translate }}
         </h1>
         <ul id="productSection8-list"
-            class="mt-3 space-y-2 xl:0 text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] xl:text-[1.2rem] text-[var(--dark-gray)] md:max-w-[26rem] lg:max-w-[30rem] xl:max-w-[40rem] list-disc ps-6 ms-[0.5rem] md:ps-5 ">
+            class="mt-3 space-y-2 xl:0 text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] xl:text-[1.2rem] text-[var(--dark-gray)] md:max-w-[26rem] lg:max-w-[30rem] xl:max-w-[40rem] ltr:xl:max-w-[41rem] list-disc ps-6 ms-[0.5rem] md:ps-5 ">
             <li>
                 <span class="font-bold">{{ 'PRODUCTS.SECTION8.LIST.ITEM1.BOLD' | translate }}</span>
                 {{ 'PRODUCTS.SECTION8.LIST.ITEM1.TEXT' | translate }}
@@ -46,7 +46,6 @@
     </div>
 
     <div class="absolute w-full md:h-full inset-0 left-0 right-0 top-0 -z-10 overflow-hidden">
-        <img id="productSection8-img" src="./product/white.webp"
-            class="left-0 right-0 md:h-[100vh] w-full absolute -z-1 object-contain bottom-0 md:object-fill">
+        <img id="productSection8-img"[src]="isRtl ? './product/white.webp' : './product/whiteEn.webp'"            class="left-0 right-0 md:h-[100vh] w-full absolute -z-1 object-contain bottom-0 md:object-fill">
     </div>
 </section>
