@@ -240,8 +240,9 @@ export class Section5Component {
     this.isIOS =
       /iPad|iPhone|iPod/.test(ua) ||
       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-    gsap.set("#section100", { opacity: 0, visibility: "hidden" });
+    this.isVideoLoaded = true;
+    this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
+    gsap.set("#section100", { opacity: 0 });
   }
 
   ngAfterViewInit() {
@@ -269,7 +270,7 @@ export class Section5Component {
                 gsap.set(container, { opacity: 0, visibility: "hidden", y: 10 });
               }
 
-              gsap.set("#section100", { opacity: 0, visibility: "hidden" });
+              gsap.set("#section100", { opacity: 0 });
 
               let flipStarted = false;
 
@@ -280,6 +281,7 @@ export class Section5Component {
                   start: mobile ? 'top 85%' : 'top top',
                   end: desktop ? "100% bottom" : '50% bottom',
                   pin: desktop ? true : false,
+                  pinReparent: true,
                   anticipatePin: 1,
                   // markers: true,
                   scrub: mobile ? 0.2 : false,
@@ -326,7 +328,6 @@ export class Section5Component {
               // 3) باقي السكشن يظهر
               tl.to("#section100", {
                 opacity: 1,
-                visibility: "visible",
                 duration: 0.2,
                 ease: "power2.out",
               }, ">-0.05");
@@ -452,10 +453,16 @@ export class Section5Component {
     this.cdr.detectChanges();
   }
 
-  get videoUrl() {
-    return 'https://www.youtube.com/embed/N-o9jYbBdyM?si=x11IbITJyoYWMZIl';
-  }
+  // get videoUrl() {
+  //   return 'https://www.youtube.com/embed/N-o9jYbBdyM?si=x11IbITJyoYWMZIl';
+  // }
 
+  get videoUrl() {
+    // autoplay + mute عشان يشتغل بدون أي تفاعل
+    // rel=0 يقلل الاقتراحات (من نفس القناة غالبًا)
+    return 'https://www.youtube.com/embed/N-o9jYbBdyM' +
+      '?playsinline=1&rel=0&modestbranding=1&iv_load_policy=3';
+  }
   ngOnDestroy() {
     if (this.flipTimer) clearTimeout(this.flipTimer);
     this.mm?.revert(); // ✅ دلوقتي هتشتغل فعلاً

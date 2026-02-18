@@ -222,13 +222,17 @@
                 </div>
                 }
 
-                @if (isVideoLoaded) {
+                <!-- @if (isVideoLoaded) {
                 <iframe class="absolute inset-0 w-full h-full rounded-2xl" [src]="safeVideoUrl" title="Company Video"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen>
                 </iframe>
-                }
+                } -->
+                <iframe class="absolute inset-0 w-full h-full rounded-2xl" [src]="safeVideoUrl" title="Company Video"
+                    frameborder="0" allow="encrypted-media; picture-in-picture" allowfullscreen>
+                </iframe>
+
             </div>
         </div>
 
